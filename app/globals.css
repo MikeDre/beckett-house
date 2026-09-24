@@ -4605,6 +4605,43 @@ main p:not(.eyebrow) {
   font-size: max(1rem, 1em);
 }
 
+/* The minimum-size rule above outranks single-class selectors, so restore
+   copy that is intentionally larger than body text. */
+main.about-page p:not(.eyebrow) {
+  font-size: 1.125rem;
+}
+
+main.about-page p.about-lede {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+main.about-page .about-beckett-hero p.about-lede,
+main.about-page .about-beckett-hero .montessori-opening-quote > p {
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+}
+
+main.about-page .about-home-from-home p {
+  font-size: clamp(1.65rem, 3.5vw, 2.75rem);
+}
+
+main p.location-intro {
+  font-size: 1.35rem;
+}
+
+main .visit-hero > p {
+  font-size: 1.25rem;
+}
+
+main .virtual-tour-heading p {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 1040px) {
+  main p.location-intro {
+    font-size: 1.7rem;
+  }
+}
+
 @keyframes card-shape-wobble {
   0%, 100% { transform: rotate(7deg) translateY(0); }
   50% { transform: rotate(-4deg) translateY(-8px); }
