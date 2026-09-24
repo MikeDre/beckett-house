@@ -7,6 +7,11 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import type { Location } from "../lib/content";
 
+// CARTO basemaps now watermark keyless requests, so use standard OSM tiles.
+const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+const MAP_TILE_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
 const navItems = [
   "FAQ",
   "Register",
@@ -293,16 +298,10 @@ export function LocationsMap({
         zoomControl: true,
       });
 
-      L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-        {
-          attribution: disableLinks
-            ? "&copy; OpenStreetMap contributors &copy; CARTO"
-            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          subdomains: "abcd",
-          maxZoom: 20,
-        },
-      ).addTo(map);
+      L.tileLayer(MAP_TILE_URL, {
+        attribution: disableLinks ? "&copy; OpenStreetMap contributors" : MAP_TILE_ATTRIBUTION,
+        maxZoom: 19,
+      }).addTo(map);
 
       const bounds = L.latLngBounds([]);
 
@@ -419,15 +418,10 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
       mapRef.current = map;
 
       L.control.zoom({ position: "topright" }).addTo(map);
-      L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          subdomains: "abcd",
-          maxZoom: 20,
-        },
-      ).addTo(map);
+      L.tileLayer(MAP_TILE_URL, {
+        attribution: MAP_TILE_ATTRIBUTION,
+        maxZoom: 19,
+      }).addTo(map);
 
       const bounds = L.latLngBounds([]);
       locations.forEach((location) => {

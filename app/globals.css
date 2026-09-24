@@ -1009,7 +1009,7 @@ a {
 
 .locations-map .leaflet-tile-pane,
 .nursery-chooser-map .leaflet-tile-pane {
-  filter: saturate(0.88) brightness(0.99) contrast(1.08);
+  filter: grayscale(1) sepia(0.12) hue-rotate(190deg) brightness(1.1) contrast(0.82);
 }
 
 .locations-map .leaflet-control-zoom,
