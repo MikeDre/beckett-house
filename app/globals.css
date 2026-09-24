@@ -2079,7 +2079,7 @@ a {
 
 .footer-links span {
   color: var(--sun);
-  font-size: 0.58rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   margin-bottom: 0.4rem;
@@ -2087,8 +2087,14 @@ a {
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9375rem;
+  text-underline-offset: 0.2em;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
 .fees-page {
@@ -2298,12 +2304,29 @@ a {
   object-fit: contain;
 }
 
+@media (max-width: 599px) {
+  .footer-accreditations {
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+  }
+
+  .footer-accreditations img {
+    height: 2.75rem;
+    width: auto;
+  }
+
+  /* Keep the copyright line clear of the floating chat and nursery buttons. */
+  .site-footer {
+    padding-bottom: 5.5rem;
+  }
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   flex-direction: column;
-  font-size: 0.57rem;
+  font-size: 0.72rem;
   gap: 0.5rem;
   letter-spacing: 0.06em;
   margin-top: 3rem;
