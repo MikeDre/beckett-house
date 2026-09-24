@@ -1595,7 +1595,7 @@ a {
   color: #fff;
   cursor: pointer;
   display: grid;
-  flex: 0 0 170px;
+  flex: 1 0 170px;
   gap: 0.3rem;
   min-height: 80px;
   padding: 0.85rem;
@@ -1612,9 +1612,10 @@ a {
 }
 
 .panorama-room-list span {
-  font-size: 0.58rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
+  opacity: 0.7;
 }
 
 .panorama-room-list strong {

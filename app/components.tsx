@@ -676,6 +676,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
             }}
             key={room.src}
           >
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
             <strong>{room.name}</strong>
           </button>
         ))}
