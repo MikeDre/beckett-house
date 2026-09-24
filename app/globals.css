@@ -1352,6 +1352,7 @@ a {
   color: #fff;
   display: grid;
   gap: 2.2rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .explorer-copy > p:not(.eyebrow) {
@@ -4069,6 +4070,11 @@ a {
 .home-page .manifesto .manifesto-heading h2 {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1.05;
+}
+
+.home-page .nursery-life h2 {
+  font-size: clamp(2.7rem, 12vw, 6.4rem);
+  margin: 0;
 }
 
 .home-page .manifesto h2,
