@@ -4624,18 +4624,10 @@ main p:not(.eyebrow) {
 }
 
 /* The minimum-size rule above outranks single-class selectors, so restore
-   copy that is intentionally larger than body text. */
-main.about-page p:not(.eyebrow) {
+   copy that is intentionally larger than body text. :where() keeps the
+   About body size at the same specificity, so more specific rules still win. */
+main.about-page p:where(:not(.eyebrow)) {
   font-size: 1.125rem;
-}
-
-main.about-page p.about-lede {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
-}
-
-main.about-page .about-beckett-hero p.about-lede,
-main.about-page .about-beckett-hero .montessori-opening-quote > p {
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
 }
 
 main.about-page .about-home-from-home p {
