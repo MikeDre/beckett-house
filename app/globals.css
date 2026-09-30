@@ -1848,8 +1848,45 @@ button.nav-nursery-label:hover { background: rgba(32, 57, 121, 0.08); }
 .testimonial {
   background: var(--sun);
   border-radius: var(--radius-lg);
+  isolation: isolate;
   min-height: 470px;
+  overflow: hidden;
   position: relative;
+}
+
+/* Drifting shapes, as on the Montessori quote: a ring top-right and a soft
+   circle bottom-left (the quote mark already sits top-left). */
+.testimonial::before,
+.testimonial::after {
+  border-radius: 50%;
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+
+.testimonial::before {
+  animation: quote-shape-orbit 12s ease-in-out infinite;
+  aspect-ratio: 1;
+  border: clamp(12px, 1.6vw, 20px) solid rgba(170, 160, 203, 0.4);
+  right: clamp(-3.5rem, -4vw, -1.5rem);
+  top: clamp(-3.5rem, -4vw, -1.5rem);
+  width: clamp(6rem, 14vw, 11rem);
+}
+
+.testimonial::after {
+  animation: quote-shape-breathe 9s ease-in-out infinite;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.45);
+  bottom: clamp(-6rem, -8vw, -3rem);
+  left: clamp(-6rem, -8vw, -3rem);
+  width: clamp(9rem, 22vw, 18rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial::before,
+  .testimonial::after {
+    animation: none;
+  }
 }
 
 .quote-mark {
@@ -4633,7 +4670,7 @@ button.nav-nursery-label:hover { background: rgba(32, 57, 121, 0.08); }
   }
 
   .home-page .testimonial blockquote {
-    font-size: clamp(2.4rem, 3.35vw, 3.6rem);
+    font-size: clamp(2.4rem, 3.35vw, 2.6rem);
   }
 
   .home-page .answers {
