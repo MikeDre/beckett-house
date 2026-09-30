@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { locations } from "../../lib/content";
 import { PanoramaViewer } from "../components";
+import { useNurseryChoice } from "../nursery-choice";
 
 export default function VirtualTour() {
-  const [selected, setSelected] = useState(0);
-  const location = locations[selected];
+  const [selected, setSelected] = useNurseryChoice();
+  const location = locations.find((nursery) => nursery.slug === selected) ?? locations[0];
   return <div className="virtual-tour-experience">
     <div className="virtual-tour-toolbar">
     <div className="virtual-tour-location-switch" role="group" aria-label="Choose a nursery to explore">
-      {locations.map((nursery, index) => <button key={nursery.slug} type="button" aria-pressed={selected === index} className={selected === index ? "is-selected" : ""} onClick={() => setSelected(index)}>{nursery.name}</button>)}
+      {locations.map((nursery) => <button key={nursery.slug} type="button" aria-pressed={selected === nursery.slug} className={selected === nursery.slug ? "is-selected" : ""} onClick={() => setSelected(nursery.slug)}>{nursery.name}</button>)}
     </div>
     <div className="virtual-tour-address" aria-live="polite"><strong>{location.name}</strong><span>{location.address}</span></div>
     </div>

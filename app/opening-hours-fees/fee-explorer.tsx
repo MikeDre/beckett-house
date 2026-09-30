@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useNurseryChoice } from "../nursery-choice";
 import { abbeyRoadFees, extraDescriptions, money } from "../../lib/fees";
 
 type Plan = "standard" | "funded15" | "funded30";
 
 export default function FeeExplorer() {
-  const [nursery, setNursery] = useState("angel");
+  const [nursery, setNursery] = useNurseryChoice();
   const [age, setAge] = useState(2);
   const [plan, setPlan] = useState<Plan>("standard");
   const group = abbeyRoadFees[age];
@@ -14,7 +15,7 @@ export default function FeeExplorer() {
   return <section className="fee-explorer" aria-labelledby="explorer-title">
     <h2 id="explorer-title">Find your fees</h2>
     <div className="fee-switch" role="group" aria-label="Choose nursery">
-      {[['angel', 'Angel'], ['abbey-road', 'Abbey Road']].map(([value, label]) => <button key={value} type="button" aria-pressed={nursery === value} onClick={() => setNursery(value)}>{label}</button>)}
+      {([['angel', 'Angel'], ['abbey-road', 'Abbey Road']] as const).map(([value, label]) => <button key={value} type="button" aria-pressed={nursery === value} onClick={() => setNursery(value)}>{label}</button>)}
     </div>
     {nursery === "angel" ? <div>
       <h3>Angel session fees</h3>
