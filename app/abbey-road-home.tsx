@@ -93,7 +93,7 @@ export default function AbbeyRoadHome() {
         >
           <HeroSlideshow slides={heroSlides} />
           <div className="wide-photo-caption">
-            <span>Welcome to our new setting on Abbey Road</span>
+            <span>Welcome to our new setting in Abbey Road</span>
             <h1 id="abbey-road-hero-title">
               A new home from home where your children learn.
             </h1>
