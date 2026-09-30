@@ -18,7 +18,11 @@ button.location-switcher-option:hover { background: var(--green-soft); }
 .contact-panel-title { margin: .35rem .75rem .25rem; color: var(--ink); font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .contact-panel .location-switcher-option { flex-wrap: nowrap; justify-content: flex-start; gap: .75rem; color: var(--ink); font-size: .9375rem; overflow-wrap: anywhere; }
 .contact-panel .location-switcher-option svg { flex-shrink: 0; }
-@media (min-width: 800px) { .floating-contact-trigger, .contact-panel { display: none; } }
+/* Desktop: the contact button sits bottom-left, apart from chat and the nursery switcher. */
+@media (min-width: 800px) {
+  .floating-contact-trigger { position: fixed; left: 2rem; bottom: 2rem; }
+  .contact-panel { position: fixed; left: 2rem; bottom: calc(2rem + 56px + .75rem); }
+}
 .floating-chat { position: relative; }
 .floating-chat-trigger { width: 56px; height: 56px; padding: 0; border-radius: 50%; }
 .floating-chat-tooltip[hidden] { display: none; }
