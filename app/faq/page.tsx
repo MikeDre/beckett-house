@@ -8,8 +8,7 @@ import {
   jsonLd,
   ORGANISATION_ID,
   SITE_URL,
-  WEBSITE_ID,
-} from "../../lib/seo";
+  WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import { faqGroups, faqItems } from "./faq-content";
 import "./faq.css";
 
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/faq" },
-  openGraph: {
+  openGraph: { ...DEFAULT_OPEN_GRAPH,
     title,
     description,
     url: "/faq",

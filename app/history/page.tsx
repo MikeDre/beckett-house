@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter, SiteHeader } from "../components";
-import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Our History";
 const description = "The history of Beckett House Montessori in Barnsbury, Islington, from its opening in January 1996 to lasting connections with nursery families.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/history" },
-  openGraph: { title, description, url: "/history", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/history", type: "website", locale: "en_GB" },
 };
 
 export default function HistoryPage() {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "../components";
-import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import Gallery from "./gallery";
 
 const title = "Gallery";
@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/gallery" },
-  openGraph: { title, description, url: "/gallery", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/gallery", type: "website", locale: "en_GB" },
 };
 
 export default function GalleryPage() {
   const url = `${SITE_URL}/gallery`;
   const schema = { "@context": "https://schema.org", "@graph": [
-    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: title, description, inLanguage: "en-GB", isPartOf: { "@id": WEBSITE_ID }, about: { "@id": ORGANISATION_ID } },
+    { "@type": "ImageGallery", "@id": `${url}#webpage`, url, name: title, description, inLanguage: "en-GB", isPartOf: { "@id": WEBSITE_ID }, about: { "@id": ORGANISATION_ID } },
     getBreadcrumbSchema([{ name: "Home", url: `${SITE_URL}/` }, { name: title, url }]),
   ] };
 

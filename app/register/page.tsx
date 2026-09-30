@@ -6,12 +6,11 @@ import {
   jsonLd,
   ORGANISATION_ID,
   SITE_URL,
-  WEBSITE_ID,
-} from "../../lib/seo";
+  WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import { RegistrationPage } from "./registration-page";
 import "./register.css";
 
-const title = "Register for Beckett House Montessori";
+const title = "Register Your Child";
 const description =
   "Register your child with Beckett House Montessori in Angel or Abbey Road and review the nursery registration terms.";
 
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/register" },
-  openGraph: {
+  openGraph: { ...DEFAULT_OPEN_GRAPH,
     title: `${title} | Beckett House Montessori`,
     description,
     url: "/register",

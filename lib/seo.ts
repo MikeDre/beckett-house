@@ -1,9 +1,18 @@
 import type { Location } from "./content";
 
 export const SITE_URL = "https://www.beckett-house.co.uk";
+
+// Open Graph fields every page shares. Pages that set their own `openGraph`
+// replace the layout's entirely, so they spread these in to keep the image.
+export const DEFAULT_OPEN_GRAPH = {
+  siteName: "Beckett House Montessori",
+  locale: "en_GB",
+  type: "website" as const,
+  images: [{ url: "/og.png", width: 1731, height: 909, alt: "Beckett House Montessori: Room to grow into themselves." }],
+};
 export const ORGANISATION_ID = `${SITE_URL}/#organisation`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
-export const CONTENT_LAST_REVIEWED = "2026-08-12";
+export const CONTENT_LAST_REVIEWED = "2026-09-30";
 
 const weekdayHours = {
   "@type": "OpeningHoursSpecification",

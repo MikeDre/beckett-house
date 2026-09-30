@@ -9,8 +9,7 @@ import {
   locationId,
   locationUrl,
   SITE_URL,
-  WEBSITE_ID,
-} from "../../lib/seo";
+  WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Find a Montessori Nursery in North London";
 const description =
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/find-your-nursery" },
-  openGraph: {
+  openGraph: { ...DEFAULT_OPEN_GRAPH,
     title: `${title} | Beckett House Montessori`,
     description,
     url: "/find-your-nursery",

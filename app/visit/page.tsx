@@ -8,8 +8,7 @@ import {
   jsonLd,
   ORGANISATION_ID,
   SITE_URL,
-  WEBSITE_ID,
-} from "../../lib/seo";
+  WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Book a Montessori Nursery Visit";
 const description =
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/visit" },
-  openGraph: {
+  openGraph: { ...DEFAULT_OPEN_GRAPH,
     title: `${title} | Beckett House Montessori`,
     description,
     url: "/visit",

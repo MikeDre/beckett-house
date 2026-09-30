@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter, SiteHeader } from "../components";
 import CardAnimation, { type CardAnimationName } from "../card-animation";
-import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import { montessoriSections } from "../../lib/montessori-content";
 
 const title = "About Montessori";
 const description = "Learn about Montessori education, the Prepared Environment, hands-on learning, Control of Error and children's freedom of choice at Beckett House.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/montessori" },
-  openGraph: { title, description, url: "/montessori", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/montessori", type: "website", locale: "en_GB" },
 };
 
 type MontessoriSection = (typeof montessoriSections)[number];

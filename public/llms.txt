@@ -3,25 +3,36 @@
 > Beckett House is a second-generation, family-run Montessori nursery with two North London settings. The nurseries provide calm, child-led early years education alongside the Early Years Foundation Stage.
 
 Canonical website: https://www.beckett-house.co.uk/
-Information reviewed: 12 August 2026
+Information reviewed: 30 September 2026
 
 ## Nursery locations
 
-- [Angel Montessori nursery](https://www.beckett-house.co.uk/locations/angel): 98 Richmond Avenue, Barnsbury, Islington, London N1 0LL. For children aged 2 to 5. Open Monday to Friday, 8am to 6pm, 48 weeks a year. Telephone 020 7278 8824. Email info@beckett-house.co.uk.
-- [Abbey Road Montessori nursery](https://www.beckett-house.co.uk/locations/abbey-road): Abbey Hive, 84–86 Abbey Road, St John's Wood, London NW8 0QA. For babies and children from 3 months to 5 years. Open Monday to Friday, 8am to 6pm, 50 weeks a year. Telephone 020 4568 7042. Email abbeyroad@beckett-house.co.uk.
+- [Angel Montessori nursery](https://www.beckett-house.co.uk/angel): 98 Richmond Avenue, Barnsbury, Islington, London N1 0LL. For children aged 2 to 5. Open Monday to Friday, 8am to 6pm, 48 weeks a year. Mornings 8am to 2pm, afternoons 2pm to 6pm. Telephone 020 7278 8824. Email info@beckett-house.co.uk.
+- [Abbey Road Montessori nursery](https://www.beckett-house.co.uk/abbey-road): Abbey Hive, 84–86 Abbey Road, St John's Wood, London NW8 0QA. For babies and children from 3 months to 5 years. Open Monday to Friday, 8am to 6pm, 50 weeks a year. Mornings 8am to 1pm, afternoons 1pm to 6pm. Telephone 020 4568 7042. Email abbeyroad@beckett-house.co.uk.
 
 ## Key facts
 
 - Beckett House was founded in Angel in 1996.
 - The nursery is family-run and MEAB Montessori accredited.
-- Both settings offer home-cooked food and eligible funded childcare hours.
+- Both settings offer home-cooked food and eligible funded childcare hours (15 or 30 hours).
 - Angel is a mixed-age Montessori preschool.
-- Abbey Road has dedicated baby, toddler and preschool rooms.
+- Abbey Road has dedicated baby, toddler and preschool rooms, and opened in summer 2026.
+- A £75 registration fee applies to privately paid places; a deposit of four weeks' fees secures a place. Registration is not enrolment.
 - Current availability, fees and funding arrangements should always be confirmed directly with the nursery team.
 
 ## Important pages
 
-- [Compare the two nursery locations](https://www.beckett-house.co.uk/find-your-nursery)
-- [The Beckett House Montessori approach](https://www.beckett-house.co.uk/montessori)
+- [Frequently asked questions](https://www.beckett-house.co.uk/faq): ages, sessions, fees, funding, food, health and settling in, for both nurseries.
+- [Opening hours and fees](https://www.beckett-house.co.uk/opening-hours-fees): sessions, fees and funded hours for each nursery.
+- [Timetable and term dates](https://www.beckett-house.co.uk/timetable): daily routine, session times and term dates for each nursery.
+- [Register your child](https://www.beckett-house.co.uk/register): registration form and full terms for each nursery.
 - [Book a nursery visit](https://www.beckett-house.co.uk/visit)
+- [Compare the two nursery locations](https://www.beckett-house.co.uk/find-your-nursery)
+- [About Beckett House](https://www.beckett-house.co.uk/beckett-house)
+- [Our history](https://www.beckett-house.co.uk/history)
+- [The Montessori approach](https://www.beckett-house.co.uk/montessori)
+- [Virtual tour](https://www.beckett-house.co.uk/virtual-tour): interactive 360° views of both nurseries.
+- [Gallery](https://www.beckett-house.co.uk/gallery): photos of both nurseries.
 - [Website sitemap](https://www.beckett-house.co.uk/sitemap.xml)
+
+Pages that cover both nurseries accept `?location=angel` or `?location=abbey-road` to show one nursery.

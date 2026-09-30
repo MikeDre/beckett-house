@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "../components";
 import FeeExplorer from "./fee-explorer";
 import { NurseryToggle, NurseryView } from "../nursery-toggle";
-import { getBreadcrumbSchema, jsonLd, SITE_URL } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Opening Hours & Fees";
 const description = "Beckett House nursery opening hours, flexible sessions, Angel fees, Abbey Road fee plans and 15 or 30 hours funded childcare information.";
-export const metadata: Metadata = { title, description, alternates: { canonical: "/opening-hours-fees" }, openGraph: { title, description, url: "/opening-hours-fees", type: "website", locale: "en_GB" } };
+export const metadata: Metadata = { title, description, alternates: { canonical: "/opening-hours-fees" }, openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/opening-hours-fees", type: "website", locale: "en_GB" } };
 
 export default function FeesPage() {
   return <><SiteHeader /><main className="timetable-page fees-page">
@@ -26,5 +26,5 @@ export default function FeesPage() {
       <div className="fees-resource-links"><a href="https://beststartinlife.gov.uk/childcare-early-years-education/15-and-30-hours-support/">Check funding and eligibility</a><a href="https://beststartinlife.gov.uk/">Apply for childcare support</a><NurseryView nursery="angel"><a href="https://www.islington.gov.uk/free2">Islington support for two-year-olds</a></NurseryView></div>
     </section>
     <section className="fees-booking"><NurseryView nursery="angel"><h2>Payments & reserving a place at Angel</h2></NurseryView><NurseryView nursery="abbey-road"><h2>Payments & reserving a place at Abbey Road</h2></NurseryView><p>Invoices are issued monthly. For privately paid places, a £75 registration fee and a deposit equal to four weeks’ fees reserve your place. The registration fee does not apply to funded hours. Registration is not enrolment.</p><p>If you wish to cancel your place, please give one term’s notice.</p><p className="fees-note">Beckett House Limited reserves the right to alter fees, timetable and conditions without notice. Please confirm fees, funding arrangements and deposit terms with the nursery before booking.</p></section>
-  </main><SiteFooter /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(getBreadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: title, url: `${SITE_URL}/opening-hours-fees` }])) }} /></>;
+  </main><SiteFooter /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd({ "@context": "https://schema.org", "@graph": [{ "@type": "WebPage", "@id": `${SITE_URL}/opening-hours-fees#webpage`, url: `${SITE_URL}/opening-hours-fees`, name: title, description, inLanguage: "en-GB", isPartOf: { "@id": WEBSITE_ID } }, getBreadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: title, url: `${SITE_URL}/opening-hours-fees` }])] }) }} /></>;
 }

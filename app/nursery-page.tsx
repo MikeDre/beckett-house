@@ -18,8 +18,7 @@ import {
   jsonLd,
   locationId,
   locationUrl,
-  SITE_URL,
-} from "../lib/seo";
+  SITE_URL, DEFAULT_OPEN_GRAPH } from "../lib/seo";
 
 export function generateStaticParams() {
   return locations.map((location) => ({ slug: location.slug }));
@@ -42,7 +41,7 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/${location.slug}` },
-    openGraph: {
+    openGraph: { ...DEFAULT_OPEN_GRAPH,
       title: `${title} | Beckett House`,
       description,
       url: `/${location.slug}`,

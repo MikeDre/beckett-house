@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "../components";
-import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "About Beckett House";
 const description = "Discover Beckett House's family-run Montessori preschool in Barnsbury, Islington: individual attention, hands-on learning, home-cooked food and our history since 1996.";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/beckett-house" },
-  openGraph: { title, description, url: "/beckett-house", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/beckett-house", type: "website", locale: "en_GB" },
 };
 
 function AboutFeatureCard({ src, alt, width, height, children }: { src: string; alt: string; width: number; height: number; children: ReactNode }) {

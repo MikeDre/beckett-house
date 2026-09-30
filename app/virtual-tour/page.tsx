@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
-import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import VirtualTour from "./tour";
 
 const title = "Virtual Tour";
 const description = "Explore Beckett House Montessori in Angel and Abbey Road through interactive 360° nursery panoramas. Look around classrooms and choose the spaces you want to see.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/virtual-tour" },
-  openGraph: { title, description, url: "/virtual-tour", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/virtual-tour", type: "website", locale: "en_GB" },
 };
 
 export default function VirtualTourPage() {

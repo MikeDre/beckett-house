@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
 import { NurseryToggle, NurseryView } from "../nursery-toggle";
-import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID } from "../../lib/seo";
+import { CONTENT_LAST_REVIEWED, getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Timetable & Term Dates";
 const description = "Daily timetable, session times and term dates for Beckett House Montessori nurseries in Angel and Abbey Road.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/timetable" },
-  openGraph: { title, description, url: "/timetable", type: "website", locale: "en_GB" },
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/timetable", type: "website", locale: "en_GB" },
 };
 
 type Activity = { time: string; title: string; note?: string };
@@ -61,7 +61,7 @@ function Schedule({ heading, activities }: { heading: string; activities: Activi
 export default function TimetablePage() {
   const url = `${SITE_URL}/timetable`;
   const schema = { "@context": "https://schema.org", "@graph": [
-    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: title, description, inLanguage: "en-GB", dateModified: "2026-09-16", isPartOf: { "@id": WEBSITE_ID } },
+    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: title, description, inLanguage: "en-GB", dateModified: CONTENT_LAST_REVIEWED, isPartOf: { "@id": WEBSITE_ID } },
     getBreadcrumbSchema([{ name: "Home", url: `${SITE_URL}/` }, { name: title, url }]),
   ] };
   return <>
