@@ -60,7 +60,7 @@ const structuredData = {
 export default function Home() {
   return (
     <>
-      <SiteHeader homepageOnly />
+      <SiteHeader />
       <main className="home-page">
         <HomeMotion />
         <section
@@ -85,7 +85,7 @@ export default function Home() {
               A home from home where your children learn, in Angel and Abbey Road.
             </p>
             <div className="photo-hero-actions">
-              <Link className="button button-light" href="#">
+              <Link className="button button-light" href="/visit?location=angel">
                 Book a visit
               </Link>
             </div>
@@ -103,7 +103,7 @@ export default function Home() {
               anything, we want children to feel happy and confident, with the
               freedom to discover and do things for themselves.
             </p>
-            <Link className="text-link" href="#">
+            <Link className="text-link" href="/montessori">
               How Montessori works
             </Link>
             </div>
@@ -219,7 +219,7 @@ export default function Home() {
               A close-knit, family-run nursery where children are known as
               individuals and parents remain part of the everyday conversation.
             </p>
-            <Link className="text-link" href="#">
+            <Link className="text-link" href="/beckett-house">
               Discover our approach
             </Link>
           </div>
@@ -247,14 +247,14 @@ export default function Home() {
         <section className="answers section-pad" id="answers">
           <div className="answers-heading">
             <h2>Have a question?</h2>
-            <Link className="text-link answers-contact-link" href="#">
+            <a className="text-link answers-contact-link" href="mailto:info@beckett-house.co.uk">
               Get in contact
-            </Link>
+            </a>
           </div>
           <FAQList items={homeFaqs} />
         </section>
       </main>
-      <SiteFooter homepageOnly />
+      <SiteFooter />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }}

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isNursery, readNurseryChoice, rememberNursery, useNurseryChangeListener, useSwitchNursery } from "./nursery-choice";
+import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNurseryChangeListener, useNurseryChoice, useSwitchNursery } from "./nursery-choice";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import type { Location } from "../lib/content";
@@ -74,7 +74,7 @@ function TimetableNavigation({ mobile = false, onNavigate, items = timetableItem
   </div>;
 }
 
-export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean }) {
+export function SiteHeader() {
   const pathname = usePathname();
   const [preferredNursery, setPreferredNursery] = useState<string | null>(null);
   const routeNursery = pathname?.match(/^\/(angel|abbey-road)(?:\/|$)/)?.[1];
@@ -84,7 +84,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
   const [headerHidden, setHeaderHidden] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const homeHref = activeNursery ? `/${activeNursery}` : "/";
-  const visitHref = homepageOnly ? "#" : "/visit";
+  const visitHref = activeNursery ? `/visit?location=${activeNursery}` : "/visit";
   const keyInformationItems = activeNursery === "abbey-road" ? abbeyRoadTimetableItems : timetableItems;
 
   useEffect(() => {
@@ -212,8 +212,7 @@ function NurseryLabel({ name, onSwitch }: { name: string; onSwitch: () => void }
   return <button type="button" className="nav-nursery-label" onClick={onSwitch} aria-label={`${name} nursery. Switch to ${other}`} title={`Switch to ${other}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>{name}</button>;
 }
 
-export function SiteFooter({ homepageOnly = false }: { homepageOnly?: boolean }) {
-  const footerHref = (href: string) => (homepageOnly ? "#" : href);
+export function SiteFooter() {
 
   return (
     <>
@@ -246,15 +245,15 @@ export function SiteFooter({ homepageOnly = false }: { homepageOnly?: boolean })
         <div className="footer-links">
           <div>
             <span>Explore</span>
-            <Link href={footerHref("/montessori")}>Our approach</Link>
-            <Link href={footerHref("/angel")}>Angel</Link>
-            <Link href={footerHref("/abbey-road")}>Abbey Road</Link>
+            <Link href={"/montessori"}>Our approach</Link>
+            <Link href={"/angel"}>Angel</Link>
+            <Link href={"/abbey-road"}>Abbey Road</Link>
           </div>
           <div>
             <span>Visit</span>
-            <a href={footerHref("tel:+442072788824")}>020 7278 8824</a>
-            <a href={footerHref("mailto:info@beckett-house.co.uk")}>Email Angel</a>
-            <a href={footerHref("mailto:abbeyroad@beckett-house.co.uk")}>Email Abbey Road</a>
+            <a href={"tel:+442072788824"}>020 7278 8824</a>
+            <a href={"mailto:info@beckett-house.co.uk"}>Email Angel</a>
+            <a href={"mailto:abbeyroad@beckett-house.co.uk"}>Email Abbey Road</a>
           </div>
         </div>
       </div>
@@ -719,6 +718,7 @@ export function FAQList({
 
 export function VisitForm() {
   const [status, setStatus] = useState("");
+  const [nursery, setNursery] = useNurseryChoice();
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -755,7 +755,7 @@ export function VisitForm() {
       <div className="field-row">
         <label>
           Preferred nursery
-          <select name="location" defaultValue="Angel">
+          <select name="location" value={nurseryNames[nursery]} onChange={(event) => setNursery(event.target.value === "Abbey Road" ? "abbey-road" : "angel")}>
             <option>Angel</option>
             <option>Abbey Road</option>
           </select>
