@@ -13,8 +13,8 @@ const MAP_TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const navItems = [
-  "FAQ",
-  "Register",
+  { title: "FAQ", href: "/faq" },
+  { title: "Register", href: "/register" },
 ];
 
 const aboutItems = [
@@ -165,9 +165,9 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
           <TimetableNavigation items={aboutItems} label="About us" href="/beckett-house" menuId="about" />
           <TimetableNavigation items={nurseryLifeItems} label="Nursery life" href="/virtual-tour" menuId="nursery-life" />
           {navItems.map((item) => (
-            <span className="nav-placeholder" aria-disabled="true" key={item}>
-              {item}
-            </span>
+            <Link href={item.href} key={item.href}>
+              {item.title}
+            </Link>
           ))}
         </nav>
         <div className="header-visit-group">
@@ -193,9 +193,9 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
           <TimetableNavigation mobile onNavigate={() => setOpen(false)} items={aboutItems} label="About us" href="/beckett-house" menuId="about" />
           <TimetableNavigation mobile onNavigate={() => setOpen(false)} items={nurseryLifeItems} label="Nursery life" href="/virtual-tour" menuId="nursery-life" />
           {navItems.map((item) => (
-            <span className="mobile-nav-placeholder" aria-disabled="true" key={item}>
-              {item}
-            </span>
+            <Link href={item.href} key={item.href} onClick={() => setOpen(false)}>
+              {item.title}
+            </Link>
           ))}
           <div className="mobile-visit-group">
             <NurseryLabel name={currentNursery} />
