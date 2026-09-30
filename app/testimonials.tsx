@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-const testimonials = [
+type Testimonial = { quote: string; author: string };
+
+const defaultTestimonials: Testimonial[] = [
   { quote: "The staff are fantastic, and being family-run gives you a warm, caring feeling. The children all seem really happy when you drop off and pick up.", author: "Georgina H · Beckett House parent" },
   { quote: "A welcoming place to learn, explore and grow in confidence, with thoughtful care at every step.", author: "Placeholder testimonial · for design preview" },
   { quote: "Little discoveries, new friendships and the freedom to try things for themselves. Every day brings something to smile about.", author: "Placeholder testimonial · for design preview" },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials = defaultTestimonials }: { testimonials?: Testimonial[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -23,12 +25,12 @@ export default function Testimonials() {
   }, []);
 
   useEffect(() => {
-    if (paused || hovered || focused) return;
+    if (paused || hovered || focused || testimonials.length < 2) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setActive(index => (index + 1) % testimonials.length);
     }, 7000);
     return () => window.clearInterval(timer);
-  }, [paused, hovered, focused, active]);
+  }, [paused, hovered, focused, active, testimonials.length]);
 
   return <section className="testimonial section-pad" aria-label="Parent testimonials" aria-roledescription="carousel"
     onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
@@ -39,13 +41,13 @@ export default function Testimonials() {
         <blockquote>{testimonial.quote}</blockquote><p className="testimonial-author">{testimonial.author}</p>
       </div>)}
     </div>
-    <div className="testimonial-controls">
+    {testimonials.length > 1 && <div className="testimonial-controls">
       <div className="testimonial-dots" role="group" aria-label="Choose testimonial">
         {testimonials.map((_, index) => <button key={index} type="button" aria-label={`Show testimonial ${index + 1}`} aria-pressed={active === index} onClick={() => setActive(index)} />)}
       </div>
       <button className="testimonial-pause" type="button" aria-label={paused ? "Play testimonials" : "Pause testimonials"} title={paused ? "Play testimonials" : "Pause testimonials"} onClick={() => setPaused(value => !value)}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{paused ? <path d="M8 5v14l11-7Z" /> : <><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></>}</svg>
       </button>
-    </div>
+    </div>}
   </section>;
 }
