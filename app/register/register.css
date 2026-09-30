@@ -1,0 +1,272 @@
+.register-hero {
+  align-items: end;
+  background: var(--green-soft);
+  display: grid;
+  gap: 1.5rem;
+  padding: clamp(4rem, 9vw, 7rem) var(--page-inline);
+}
+
+.register-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 12vw, 7.5rem);
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  margin: 0;
+  max-width: 9ch;
+}
+
+.register-hero > p:last-child {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 38rem;
+}
+
+.register-main {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(3rem, 7vw, 6rem) var(--page-inline);
+}
+
+.register-form-column {
+  min-width: 0;
+}
+
+.register-location-switch {
+  margin-bottom: 1.25rem;
+}
+
+.register-location-switch button {
+  min-height: 44px;
+}
+
+.register-form {
+  min-width: 0;
+}
+
+.register-form-heading {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.register-form-heading h2,
+.register-intro h2,
+.register-terms-heading h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0;
+}
+
+.register-form-heading .eyebrow {
+  margin: 0 0 0.65rem;
+}
+
+.register-required {
+  color: var(--blue-deep);
+}
+
+.register-intro {
+  background: var(--sun);
+  border-radius: var(--radius-md);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.register-intro .eyebrow {
+  margin-top: 0;
+}
+
+.register-intro p:not(.eyebrow) {
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.register-attendance {
+  border-top: 1px solid var(--line);
+  margin: 0.5rem 0 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.register-attendance h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin: 0 0 1.25rem;
+}
+
+.register-attendance-row {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+  min-inline-size: 0;
+  padding: 1rem 0;
+}
+
+.register-attendance-row legend {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  padding: 0 0.3rem 0 0;
+  text-transform: uppercase;
+}
+
+.register-attendance-row legend span {
+  white-space: nowrap;
+}
+
+.register-days {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 0.75rem;
+}
+
+.register-form .register-day {
+  align-items: center;
+  background: rgba(224, 231, 247, 0.45);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.68rem;
+  gap: 0.3rem;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  margin: 0;
+  min-height: 56px;
+  padding: 0.35rem;
+  text-transform: uppercase;
+}
+
+.register-form .register-day:has(input:checked) {
+  background: var(--ink);
+  color: white;
+}
+
+.register-form .register-day:has(input:focus-visible) {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.register-form .register-day input {
+  accent-color: var(--ink);
+  box-shadow: none;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  width: 18px;
+}
+
+.register-visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.register-terms {
+  background: #f7f8fc;
+  padding: clamp(3rem, 7vw, 6rem) var(--page-inline);
+}
+
+.register-terms-heading {
+  margin-bottom: 2rem;
+}
+
+.register-terms-heading .eyebrow {
+  margin: 0 0 0.65rem;
+}
+
+.register-details {
+  border-top: 1px solid var(--line);
+}
+
+.register-details details {
+  border-bottom: 1px solid var(--line);
+}
+
+.register-details summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  gap: 1rem;
+  justify-content: space-between;
+  list-style: none;
+  min-height: 64px;
+  padding: 1rem 0;
+}
+
+.register-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.register-details summary:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 4px;
+}
+
+.register-plus {
+  flex: 0 0 auto;
+  font-size: 1.8rem;
+  font-weight: 400;
+  transition: transform 160ms ease;
+}
+
+.register-details details[open] .register-plus {
+  transform: rotate(45deg);
+}
+
+.register-detail-copy {
+  max-width: 76ch;
+  padding: 0 0 1.5rem;
+}
+
+.register-detail-copy p {
+  line-height: 1.7;
+  margin: 0;
+}
+
+.register-detail-copy p + p {
+  margin-top: 0.8rem;
+}
+
+@media (min-width: 760px) {
+  .register-hero {
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+  }
+
+  .register-hero .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .register-main {
+    grid-template-columns: minmax(0, 1.55fr) minmax(17rem, 0.75fr);
+  }
+
+  .register-intro {
+    align-self: start;
+    position: sticky;
+    top: 7rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .register-form {
+    padding: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .register-plus {
+    transition: none;
+  }
+}
