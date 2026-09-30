@@ -339,10 +339,7 @@ export function LocationsMap({
           title: `Beckett House Montessori ${location.name}`,
         }).addTo(map!);
 
-        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          `${location.address}, ${location.postcode}`,
-        )}`;
-        const osmUrl = `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=17/${location.latitude}/${location.longitude}`;
+        const googleUrl = location.mapsUrl;
 
         const externalLinkAttributes = disableLinks
           ? ""
@@ -356,7 +353,6 @@ export function LocationsMap({
             <p>${location.opening}<br>Ages ${location.ages}<br>${location.phone}</p>
             <div>
               <a href="${disableLinks ? "#" : googleUrl}" ${externalLinkAttributes}>Google Maps</a>
-              <a href="${disableLinks ? "#" : osmUrl}" ${externalLinkAttributes}>OpenStreetMap</a>
             </div>
           </div>
         `);
