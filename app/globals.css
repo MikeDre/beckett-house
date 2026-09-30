@@ -5198,3 +5198,12 @@ main .virtual-tour-heading p {
   line-height: 1.5;
   max-width: 16rem;
 }
+
+/* Mobile homepage hero: tall, but not full-screen, so the next section peeks in. */
+@media (max-width: 767px) {
+  main.home-page .homepage-photo-hero {
+    height: 72svh;
+    max-height: 620px;
+    min-height: 480px;
+  }
+}
