@@ -30,11 +30,11 @@ const principleAnimations: Record<string, CardAnimationName> = {
 };
 
 const heroSlides: HeroSlide[] = [
-  { src: "/images/hero-classroom.webp", alt: "A wide view across a prepared Beckett House Montessori classroom", width: 1800, height: 1199 },
-  { src: "/images/hero/angel-2.webp", alt: "The Angel classroom with child-sized tables and low Montessori shelves", width: 2200, height: 1466 },
-  { src: "/images/hero/angel-3.webp", alt: "A carpeted learning area in the Angel classroom with low Montessori shelves", width: 2200, height: 1467 },
-  { src: "/images/hero/angel-4.webp", alt: "A practical activity area in the Angel classroom with a wooden loft", width: 2200, height: 1467 },
-];
+  { src: "/images/angel/montessori-nursery-angel-classroom-islington.webp", alt: "A wide view across the Beckett House Montessori classroom in Angel", width: 2000, height: 1332 },
+  { src: "/images/angel/montessori-nursery-angel-classroom-planets.webp", alt: "The Angel classroom with hanging planets, cardboard rockets and child-sized tables", width: 2000, height: 1333 },
+  { src: "/images/angel/montessori-nursery-angel-classroom-reading-area.webp", alt: "A sofa, rugs and bookshelves in the Angel reading area", width: 2000, height: 1333 },
+  { src: "/images/angel/montessori-nursery-angel-reading-loft.webp", alt: "A wooden reading loft with cushions in the Angel classroom", width: 2000, height: 1333 },
+]
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -55,9 +55,9 @@ const structuredData = {
       mainEntity: { "@id": `${SITE_URL}/#organisation` },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/images/hero-classroom.webp`,
-        width: 1800,
-        height: 1199,
+        url: `${SITE_URL}/images/angel/montessori-nursery-angel-classroom-islington.webp`,
+        width: 2000,
+        height: 1332,
       },
     },
     ...locations.map(getLocationSchema),
@@ -160,11 +160,11 @@ export default function Home() {
           <div className="nursery-life-grid">
             <article className="life-photo-card">
               <Image
-                src="/images/calm-corner.webp"
+                src="/images/angel/montessori-nursery-angel-cosy-book-corner.webp"
                 unoptimized
-                alt="A calm, welcoming nursery corner"
-                width={1400}
-                height={934}
+                alt="A cosy book corner with a sofa, rugs and bookshelves"
+                width={2000}
+                height={1333}
                 sizes="(min-width: 700px) 33vw, 100vw"
               />
               <h3>Calm spaces to concentrate</h3>
@@ -175,11 +175,11 @@ export default function Home() {
             </article>
             <article className="life-photo-card">
               <Image
-                src="/images/classroom-detail.webp"
+                src="/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp"
                 unoptimized
-                alt="Low shelves and child-sized furniture in a Montessori classroom"
-                width={1400}
-                height={1050}
+                alt="A keyboard, puzzles and an interactive screen beside colourful rugs"
+                width={2000}
+                height={1333}
                 sizes="(min-width: 700px) 33vw, 100vw"
               />
               <h3>Learning through movement</h3>
@@ -190,11 +190,11 @@ export default function Home() {
             </article>
             <article className="life-photo-card">
               <Image
-                src="/images/sensory-room.webp"
+                src="/images/angel/montessori-nursery-angel-earth-day-artwork.webp"
                 unoptimized
-                alt="Montessori resources arranged for preschool discovery"
-                width={1400}
-                height={934}
+                alt="Children’s Earth Day artwork with handprints and magnetic shapes"
+                width={2000}
+                height={1333}
                 sizes="(min-width: 700px) 33vw, 100vw"
               />
               <h3>Families stay involved</h3>

@@ -54,7 +54,7 @@ export default function MontessoriPage() {
             <footer><cite>Maria Montessori: Her Life and Work</cite><br />E M Standing, 1957</footer>
           </blockquote>
         </div>
-        <div className="about-beckett-hero-image"><Image src="/images/classroom-detail.webp" alt="Low shelves and child-sized furniture in a prepared Beckett House Montessori classroom" width={1400} height={1050} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
+        <div className="about-beckett-hero-image"><Image src="/images/angel/montessori-nursery-angel-sensorial-corner.webp" alt="Montessori materials on low shelves around a green table in the Angel classroom" width={2000} height={1333} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
       </section>
       <section className="montessori-freedom-quote section-pad" aria-label="Montessori freedom">
         <span className="quote-shape" aria-hidden="true" />
@@ -64,7 +64,7 @@ export default function MontessoriPage() {
         <SectionCopy section={montessoriSections[0]} />
       </section>
       <section className="montessori-photo-story section-pad" id={montessoriSections[1].id} aria-labelledby={`${montessoriSections[1].id}-title`}>
-        <Image src="/images/hero-classroom.webp" alt="A wide view of the prepared Montessori classroom, with accessible shelves and child-sized furniture" width={1800} height={1199} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" unoptimized />
+        <Image src="/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp" alt="Montessori dressing frames and learning materials laid out in the Angel classroom" width={2000} height={1333} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" unoptimized />
         <SectionCopy section={montessoriSections[1]} />
       </section>
       <PrinciplePair sections={montessoriSections.slice(2, 4)} />

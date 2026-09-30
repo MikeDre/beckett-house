@@ -32,19 +32,19 @@ const navItems = [
 
 const aboutItems = [
   { title: "About Beckett House", href: "/beckett-house", image: "/images/children-circle-time.jpg", description: "Get to know our family-run, Montessori-accredited preschool, individual care and home-cooked food." },
-  { title: "History", href: "/history", image: "/images/angel-ofsted-news.jpg", description: "Discover our beginnings in Barnsbury in 1996 and the home-from-home care that sets Beckett House apart." },
-  { title: "About Montessori", href: "/montessori", image: "/images/classroom-detail.webp", description: "Explore Montessori’s prepared environment, hands-on materials and freedom to learn independently." },
+  { title: "History", href: "/history", image: "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp", description: "Discover our beginnings in Barnsbury in 1996 and the home-from-home care that sets Beckett House apart." },
+  { title: "About Montessori", href: "/montessori", image: "/images/angel/montessori-nursery-angel-sensorial-corner.webp", description: "Explore Montessori’s prepared environment, hands-on materials and freedom to learn independently." },
 ];
 
 const nurseryLifeItems = [
-  { title: "Virtual Tour", href: "/virtual-tour", image: "/images/hero-classroom.webp", description: "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces." },
+  { title: "Virtual Tour", href: "/virtual-tour", image: "/images/angel/montessori-nursery-angel-classroom-reading-area.webp", description: "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces." },
   { title: "Gallery", href: "/gallery", image: "/images/abbey-road/main-room-2.webp", description: "Browse photos of our Angel and Abbey Road classrooms and spaces." },
 ];
 
 const timetableItems = [
-  { title: "Daily timetable", href: "/timetable?location=angel", image: "/images/hero-classroom.webp", description: "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time." },
-  { title: "Term dates", href: "/timetable?location=angel#term-dates", image: "/images/classroom-detail.webp", description: "Plan ahead with Angel’s nursery term dates and the start and end of each term." },
-  { title: "Opening Hours & Fees", href: "/opening-hours-fees", image: "/images/hero-classroom.webp", description: "Explore nursery opening hours, flexible sessions, fees and funded childcare options." },
+  { title: "Daily timetable", href: "/timetable?location=angel", image: "/images/angel/montessori-nursery-angel-classroom-planets.webp", description: "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time." },
+  { title: "Term dates", href: "/timetable?location=angel#term-dates", image: "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp", description: "Plan ahead with Angel’s nursery term dates and the start and end of each term." },
+  { title: "Opening Hours & Fees", href: "/opening-hours-fees", image: "/images/angel/montessori-nursery-angel-snack-tables.webp", description: "Explore nursery opening hours, flexible sessions, fees and funded childcare options." },
 ];
 
 const abbeyRoadTimetableItems = [
@@ -893,8 +893,8 @@ export function PanoramaViewer({ location }: { location: Location }) {
               src={location.image}
               unoptimized
               alt={`Preview of Beckett House Montessori ${location.name}`}
-              width={location.slug === "angel" ? 1800 : 1600}
-              height={location.slug === "angel" ? 1199 : 1067}
+              width={location.slug === "angel" ? 2000 : 1600}
+              height={location.slug === "angel" ? 1332 : 1067}
               sizes="(min-width: 1040px) 62vw, 100vw"
               loading="lazy"
             />

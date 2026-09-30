@@ -46,7 +46,7 @@ export function getOrganizationSchema(locations: Location[]) {
       "@type": "ImageObject",
       url: `${SITE_URL}/images/beckett-house-logo-dark.svg`,
     },
-    image: `${SITE_URL}/images/hero-classroom.webp`,
+    image: `${SITE_URL}/images/angel/montessori-nursery-angel-classroom-islington.webp`,
     description:
       "A second-generation, family-run Montessori nursery with settings in Angel, Islington and Abbey Road, St John's Wood.",
     foundingDate: "1996",

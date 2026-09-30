@@ -101,7 +101,7 @@ export const locations: Location[] = [
     opening: "Monday–Friday, 8am–6pm",
     year: "Since 1996",
     status: "Ofsted rated Good",
-    image: "/images/hero-classroom.webp",
+    image: "/images/angel/montessori-nursery-angel-classroom-islington.webp",
     imageAlt:
       "A bright Beckett House Montessori classroom with low wooden shelves and child-sized tables",
     colour: "lilac",

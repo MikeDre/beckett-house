@@ -26,7 +26,7 @@ export default function HistoryPage() {
           <p>We opened in January 1996 since when we have established ourselves as one of the most popular nursery schools in the area with a somewhat esoteric appeal; with most of our current children being here due to recommendations from previous parents.</p>
           <p>The head teacher and the core members of staff are Montessori qualified and those with other qualifications offer the advantages of their own particular training within the guidance of the head.</p>
         </div>
-        <div className="about-beckett-hero-image"><Image src="/images/angel-ofsted-news.jpg" alt="A Beckett House classroom with child-sized tables, chairs and learning materials" width={786} height={523} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
+        <div className="about-beckett-hero-image"><Image src="/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp" alt="The Angel classroom with a round table, low shelves and the nursery kitchen area" width={2000} height={1333} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
       </section>
       <section className="about-home-from-home section-pad" aria-label="What sets Beckett House apart">
         <p>Parents maintain it is its <strong>‘home from home’</strong> nature that sets Beckett House apart from other nurseries.</p>

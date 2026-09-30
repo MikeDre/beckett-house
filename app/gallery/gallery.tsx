@@ -15,14 +15,19 @@ type GalleryImage = {
 
 const galleryImages: Record<NurserySlug, GalleryImage[]> = {
   angel: [
-    { src: "/images/gallery/angel-classroom-1.webp", caption: "Angel classroom", alt: "The Angel classroom with child-sized tables and low Montessori shelves", width: 1600, height: 1067 },
-    { src: "/images/gallery/angel-classroom-2.webp", caption: "Angel classroom", alt: "A carpeted learning area in the Angel classroom with low Montessori shelves", width: 1600, height: 1067 },
-    { src: "/images/gallery/angel-classroom-3.webp", caption: "Angel classroom", alt: "The Angel classroom with activity tables and learning displays", width: 1600, height: 1067 },
-    { src: "/images/gallery/angel-classroom-4.webp", caption: "Angel classroom", alt: "A practical activity area in the Angel classroom with low shelves", width: 1600, height: 1067 },
-    { src: "/images/gallery/angel-main.webp", caption: "Main classroom", alt: "A wide view of the Angel main classroom with tables and low Montessori shelves", width: 1600, height: 745 },
-    { src: "/images/gallery/angel-space1.webp", caption: "Learning space one", alt: "An Angel learning space with low shelves, activity tables and wall displays", width: 1600, height: 745 },
-    { src: "/images/gallery/angel-space2.webp", caption: "Learning space two", alt: "An Angel learning space with Montessori materials and a carpeted activity area", width: 1600, height: 745 },
-    { src: "/images/gallery/angel-space3.webp", caption: "Learning space three", alt: "An Angel learning space with a keyboard, low shelves and activity areas", width: 1600, height: 745 },
+    { src: "/images/angel/montessori-nursery-angel-classroom-islington.webp", caption: "Angel classroom", alt: "A wide view of the Angel Montessori classroom with low shelves, round tables and a fire-exit door", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-classroom-planets.webp", caption: "Angel classroom", alt: "The Angel classroom with hanging planets, cardboard rockets and child-sized tables", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-classroom-reading-area.webp", caption: "Reading area", alt: "A sofa, rugs and bookshelves in the Angel reading area beneath hanging planets", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-reading-loft.webp", caption: "Reading loft", alt: "A wooden reading loft with cushions and a staircase in the Angel classroom", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-cosy-book-corner.webp", caption: "Book corner", alt: "A cosy book corner with a sofa, rugs, a keyboard and an interactive screen", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp", caption: "Music and screen", alt: "A keyboard, puzzles and an interactive screen beside colourful rugs", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp", caption: "Montessori materials", alt: "Cardboard rocket displays above shelves of Montessori materials and a green table", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-sensorial-corner.webp", caption: "Montessori materials", alt: "Montessori materials on low shelves around a green table, with children’s swirl paintings", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp", caption: "Practical life", alt: "Montessori dressing frames laid out on a table in front of the rocket display", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp", caption: "Classroom and kitchen", alt: "The open classroom with a round table, shelves and the nursery kitchen area", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-snack-tables.webp", caption: "Snack tables", alt: "Small tables and chairs beside the nursery kitchen for snack and lunch times", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-childrens-artwork-display.webp", caption: "Children’s artwork", alt: "Children’s swirl paintings and a diurnal and nocturnal animals display", width: 2000, height: 1333 },
+    { src: "/images/angel/montessori-nursery-angel-earth-day-artwork.webp", caption: "Children’s artwork", alt: "A Happy Earth Day 2026 poster with children’s handprints and magnetic shapes", width: 2000, height: 1333 },
   ],
   "abbey-road": [
     { src: "/images/abbey-road/main-room.webp", caption: "Main learning space", alt: "A wide view of the Abbey Road main learning space with tables and low shelves", width: 1600, height: 1067 },
