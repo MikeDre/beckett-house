@@ -17,7 +17,7 @@ export default function FeeExplorer() {
     <div className="fee-switch" role="group" aria-label="Choose nursery">
       {([['angel', 'Angel'], ['abbey-road', 'Abbey Road']] as const).map(([value, label]) => <button key={value} type="button" aria-pressed={nursery === value} onClick={() => setNursery(value)}>{label}</button>)}
     </div>
-    {nursery === "angel" ? <div>
+    {nursery === "angel" ? <div className="nursery-fade">
       <h3>Angel session fees</h3>
       <table className="fee-table"><caption>Standard all-inclusive rates</caption><thead><tr><th scope="col">Session</th><th scope="col">Fee</th></tr></thead><tbody>
         <tr><th scope="row">Full-time week <span>Monday–Friday, 8am–6pm</span></th><td>£500 / week</td></tr>
@@ -28,7 +28,7 @@ export default function FeeExplorer() {
       <h3>Optional extras for funded days</h3>
       <Extras amounts={[8.10, 3, 20]} />
       <p>Charges apply only to the funded part of your place and are itemised on invoices. Private days use the standard all-inclusive rate. Contact Angel for a personalised funded-hours fee breakdown.</p>
-    </div> : <div>
+    </div> : <div className="nursery-fade">
       <h3>Abbey Road plans</h3>
       <div className="fee-controls"><label>Child’s age<select value={age} onChange={event => { const next = Number(event.target.value); setAge(next); if (next !== 2 && plan === "funded15") setPlan("standard"); }}>{abbeyRoadFees.map((entry, index) => <option key={entry.age} value={index}>{entry.age}</option>)}</select></label></div>
       <div className="fee-switch" role="group" aria-label="Choose fee plan">

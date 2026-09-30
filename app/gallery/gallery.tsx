@@ -104,7 +104,7 @@ export default function Gallery() {
       <p aria-live="polite">Showing {nurseryNames[selected]} photos</p>
     </div>
 
-    <div className="gallery-grid">
+    <div className="gallery-grid nursery-fade" key={selected}>
       {images.map((image, index) => <figure className="gallery-card" key={image.src}>
         <button type="button" aria-haspopup="dialog" aria-label={`Open larger view: ${image.alt}`} onClick={(event) => openImage(index, event)}>
           <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" unoptimized />

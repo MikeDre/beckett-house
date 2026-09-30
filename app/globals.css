@@ -5058,3 +5058,22 @@ main .virtual-tour-heading p {
 .timetable-intro .nursery-toggle {
   margin-top: 1.5rem;
 }
+
+/* Fade content in when the visitor switches nursery. Keyed containers remount
+   on a switch; NurseryView children replay when their view is un-hidden. */
+@keyframes nursery-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.nursery-fade,
+[data-nursery-view]:not([hidden]) > * {
+  animation: nursery-fade 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nursery-fade,
+  [data-nursery-view]:not([hidden]) > * {
+    animation: none;
+  }
+}

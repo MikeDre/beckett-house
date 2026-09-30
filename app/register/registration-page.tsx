@@ -210,7 +210,7 @@ export function RegistrationPage() {
           <p className="eyebrow">{content.name}</p>
           <h2 id="register-terms-heading">Registration and terms</h2>
         </div>
-        <div className="register-details">
+        <div className="register-details nursery-fade" key={nursery}>
           {content.terms.map((term) => (
             <details key={term.title}>
               <summary>

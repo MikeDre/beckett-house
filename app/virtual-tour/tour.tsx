@@ -14,7 +14,7 @@ export default function VirtualTour() {
     </div>
     <div className="virtual-tour-address" aria-live="polite"><strong>{location.name}</strong><span>{location.address}</span></div>
     </div>
-    <PanoramaViewer key={location.slug} location={location} />
+    <div className="nursery-fade" key={location.slug}><PanoramaViewer location={location} /></div>
     <div className="virtual-tour-instructions">
       <p><strong>Look around</strong><span>Drag with your mouse, or use two fingers on a touch screen.</span></p>
       <p><strong>Explore every space</strong><span>Choose a room below the viewer to move between panoramas.</span></p>
