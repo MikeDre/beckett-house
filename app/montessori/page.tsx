@@ -57,6 +57,7 @@ export default function MontessoriPage() {
         <div className="about-beckett-hero-image"><Image src="/images/classroom-detail.webp" alt="Low shelves and child-sized furniture in a prepared Beckett House Montessori classroom" width={1400} height={1050} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
       </section>
       <section className="montessori-freedom-quote section-pad" aria-label="Montessori freedom">
+        <span className="quote-shape" aria-hidden="true" />
         <blockquote><p>Montessori freedom means the <strong>unlimited freedom to do right</strong></p></blockquote>
       </section>
       <section className="montessori-origin section-pad" id={montessoriSections[0].id} aria-labelledby={`${montessoriSections[0].id}-title`}>
