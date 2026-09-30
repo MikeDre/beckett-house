@@ -50,6 +50,8 @@ export type Location = {
   email: string;
   phone: string;
   phoneHref: string;
+  /** Google Maps listing for the nursery (opens from the footer address). */
+  mapsUrl: string;
   opening: string;
   year: string;
   status: string;
@@ -95,6 +97,7 @@ export const locations: Location[] = [
     email: "info@beckett-house.co.uk",
     phone: "020 7278 8824",
     phoneHref: "+442072788824",
+    mapsUrl: "https://www.google.com/maps?cid=12467953049128823895",
     opening: "Monday–Friday, 8am–6pm",
     year: "Since 1996",
     status: "Ofsted rated Good",
@@ -184,6 +187,7 @@ export const locations: Location[] = [
     email: "abbeyroad@beckett-house.co.uk",
     phone: "020 4568 7042",
     phoneHref: "+442045687042",
+    mapsUrl: "https://www.google.com/maps/place/84-86+Abbey+Rd.,+London+NW8+0QA/data=!4m2!3m1!1s0x48761a9ef8f878d7:0x82948ec9092e97b7",
     opening: "Monday–Friday, 8am–6pm",
     year: "Now open",
     status: "Ofsted registered",

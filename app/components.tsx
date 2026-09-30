@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNurseryChangeListener, useNurseryChoice, useSwitchNursery } from "./nursery-choice";
+import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNurseryChangeListener, useActiveNursery, useNurseryChoice, useSwitchNursery } from "./nursery-choice";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
-import type { Location } from "../lib/content";
+import { locations, type Location } from "../lib/content";
 
 // CARTO basemaps now watermark keyless requests, so use standard OSM tiles.
 const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -213,6 +213,8 @@ function NurseryLabel({ name, onSwitch }: { name: string; onSwitch: () => void }
 }
 
 export function SiteFooter() {
+  const activeSlug = useActiveNursery();
+  const nursery = locations.find((location) => location.slug === activeSlug) ?? locations[0];
 
   return (
     <>
@@ -240,6 +242,14 @@ export function SiteFooter() {
                 review on Google
               </a>
             </p>
+            <div className="footer-social">
+              <a href="https://www.instagram.com/becketthousemontessori/" target="_blank" rel="noopener noreferrer" aria-label="Beckett House Montessori on Instagram">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" /></svg>
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61578163062797" target="_blank" rel="noopener noreferrer" aria-label="Beckett House Montessori on Facebook">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1Z" /></svg>
+              </a>
+            </div>
           </div>
         </div>
         <div className="footer-links">
@@ -250,10 +260,12 @@ export function SiteFooter() {
             <Link href={"/abbey-road"}>Abbey Road</Link>
           </div>
           <div>
-            <span>Visit</span>
-            <a href={"tel:+442072788824"}>020 7278 8824</a>
-            <a href={"mailto:info@beckett-house.co.uk"}>Email Angel</a>
-            <a href={"mailto:abbeyroad@beckett-house.co.uk"}>Email Abbey Road</a>
+            <span>Visit {nursery.name}</span>
+            <a className="footer-address" href={nursery.mapsUrl} target="_blank" rel="noopener noreferrer">
+              {nursery.address}, {nursery.postcode}
+            </a>
+            <a href={`tel:${nursery.phoneHref}`}>{nursery.phone}</a>
+            <a href={`mailto:${nursery.email}`}>{nursery.email}</a>
           </div>
         </div>
       </div>

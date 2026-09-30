@@ -84,3 +84,18 @@ export function useNurseryChoice(fallback: NurserySlug = "angel") {
   const choose = useCallback((next: NurserySlug) => applyNurseryChoice(next), []);
   return [nursery, choose] as const;
 }
+
+// The nursery the visitor is looking at: the homepage they're on, otherwise
+// their choice. Follows switches made anywhere on the page.
+export function useActiveNursery(fallback: NurserySlug = "angel") {
+  const pathname = usePathname();
+  const routeNursery = homepageNursery(pathname);
+  const [chosen, setChosen] = useState<NurserySlug>(fallback);
+  useEffect(() => {
+    // Reading the choice from the URL or storage is only possible after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChosen(readNurseryChoice() ?? fallback);
+  }, [pathname, fallback]);
+  useNurseryChangeListener(setChosen);
+  return routeNursery ?? chosen;
+}

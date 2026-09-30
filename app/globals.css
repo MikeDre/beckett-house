@@ -5137,3 +5137,33 @@ main .virtual-tour-heading p {
 @media (prefers-reduced-motion: reduce) {
   .wide-photo-break .hero-slide { transform: none; transition: none; }
 }
+
+/* Footer social links and the nursery's address (opens Google Maps). */
+.footer-social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.footer-social a {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  transition: background 180ms ease, border-color 180ms ease;
+  width: 40px;
+}
+
+.footer-social a:hover,
+.footer-social a:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-links .footer-address {
+  line-height: 1.5;
+  max-width: 16rem;
+}
