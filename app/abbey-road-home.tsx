@@ -3,6 +3,7 @@ import Link from "next/link";
 import Announcements from "./announcements";
 import Testimonials from "./testimonials";
 import HomeMotion from "./home-motion";
+import CardAnimation, { type CardAnimationName } from "./card-animation";
 import {
   FAQList,
   LocationsMap,
@@ -39,6 +40,7 @@ const abbeyRoadLocation = requireAbbeyRoadLocation();
 const abbeyRoadFaqs = getLocationFaqs(abbeyRoadLocation);
 const abbeyRoadUrl = locationUrl(abbeyRoadLocation);
 const roomCardClasses = ["principle-sun", "principle-blue", "principle-lilac"];
+const roomCardAnimations: CardAnimationName[] = ["bouncing", "joy", "morph"];
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -142,7 +144,7 @@ export default function AbbeyRoadHome() {
                 key={stage.name}
               >
                 <span>{stage.age}</span>
-                <div className="principle-shape" aria-hidden="true" />
+                <CardAnimation name={roomCardAnimations[index]} />
                 <h3>{stage.name}</h3>
                 <p>{stage.copy}</p>
               </article>

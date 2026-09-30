@@ -3,6 +3,7 @@ import Link from "next/link";
 import Testimonials from "./testimonials";
 import Announcements from "./announcements";
 import HomeMotion from "./home-motion";
+import CardAnimation, { type CardAnimationName } from "./card-animation";
 import {
   FAQList,
   LocationsMap,
@@ -20,6 +21,12 @@ import {
   jsonLd,
   SITE_URL,
 } from "../lib/seo";
+
+const principleAnimations: Record<string, CardAnimationName> = {
+  "principle-sun": "bouncing",
+  "principle-blue": "joy",
+  "principle-lilac": "shapes",
+};
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -115,7 +122,7 @@ export default function Home() {
         <section className="principles section-pad" aria-label="Our principles">
           {principles.map((principle) => (
             <article className={`principle-card ${principle.className}`} key={principle.title}>
-              <div className="principle-shape" aria-hidden="true" />
+              <CardAnimation name={principleAnimations[principle.className]} />
               <h3>{principle.title}</h3>
               <p>{principle.copy}</p>
             </article>

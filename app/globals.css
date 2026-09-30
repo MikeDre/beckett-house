@@ -4961,3 +4961,13 @@ main .virtual-tour-heading p {
     transform: none;
   }
 }
+
+/* Homepage card animations (Lottie, recoloured to the site palette) */
+.card-animation {
+  height: clamp(140px, 14vw, 190px);
+  pointer-events: none;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  width: clamp(140px, 14vw, 190px);
+}
