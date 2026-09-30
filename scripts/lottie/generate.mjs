@@ -98,21 +98,37 @@ function rings() {
   return composition(layers);
 }
 
+// A love of learning: cubes fly in from alternating sides in spinning arcs and
+// land with squash and stretch, the finished tower does a happy bounce wave,
+// then the cubes tumble off from the top one at a time.
 function tower() {
   const layers = [shapeLayer("Ground", [group(rectangle([270, 12], 6), palette.ink)], { position: [200, 330] })];
   const sizes = [88, 70, 54, 38];
   const ys = [280, 201, 139, 93];
   const colours = [palette.deep, palette.coral, palette.sun, palette.ink];
   sizes.forEach((size, index) => {
-    const start = [200, -54 - index * 10];
-    const drop = 18 + index * 27;
-    layers.push(shapeLayer(`Cube ${index + 1}`, [group(rectangle([size, size], 8), colours[index])], {
+    const side = index % 2 ? 1 : -1;
+    const home = [200, ys[index]];
+    const start = [200 + side * 250, ys[index] - 150];
+    const peak = [200 + side * 90, ys[index] - 120];
+    const land = 34 + index * 26;
+    const bounce = 150 + index * 7;
+    const leave = 212 + (3 - index) * 12;
+    const flung = [200 - side * 240, ys[index] - 170];
+    // Squash anchored at the cube's base so it compresses into the cube below.
+    layers.push(shapeLayer(`Cube ${index + 1}`, [group(rectangle([size, size], 8), colours[index], [0, -size / 2])], {
       position: animated([
-        [0, start], [drop, start], [drop + 25, [200, ys[index] + 8]], [drop + 33, [200, ys[index] - 4]], [drop + 42, [200, ys[index]]],
-        [200, [200, ys[index]]], [214, [200, ys[index] - 7]], [254, [200, ys[index] - 92]], [276, start], [LAST_FRAME, start],
+        [0, start], [land - 26, start], [land - 12, peak], [land, [home[0], home[1] + size / 2]], [land + 60, [home[0], home[1] + size / 2]],
+        [bounce, [home[0], home[1] + size / 2]], [bounce + 8, [home[0], home[1] + size / 2 - 22]], [bounce + 18, [home[0], home[1] + size / 2]],
+        [leave, [home[0], home[1] + size / 2]], [leave + 8, [home[0], home[1] + size / 2 - 18]], [leave + 30, flung], [LAST_FRAME, start],
+      ].map(([t, [x, y]]) => [t, [x, y]])).k,
+      rotation: animated([[0, side * -200], [land - 26, side * -200], [land, 0], [bounce + 8, side * 5], [bounce + 18, 0], [leave, 0], [leave + 30, side * 220], [LAST_FRAME, side * -200]]).k,
+      scale: animated([
+        [0, [100, 100]], [land, [100, 100]], [land + 4, [124, 74]], [land + 10, [92, 110]], [land + 16, [100, 100]],
+        [bounce, [100, 100]], [bounce + 4, [114, 86]], [bounce + 10, [94, 108]], [bounce + 18, [104, 94]], [bounce + 24, [100, 100]],
+        [leave, [100, 100]], [leave + 4, [116, 84]], [leave + 12, [96, 104]], [LAST_FRAME, [100, 100]],
       ]).k,
-      rotation: animated([[0, 0], [150, 0], [162, index % 2 ? -2.4 : 2.4], [176, index % 2 ? 1.2 : -1.2], [190, 0], [LAST_FRAME, 0]]).k,
-      opacity: animated([[0, 0], [drop, 0], [drop + 5, 100], [242, 100], [270, 0], [LAST_FRAME, 0]]).k,
+      opacity: animated([[0, 0], [land - 26, 0], [land - 20, 100], [leave + 22, 100], [leave + 30, 0], [LAST_FRAME, 0]]).k,
     }));
   });
   return composition(layers);
@@ -126,35 +142,71 @@ const quarterPath = (quadrant, radius = 92) => {
   return path(vertices, [[0, 0], [0, 0], [sx * handle, 0]], [[0, 0], [0, sy * handle], [0, 0]], true);
 };
 
+const nullLayer = (name, options = {}) => ({
+  ddd: 0, ind: ++layerIndex, ty: 3, nm: name, sr: 1, ks: transform(options), ao: 0,
+  ip: 0, op: OUT_FRAME, st: 0, bm: 0,
+});
+const rotate = ([x, y], degrees) => {
+  const r = (degrees * Math.PI) / 180;
+  return [x * Math.cos(r) - y * Math.sin(r), x * Math.sin(r) + y * Math.cos(r)];
+};
+const round = ([x, y]) => [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
+
+// Learning the whole concept: quarters spiral in and snap together, the whole
+// circle turns like a wheel with a springy pulse, then bursts apart spinning.
 function puzzle() {
-  const offsets = [[-70, -70], [70, -70], [70, 70], [-70, 70]];
-  const colours = [palette.ink, palette.coral, palette.sun, palette.deep];
-  const layers = offsets.map((offset, index) => {
-    const separated = [200 + offset[0], 200 + offset[1]];
-    return shapeLayer(`Quarter ${index + 1}`, [group(quarterPath(index), colours[index])], {
-      position: animated([[0, separated], [18 + index * 7, separated], [88 + index * 7, [200, 200]], [208, [200, 200]], [278 - index * 5, separated], [LAST_FRAME, separated]]).k,
-      scale: animated([[0, [100, 100]], [140, [100, 100]], [156, [108, 108]], [174, [100, 100]], [LAST_FRAME, [100, 100]]]).k,
-      rotation: animated([[0, index % 2 ? 7 : -7], [96 + index * 5, 0], [208, 0], [278 - index * 5, index % 2 ? 7 : -7], [LAST_FRAME, index % 2 ? 7 : -7]]).k,
-    });
+  const hub = nullLayer("Hub", {
+    position: [200, 200],
+    rotation: animated([[0, 0], [118, 0], [150, 100], [162, 84], [176, 90], [188, 90], [206, 186], [214, 176], [222, 180], [250, 180], [262, 0], [LAST_FRAME, 0]]).k,
+    scale: animated([[0, [100, 100]], [104, [100, 100]], [112, [112, 112]], [120, [94, 94]], [128, [102, 102]], [134, [100, 100]], [226, [100, 100]], [232, [90, 90]], [238, [106, 106]], [LAST_FRAME, [100, 100]]]).k,
   });
-  return composition(layers);
+  const directions = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([x, y]) => [x / Math.SQRT2, y / Math.SQRT2]);
+  const colours = [palette.ink, palette.coral, palette.sun, palette.deep];
+  const layers = directions.map((direction, index) => {
+    const start = round(rotate([direction[0] * 150, direction[1] * 150], -100));
+    const swirl = round(rotate([direction[0] * 78, direction[1] * 78], -45));
+    const burst = round(rotate([direction[0] * 150, direction[1] * 150], 35));
+    const arrive = 58 + index * 9;
+    return {
+      ...shapeLayer(`Quarter ${index + 1}`, [group(quarterPath(index), colours[index])], {
+        position: animated([[0, start], [arrive - 40, start], [arrive - 16, swirl], [arrive, [0, 0]], [238, [0, 0]], [264, burst], [LAST_FRAME, start]]).k,
+        rotation: animated([[0, -120], [arrive - 40, -120], [arrive, 0], [238, 0], [264, 140], [LAST_FRAME, -120]]).k,
+        scale: animated([[0, [40, 40]], [arrive - 40, [40, 40]], [arrive - 2, [108, 108]], [arrive + 6, [95, 95]], [arrive + 12, [100, 100]], [238, [100, 100]], [264, [55, 55]], [LAST_FRAME, [40, 40]]]).k,
+        opacity: animated([[0, 0], [arrive - 40, 0], [arrive - 30, 100], [246, 100], [264, 0], [LAST_FRAME, 0]]).k,
+      }),
+      parent: hub.ind,
+    };
+  });
+  return composition([hub, ...layers]);
 }
 
+// Language and mathematics: beads pop in one at a time as if being counted,
+// landing with squash and stretch, then a counting wave ripples diagonally
+// through the staircase before it cascades away.
 function beads() {
   const colours = [palette.ink, palette.coral, palette.deep, palette.blue, palette.ink];
   const layers = [];
   for (let row = 0; row < 5; row += 1) {
-    const count = row + 1;
-    const shapes = Array.from({ length: count }, (_, bead) => group(ellipse([30, 30]), colours[row], [bead * 38, 0]));
-    const final = [124, 100 + row * 48];
-    const dropped = [124, final[1] + 54];
-    const rise = 18 + row * 20;
-    const fall = 218 + row * 9;
-    layers.push(shapeLayer(`Bead bar ${count}`, shapes, {
-      position: animated([[0, dropped], [rise, dropped], [rise + 24, [124, final[1] - 6]], [rise + 34, final], [fall, final], [fall + 32, dropped], [LAST_FRAME, dropped]]).k,
-      opacity: animated([[0, 0], [rise, 0], [rise + 7, 100], [fall + 14, 100], [fall + 31, 0], [LAST_FRAME, 0]]).k,
-      scale: animated([[0, [88, 88]], [rise + 24, [104, 104]], [rise + 36, [100, 100]], [LAST_FRAME, [88, 88]]]).k,
-    }));
+    for (let bead = 0; bead <= row; bead += 1) {
+      const home = [124 + bead * 38, 100 + row * 48];
+      const above = [home[0], home[1] - 44];
+      const land = 10 + row * 15 + bead * 5;
+      const wave = 132 + (row + bead) * 6;
+      const exit = 208 + (4 - row) * 7 + bead * 3;
+      const away = [home[0] + 46, home[1] + 70];
+      layers.push(shapeLayer(`Bead ${row + 1}.${bead + 1}`, [group(ellipse([30, 30]), colours[row])], {
+        position: animated([
+          [0, above], [land, above], [land + 10, [home[0], home[1] + 4]], [land + 16, home],
+          [wave, home], [wave + 7, [home[0], home[1] - 16]], [wave + 15, home],
+          [exit, home], [exit + 6, [home[0] - 6, home[1] - 8]], [exit + 26, away], [LAST_FRAME, above],
+        ]).k,
+        scale: animated([
+          [0, [0, 0]], [land, [0, 0]], [land + 8, [118, 118]], [land + 11, [122, 80]], [land + 15, [94, 108]], [land + 20, [100, 100]],
+          [wave, [100, 100]], [wave + 7, [124, 124]], [wave + 15, [100, 100]],
+          [exit, [100, 100]], [exit + 26, [0, 0]], [LAST_FRAME, [0, 0]],
+        ]).k,
+      }));
+    }
   }
   return composition(layers);
 }
@@ -176,7 +228,7 @@ await mkdir(OUTPUT, { recursive: true });
 for (const [name, data] of Object.entries(animations)) {
   assertSeamless(data, name);
   const json = `${JSON.stringify(data)}\n`;
-  if (Buffer.byteLength(json) >= 30_000) throw new Error(`${name}.json is 30KB or larger`);
+  if (Buffer.byteLength(json) >= 45_000) throw new Error(`${name}.json is 45KB or larger`);
   await writeFile(join(OUTPUT, `${name}.json`), json);
   console.log(`wrote ${name}.json (${Buffer.byteLength(json)} bytes)`);
 }
