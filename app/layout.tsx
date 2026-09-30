@@ -4,6 +4,7 @@ import "@photo-sphere-viewer/core/index.css";
 import "./globals.css";
 import { SITE_URL } from "../lib/seo";
 import { LocationSwitcher } from "./location-switcher";
+import PageMotion from "./page-motion";
 
 const title = "Beckett House Montessori | Nursery in Angel & Abbey Road";
 const description =
@@ -90,7 +91,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}<LocationSwitcher /></body>
+      <body>{children}<PageMotion /><LocationSwitcher /></body>
     </html>
   );
 }
