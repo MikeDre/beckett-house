@@ -19,7 +19,9 @@ export type CardAnimationName =
   | "coins"
   | "medal"
   | "sun"
-  | "hours";
+  | "hours"
+  | "morphball"
+  | "shapehop";
 
 // Decorative Lottie animation for the homepage cards. The player and the
 // animation are only fetched once the card is near the viewport, playback
