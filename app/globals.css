@@ -5242,3 +5242,59 @@ main .virtual-tour-heading p {
   overflow: auto !important;
   padding: 1rem 1.25rem 1rem 1rem;
 }
+
+/* Nursery chooser on phones: stack intro, map and nursery cards instead of
+   floating cards over the map (which left the map almost entirely covered). */
+@media (max-width: 899px) {
+  .nursery-chooser-page,
+  .homepage-map.nursery-chooser-page {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .nursery-chooser {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    padding-bottom: 1rem;
+  }
+
+  .nursery-chooser .nursery-chooser-intro {
+    inset: auto;
+    margin: 0.75rem 0.75rem 0;
+    order: 1;
+    position: relative;
+  }
+
+  .homepage-map .nursery-chooser .nursery-chooser-intro {
+    padding-right: 4rem;
+  }
+
+  .nursery-chooser .nursery-chooser-map {
+    height: 46svh;
+    margin-top: 0.75rem;
+    min-height: 300px;
+    order: 2;
+    position: relative;
+  }
+
+  .nursery-chooser .nursery-chooser-panel,
+  .nursery-chooser .nursery-chooser-panel.nursery-accordion {
+    inset: auto;
+    margin: -1.75rem 0.75rem 0;
+    max-height: none;
+    order: 3;
+    overflow: visible;
+    position: relative;
+  }
+
+  .nursery-chooser .nursery-chooser-back {
+    align-self: flex-start;
+    inset: auto;
+    margin: 1rem 0.75rem 0;
+    order: 4;
+    position: relative;
+  }
+}
