@@ -384,7 +384,7 @@ export function LocationsMap({
           target={disableLinks ? undefined : "_blank"}
           rel={disableLinks ? undefined : "noreferrer"}
         >
-          Compare in Google Maps
+          View in Google Maps
         </a>
       </div>
       <div
