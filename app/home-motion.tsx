@@ -22,7 +22,7 @@ export default function HomeMotion() {
     };
 
     root.querySelectorAll(".homepage-photo-hero .wide-photo-caption > *").forEach((element, index) => reveal(element, index * 90));
-    const heroImage = root.querySelector(".homepage-photo-hero > img");
+    const heroImage = root.querySelector(".homepage-photo-hero > .hero-slides");
     if (heroImage) reveal(heroImage, 0, true);
 
     const observer = new IntersectionObserver(entries => {

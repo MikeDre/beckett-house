@@ -3,6 +3,7 @@ import Link from "next/link";
 import Testimonials from "./testimonials";
 import Announcements from "./announcements";
 import HomeMotion from "./home-motion";
+import HeroSlideshow, { type HeroSlide } from "./hero-slideshow";
 import CardAnimation, { type CardAnimationName } from "./card-animation";
 import {
   FAQList,
@@ -27,6 +28,13 @@ const principleAnimations: Record<string, CardAnimationName> = {
   "principle-blue": "tower",
   "principle-lilac": "shapes",
 };
+
+const heroSlides: HeroSlide[] = [
+  { src: "/images/hero-classroom.webp", alt: "A wide view across a prepared Beckett House Montessori classroom", width: 1800, height: 1199 },
+  { src: "/images/hero/angel-2.webp", alt: "The Angel classroom with child-sized tables and low Montessori shelves", width: 2200, height: 1466 },
+  { src: "/images/hero/angel-3.webp", alt: "A carpeted learning area in the Angel classroom with low Montessori shelves", width: 2200, height: 1467 },
+  { src: "/images/hero/angel-4.webp", alt: "A practical activity area in the Angel classroom with a wooden loft", width: 2200, height: 1467 },
+];
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -67,15 +75,7 @@ export default function Home() {
           className="wide-photo-break homepage-photo-hero"
           aria-labelledby="home-hero-title"
         >
-          <Image
-            src="/images/hero-classroom.webp"
-            unoptimized
-            alt="A wide view across a prepared Beckett House Montessori classroom"
-            width={1800}
-            height={1199}
-            sizes="100vw"
-            priority
-          />
+          <HeroSlideshow slides={heroSlides} />
           <div className="wide-photo-caption">
             <span>Welcome to Beckett House Montessori</span>
             <h1 id="home-hero-title">

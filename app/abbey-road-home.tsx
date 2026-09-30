@@ -3,6 +3,7 @@ import Link from "next/link";
 import Announcements from "./announcements";
 import Testimonials from "./testimonials";
 import HomeMotion from "./home-motion";
+import HeroSlideshow, { type HeroSlide } from "./hero-slideshow";
 import CardAnimation, { type CardAnimationName } from "./card-animation";
 import {
   FAQList,
@@ -41,6 +42,13 @@ const abbeyRoadFaqs = getLocationFaqs(abbeyRoadLocation);
 const abbeyRoadUrl = locationUrl(abbeyRoadLocation);
 const roomCardClasses = ["principle-sun", "principle-blue", "principle-lilac"];
 const roomCardAnimations: CardAnimationName[] = ["bouncing", "joy", "morph"];
+
+const heroSlides: HeroSlide[] = [
+  { src: "/images/abbey-road/main-room-hero.webp", alt: abbeyRoadLocation.imageAlt, width: 2560, height: 1707 },
+  { src: "/images/hero/abbey-road-2.webp", alt: "A wide view of the Abbey Road main learning space with tables and low shelves", width: 2400, height: 1600 },
+  { src: "/images/hero/abbey-road-3.webp", alt: "Low Montessori shelves and a sofa in the Abbey Road main room", width: 2400, height: 1600 },
+  { src: "/images/hero/abbey-road-4.webp", alt: "The Abbey Road nursery room with a play mat, soft toys and a sofa", width: 2400, height: 1600 },
+];
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -83,15 +91,7 @@ export default function AbbeyRoadHome() {
           className="wide-photo-break homepage-photo-hero"
           aria-labelledby="abbey-road-hero-title"
         >
-          <Image
-            src="/images/abbey-road/main-room-hero.webp"
-            unoptimized
-            alt={abbeyRoadLocation.imageAlt}
-            width={2560}
-            height={1707}
-            sizes="100vw"
-            priority
-          />
+          <HeroSlideshow slides={heroSlides} />
           <div className="wide-photo-caption">
             <span>Welcome to our new setting on Abbey Road</span>
             <h1 id="abbey-road-hero-title">

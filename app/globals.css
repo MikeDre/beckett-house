@@ -5077,3 +5077,26 @@ main .virtual-tour-heading p {
     animation: none;
   }
 }
+
+/* Homepage hero slideshow: stacked photos crossfade with a slow zoom. */
+.hero-slides {
+  inset: 0;
+  position: absolute;
+}
+
+.wide-photo-break .hero-slide {
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  transform: scale(1.06);
+  transition: opacity 1.4s ease, transform 7.5s linear;
+}
+
+.wide-photo-break .hero-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wide-photo-break .hero-slide { transform: none; transition: none; }
+}
