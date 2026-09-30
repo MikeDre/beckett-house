@@ -2064,14 +2064,21 @@ a {
   gap: 1.75rem;
 }
 
+.footer-top > div:first-child {
+  align-items: center;
+  display: flex;
+  gap: 1.25rem;
+}
+
 .footer-logo {
   display: block;
+  flex: none;
   height: auto;
-  margin-bottom: 0.875rem;
-  width: 104px;
+  width: 96px;
 }
 
 .footer-top > div:first-child p {
+  margin: 0;
   color: rgba(255, 255, 255, 0.65);
   font-family: var(--font-display);
   font-size: 1.0625rem;
