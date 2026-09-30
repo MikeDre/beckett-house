@@ -126,8 +126,8 @@ export default async function LocationPage({
               src={location.image}
               unoptimized
               alt={location.imageAlt}
-              width={location.slug === "angel" ? 1800 : 1400}
-              height={location.slug === "angel" ? 1199 : 934}
+              width={1800}
+              height={location.slug === "angel" ? 1199 : 825}
               sizes="(min-width: 700px) 48vw, 100vw"
               priority
             />

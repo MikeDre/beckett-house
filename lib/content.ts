@@ -187,9 +187,9 @@ export const locations: Location[] = [
     opening: "Monday–Friday, 8am–6pm",
     year: "Now open",
     status: "Ofsted registered",
-    image: "/images/learning-room.webp",
+    image: "/images/abbey-road-classroom.webp",
     imageAlt:
-      "An inviting Montessori learning room with accessible wooden materials and colourful activity areas",
+      "The main Abbey Road classroom, with low Montessori shelves, a reading corner and a sofa",
     colour: "blue",
     latitude: 51.538865,
     longitude: -0.185502,

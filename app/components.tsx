@@ -612,8 +612,8 @@ export function PanoramaViewer({ location }: { location: Location }) {
               src={location.image}
               unoptimized
               alt={`Preview of Beckett House Montessori ${location.name}`}
-              width={location.slug === "angel" ? 1800 : 1400}
-              height={location.slug === "angel" ? 1199 : 934}
+              width={1800}
+              height={location.slug === "angel" ? 1199 : 825}
               sizes="(min-width: 1040px) 62vw, 100vw"
               loading="lazy"
             />
