@@ -4695,3 +4695,10 @@ main .virtual-tour-heading p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Abbey Road pages */
+.timetable-page .nursery-schedule + .nursery-schedule {
+  border-top: 1px solid var(--line);
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+  padding-top: clamp(3.5rem, 7vw, 6rem);
+}

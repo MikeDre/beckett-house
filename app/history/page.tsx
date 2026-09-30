@@ -31,6 +31,15 @@ export default function HistoryPage() {
       <section className="about-home-from-home section-pad" aria-label="What sets Beckett House apart">
         <p>Parents maintain it is its <strong>‘home from home’</strong> nature that sets Beckett House apart from other nurseries.</p>
       </section>
+      <section className="about-history-continuation section-pad" aria-labelledby="abbey-road-history-title">
+        <div>
+          <h2 id="abbey-road-history-title">Abbey Road</h2>
+          <p>Our new setting on Abbey Road aims to provide high quality care for the community, learning outcomes for your children and developing careers for our teachers. We opened in Summer 2026. At Beckett House we recognise the parent carer as a primary educator of the child and we pride ourselves on working closely in partnership. Respect is shown to family traditions and childcare practices and every effort is made to comply with parents’ wishes for their children where appropriate to the ethos of our school.</p>
+        </div>
+        <div>
+          <p>At Beckett House it will be our initial aim to introduce the children to the philosophy of the Montessori method of education. To make this possible we have fully equipped our school with a complete range of genuine Montessori materials. Montessori materials are unique, beautiful, mainly wooden and carefully crafted by experts.</p>
+        </div>
+      </section>
       <section className="about-history-continuation section-pad" aria-label="Learning, care and lasting connections">
         <p>Learning is a key ingredient in its philosophy but so is care, nurturing, discipline, parental involvement, family values and an encouragement to embrace the world and all its wonders.</p>
         <p>Many children move on to some of the best schools in London and since 2006 some of its first ever children have been coming back for their work experience; tall, clever and just amazing!</p>

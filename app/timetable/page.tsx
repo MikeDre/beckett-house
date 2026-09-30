@@ -3,7 +3,7 @@ import { SiteFooter, SiteHeader } from "../components";
 import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID } from "../../lib/seo";
 
 const title = "Timetable & Term Dates";
-const description = "Angel nursery's daily Montessori timetable, morning and afternoon sessions, and term dates.";
+const description = "Daily timetable, session times and term dates for Beckett House Montessori nurseries in Angel and Abbey Road.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/timetable" },
   openGraph: { title, description, url: "/timetable", type: "website", locale: "en_GB" },
@@ -28,10 +28,23 @@ const afternoon: Activity[] = [
   { time: "6:00pm", title: "Collection time for afternoon children" },
   { time: "6:00pm", title: "Collection time for all-day children" },
 ];
+const abbeyRoadOpeningHours: Activity[] = [
+  { time: "8am–6pm", title: "Monday–Friday" },
+];
+const abbeyRoadSessions: Activity[] = [
+  { time: "8am–6pm", title: "Full-day care" },
+  { time: "8am–1pm", title: "Morning session" },
+  { time: "1pm–6pm", title: "Afternoon session" },
+];
 const terms = [
   { title: "Summer term 2026", start: "2026-04-27", end: "2026-08-14", from: "Monday 27 April", to: "Friday 14 August 2026" },
   { title: "Autumn term 2026", start: "2026-09-01", end: "2026-12-18", from: "Tuesday 1 September", to: "Friday 18 December 2026" },
   { title: "January–April 2027", start: "2027-01-04", end: "2027-04-23", from: "Monday 4 January", to: "Friday 23 April 2027" },
+];
+const abbeyRoadTerms = [
+  { title: "Summer term 2026", start: "2026-05-18", end: "2026-08-28", from: "Monday 18 May", to: "Friday 28 August 2026" },
+  { title: "Autumn term 2026", start: "2026-08-31", end: "2026-12-18", from: "Monday 31 August", to: "Friday 18 December 2026" },
+  { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23", from: "Monday 4 January", to: "Friday 23 April 2027" },
 ];
 
 function Schedule({ heading, activities }: { heading: string; activities: Activity[] }) {
@@ -61,6 +74,11 @@ export default function TimetablePage() {
         <aside className="schedule-note"><h3>Time outdoors</h3><p>As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens.</p></aside>
         <p className="schedule-disclaimer">Beckett House reserves the right to alter timetables without notice.</p>
         <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
+      </section>
+      <section id="abbey-road" className="nursery-schedule" aria-labelledby="abbey-road-title">
+        <div className="timetable-nursery-heading"><h2 id="abbey-road-title">Abbey Road</h2><p className="timetable-address">Abbey Hive, 84–86 Abbey Road, London, NW8 0QA</p></div>
+        <div className="schedule-grid"><Schedule heading="Opening hours" activities={abbeyRoadOpeningHours} /><Schedule heading="Sessions" activities={abbeyRoadSessions} /></div>
+        <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
       </section>
     </main>
     <SiteFooter />

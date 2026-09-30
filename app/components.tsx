@@ -33,6 +33,12 @@ const timetableItems = [
   { title: "Opening Hours & Fees", href: "/opening-hours-fees", image: "/images/hero-classroom.webp", description: "Explore nursery opening hours, flexible sessions, fees and funded childcare options." },
 ];
 
+const abbeyRoadTimetableItems = [
+  { title: "Daily timetable", href: "/timetable#abbey-road", image: "/images/hero-classroom.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
+  { title: "Term dates", href: "/timetable#abbey-road-term-dates", image: "/images/classroom-detail.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
+  timetableItems[2],
+];
+
 function TimetableNavigation({ mobile = false, onNavigate, items = timetableItems, label = "Key information", href = "/timetable", menuId = "timetable" }: { mobile?: boolean; onNavigate?: () => void; items?: typeof timetableItems; label?: string; href?: string; menuId?: string }) {
   const [expanded, setExpanded] = useState(false);
   const [active, setActive] = useState(0);
@@ -77,6 +83,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
   const headerRef = useRef<HTMLElement>(null);
   const homeHref = activeNursery ? `/${activeNursery}` : "/";
   const visitHref = homepageOnly ? "#" : "/visit";
+  const keyInformationItems = activeNursery === "abbey-road" ? abbeyRoadTimetableItems : timetableItems;
 
   useEffect(() => {
     let stored: string | null = null;
@@ -153,7 +160,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
           />
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
-          <TimetableNavigation />
+          <TimetableNavigation items={keyInformationItems} />
           <TimetableNavigation items={aboutItems} label="About us" href="/beckett-house" menuId="about" />
           <TimetableNavigation items={nurseryLifeItems} label="Nursery life" href="/virtual-tour" menuId="nursery-life" />
           {navItems.map((item) => (
@@ -181,7 +188,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
       </header>
       <div className={`mobile-menu ${open ? "is-open" : ""}`} aria-hidden={!open} inert={!open}>
         <nav aria-label="Mobile navigation">
-          <TimetableNavigation mobile onNavigate={() => setOpen(false)} />
+          <TimetableNavigation mobile onNavigate={() => setOpen(false)} items={keyInformationItems} />
           <TimetableNavigation mobile onNavigate={() => setOpen(false)} items={aboutItems} label="About us" href="/beckett-house" menuId="about" />
           <TimetableNavigation mobile onNavigate={() => setOpen(false)} items={nurseryLifeItems} label="Nursery life" href="/virtual-tour" menuId="nursery-life" />
           {navItems.map((item) => (
