@@ -2,7 +2,18 @@
 
 import { useEffect, useRef } from "react";
 
-export type CardAnimationName = "bouncing" | "joy" | "morph" | "shapes";
+export type CardAnimationName =
+  | "bouncing"
+  | "joy"
+  | "morph"
+  | "shapes"
+  | "rings"
+  | "tower"
+  | "cylinders"
+  | "puzzle"
+  | "beads"
+  | "choice"
+  | "guide";
 
 // Decorative Lottie animation for the homepage cards. The player and the
 // animation are only fetched once the card is near the viewport, playback

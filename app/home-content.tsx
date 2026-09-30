@@ -23,8 +23,8 @@ import {
 } from "../lib/seo";
 
 const principleAnimations: Record<string, CardAnimationName> = {
-  "principle-sun": "bouncing",
-  "principle-blue": "joy",
+  "principle-sun": "rings",
+  "principle-blue": "tower",
   "principle-lilac": "shapes",
 };
 

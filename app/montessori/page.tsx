@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter, SiteHeader } from "../components";
+import CardAnimation, { type CardAnimationName } from "../card-animation";
 import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID } from "../../lib/seo";
 import { montessoriSections } from "../../lib/montessori-content";
 
@@ -13,6 +14,14 @@ export const metadata: Metadata = {
 
 type MontessoriSection = (typeof montessoriSections)[number];
 
+const principleAnimations: Record<string, CardAnimationName> = {
+  "control-of-error": "cylinders",
+  "holistic-learning": "puzzle",
+  "language-and-mathematics": "beads",
+  "freedom-of-choice": "choice",
+  "role-of-staff": "guide",
+};
+
 function SectionCopy({ section }: { section: MontessoriSection }) {
   return <div className="montessori-section-copy"><h2 id={`${section.id}-title`}>{section.title}</h2>
     {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
@@ -22,7 +31,7 @@ function SectionCopy({ section }: { section: MontessoriSection }) {
 function PrinciplePair({ sections }: { sections: MontessoriSection[] }) {
   return <div className={`principles section-pad montessori-principles${sections.length === 1 ? " montessori-principles-single" : ""}`}>
     {sections.map((section, index) => <section className={`principle-card ${index ? "principle-blue" : "principle-sun"}`} key={section.id} id={section.id} aria-labelledby={`${section.id}-title`}>
-      <div className="principle-shape" aria-hidden="true" />
+      <CardAnimation name={principleAnimations[section.id]} />
       <SectionCopy section={section} />
     </section>)}
   </div>;
