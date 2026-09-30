@@ -39,3 +39,17 @@ npm install
 npm run dev
 npm test
 ```
+
+## Google Maps
+
+Create a Google Maps JavaScript API key and restrict it by HTTP referrer to the
+production domain(s) and localhost. For development, copy `.env.example` to
+`.env.local`, set `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`, and run `npm run dev`.
+
+For a Cloudflare production build, expose the same variable to the build
+process (for example,
+`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_key npm run build`) before deploying the
+build output. `NEXT_PUBLIC_` values are inlined into the client bundle at build
+time, so setting this only as a runtime Worker secret will not configure the
+map. If the value is empty or missing, the site uses its Leaflet/OpenStreetMap
+fallback.

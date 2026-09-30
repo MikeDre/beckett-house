@@ -5211,3 +5211,34 @@ main .virtual-tour-heading p {
     min-height: 480px;
   }
 }
+
+/* Google Maps */
+.bh-google-marker-wrap {
+  cursor: pointer;
+  height: 52px;
+  position: absolute;
+  transform: translate(-50%, -100%);
+  width: 48px;
+}
+
+.bh-google-marker-wrap:focus {
+  outline: 0;
+}
+
+.bh-google-marker-wrap:focus-visible .bh-leaflet-marker {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.locations-map .gm-style-iw-c {
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 40px rgba(32, 57, 121, 0.18);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: 0;
+}
+
+.locations-map .gm-style-iw-d {
+  overflow: auto !important;
+  padding: 1rem 1.25rem 1rem 1rem;
+}

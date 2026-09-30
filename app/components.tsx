@@ -4,9 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNurseryChangeListener, useActiveNursery, useNurseryChoice, useSwitchNursery } from "./nursery-choice";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import { locations, type Location } from "../lib/content";
+import {
+  GOOGLE_MAPS_API_KEY,
+  calmGoogleMapStyles,
+  capGoogleMapZoom,
+  createGoogleHtmlMarker,
+  loadGoogleMaps,
+  observeNearViewport,
+  subscribeToGoogleMapsAuthFailure,
+  type GoogleHtmlMarker,
+  type GoogleMap,
+  type GoogleMapsApi,
+} from "./google-maps";
 
 // CARTO basemaps now watermark keyless requests, so use standard OSM tiles.
 const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -296,12 +308,30 @@ export function MontessoriTower({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function LocationsMap({
+function locationPopupHtml(location: Location, disableLinks: boolean) {
+  const externalLinkAttributes = disableLinks
+    ? ""
+    : 'target="_blank" rel="noreferrer"';
+
+  return `
+    <div class="map-popup">
+      <span>${location.area}</span>
+      <strong>${location.name}</strong>
+      <p>${location.address}<br>${location.postcode}</p>
+      <p>${location.opening}<br>Ages ${location.ages}<br>${location.phone}</p>
+      <div>
+        <a href="${disableLinks ? "#" : location.mapsUrl}" ${externalLinkAttributes}>Google Maps</a>
+      </div>
+    </div>
+  `;
+}
+
+function LeafletLocationsMap({
   locations,
-  disableLinks = false,
+  disableLinks,
 }: {
   locations: Location[];
-  disableLinks?: boolean;
+  disableLinks: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -339,23 +369,7 @@ export function LocationsMap({
           title: `Beckett House Montessori ${location.name}`,
         }).addTo(map!);
 
-        const googleUrl = location.mapsUrl;
-
-        const externalLinkAttributes = disableLinks
-          ? ""
-          : 'target="_blank" rel="noreferrer"';
-
-        marker.bindPopup(`
-          <div class="map-popup">
-            <span>${location.area}</span>
-            <strong>${location.name}</strong>
-            <p>${location.address}<br>${location.postcode}</p>
-            <p>${location.opening}<br>Ages ${location.ages}<br>${location.phone}</p>
-            <div>
-              <a href="${disableLinks ? "#" : googleUrl}" ${externalLinkAttributes}>Google Maps</a>
-            </div>
-          </div>
-        `);
+        marker.bindPopup(locationPopupHtml(location, disableLinks));
       });
 
       map.fitBounds(bounds, { padding: [52, 52], maxZoom: 12 });
@@ -368,6 +382,114 @@ export function LocationsMap({
       map?.remove();
     };
   }, [disableLinks, locations]);
+
+  return <div
+    className="locations-map"
+    ref={containerRef}
+    aria-label="Interactive map showing Beckett House Montessori in Angel and Abbey Road"
+  />;
+}
+
+function GoogleLocationsMap({
+  locations,
+  disableLinks,
+  onFailure,
+}: {
+  locations: Location[];
+  disableLinks: boolean;
+  onFailure: () => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let disposed = false;
+    let mapsApi: GoogleMapsApi | undefined;
+    let map: GoogleMap | undefined;
+    let infoWindow: InstanceType<GoogleMapsApi["InfoWindow"]> | undefined;
+    const markers: GoogleHtmlMarker[] = [];
+    const fail = () => {
+      if (!disposed) onFailure();
+    };
+    const unsubscribeFromAuthFailure = subscribeToGoogleMapsAuthFailure(fail);
+
+    async function createMap() {
+      try {
+        const maps = await loadGoogleMaps(GOOGLE_MAPS_API_KEY);
+        if (disposed) return;
+        mapsApi = maps;
+
+        map = new maps.Map(container!, {
+          center: { lat: locations[0].latitude, lng: locations[0].longitude },
+          zoom: 12,
+          styles: calmGoogleMapStyles,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+          zoomControl: true,
+          gestureHandling: "cooperative",
+          scrollwheel: false,
+          clickableIcons: false,
+        });
+
+        infoWindow = new maps.InfoWindow();
+        const bounds = new maps.LatLngBounds();
+        locations.forEach((location) => {
+          const position = { lat: location.latitude, lng: location.longitude };
+          bounds.extend(position);
+          markers.push(createGoogleHtmlMarker({
+            maps,
+            map: map!,
+            position,
+            colour: location.colour,
+            ariaLabel: `Beckett House Montessori ${location.name}`,
+            onActivate: () => {
+              infoWindow?.close();
+              infoWindow?.setContent(locationPopupHtml(location, disableLinks));
+              infoWindow?.setPosition(position);
+              infoWindow?.open({ map: map! });
+            },
+          }));
+        });
+
+        map.fitBounds(bounds, 52);
+        capGoogleMapZoom(maps, map, 12);
+      } catch {
+        fail();
+      }
+    }
+
+    const stopObserving = observeNearViewport(container, () => { void createMap(); });
+    return () => {
+      disposed = true;
+      stopObserving();
+      unsubscribeFromAuthFailure();
+      markers.forEach((marker) => marker.setMap(null));
+      infoWindow?.close();
+      if (mapsApi && infoWindow) mapsApi.event.clearInstanceListeners(infoWindow);
+      if (mapsApi && map) mapsApi.event.clearInstanceListeners(map);
+    };
+  }, [disableLinks, locations, onFailure]);
+
+  return <div
+    className="locations-map"
+    ref={containerRef}
+    aria-label="Interactive map showing Beckett House Montessori in Angel and Abbey Road"
+  />;
+}
+
+export function LocationsMap({
+  locations,
+  disableLinks = false,
+}: {
+  locations: Location[];
+  disableLinks?: boolean;
+}) {
+  const [googleMapsFailed, setGoogleMapsFailed] = useState(false);
+  const handleGoogleMapsFailure = useCallback(() => setGoogleMapsFailed(true), []);
+  const useGoogleMaps = Boolean(GOOGLE_MAPS_API_KEY) && !googleMapsFailed;
 
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
     `${locations[0].address}, ${locations[0].postcode}`,
@@ -387,11 +509,9 @@ export function LocationsMap({
           View in Google Maps
         </a>
       </div>
-      <div
-        className="locations-map"
-        ref={containerRef}
-        aria-label="Interactive map showing Beckett House Montessori in Angel and Abbey Road"
-      />
+      {useGoogleMaps
+        ? <GoogleLocationsMap key="google" locations={locations} disableLinks={disableLinks} onFailure={handleGoogleMapsFailure} />
+        : <LeafletLocationsMap key="leaflet" locations={locations} disableLinks={disableLinks} />}
       <noscript>
         <p>
           Beckett House Angel and Abbey Road:
@@ -410,28 +530,44 @@ export function LocationsMap({
   );
 }
 
-export function NurseryChooser({ locations, homepage = false }: { locations: Location[]; homepage?: boolean }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<import("leaflet").Map | null>(null);
-  const [selectedSlug, setSelectedSlug] = useState<Location["slug"]>(
-    locations[0].slug,
-  );
+type NurseryMapController = {
+  focus(location: Location): void;
+};
 
-  const selected =
-    locations.find((location) => location.slug === selectedSlug) ?? locations[0];
+type NurseryMapProps = {
+  locations: Location[];
+  controllerRef: { current: NurseryMapController | null };
+  pendingFocusRef: { current: Location | null };
+  onSelect: (location: Location) => void;
+};
+
+function LeafletNurseryChooserMap({
+  locations,
+  controllerRef,
+  pendingFocusRef,
+  onSelect,
+}: NurseryMapProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let disposed = false;
+    let map: import("leaflet").Map | undefined;
+    let controller: NurseryMapController | undefined;
 
     async function createMap() {
       const L = await import("leaflet");
       if (disposed || !containerRef.current) return;
 
-      const map = L.map(containerRef.current, {
+      map = L.map(containerRef.current, {
         scrollWheelZoom: true,
         zoomControl: false,
       });
-      mapRef.current = map;
+      controller = {
+        focus(location) {
+          map?.flyTo([location.latitude, location.longitude], 12, { duration: 0.7 });
+        },
+      };
+      controllerRef.current = controller;
 
       L.control.zoom({ position: "topright" }).addTo(map);
       L.tileLayer(MAP_TILE_URL, {
@@ -451,30 +587,154 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
             iconSize: [48, 52],
           }),
           title: `Choose Beckett House Montessori ${location.name}`,
-        }).addTo(map);
+        }).addTo(map!);
 
         marker.on("click", () => {
-          setSelectedSlug(location.slug);
-          map.flyTo(point, 12, { duration: 0.7 });
+          onSelect(location);
+          map?.flyTo(point, 12, { duration: 0.7 });
         });
       });
 
       map.fitBounds(bounds, { padding: [80, 80], maxZoom: 12 });
+      if (pendingFocusRef.current) {
+        controller.focus(pendingFocusRef.current);
+        pendingFocusRef.current = null;
+      }
     }
 
     createMap();
     return () => {
       disposed = true;
-      mapRef.current?.remove();
-      mapRef.current = null;
+      map?.remove();
+      if (controllerRef.current === controller) controllerRef.current = null;
     };
-  }, [locations]);
+  }, [controllerRef, locations, onSelect, pendingFocusRef]);
+
+  return <div
+    className="nursery-chooser-map"
+    ref={containerRef}
+    aria-label="Full-screen map showing Beckett House Montessori in Angel and Abbey Road"
+  />;
+}
+
+function GoogleNurseryChooserMap({
+  locations,
+  controllerRef,
+  pendingFocusRef,
+  onSelect,
+  onFailure,
+}: NurseryMapProps & { onFailure: () => void }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let disposed = false;
+    let mapsApi: GoogleMapsApi | undefined;
+    let map: GoogleMap | undefined;
+    let controller: NurseryMapController | undefined;
+    const markers: GoogleHtmlMarker[] = [];
+    const fail = () => {
+      if (!disposed) onFailure();
+    };
+    const unsubscribeFromAuthFailure = subscribeToGoogleMapsAuthFailure(fail);
+
+    async function createMap() {
+      try {
+        const maps = await loadGoogleMaps(GOOGLE_MAPS_API_KEY);
+        if (disposed) return;
+        mapsApi = maps;
+
+        map = new maps.Map(container!, {
+          center: { lat: locations[0].latitude, lng: locations[0].longitude },
+          zoom: 12,
+          styles: calmGoogleMapStyles,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+          zoomControl: true,
+          zoomControlOptions: { position: maps.ControlPosition.RIGHT_TOP },
+          gestureHandling: "greedy",
+          scrollwheel: true,
+          clickableIcons: false,
+        });
+
+        controller = {
+          focus(location) {
+            map?.panTo({ lat: location.latitude, lng: location.longitude });
+            map?.setZoom(13);
+          },
+        };
+        controllerRef.current = controller;
+
+        const bounds = new maps.LatLngBounds();
+        locations.forEach((location) => {
+          const position = { lat: location.latitude, lng: location.longitude };
+          bounds.extend(position);
+          markers.push(createGoogleHtmlMarker({
+            maps,
+            map: map!,
+            position,
+            colour: location.colour,
+            ariaLabel: `Beckett House Montessori ${location.name}`,
+            onActivate: () => {
+              onSelect(location);
+              map?.panTo(position);
+              map?.setZoom(13);
+            },
+          }));
+        });
+
+        map.fitBounds(bounds, 80);
+        capGoogleMapZoom(maps, map, 12);
+        if (pendingFocusRef.current) {
+          controller.focus(pendingFocusRef.current);
+          pendingFocusRef.current = null;
+        }
+      } catch {
+        fail();
+      }
+    }
+
+    const stopObserving = observeNearViewport(container, () => { void createMap(); });
+    return () => {
+      disposed = true;
+      stopObserving();
+      unsubscribeFromAuthFailure();
+      markers.forEach((marker) => marker.setMap(null));
+      if (map && mapsApi) mapsApi.event.clearInstanceListeners(map);
+      if (controllerRef.current === controller) controllerRef.current = null;
+    };
+  }, [controllerRef, locations, onFailure, onSelect, pendingFocusRef]);
+
+  return <div
+    className="nursery-chooser-map"
+    ref={containerRef}
+    aria-label="Full-screen map showing Beckett House Montessori in Angel and Abbey Road"
+  />;
+}
+
+export function NurseryChooser({ locations, homepage = false }: { locations: Location[]; homepage?: boolean }) {
+  const mapControllerRef = useRef<NurseryMapController | null>(null);
+  const pendingMapFocusRef = useRef<Location | null>(null);
+  const [googleMapsFailed, setGoogleMapsFailed] = useState(false);
+  const [selectedSlug, setSelectedSlug] = useState<Location["slug"]>(
+    locations[0].slug,
+  );
+
+  const selected =
+    locations.find((location) => location.slug === selectedSlug) ?? locations[0];
+  const handleMapSelect = useCallback((location: Location) => {
+    setSelectedSlug(location.slug);
+  }, []);
+  const handleGoogleMapsFailure = useCallback(() => setGoogleMapsFailed(true), []);
+  const useGoogleMaps = Boolean(GOOGLE_MAPS_API_KEY) && !googleMapsFailed;
 
   function preview(location: Location) {
     setSelectedSlug(location.slug);
-    mapRef.current?.flyTo([location.latitude, location.longitude], 12, {
-      duration: 0.7,
-    });
+    if (mapControllerRef.current) mapControllerRef.current.focus(location);
+    else pendingMapFocusRef.current = location;
   }
 
   function choose(location: Location) {
@@ -485,11 +745,22 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
 
   return (
     <section className="nursery-chooser" aria-labelledby="nursery-chooser-title">
-      <div
-        className="nursery-chooser-map"
-        ref={containerRef}
-        aria-label="Full-screen map showing Beckett House Montessori in Angel and Abbey Road"
-      />
+      {useGoogleMaps
+        ? <GoogleNurseryChooserMap
+            key="google"
+            locations={locations}
+            controllerRef={mapControllerRef}
+            pendingFocusRef={pendingMapFocusRef}
+            onSelect={handleMapSelect}
+            onFailure={handleGoogleMapsFailure}
+          />
+        : <LeafletNurseryChooserMap
+            key="leaflet"
+            locations={locations}
+            controllerRef={mapControllerRef}
+            pendingFocusRef={pendingMapFocusRef}
+            onSelect={handleMapSelect}
+          />}
       <div className="nursery-chooser-intro">
         {homepage ? <Image className="map-home-logo" src="/images/beckett-house-logo-dark.svg" alt="Beckett House Montessori" width={1428} height={1071} priority /> : <p className="eyebrow">Choose your Beckett House</p>}
         <h1 id="nursery-chooser-title">{homepage ? "Choose your nursery" : "Which nursery feels like home?"}</h1>
