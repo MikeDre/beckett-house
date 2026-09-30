@@ -51,7 +51,7 @@
 
 .timetable-page { max-width: 1280px; margin: auto; padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem); }
 .timetable-intro { margin-bottom: clamp(2rem, 4vw, 3rem); }
-.timetable-intro h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -.035em; margin: 0; }
+.timetable-intro h1 { font-size: var(--page-title-size); font-weight: var(--page-title-weight); line-height: var(--page-title-leading); letter-spacing: var(--page-title-tracking); margin: 0; }
 .nursery-schedule { scroll-margin-top: 7rem; }
 .timetable-nursery-heading { margin-bottom: 1.75rem; }
 .timetable-nursery-heading h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 600; line-height: 1.2; margin: 0; }
@@ -81,6 +81,11 @@
 @media (min-width: 480px) { .schedule-list li { grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; } }
 
 :root {
+  /* Standard inner-page title (h1) */
+  --page-title-size: clamp(2.25rem, 5vw, 4rem);
+  --page-title-weight: 600;
+  --page-title-leading: 1.1;
+  --page-title-tracking: -0.035em;
   --ink: #203979;
   --ink-deep: #142653;
   --paper: #ffffff;
@@ -2940,9 +2945,12 @@ a {
 }
 
 .visit-hero h1 {
-  font-size: clamp(3.6rem, 16vw, 8.5rem);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-tracking);
+  line-height: var(--page-title-leading);
   margin: 0;
-  max-width: 10ch;
+  max-width: 18ch;
 }
 
 .visit-hero > p {
@@ -3820,10 +3828,6 @@ a {
     width: 100%;
   }
 
-  .visit-hero {
-    min-height: 580px;
-  }
-
   .visit-layout {
     gap: 6vw;
   }
@@ -3870,7 +3874,7 @@ a {
 .about-page { background: #fff; color: var(--ink); }
 .about-beckett-hero { display: grid; grid-template-columns: minmax(0, 1fr); background: var(--coral-soft); }
 .about-beckett-hero .about-history-copy { padding: clamp(2.5rem, 5vw, 5rem) var(--page-inline); }
-.about-beckett-hero h1 { font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 600; line-height: 1.1; letter-spacing: -.035em; margin: 0 0 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(32, 57, 121, .2); }
+.about-beckett-hero h1 { font-size: var(--page-title-size); font-weight: var(--page-title-weight); line-height: var(--page-title-leading); letter-spacing: var(--page-title-tracking); margin: 0 0 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(32, 57, 121, .2); }
 .about-page .about-beckett-hero .montessori-opening-quote > p { font-size: clamp(1rem, 1.2vw, 1.125rem); line-height: 1.65; margin-bottom: 1.25rem; }
 .about-page .about-beckett-hero .about-lede { font-size: clamp(1rem, 1.2vw, 1.125rem); line-height: 1.65; }
 .about-beckett-hero-image { min-width: 0; }
@@ -3910,7 +3914,7 @@ a {
 }
 .virtual-tour-page { background: #fff; color: var(--ink); padding: clamp(2rem, 4vw, 4rem) var(--page-inline); }
 .virtual-tour-heading { margin: 0 0 1.5rem; display: grid; gap: 1rem 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(32, 57, 121, .2); }
-.virtual-tour-heading h1 { font-size: clamp(2.25rem, 5vw, 4rem); line-height: 1.1; letter-spacing: -.035em; font-weight: 600; margin: 0; }
+.virtual-tour-heading h1 { font-size: var(--page-title-size); font-weight: var(--page-title-weight); line-height: var(--page-title-leading); letter-spacing: var(--page-title-tracking); margin: 0; }
 .virtual-tour-heading p { font-size: 1.125rem; line-height: 1.65; margin: 0; }
 .virtual-tour-experience { margin: 0; }
 .virtual-tour-toolbar { display: grid; gap: 1rem 2rem; align-items: center; margin-bottom: 1.5rem; }
@@ -4034,7 +4038,7 @@ a {
 .montessori-suggested-reading { background: #eef2fa; border-radius: var(--radius-md); padding: clamp(1.5rem, 3vw, 2.5rem); }
 .about-history { display: grid; align-items: center; gap: 2.5rem clamp(2rem, 5vw, 5rem); }
 .about-history-copy { min-width: 0; }
-.about-history h1 { font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 1.75rem; }
+.about-history h1 { font-size: var(--page-title-size); font-weight: var(--page-title-weight); line-height: var(--page-title-leading); letter-spacing: var(--page-title-tracking); margin: 0 0 1.75rem; }
 .about-page p { font-size: 1.125rem; line-height: 1.75; margin: 0 0 1.5rem; }
 .about-page p:last-child { margin-bottom: 0; }
 .about-page .about-lede { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.5; }
@@ -4736,10 +4740,10 @@ main .virtual-tour-heading p {
 
 .gallery-heading h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5vw, 4rem);
-  font-weight: 600;
-  letter-spacing: -.035em;
-  line-height: 1.1;
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-tracking);
+  line-height: var(--page-title-leading);
   margin: 0;
 }
 
