@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader, VisitForm } from "../components";
+import CardAnimation from "../card-animation";
 import { locations } from "../../lib/content";
 import {
   CONTENT_LAST_REVIEWED,
@@ -57,6 +58,7 @@ export default function VisitPage() {
       <SiteHeader />
       <main>
         <section className="visit-hero">
+          <CardAnimation name="morphball" />
           <div>
             <p className="eyebrow">Come and meet us</p>
             <h1>Let&apos;s find the right fit, together.</h1>

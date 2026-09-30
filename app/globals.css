@@ -4991,3 +4991,33 @@ main .virtual-tour-heading p {
   top: clamp(0.75rem, 1.5vw, 1.25rem);
   width: clamp(110px, 11vw, 150px);
 }
+
+/* Library animations placed on inner pages */
+.visit-hero {
+  position: relative;
+}
+
+.visit-hero .card-animation {
+  height: clamp(72px, 9vw, 130px);
+  right: var(--page-inline);
+  top: 1.25rem;
+  width: clamp(72px, 9vw, 130px);
+}
+
+.register-intro .card-animation {
+  height: 190px;
+  margin: 1.25rem auto 0;
+  position: relative;
+  right: auto;
+  top: auto;
+  width: 110px;
+}
+
+.faq-page-contact-copy .card-animation {
+  height: clamp(80px, 9vw, 120px);
+  margin: 0 0 1rem -0.5rem;
+  position: relative;
+  right: auto;
+  top: auto;
+  width: clamp(80px, 9vw, 120px);
+}

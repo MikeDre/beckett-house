@@ -2,6 +2,7 @@
 
 import { type FormEvent, useState } from "react";
 import { useNurseryChoice } from "../nursery-choice";
+import CardAnimation from "../card-animation";
 import { registrationContent } from "./register-content";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -200,6 +201,7 @@ export function RegistrationPage() {
             is not applicable to funded places.
           </p>
           <p>Places are secured by a deposit of four weeks&apos; fees.</p>
+          <CardAnimation name="shapehop" />
         </aside>
       </section>
 

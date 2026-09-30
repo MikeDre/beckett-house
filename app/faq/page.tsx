@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FAQList, SiteFooter, SiteHeader } from "../components";
+import CardAnimation from "../card-animation";
 import {
   getBreadcrumbSchema,
   getFaqSchema,
@@ -94,6 +95,7 @@ export default function FaqPage() {
 
         <section className="faq-page-contact" aria-labelledby="faq-page-contact-heading">
           <div className="faq-page-contact-copy">
+            <CardAnimation name="morphball-light" />
             <p className="faq-page-eyebrow">Still have a question?</p>
             <h2 id="faq-page-contact-heading">Talk to the nursery team.</h2>
             <p>
