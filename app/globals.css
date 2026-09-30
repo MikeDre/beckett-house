@@ -3979,17 +3979,24 @@ a {
 .montessori-opening-quote { margin: 0; }
 .montessori-page .montessori-opening-quote { background: #eef2fa; border-radius: var(--radius-md); padding: clamp(1.5rem, 3vw, 2.5rem); }
 .montessori-page .about-beckett-hero .montessori-opening-quote { background: transparent; padding: 0; border-radius: 0; }
-.montessori-page .about-beckett-hero + .montessori-freedom-quote { margin-top: clamp(1.5rem, 3vw, 3rem); }
 .montessori-page .montessori-principles.montessori-principles-single { grid-template-columns: minmax(0, 1fr); }
 .montessori-principles-single .principle-card { background: var(--coral-soft); }
 .montessori-principles-single .montessori-section-copy { max-width: 75ch; }
 .montessori-page .montessori-opening-quote > p { font-size: clamp(1.125rem, 1.6vw, 1.375rem); line-height: 1.6; letter-spacing: -.01em; margin-bottom: 1.75rem; }
 .montessori-page .montessori-opening-quote > footer { padding-top: 1.25rem; border-top: 1px solid rgba(32, 57, 121, .18); font-size: .9375rem; line-height: 1.6; }
 .montessori-page .montessori-opening-quote cite { font-style: normal; font-weight: 650; }
-.montessori-freedom-quote { margin-inline: var(--page-inline); background: var(--ink); color: #fff; border-radius: var(--radius-md); padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.25rem, 3vw, 3rem); }
-.montessori-freedom-quote blockquote { margin: 0 auto; max-width: 64ch; text-align: center; }
-.montessori-page .montessori-freedom-quote p { color: #fff; font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 400; line-height: 1.4; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
-.montessori-freedom-quote strong { font-weight: 650; color: #d5eaf4; }
+/* Pull-quote panels (History "home from home", Montessori freedom): even
+   breathing room above and below, a decorative quote mark and a soft shape. */
+.about-home-from-home, .montessori-freedom-quote { position: relative; overflow: hidden; isolation: isolate; margin: clamp(2.5rem, 6vw, 5rem) var(--page-inline); padding: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 6vw, 6rem) clamp(2.5rem, 5vw, 4.5rem); border-radius: var(--radius-md); text-align: center; }
+.about-home-from-home::before, .montessori-freedom-quote::before { content: "\201C"; display: block; font-family: var(--font-display); font-size: clamp(4.5rem, 9vw, 7rem); font-weight: 700; line-height: .6; height: .45em; margin-bottom: clamp(.75rem, 2vw, 1.25rem); }
+.about-home-from-home::after, .montessori-freedom-quote::after { content: ""; position: absolute; z-index: -1; width: clamp(9rem, 22vw, 18rem); aspect-ratio: 1; border-radius: 50%; right: clamp(-6rem, -8vw, -3rem); bottom: clamp(-6rem, -8vw, -3rem); }
+.about-home-from-home + .section-pad, .montessori-freedom-quote + .section-pad { padding-top: 0; }
+.montessori-freedom-quote { background: var(--ink); color: #fff; }
+.montessori-freedom-quote::before { color: var(--sun); }
+.montessori-freedom-quote::after { background: rgba(185, 215, 233, .14); }
+.montessori-freedom-quote blockquote { margin: 0 auto; }
+.montessori-page .montessori-freedom-quote p { max-width: 26ch; color: #fff; font-size: clamp(1.65rem, 3.5vw, 2.75rem); font-weight: 400; line-height: 1.3; letter-spacing: -.025em; margin: 0 auto; text-wrap: balance; }
+.montessori-freedom-quote strong { font-weight: 650; color: var(--sun); }
 .montessori-origin .montessori-section-copy { max-width: 72ch; margin-inline: auto; }
 .montessori-page .montessori-section-copy h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 600; line-height: 1.2; letter-spacing: -.025em; margin: 0 0 1.5rem; }
 .montessori-photo-story { display: grid; gap: 2.5rem clamp(2rem, 5vw, 5rem); align-items: center; }
@@ -4019,9 +4026,11 @@ a {
 .about-page p:last-child { margin-bottom: 0; }
 .about-page .about-lede { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.5; }
 .about-history-photo { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
-.about-home-from-home { background: #eef2fa; margin-inline: var(--page-inline); padding-inline: var(--gutter); border-radius: var(--radius-md); text-align: center; }
-.about-home-from-home p { max-width: 30ch; margin: 0 auto !important; font-size: clamp(1.65rem, 3.5vw, 2.75rem); line-height: 1.35; letter-spacing: -0.025em; }
-.about-home-from-home strong { font-weight: 700; }
+.about-home-from-home { background: #eef2fa; }
+.about-home-from-home::before { color: var(--coral); }
+.about-home-from-home::after { background: var(--blue); opacity: .35; }
+.about-home-from-home p { max-width: 26ch; margin: 0 auto !important; font-size: clamp(1.65rem, 3.5vw, 2.75rem); line-height: 1.3; letter-spacing: -0.025em; text-wrap: balance; }
+.about-home-from-home strong { font-weight: 700; white-space: nowrap; }
 .about-history-continuation { display: grid; gap: 2rem clamp(2rem, 5vw, 5rem); }
 .about-history-continuation p { margin: 0; }
 @media (min-width: 900px) {
