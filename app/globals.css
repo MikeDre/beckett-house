@@ -3900,6 +3900,8 @@ a {
 .about-useful-links > div { display: grid; gap: 1rem; }
 .about-useful-links a { display: flex; align-items: center; min-height: 56px; padding: 1rem 1.5rem; background: #eef2fa; border-radius: var(--radius-md); color: var(--ink); font-size: 1.125rem; text-decoration: underline; text-underline-offset: .2em; }
 .about-useful-links a:hover { background: #dde6f5; }
+/* Consecutive link rows read as one group rather than separate sections. */
+.about-useful-links:has(+ .about-useful-links) { padding-bottom: 1rem; }
 #history, #funding { scroll-margin-top: 8rem; }
 @media (min-width: 900px) {
   .about-school-philosophy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -4044,6 +4046,7 @@ a {
 .about-home-from-home strong { font-weight: 700; white-space: nowrap; }
 .about-history-continuation { display: grid; gap: 2rem clamp(2rem, 5vw, 5rem); }
 .about-history-continuation p { margin: 0; }
+.about-history-continuation:has(+ .about-history-continuation) { padding-bottom: clamp(2.5rem, 4vw, 3.5rem); }
 .about-history-continuation + .about-history-continuation { padding-top: 0; }
 .about-history-continuation h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 600; letter-spacing: -0.02em; margin: 0 0 1rem; }
 @media (min-width: 900px) {
