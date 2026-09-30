@@ -2074,10 +2074,10 @@ a {
   display: block;
   flex: none;
   height: auto;
-  width: 96px;
+  width: 124px;
 }
 
-.footer-top > div:first-child p {
+.footer-top > div:first-child .footer-intro p {
   margin: 0;
   color: rgba(255, 255, 255, 0.65);
   font-family: var(--font-display);
@@ -2288,11 +2288,11 @@ a {
   }
 }
 
-.footer-review-note {
+.footer-top > div:first-child .footer-intro .footer-review-note {
   color: #fff;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-top: 1.25rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
 }
 
 .footer-review-note a {
@@ -4040,6 +4040,8 @@ a {
 .about-home-from-home strong { font-weight: 700; white-space: nowrap; }
 .about-history-continuation { display: grid; gap: 2rem clamp(2rem, 5vw, 5rem); }
 .about-history-continuation p { margin: 0; }
+.about-history-continuation + .about-history-continuation { padding-top: 0; }
+.about-history-continuation h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 600; letter-spacing: -0.02em; margin: 0 0 1rem; }
 @media (min-width: 900px) {
   .about-history { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .about-history-continuation { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }

@@ -233,7 +233,15 @@ export function SiteFooter({ homepageOnly = false }: { homepageOnly?: boolean })
             width="1428"
             height="1071"
           />
-          <p>A family-run Montessori nursery in Angel and Abbey Road, London.</p>
+          <div className="footer-intro">
+            <p>A family-run Montessori nursery in Angel and Abbey Road, London.</p>
+            <p className="footer-review-note">
+              Leave us a{" "}
+              <a href="https://g.page/r/CVdsknk9EQetEBM/review" target="_blank" rel="noopener noreferrer">
+                review on Google
+              </a>
+            </p>
+          </div>
         </div>
         <div className="footer-links">
           <div>
@@ -250,12 +258,6 @@ export function SiteFooter({ homepageOnly = false }: { homepageOnly?: boolean })
           </div>
         </div>
       </div>
-      <p className="footer-review-note">
-        Leave us a{" "}
-        <a href="https://g.page/r/CVdsknk9EQetEBM/review" target="_blank" rel="noopener noreferrer">
-          review on Google
-        </a>
-      </p>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} Beckett House Montessori</span>
         <span>Learning with head, hands & heart.</span>
