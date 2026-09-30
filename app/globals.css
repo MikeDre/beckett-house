@@ -1954,6 +1954,10 @@ a {
   margin-top: 1.5rem;
 }
 
+.answers-heading .answers-contact-link + .answers-contact-link {
+  margin-left: 1.5rem;
+}
+
 .answers-heading > p:last-child {
   font-size: 0.9rem;
   line-height: 1.65;
