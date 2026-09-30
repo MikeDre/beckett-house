@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 type MontessoriSection = (typeof montessoriSections)[number];
 
 const principleAnimations: Record<string, CardAnimationName> = {
-  "control-of-error": "cylinders",
+  "control-of-error": "orbital",
   "holistic-learning": "puzzle",
   "language-and-mathematics": "beads",
-  "freedom-of-choice": "choice",
-  "role-of-staff": "guide",
+  "freedom-of-choice": "blob",
+  "role-of-staff": "ball",
 };
 
 function SectionCopy({ section }: { section: MontessoriSection }) {

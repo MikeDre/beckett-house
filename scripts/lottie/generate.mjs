@@ -54,21 +54,8 @@ const group = (geometry, colour, position = [0, 0], rotation = 0) => ({
 });
 const ellipse = (size) => ({ ty: "el", d: 1, s: fixed(size), p: fixed([0, 0]), nm: "Ellipse" });
 const rectangle = (size, radius = 0) => ({ ty: "rc", d: 1, s: fixed(size), p: fixed([0, 0]), r: fixed(radius), nm: "Rectangle" });
-const polygon = (points, radius) => ({
-  ty: "sr", sy: 2, d: 1, pt: fixed(points), p: fixed([0, 0]), r: fixed(0), or: fixed(radius), os: fixed(0), nm: "Polygon",
-});
 const path = (vertices, inTangents, outTangents, closed = false) => ({
   ty: "sh", d: 1, ks: fixed({ i: inTangents, o: outTangents, v: vertices, c: closed }), nm: "Path",
-});
-const strokeGroup = (geometry, colour, width) => ({
-  ty: "gr",
-  it: [
-    geometry,
-    { ty: "st", c: fixed(rgb(colour)), o: fixed(100), w: fixed(width), lc: 2, lj: 2, ml: 4, bm: 0, nm: "Stroke" },
-    groupTransform(),
-  ],
-  nm: "Arc group",
-  bm: 0,
 });
 
 let layerIndex = 0;
@@ -131,34 +118,6 @@ function tower() {
   return composition(layers);
 }
 
-function cylinders() {
-  const layers = [
-    shapeLayer("Cylinder block", [group(rectangle([286, 78], 18), palette.ink)], { position: [200, 290] }),
-    shapeLayer("Holes", [110, 200, 290].map((x) => group(ellipse([62, 24]), palette.white, [x - 200, 0])), { position: [200, 258] }),
-  ];
-  const cylinderShapes = [
-    group(ellipse([56, 56]), palette.coral),
-    group(rectangle([20, 31], 10), palette.sun, [0, -31]),
-    group(ellipse([24, 14]), palette.sun, [0, -46]),
-  ];
-  layers.push(shapeLayer("Left cylinder", cylinderShapes, {
-    position: animated([[0, [110, 250]], [18, [110, 250]], [42, [110, 155]], [60, [110, 155]], [82, [110, 250]], [LAST_FRAME, [110, 250]]]).k,
-    rotation: animated([[0, 0], [34, -4], [70, 2], [88, 0], [LAST_FRAME, 0]]).k,
-  }));
-  layers.push(shapeLayer("Middle cylinder", cylinderShapes, {
-    position: animated([
-      [0, [200, 250]], [92, [200, 250]], [112, [200, 148]], [132, [290, 148]], [150, [290, 232]],
-      [160, [290, 214]], [178, [200, 142]], [198, [200, 258]], [207, [200, 246]], [218, [200, 250]], [LAST_FRAME, [200, 250]],
-    ]).k,
-    rotation: animated([[0, 0], [112, -3], [150, 4], [178, -2], [218, 0], [LAST_FRAME, 0]]).k,
-  }));
-  layers.push(shapeLayer("Right cylinder", cylinderShapes, {
-    position: animated([[0, [290, 250]], [72, [290, 250]], [96, [290, 142]], [204, [290, 142]], [226, [290, 258]], [235, [290, 246]], [246, [290, 250]], [LAST_FRAME, [290, 250]]]).k,
-    rotation: animated([[0, 0], [88, 3], [210, -2], [246, 0], [LAST_FRAME, 0]]).k,
-  }));
-  return composition(layers);
-}
-
 const quarterPath = (quadrant, radius = 92) => {
   const signs = [[-1, -1], [1, -1], [1, 1], [-1, 1]][quadrant];
   const [sx, sy] = signs;
@@ -200,40 +159,7 @@ function beads() {
   return composition(layers);
 }
 
-function choice() {
-  const layers = [shapeLayer("Choice line", [group(rectangle([282, 12], 6), palette.ink)], { position: [200, 286] })];
-  const specs = [
-    ["Circle", ellipse([64, 64]), palette.deep, 110, 18, -9],
-    ["Triangle", polygon(3, 42), palette.sun, 200, 108, 10],
-    ["Square", rectangle([62, 62], 9), palette.blue, 290, 198, -8],
-  ];
-  specs.forEach(([name, geometry, colour, x, start, tilt]) => {
-    layers.push(shapeLayer(name, [group(geometry, colour)], {
-      position: animated([[0, [x, 248]], [start, [x, 248]], [start + 24, [x, 150]], [start + 48, [x, 244]], [start + 56, [x, 238]], [start + 66, [x, 248]], [LAST_FRAME, [x, 248]]]).k,
-      rotation: animated([[0, 0], [start, 0], [start + 25, tilt], [start + 48, -tilt / 3], [start + 66, 0], [LAST_FRAME, 0]]).k,
-      scale: animated([[0, [100, 100]], [start + 24, [106, 106]], [start + 66, [100, 100]], [LAST_FRAME, [100, 100]]]).k,
-    }));
-  });
-  return composition(layers);
-}
-
-function guide() {
-  const supportingArc = path([[-62, -10], [0, 28], [62, -10]], [[0, 0], [-34, 0], [-24, 0]], [[24, 0], [34, 0], [0, 0]], false);
-  const travel = [[0, [110, 210]], [62, [155, 176]], [118, [215, 205]], [178, [290, 174]], [238, [218, 205]], [LAST_FRAME, [110, 210]]];
-  const support = [[0, [100, 264]], [70, [146, 230]], [126, [205, 259]], [186, [279, 228]], [246, [208, 259]], [LAST_FRAME, [100, 264]]];
-  return composition([
-    shapeLayer("Supporting arc", [strokeGroup(supportingArc, palette.coral, 18)], { position: animated(support).k }),
-    shapeLayer("Rolling ball", [
-      group(ellipse([62, 62]), palette.ink),
-      group(ellipse([17, 17]), palette.sun, [-14, -12]),
-    ], {
-      position: animated(travel).k,
-      rotation: animated([[0, 0], [62, 105], [118, 220], [178, 360], [238, 210], [LAST_FRAME, 0]]).k,
-    }),
-  ]);
-}
-
-const animations = { rings: rings(), tower: tower(), cylinders: cylinders(), puzzle: puzzle(), beads: beads(), choice: choice(), guide: guide() };
+const animations = { rings: rings(), tower: tower(), puzzle: puzzle(), beads: beads() };
 
 function assertSeamless(value, trail = "root") {
   if (value && typeof value === "object") {

@@ -9,11 +9,11 @@ export type CardAnimationName =
   | "shapes"
   | "rings"
   | "tower"
-  | "cylinders"
   | "puzzle"
   | "beads"
-  | "choice"
-  | "guide";
+  | "orbital"
+  | "ball"
+  | "blob";
 
 // Decorative Lottie animation for the homepage cards. The player and the
 // animation are only fetched once the card is near the viewport, playback
