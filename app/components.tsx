@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isNursery, readNurseryChoice, rememberNursery, useNurseryChangeListener, useSwitchNursery } from "./nursery-choice";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import type { Location } from "../lib/content";
@@ -29,14 +30,14 @@ const nurseryLifeItems = [
 ];
 
 const timetableItems = [
-  { title: "Daily timetable", href: "/timetable", image: "/images/hero-classroom.webp", description: "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time." },
-  { title: "Term dates", href: "/timetable#term-dates", image: "/images/classroom-detail.webp", description: "Plan ahead with Angel’s nursery term dates and the start and end of each term." },
+  { title: "Daily timetable", href: "/timetable?location=angel", image: "/images/hero-classroom.webp", description: "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time." },
+  { title: "Term dates", href: "/timetable?location=angel#term-dates", image: "/images/classroom-detail.webp", description: "Plan ahead with Angel’s nursery term dates and the start and end of each term." },
   { title: "Opening Hours & Fees", href: "/opening-hours-fees", image: "/images/hero-classroom.webp", description: "Explore nursery opening hours, flexible sessions, fees and funded childcare options." },
 ];
 
 const abbeyRoadTimetableItems = [
-  { title: "Daily timetable", href: "/timetable#abbey-road", image: "/images/abbey-road/main-room.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
-  { title: "Term dates", href: "/timetable#abbey-road-term-dates", image: "/images/abbey-road/reading-corner.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
+  { title: "Daily timetable", href: "/timetable?location=abbey-road", image: "/images/abbey-road/main-room.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
+  { title: "Term dates", href: "/timetable?location=abbey-road#abbey-road-term-dates", image: "/images/abbey-road/reading-corner.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
   timetableItems[2],
 ];
 
@@ -87,16 +88,13 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
   const keyInformationItems = activeNursery === "abbey-road" ? abbeyRoadTimetableItems : timetableItems;
 
   useEffect(() => {
-    let stored: string | null = null;
-    try { stored = window.localStorage.getItem("beckett-house-nursery"); } catch { /* Use the route or cookie when storage is unavailable. */ }
-    const cookie = document.cookie.split("; ").find((item) => item.startsWith("bh_preferred_nursery="))?.split("=")[1];
-    const nursery = routeNursery ?? stored ?? cookie;
-    setPreferredNursery(nursery === "angel" || nursery === "abbey-road" ? nursery : null);
-    if (routeNursery) {
-      try { window.localStorage.setItem("beckett-house-nursery", routeNursery); } catch { /* Navigation does not depend on storage. */ }
-      document.cookie = `bh_preferred_nursery=${routeNursery}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+    const nursery = isNursery(routeNursery) ? routeNursery : readNurseryChoice();
+    setPreferredNursery(nursery);
+    if (isNursery(routeNursery)) rememberNursery(routeNursery);
   }, [routeNursery, pathname]);
+  useNurseryChangeListener(setPreferredNursery);
+  const switchNursery = useSwitchNursery();
+  const switchToOther = () => switchNursery(activeNursery === "abbey-road" ? "angel" : "abbey-road");
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -171,7 +169,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
           ))}
         </nav>
         <div className="header-visit-group">
-          <NurseryLabel name={currentNursery} />
+          <NurseryLabel name={currentNursery} onSwitch={switchToOther} />
           <Link className="header-cta" href={visitHref}>
             Book a visit
           </Link>
@@ -198,7 +196,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
             </Link>
           ))}
           <div className="mobile-visit-group">
-            <NurseryLabel name={currentNursery} />
+            <NurseryLabel name={currentNursery} onSwitch={switchToOther} />
             <Link className="mobile-visit" href={visitHref} onClick={() => setOpen(false)}>
               Book a visit
             </Link>
@@ -209,8 +207,9 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
   );
 }
 
-function NurseryLabel({ name }: { name: string }) {
-  return <span className="nav-nursery-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>{name}</span>;
+function NurseryLabel({ name, onSwitch }: { name: string; onSwitch: () => void }) {
+  const other = name === "Abbey Road" ? "Angel" : "Abbey Road";
+  return <button type="button" className="nav-nursery-label" onClick={onSwitch} aria-label={`${name} nursery. Switch to ${other}`} title={`Switch to ${other}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>{name}</button>;
 }
 
 export function SiteFooter({ homepageOnly = false }: { homepageOnly?: boolean }) {

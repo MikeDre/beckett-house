@@ -1,15 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { isNursery, nurseryNames, otherNursery, readNurseryChoice, useNurseryChangeListener, useSwitchNursery, type NurserySlug } from "./nursery-choice";
 
 export function LocationSwitcher() {
   const pathname = usePathname();
-  const isAbbeyRoad = pathname?.includes("abbey-road") ?? false;
-  const current = isAbbeyRoad ? "Abbey Road" : "Angel";
-  const other = isAbbeyRoad ? "Angel" : "Abbey Road";
-  const destination = isAbbeyRoad ? "/angel" : "/abbey-road";
+  const routeNursery = pathname?.match(/^\/(angel|abbey-road)(?:\/|$)/)?.[1];
+  const [nursery, setNursery] = useState<NurserySlug>("angel");
+  useEffect(() => {
+    // The route wins on homepages; elsewhere follow the visitor's choice.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setNursery(isNursery(routeNursery) ? routeNursery : readNurseryChoice() ?? "angel");
+  }, [routeNursery, pathname]);
+  useNurseryChangeListener(setNursery);
+  const switchNursery = useSwitchNursery();
+  const current = nurseryNames[nursery];
+  const other = nurseryNames[otherNursery(nursery)];
   const [open, setOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,9 +45,9 @@ export function LocationSwitcher() {
         }
       }}>
       <div id="location-switcher-options" className="location-switcher-panel" hidden={!open}>
-        <Link className="location-switcher-option" href={destination} onClick={() => setOpen(false)}>
+        <button className="location-switcher-option" type="button" onClick={() => { setOpen(false); switchNursery(otherNursery(nursery)); }}>
           {other}
-        </Link>
+        </button>
       </div>
       <div className="location-switcher-controls">
         <div className="floating-chat" onMouseEnter={() => { setChatOpen(true); setOpen(false); }} onMouseLeave={() => setChatOpen(false)}>

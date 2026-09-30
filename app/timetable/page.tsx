@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
+import { NurseryToggle, NurseryView } from "../nursery-toggle";
 import { getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID } from "../../lib/seo";
 
 const title = "Timetable & Term Dates";
@@ -67,7 +68,9 @@ export default function TimetablePage() {
     <SiteHeader />
     <main className="timetable-page">
       <header className="timetable-intro"><h1>Timetable & term dates</h1>
+        <NurseryToggle label="Choose a nursery timetable" />
       </header>
+      <NurseryView nursery="angel">
       <section id="angel" className="nursery-schedule" aria-labelledby="angel-title">
         <div className="timetable-nursery-heading"><h2 id="angel-title">Angel</h2><p className="timetable-address">98 Richmond Avenue, Islington</p><p>Morning, afternoon and all-day sessions.</p></div>
         <div className="schedule-grid"><Schedule heading="Morning" activities={morning} /><Schedule heading="Afternoon" activities={afternoon} /></div>
@@ -75,11 +78,14 @@ export default function TimetablePage() {
         <p className="schedule-disclaimer">Beckett House reserves the right to alter timetables without notice.</p>
         <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
       </section>
+      </NurseryView>
+      <NurseryView nursery="abbey-road">
       <section id="abbey-road" className="nursery-schedule" aria-labelledby="abbey-road-title">
         <div className="timetable-nursery-heading"><h2 id="abbey-road-title">Abbey Road</h2><p className="timetable-address">Abbey Hive, 84–86 Abbey Road, London, NW8 0QA</p></div>
         <div className="schedule-grid"><Schedule heading="Opening hours" activities={abbeyRoadOpeningHours} /><Schedule heading="Sessions" activities={abbeyRoadSessions} /></div>
         <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
       </section>
+      </NurseryView>
     </main>
     <SiteFooter />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
