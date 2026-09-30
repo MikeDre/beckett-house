@@ -13,7 +13,13 @@ export type CardAnimationName =
   | "beads"
   | "orbital"
   | "ball"
-  | "blob";
+  | "blob"
+  | "family"
+  | "badge"
+  | "coins"
+  | "medal"
+  | "sun"
+  | "hours";
 
 // Decorative Lottie animation for the homepage cards. The player and the
 // animation are only fetched once the card is near the viewport, playback

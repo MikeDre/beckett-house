@@ -219,21 +219,17 @@ export default function AbbeyRoadHome() {
           </div>
           <div className="home-highlight-cards">
             <article>
-              <span className="highlight-shape highlight-ring" aria-hidden="true" />
+              <CardAnimation name="medal" />
               <h3>Montessori accredited</h3>
               <p>The head teacher and the core members of staff are Montessori qualified.</p>
             </article>
             <article>
-              <span className="highlight-shape highlight-circle" aria-hidden="true" />
+              <CardAnimation name="sun" />
               <h3>Open 50 weeks a year</h3>
               <p>{abbeyRoadLocation.opening}</p>
             </article>
             <article>
-              <span className="highlight-shape highlight-bars" aria-hidden="true">
-                <i />
-                <i />
-                <i />
-              </span>
+              <CardAnimation name="hours" />
               <h3>15 or 30 funded hours</h3>
               <p>{abbeyRoadLocation.sessionDetail}</p>
             </article>

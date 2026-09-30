@@ -4983,3 +4983,11 @@ main .virtual-tour-heading p {
   top: clamp(0.75rem, 2vw, 1.5rem);
   width: clamp(126px, 13vw, 170px);
 }
+
+/* Highlight card animations */
+.home-highlight-cards .card-animation {
+  height: clamp(110px, 11vw, 150px);
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
+  top: clamp(0.75rem, 1.5vw, 1.25rem);
+  width: clamp(110px, 11vw, 150px);
+}

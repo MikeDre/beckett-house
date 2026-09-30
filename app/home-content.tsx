@@ -225,17 +225,17 @@ export default function Home() {
           </div>
           <div className="home-highlight-cards">
             <article>
-              <span className="highlight-shape highlight-ring" aria-hidden="true" />
+              <CardAnimation name="family" />
               <h3>Family-run since 1996</h3>
               <p>Second-generation care with the same home-from-home feeling.</p>
             </article>
             <article>
-              <span className="highlight-shape highlight-circle" aria-hidden="true" />
+              <CardAnimation name="badge" />
               <h3>Montessori accredited</h3>
               <p>Genuine materials, trained teachers and purposeful independence.</p>
             </article>
             <article>
-              <span className="highlight-shape highlight-bars" aria-hidden="true"><i /><i /><i /></span>
+              <CardAnimation name="coins" />
               <h3>Funded places available</h3>
               <p>Eligible families can access 15 or 30 funded hours.</p>
             </article>
