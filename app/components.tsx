@@ -139,7 +139,7 @@ export function SiteHeader({ homepageOnly = false }: { homepageOnly?: boolean })
     <>
       <div className="notice-bar">
         <span className="notice-dot" aria-hidden="true" />
-        Taking registrations for 2026
+        Taking registrations for 2026{activeNursery && ` at ${currentNursery}`}
         <Link href={visitHref}>Arrange a visit</Link>
       </div>
       <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>
