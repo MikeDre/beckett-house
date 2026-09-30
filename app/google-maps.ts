@@ -78,10 +78,18 @@ let mapsLoadError: Error | undefined;
 let authFailureHandlerInstalled = false;
 const authFailureListeners = new Set<(error: Error) => void>();
 
-export const GOOGLE_MAPS_API_KEY =
-  typeof process !== "undefined"
-    ? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ""
-    : "";
+// The build replaces this expression with the key's value, so it must be read
+// directly: a `typeof process` guard is false in the browser and would discard
+// the inlined key. The try/catch covers builds where it isn't defined.
+function readGoogleMapsApiKey() {
+  try {
+    return process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
+  } catch {
+    return "";
+  }
+}
+
+export const GOOGLE_MAPS_API_KEY = readGoogleMapsApiKey();
 
 export const calmGoogleMapStyles: GoogleMapStyle[] = [
   { elementType: "geometry", stylers: [{ color: "#eeeae2" }] },
