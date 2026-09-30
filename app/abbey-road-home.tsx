@@ -57,9 +57,9 @@ const structuredData = {
       mainEntity: { "@id": locationId(abbeyRoadLocation) },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: `${SITE_URL}${abbeyRoadLocation.image}`,
-        width: 1600,
-        height: 1067,
+        url: `${SITE_URL}/images/abbey-road/main-room-hero.webp`,
+        width: 2560,
+        height: 1707,
       },
     },
     getBreadcrumbSchema([
@@ -82,11 +82,11 @@ export default function AbbeyRoadHome() {
           aria-labelledby="abbey-road-hero-title"
         >
           <Image
-            src={abbeyRoadLocation.image}
+            src="/images/abbey-road/main-room-hero.webp"
             unoptimized
             alt={abbeyRoadLocation.imageAlt}
-            width={1600}
-            height={1067}
+            width={2560}
+            height={1707}
             sizes="100vw"
             priority
           />
