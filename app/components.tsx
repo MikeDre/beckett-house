@@ -145,7 +145,7 @@ export function SiteHeader() {
     <>
       <div className="notice-bar">
         <span className="notice-dot" aria-hidden="true" />
-        Taking registrations for 2026{activeNursery && ` at ${currentNursery}`}
+        <span className="notice-text"><span className="notice-long">Taking registrations</span><span className="notice-short">Registering</span> for 2026{activeNursery && ` at ${currentNursery}`}</span>
         <Link href={visitHref}>Arrange a visit</Link>
       </div>
       <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>

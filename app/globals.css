@@ -12,6 +12,13 @@
 button.location-switcher-option { background: transparent; color: inherit; cursor: pointer; font: inherit; }
 button.location-switcher-option:hover { background: var(--green-soft); }
 .location-switcher-controls { display: flex; align-items: center; gap: .65rem; }
+/* Mobile-only contact button: call, email or open the address in Google Maps. */
+.floating-contact-trigger { width: 56px; height: 56px; padding: 0; border-radius: 50%; }
+.contact-panel { width: min(300px, calc(100vw - 2rem)); }
+.contact-panel-title { margin: .35rem .75rem .25rem; color: var(--ink); font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.contact-panel .location-switcher-option { flex-wrap: nowrap; justify-content: flex-start; gap: .75rem; color: var(--ink); font-size: .9375rem; overflow-wrap: anywhere; }
+.contact-panel .location-switcher-option svg { flex-shrink: 0; }
+@media (min-width: 800px) { .floating-contact-trigger, .contact-panel { display: none; } }
 .floating-chat { position: relative; }
 .floating-chat-trigger { width: 56px; height: 56px; padding: 0; border-radius: 50%; }
 .floating-chat-tooltip[hidden] { display: none; }
@@ -188,6 +195,30 @@ a {
 .notice-bar a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.65);
   margin-left: 0.25rem;
+}
+
+/* Keep the notice on one line: shorter wording on phones, and the text (never
+   the link) trims with an ellipsis if a very narrow screen still can't fit it. */
+.notice-bar { white-space: nowrap; }
+.notice-bar a { flex-shrink: 0; }
+.notice-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.notice-short { display: none; }
+
+@media (max-width: 599px) {
+  .notice-bar { font-size: clamp(0.56rem, 2.55vw, 0.68rem); gap: 0.4rem; letter-spacing: 0.04em; padding: 0.55rem 0.75rem; }
+  .notice-bar a { margin-left: 0.1rem; }
+  .notice-long { display: none; }
+  .notice-short { display: inline; }
+}
+
+/* Mobile: centre the logo in the header, and show hero images above the text. */
+@media (max-width: 1039px) {
+  .site-header .wordmark { left: 50%; position: absolute; transform: translateX(-50%); }
+  .site-header .menu-button { margin-left: auto; }
+}
+
+@media (max-width: 899px) {
+  .about-beckett-hero-image { order: -1; }
 }
 
 .notice-dot {
