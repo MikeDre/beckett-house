@@ -25,7 +25,7 @@ const aboutItems = [
 
 const nurseryLifeItems = [
   { title: "Virtual Tour", href: "/virtual-tour", image: "/images/hero-classroom.webp", description: "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces." },
-  { title: "Gallery", href: "/gallery", image: "/images/gallery/abbey-road-space-1.webp", description: "Browse photos of our Angel and Abbey Road classrooms and spaces." },
+  { title: "Gallery", href: "/gallery", image: "/images/abbey-road/main-room-2.webp", description: "Browse photos of our Angel and Abbey Road classrooms and spaces." },
 ];
 
 const timetableItems = [
@@ -35,8 +35,8 @@ const timetableItems = [
 ];
 
 const abbeyRoadTimetableItems = [
-  { title: "Daily timetable", href: "/timetable#abbey-road", image: "/images/hero-classroom.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
-  { title: "Term dates", href: "/timetable#abbey-road-term-dates", image: "/images/classroom-detail.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
+  { title: "Daily timetable", href: "/timetable#abbey-road", image: "/images/abbey-road/main-room.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
+  { title: "Term dates", href: "/timetable#abbey-road-term-dates", image: "/images/abbey-road/reading-corner.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
   timetableItems[2],
 ];
 
@@ -616,8 +616,8 @@ export function PanoramaViewer({ location }: { location: Location }) {
               src={location.image}
               unoptimized
               alt={`Preview of Beckett House Montessori ${location.name}`}
-              width={1800}
-              height={location.slug === "angel" ? 1199 : 825}
+              width={location.slug === "angel" ? 1800 : 1600}
+              height={location.slug === "angel" ? 1199 : 1067}
               sizes="(min-width: 1040px) 62vw, 100vw"
               loading="lazy"
             />

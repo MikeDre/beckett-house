@@ -58,8 +58,8 @@ const structuredData = {
       primaryImageOfPage: {
         "@type": "ImageObject",
         url: `${SITE_URL}${abbeyRoadLocation.image}`,
-        width: 1800,
-        height: 825,
+        width: 1600,
+        height: 1067,
       },
     },
     getBreadcrumbSchema([
@@ -85,8 +85,8 @@ export default function AbbeyRoadHome() {
             src={abbeyRoadLocation.image}
             unoptimized
             alt={abbeyRoadLocation.imageAlt}
-            width={1800}
-            height={825}
+            width={1600}
+            height={1067}
             sizes="100vw"
             priority
           />
@@ -125,10 +125,10 @@ export default function AbbeyRoadHome() {
           </div>
           <Image
             className="manifesto-photo"
-            src="/images/children-circle-time.jpg"
-            alt=""
-            width={900}
-            height={590}
+            src="/images/abbey-road/main-room-3.webp"
+            alt="The Abbey Road main room, with a sofa, activity tables and low Montessori shelves"
+            width={1600}
+            height={1067}
             loading="lazy"
             unoptimized
           />
@@ -183,14 +183,14 @@ export default function AbbeyRoadHome() {
               <article className="life-photo-card" key={pillar.title}>
                 <Image
                   src={[
-                    "/images/calm-corner.webp",
-                    "/images/classroom-detail.webp",
-                    "/images/sensory-room.webp",
+                    "/images/abbey-road/nursery-room.webp",
+                    "/images/abbey-road/montessori-puzzle.webp",
+                    "/images/abbey-road/kitchen.webp",
                   ][index]}
                   unoptimized
                   alt=""
-                  width={1400}
-                  height={index === 1 ? 1050 : 934}
+                  width={1600}
+                  height={1067}
                   sizes="(min-width: 700px) 33vw, 100vw"
                 />
                 <h3>{pillar.title}</h3>
