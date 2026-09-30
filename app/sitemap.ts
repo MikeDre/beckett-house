@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/beckett-house", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/history", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/virtual-tour", changeFrequency: "monthly" as const, priority: 0.8 },
+    { path: "/gallery", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/timetable", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/opening-hours-fees", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/visit", changeFrequency: "monthly" as const, priority: 0.9 },

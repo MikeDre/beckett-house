@@ -25,6 +25,7 @@ const aboutItems = [
 
 const nurseryLifeItems = [
   { title: "Virtual Tour", href: "/virtual-tour", image: "/images/hero-classroom.webp", description: "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces." },
+  { title: "Gallery", href: "/gallery", image: "/images/gallery/abbey-road-space-1.webp", description: "Browse photos of our Angel and Abbey Road classrooms and spaces." },
 ];
 
 const timetableItems = [
@@ -502,6 +503,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
           <div><h2>About us</h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <div><h2>Key information</h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <Link href="/virtual-tour">Virtual Tour</Link>
+          <Link href="/gallery">Gallery</Link>
           <Link className="button button-dark" href="/visit">Book a visit</Link>
         </nav>
       </details>}
