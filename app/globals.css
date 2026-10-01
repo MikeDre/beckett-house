@@ -5290,6 +5290,12 @@ main .virtual-tour-heading p {
     position: relative;
   }
 
+  /* The homepage map pins go straight to each nursery, so the cards are
+     redundant on phones. */
+  .homepage-map .nursery-chooser .nursery-chooser-panel {
+    display: none;
+  }
+
   .nursery-chooser .nursery-chooser-back {
     align-self: flex-start;
     inset: auto;
