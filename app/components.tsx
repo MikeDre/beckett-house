@@ -715,6 +715,12 @@ function GoogleNurseryChooserMap({
   />;
 }
 
+function chooseNursery(location: Location) {
+  try { window.localStorage.setItem("beckett-house-nursery", location.slug); } catch { /* Selection still works without browser storage. */ }
+  document.cookie = `bh_preferred_nursery=${location.slug}; path=/; max-age=31536000; SameSite=Lax`;
+  window.location.assign(`/${location.slug}`);
+}
+
 export function NurseryChooser({ locations, homepage = false }: { locations: Location[]; homepage?: boolean }) {
   const mapControllerRef = useRef<NurseryMapController | null>(null);
   const pendingMapFocusRef = useRef<Location | null>(null);
@@ -727,7 +733,8 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
     locations.find((location) => location.slug === selectedSlug) ?? locations[0];
   const handleMapSelect = useCallback((location: Location) => {
     setSelectedSlug(location.slug);
-  }, []);
+    if (homepage) chooseNursery(location);
+  }, [homepage]);
   const handleGoogleMapsFailure = useCallback(() => setGoogleMapsFailed(true), []);
   const useGoogleMaps = Boolean(GOOGLE_MAPS_API_KEY) && !googleMapsFailed;
 
@@ -735,12 +742,6 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
     setSelectedSlug(location.slug);
     if (mapControllerRef.current) mapControllerRef.current.focus(location);
     else pendingMapFocusRef.current = location;
-  }
-
-  function choose(location: Location) {
-    try { window.localStorage.setItem("beckett-house-nursery", location.slug); } catch { /* Selection still works without browser storage. */ }
-    document.cookie = `bh_preferred_nursery=${location.slug}; path=/; max-age=31536000; SameSite=Lax`;
-    window.location.assign(`/${location.slug}`);
   }
 
   return (
@@ -768,7 +769,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
           {homepage ? "Beckett House is a family-run Montessori nursery with warm, welcoming spaces in Angel and Abbey Road, where children can learn, explore and grow in confidence." : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
         </p>
         {homepage && <div className="map-home-location-links" aria-label="Enter your nursery">
-          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => choose(location)}>{location.name}</button>)}
+          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => chooseNursery(location)}>{location.name}</button>)}
         </div>}
       </div>
       {homepage && <details className="map-home-menu" onKeyDown={(event) => {
@@ -776,7 +777,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
       }}>
         <summary aria-label="Site navigation"><span className="map-menu-icon" aria-hidden="true"><span /><span /><span /></span><span className="map-menu-label">Menu</span></summary>
         <nav aria-label="Site navigation" className="map-home-menu-panel">
-          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => choose(location)}>{location.name}</button>)}</div>
+          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => chooseNursery(location)}>{location.name}</button>)}</div>
           <div><h2>About us</h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <div><h2>Key information</h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <Link href="/virtual-tour">Virtual Tour</Link>
@@ -800,7 +801,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
                   <div className="nursery-card-facts"><span>{location.ages}</span><span>{location.opening}</span></div>
                   <p>{location.strapline}</p>
                   <p>{location.address}<br />{location.postcode}</p>
-                  <button className="button button-dark" type="button" onClick={() => choose(location)}>Choose {location.name}</button>
+                  <button className="button button-dark" type="button" onClick={() => chooseNursery(location)}>Choose {location.name}</button>
                 </div>
               </div>
             </div>
