@@ -25,8 +25,6 @@ const galleryImages: Record<NurserySlug, GalleryImage[]> = {
     { src: "/images/angel/montessori-nursery-angel-sensorial-corner.webp", caption: "Montessori materials", alt: "Montessori materials on low shelves around a green table, with children’s swirl paintings", width: 2000, height: 1333 },
     { src: "/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp", caption: "Practical life", alt: "Montessori dressing frames laid out on a table in front of the rocket display", width: 2000, height: 1333 },
     { src: "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp", caption: "Classroom and kitchen", alt: "The open classroom with a round table, shelves and the nursery kitchen area", width: 2000, height: 1333 },
-    { src: "/images/angel/montessori-nursery-angel-snack-tables.webp", caption: "Snack tables", alt: "Small tables and chairs beside the nursery kitchen for snack and lunch times", width: 2000, height: 1333 },
-    { src: "/images/angel/montessori-nursery-angel-childrens-artwork-display.webp", caption: "Children’s artwork", alt: "Children’s swirl paintings and a diurnal and nocturnal animals display", width: 2000, height: 1333 },
     { src: "/images/angel/montessori-nursery-angel-earth-day-artwork.webp", caption: "Children’s artwork", alt: "A Happy Earth Day 2026 poster with children’s handprints and magnetic shapes", width: 2000, height: 1333 },
   ],
   "abbey-road": [
