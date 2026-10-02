@@ -45,7 +45,7 @@ export default function AboutPage() {
       </section>
       <section className="about-school-introduction section-pad" aria-label="Our Montessori preschool">
         <p className="about-lede">Beckett House Montessori is a ‘good’ rated, and Montessori ‘MEAB’ <a className="text-link" href="https://www.montessori.org.uk/wp-content/uploads/2018/06/Beckett-House.pdf" target="_blank" rel="noopener noreferrer">accredited</a>, family run preschool.</p>
-        <p>It is a calm and comfortable environment, where ages 2 to 5 play together in one room that is divided into the different Montessori areas, such as: language and math, art, etc. Children are free to choose their Montessori activities, with support from specialist staff. Care is child centered, and our attentive teachers have stayed here for years. Key workers especially relate to their assigned children. We work in partnership with parents, meeting once per term, and speaking throughout.</p>
+        <p>It is a calm and comfortable environment, where ages 2 to 5 play together in one room that is divided into the different Montessori areas, such as: language and maths, art, etc. Children are free to choose their Montessori activities, with support from specialist staff. Care is child centered, and our attentive teachers have stayed here for years. Key workers especially relate to their assigned children. We work in partnership with parents, meeting once per term, and speaking throughout.</p>
       </section>
       <section className="about-home-from-home section-pad" aria-labelledby="home-from-home-title">
         <h2 id="home-from-home-title">Not so much a school...</h2>
