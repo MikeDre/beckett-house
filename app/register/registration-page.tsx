@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 import { useNurseryChoice } from "../nursery-choice";
 import CardAnimation from "../card-animation";
 import { registrationContent } from "./register-content";
+import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "../turnstile";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -29,11 +30,33 @@ function selectedDays(data: FormData, name: string) {
 export function RegistrationPage() {
   const [nursery, chooseNursery] = useNurseryChoice();
   const [status, setStatus] = useState("");
+  const [sending, setSending] = useState(false);
+  const [token, setToken] = useState("");
+  const [resetCount, setResetCount] = useState(0);
   const content = registrationContent[nursery];
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    if (sending) return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    if (TURNSTILE_SITE_KEY) {
+      const email = String(data.get("email") || "");
+      setSending(true);
+      setStatus("Sending…");
+      try {
+        await postForm("register", data, token, nursery);
+        setStatus(`Thank you – we've received your registration and sent a confirmation to ${email}.`);
+        form.reset();
+      } catch (error) {
+        setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
+      } finally {
+        setSending(false);
+        setToken("");
+        setResetCount((count) => count + 1);
+      }
+      return;
+    }
     const childName = value(data, "childName");
     const subject = encodeURIComponent(
       `Registration: ${content.name}, ${childName}`,
@@ -183,8 +206,9 @@ export function RegistrationPage() {
               })}
             </div>
 
-            <button className="button button-dark form-submit" type="submit">
-              Prepare registration email
+            {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
+            <button className="button button-dark form-submit" type="submit" disabled={sending}>
+              {sending ? "Sending…" : TURNSTILE_SITE_KEY ? "Submit registration" : "Prepare registration email"}
             </button>
             <p className="form-status" aria-live="polite">
               {status}

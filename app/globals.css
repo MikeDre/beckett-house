@@ -5305,3 +5305,7 @@ main .virtual-tour-heading p {
     position: relative;
   }
 }
+
+.form-turnstile { margin: 12px 0; }
+.form-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.form-submit:disabled { opacity: 0.65; cursor: wait; }

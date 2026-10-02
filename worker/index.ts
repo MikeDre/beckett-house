@@ -1,8 +1,18 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { handleForm } from "./forms";
 
-interface Env {
+export interface Env {
+  TURNSTILE_SECRET_KEY?: string;
+  RESEND_API_KEY?: string;
+  FORM_FROM_EMAIL?: string;
+  GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
+  GOOGLE_PRIVATE_KEY?: string;
+  SHEET_VISIT_ANGEL?: string;
+  SHEET_VISIT_ABBEY_ROAD?: string;
+  SHEET_REGISTER_ANGEL?: string;
+  SHEET_REGISTER_ABBEY_ROAD?: string;
   ASSETS: Fetcher;
   DB: D1Database;
   IMAGES: {
@@ -14,7 +24,7 @@ interface Env {
   };
 }
 
-interface ExecutionContext {
+export interface ExecutionContext {
   waitUntil(promise: Promise<unknown>): void;
   passThroughOnException(): void;
 }
@@ -28,6 +38,10 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (request.method === "POST" && (url.pathname === "/api/forms/visit" || url.pathname === "/api/forms/register")) {
+      return handleForm(request, env, ctx, url.pathname === "/api/forms/visit" ? "visit" : "register");
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

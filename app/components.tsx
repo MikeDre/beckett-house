@@ -7,6 +7,7 @@ import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNursery
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import { locations, type Location } from "../lib/content";
+import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "./turnstile";
 import {
   GOOGLE_MAPS_API_KEY,
   calmGoogleMapStyles,
@@ -998,16 +999,37 @@ export function FAQList({
 
 export function VisitForm() {
   const [status, setStatus] = useState("");
+  const [sending, setSending] = useState(false);
+  const [token, setToken] = useState("");
+  const [resetCount, setResetCount] = useState(0);
   const [nursery, setNursery] = useNurseryChoice();
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    if (sending) return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const location = String(data.get("location") || "Angel");
     const name = String(data.get("name") || "");
     const email = String(data.get("email") || "");
     const childAge = String(data.get("childAge") || "");
     const message = String(data.get("message") || "");
+    if (TURNSTILE_SITE_KEY) {
+      setSending(true);
+      setStatus("Sending…");
+      try {
+        await postForm("visit", data, token);
+        setStatus(`Thank you – we've received your request and sent a confirmation to ${email}.`);
+        form.reset();
+      } catch (error) {
+        setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
+      } finally {
+        setSending(false);
+        setToken("");
+        setResetCount((count) => count + 1);
+      }
+      return;
+    }
     const destination =
       location === "Abbey Road"
         ? "abbeyroad@beckett-house.co.uk"
@@ -1053,8 +1075,9 @@ export function VisitForm() {
           placeholder="Days you need, ideal start date, or the best times to visit…"
         />
       </label>
-      <button className="button button-dark form-submit" type="submit">
-        Request a visit
+      {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
+      <button className="button button-dark form-submit" type="submit" disabled={sending}>
+        {sending ? "Sending…" : "Request a visit"}
       </button>
       <p className="form-status" aria-live="polite">
         {status}
