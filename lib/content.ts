@@ -12,6 +12,17 @@ export type Announcement = {
 
 export const homeAnnouncements: Announcement[] = [
   {
+    id: "halloween-open-day-2026",
+    category: "Open day",
+    title: "Halloween Open Day at Abbey Road",
+    summary: "Come and join us! Visit from 2pm to 5pm for Halloween and Guy Fawkes activities, learn about Montessori and meet our teachers. Trick or treat prizes for the children! 84–86 Abbey Road, London NW8 0QA.",
+    date: "2026-11-06",
+    dateLabel: "Friday 6 November 2026, 2pm–5pm",
+    href: "/visit?location=abbey-road",
+    linkLabel: "Let us know you’re coming",
+    image: { src: "/images/halloween-open-day-news.webp", alt: "Three young children in hats and coats collecting autumn leaves in a London park", width: 1600, height: 1067 },
+  },
+  {
     id: "angel-ofsted-2024",
     category: "Angel news",
     title: "Beckett House Montessori in Angel receives a Good Ofsted report",
