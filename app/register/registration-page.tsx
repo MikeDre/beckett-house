@@ -218,7 +218,7 @@ export function RegistrationPage() {
 
         <aside className="register-intro">
           <p className="eyebrow">Before you register</p>
-          <h2>Registration is not enrolment.</h2>
+          <h2>Registration process</h2>
           <p>
             A £75 registration fee is required when applying for a place. It is
             non-refundable and does not guarantee a place. The registration fee
