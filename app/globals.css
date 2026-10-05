@@ -5323,3 +5323,25 @@ main .virtual-tour-heading p {
 .faq-page-hero + .faq-page-layout { padding-top: 50px; }
 .about-beckett-hero + .about-home-from-home,
 .about-beckett-hero + .montessori-freedom-quote { margin-top: 50px; }
+
+/* Slimmer footer on phones: smaller logo and text, no duplicate Explore links,
+   tighter spacing. The bottom padding still clears the floating buttons. */
+@media (max-width: 599px) {
+  .footer-accreditations { padding: 1.5rem 1rem; }
+  .footer-accreditations img { height: 2.25rem; }
+  .site-footer { padding: 1.5rem 1rem 5rem; }
+  .footer-top { gap: 1.25rem; }
+  .footer-top > div:first-child { align-items: flex-start; gap: 1rem; }
+  .footer-logo { width: 84px; }
+  .footer-top > div:first-child .footer-intro p { font-size: .9375rem; line-height: 1.4; }
+  .footer-top > div:first-child .footer-intro .footer-review-note { font-size: .875rem; margin-top: .35rem; }
+  .footer-social { margin-top: .6rem; }
+  .footer-social a { height: 36px; width: 36px; }
+  .footer-links { grid-template-columns: 1fr; gap: 0; }
+  .footer-links > div:first-child { display: none; }
+  .footer-links > div { gap: .3rem; }
+  .footer-links span { margin-bottom: .15rem; }
+  .footer-links a { font-size: .875rem; }
+  .footer-links .footer-address { max-width: none; }
+  .footer-bottom { flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; font-size: .625rem; margin-top: 1rem; padding-top: .75rem; }
+}

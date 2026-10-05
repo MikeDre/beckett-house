@@ -275,7 +275,7 @@ export function SiteFooter() {
           <div>
             <span>Visit {nursery.name}</span>
             <a className="footer-address" href={nursery.mapsUrl} target="_blank" rel="noopener noreferrer">
-              {nursery.address}, {nursery.postcode}
+              {nursery.address}, {nursery.postcode.replace(" ", "\u00a0")}
             </a>
             <a href={`tel:${nursery.phoneHref}`}>{nursery.phone}</a>
             <a href={`mailto:${nursery.email}`}>{nursery.email}</a>
