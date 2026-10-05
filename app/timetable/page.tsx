@@ -29,6 +29,49 @@ const afternoon: Activity[] = [
   { time: "6:00pm", title: "Collection time for afternoon children" },
   { time: "6:00pm", title: "Collection time for all-day children" },
 ];
+const angelOpeningHours: Activity[] = [
+  { time: "8am–6pm", title: "Monday–Friday" },
+];
+const angelSessions: Activity[] = [
+  { time: "8am–6pm", title: "Full-day care" },
+  { time: "8am–2pm", title: "Morning session" },
+  { time: "2pm–6pm", title: "Afternoon session" },
+];
+const abbeyRoadBabyMorning: Activity[] = [
+  { time: "8:00–9:00am", title: "Drop-off, bottles and breakfast" },
+  { time: "9:00–9:30am", title: "Nappies" },
+  { time: "9:30–10:00am", title: "Circle time", note: "Books, songs, puppets and finger plays." },
+  { time: "10:00–10:15am", title: "Bottles and morning snack" },
+  { time: "10:15–10:30am", title: "Nappies and clean-up" },
+  { time: "10:30–11:30am", title: "Nap time" },
+  { time: "11:30am–12:00pm", title: "Bottles and lunch" },
+];
+const abbeyRoadBabyAfternoon: Activity[] = [
+  { time: "12:00–12:30pm", title: "Story time", note: "Books and songs." },
+  { time: "12:30–1:30pm", title: "Outside play and gross motor activities" },
+  { time: "1:30–2:30pm", title: "Nap time" },
+  { time: "2:00pm", title: "Arrival time for afternoon children" },
+  { time: "2:30–3:00pm", title: "Bottles and snack" },
+  { time: "3:00–4:00pm", title: "Sensory or art activity" },
+  { time: "4:00–5:00pm", title: "Individual play time" },
+];
+const abbeyRoadMorning: Activity[] = [
+  { time: "8:00am", title: "Arrival time for the children" },
+  { time: "8:30–11:30am", title: "Montessori work cycle" },
+  { time: "8:30–11:30am", title: "Free-flow snack time" },
+  { time: "11:30am", title: "Circle time or group activity", note: "Topical, and extra-curricular activities." },
+  { time: "12:30pm", title: "Lunch" },
+  { time: "1:15–2:00pm", title: "Rest time for all-day children" },
+  { time: "2:00pm", title: "Collection time for morning children" },
+];
+const abbeyRoadAfternoon: Activity[] = [
+  { time: "2:00pm", title: "Arrival time for afternoon children" },
+  { time: "2:15–4:00pm", title: "Montessori and Circle Time" },
+  { time: "2:15–4:30pm", title: "Free-flow snack time" },
+  { time: "4:30pm", title: "Music & Story Time" },
+  { time: "4:30–5:30pm", title: "Physical activity", note: "Music & Movement, Song & Dance." },
+  { time: "6:00pm", title: "Collection time for the children" },
+];
 const abbeyRoadOpeningHours: Activity[] = [
   { time: "8am–6pm", title: "Monday–Friday" },
 ];
@@ -50,10 +93,10 @@ const abbeyRoadTerms = [
 
 function Schedule({ heading, activities }: { heading: string; activities: Activity[] }) {
   return <section className="schedule-card" aria-label={heading}>
-    <h3>{heading}</h3>
+    <h4>{heading}</h4>
     <ol className="schedule-list">{activities.map((activity, index) => <li key={`${activity.time}-${index}`}>
       <span className="schedule-time">{activity.time}</span>
-      <div><h4>{activity.title}</h4>{activity.note && <p>{activity.note}</p>}</div>
+      <div><h5>{activity.title}</h5>{activity.note && <p>{activity.note}</p>}</div>
     </li>)}</ol>
   </section>;
 }
@@ -72,7 +115,11 @@ export default function TimetablePage() {
       </header>
       <NurseryView nursery="angel">
       <section id="angel" className="nursery-schedule" aria-labelledby="angel-title">
-        <div className="timetable-nursery-heading"><h2 id="angel-title">Angel</h2><p className="timetable-address">98 Richmond Avenue, Islington</p><p>Morning, afternoon and all-day sessions.</p></div>
+        <div className="timetable-nursery-heading"><h2 id="angel-title">Angel</h2><p className="timetable-address">98 Richmond Avenue, Islington</p></div>
+        <h3 className="schedule-section-title">Opening hours & sessions</h3>
+        <div className="schedule-grid"><Schedule heading="Opening hours" activities={angelOpeningHours} /><Schedule heading="Sessions" activities={angelSessions} /></div>
+        <h3 className="schedule-section-title">Daily routine</h3>
+        <p className="schedule-group-title">Two years to school age</p>
         <div className="schedule-grid"><Schedule heading="Morning" activities={morning} /><Schedule heading="Afternoon" activities={afternoon} /></div>
         <aside className="schedule-note"><h3>Time outdoors</h3><p>As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens.</p></aside>
         <p className="schedule-disclaimer">Beckett House reserves the right to alter timetables without notice.</p>
@@ -82,7 +129,14 @@ export default function TimetablePage() {
       <NurseryView nursery="abbey-road">
       <section id="abbey-road" className="nursery-schedule" aria-labelledby="abbey-road-title">
         <div className="timetable-nursery-heading"><h2 id="abbey-road-title">Abbey Road</h2><p className="timetable-address">Abbey Hive, 84–86 Abbey Road, London, NW8 0QA</p></div>
+        <h3 className="schedule-section-title">Opening hours & sessions</h3>
         <div className="schedule-grid"><Schedule heading="Opening hours" activities={abbeyRoadOpeningHours} /><Schedule heading="Sessions" activities={abbeyRoadSessions} /></div>
+        <h3 className="schedule-section-title">Daily routine</h3>
+        <p className="schedule-group-title">From babies to two years (or walking)</p>
+        <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div>
+        <p className="schedule-group-title">Two years to school age</p>
+        <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadMorning} /><Schedule heading="Afternoon" activities={abbeyRoadAfternoon} /></div>
+        <p className="schedule-disclaimer">Beckett House reserves the right to alter timetables without notice.</p>
         <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
       </section>
       </NurseryView>

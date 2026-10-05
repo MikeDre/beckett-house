@@ -73,11 +73,15 @@ button.location-switcher-option:hover { background: var(--green-soft); }
 .schedule-grid, .term-grid { display: grid; gap: 1.5rem; }
 .schedule-card { background: #edf4fa; padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); }
 .schedule-card:nth-child(2) { background: #f2eef9; }
-.schedule-card > h3 { font-size: 1.65rem; margin: 0 0 1.25rem; }
+.schedule-card > h4 { font-size: 1.65rem; margin: 0 0 1.25rem; }
+.schedule-section-title { font-size: clamp(1.35rem, 2.5vw, 1.65rem); font-weight: 600; margin: 2.5rem 0 1rem; }
+.timetable-nursery-heading + .schedule-section-title { margin-top: 0; }
+.schedule-group-title { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 .75rem; }
+.schedule-section-title + .schedule-group-title { margin-top: 0; }
 .schedule-list { list-style: none; margin: 0; padding: 0; }
 .schedule-list li { display: grid; gap: .5rem; padding: 1.1rem 0; border-top: 1px solid var(--line); }
 .schedule-time { font-size: 1rem; font-weight: 600; }
-.schedule-list h4 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; margin: 0; }
+.schedule-list h5 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; margin: 0; }
 .schedule-list p, .schedule-note p, .schedule-disclaimer, .term-card p { font-size: 1rem; line-height: 1.7; }
 .schedule-list p { margin: .5rem 0 0; }
 .schedule-note { padding: 1.75rem; border-radius: var(--radius-md); background: #fcf3db; margin-top: 1.5rem; }
