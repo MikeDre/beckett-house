@@ -82,12 +82,11 @@ button.location-switcher-option:hover { background: var(--green-soft); }
 .schedule-list li { display: grid; gap: .5rem; padding: 1.1rem 0; border-top: 1px solid var(--line); }
 .schedule-time { font-size: 1rem; font-weight: 600; }
 .schedule-list h5 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; margin: 0; }
-.schedule-list p, .schedule-note p, .schedule-disclaimer, .term-card p { font-size: 1rem; line-height: 1.7; }
+.schedule-list p, .schedule-note p, .term-card p { font-size: 1rem; line-height: 1.7; }
 .schedule-list p { margin: .5rem 0 0; }
 .schedule-note { padding: 1.75rem; border-radius: var(--radius-md); background: #fcf3db; margin-top: 1.5rem; }
 .schedule-note h3 { margin: 0; font-size: 1.25rem; }
 .schedule-note p { margin-bottom: 0; max-width: 85ch; }
-.schedule-disclaimer { margin: 1rem 0 0; }
 .term-dates { margin-top: clamp(2.5rem, 4vw, 3.5rem); }
 .term-dates h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 600; line-height: 1.2; margin: 0 0 1.5rem; }
 .term-card { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-md); }
