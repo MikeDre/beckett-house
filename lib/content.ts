@@ -34,6 +34,15 @@ export const homeAnnouncements: Announcement[] = [
     summary: "Robot NAO is an interactive learning companion at Beckett House. Our interactive table brings playful multitouch activities into the classroom, giving children another way to explore and learn together.",
     image: { src: "/images/interactive-learning-news.jpg", alt: "Beckett House announcement introducing Robot NAO and an interactive multitouch learning table", width: 938, height: 523 },
   },
+  {
+    id: "abbey-road-opening",
+    category: "Nursery news",
+    title: "Our new setting in St John’s Wood is now open",
+    summary: "Beckett House Abbey Road opened in summer 2026, welcoming babies and children from 3 months to 5 years in dedicated baby, toddler and preschool rooms.",
+    href: "/abbey-road",
+    linkLabel: "Discover Abbey Road",
+    image: { src: "/images/abbey-road/main-room-4.webp", alt: "The main Abbey Road classroom, with low Montessori shelves, activity tables and a sofa", width: 1600, height: 1067 },
+  },
 ];
 
 export type Location = {
