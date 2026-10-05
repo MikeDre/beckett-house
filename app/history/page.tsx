@@ -22,14 +22,14 @@ export default function HistoryPage() {
       <section className="about-beckett-hero" aria-labelledby="history-title">
         <div className="about-history-copy">
           <h1 id="history-title">A Brief History</h1>
-          <p className="about-lede">Beckett House is a Montessori Nursery School situated in Barnsbury, in Islington, North London, N1.</p>
-          <p>We opened in January 1996 since when we have established ourselves as one of the most popular nursery schools in the area with a somewhat esoteric appeal; with most of our current children being here due to recommendations from previous parents.</p>
+          <p className="about-lede">Beckett House is a Montessori nursery school, opened in 1996 in Barnsbury, Islington, North London, N1, and now with a second setting in St John’s Wood, NW8.</p>
+          <p>We opened in January 1996 since when we have established ourselves as one of the most popular nursery schools in the area with a somewhat boutique appeal; with most of our current children being here due to recommendations from previous parents.</p>
           <p>The head teacher and the core members of staff are Montessori qualified and those with other qualifications offer the advantages of their own particular training within the guidance of the head.</p>
         </div>
         <div className="about-beckett-hero-image"><Image src="/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp" alt="The Angel classroom with a round table, low shelves and the nursery kitchen area" width={2000} height={1333} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
       </section>
       <section className="about-home-from-home section-pad" aria-label="What sets Beckett House apart">
-        <p>Parents maintain it is its <strong>‘home from home’</strong> nature that sets Beckett House apart from other nurseries.</p>
+        <p>Parents maintain it is the <strong>‘home from home’</strong> nature that sets Beckett House apart from other nurseries.</p>
       </section>
       <section className="about-history-continuation section-pad" aria-labelledby="abbey-road-history-title">
         <h2 id="abbey-road-history-title">Abbey Road</h2>
