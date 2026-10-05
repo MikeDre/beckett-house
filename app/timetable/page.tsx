@@ -124,7 +124,7 @@ export default function TimetablePage() {
         <p className="schedule-group-title">Two years to school age</p>
         <div className="schedule-grid"><Schedule heading="Morning" activities={morning} /><Schedule heading="Afternoon" activities={afternoon} /></div>
         <aside className="schedule-note"><h3>Time outdoors</h3><p>As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens.</p></aside>
-        <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
+        <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span className="term-card-end"><span className="term-card-arrow" aria-hidden="true">→</span><span className="visually-hidden">to</span> <time dateTime={term.end}>{term.to}</time></span></p></article>)}</div></section>
       </section>
       </NurseryView>
       <NurseryView nursery="abbey-road">
@@ -137,7 +137,7 @@ export default function TimetablePage() {
         <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div>
         <p className="schedule-group-title">Two years to school age</p>
         <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadMorning} /><Schedule heading="Afternoon" activities={abbeyRoadAfternoon} /></div>
-        <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span>to</span><time dateTime={term.end}>{term.to}</time></p></article>)}</div></section>
+        <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <article className="term-card" key={term.start}><h3>{term.title}</h3><p><time dateTime={term.start}>{term.from}</time><span className="term-card-end"><span className="term-card-arrow" aria-hidden="true">→</span><span className="visually-hidden">to</span> <time dateTime={term.end}>{term.to}</time></span></p></article>)}</div></section>
       </section>
       </NurseryView>
     </main>
