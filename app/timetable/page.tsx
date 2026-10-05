@@ -31,6 +31,7 @@ const afternoon: Activity[] = [
 ];
 const angelOpeningHours: Activity[] = [
   { time: "8am–6pm", title: "Monday–Friday" },
+  { time: "48 weeks", title: "Open 48 weeks a year", note: "Closed for two weeks in August and two weeks at Christmas." },
 ];
 const angelSessions: Activity[] = [
   { time: "8am–6pm", title: "Full-day care" },
@@ -74,6 +75,7 @@ const abbeyRoadAfternoon: Activity[] = [
 ];
 const abbeyRoadOpeningHours: Activity[] = [
   { time: "8am–6pm", title: "Monday–Friday" },
+  { time: "50 weeks", title: "Open 50 weeks a year", note: "Closed for two weeks at Christmas." },
 ];
 const abbeyRoadSessions: Activity[] = [
   { time: "8am–6pm", title: "Full-day care" },
@@ -83,7 +85,7 @@ const abbeyRoadSessions: Activity[] = [
 const terms = [
   { title: "Summer term 2026", start: "2026-04-27", end: "2026-08-14", from: "Monday 27 April", to: "Friday 14 August 2026" },
   { title: "Autumn term 2026", start: "2026-09-01", end: "2026-12-18", from: "Tuesday 1 September", to: "Friday 18 December 2026" },
-  { title: "January–April 2027", start: "2027-01-04", end: "2027-04-23", from: "Monday 4 January", to: "Friday 23 April 2027" },
+  { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23", from: "Monday 4 January", to: "Friday 23 April 2027" },
 ];
 const abbeyRoadTerms = [
   { title: "Summer term 2026", start: "2026-05-18", end: "2026-08-28", from: "Monday 18 May", to: "Friday 28 August 2026" },
