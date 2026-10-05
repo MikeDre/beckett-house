@@ -175,7 +175,7 @@ export const locations: Location[] = [
   {
     slug: "abbey-road",
     name: "Abbey Road",
-    area: "St John’s Wood, Camden",
+    area: "St John’s Wood",
     strapline: "A new home from home where your children learn.",
     ages: "3 months–5 years",
     ageDetail:
