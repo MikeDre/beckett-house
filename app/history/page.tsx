@@ -22,7 +22,7 @@ export default function HistoryPage() {
       <section className="about-beckett-hero" aria-labelledby="history-title">
         <div className="about-history-copy">
           <h1 id="history-title">A Brief History</h1>
-          <p className="about-lede">Beckett House is a Montessori nursery school, opened in 1996 in Barnsbury, Islington, North London, N1, and now with a second setting in St John’s Wood, NW8.</p>
+          <p className="about-lede">Beckett House is a Montessori Nursery School Opened in 1996 in Barnsbury, in Islington, North London, N1 and now with a second setting in St Johns Wood, NW8</p>
           <p>We opened in January 1996 since when we have established ourselves as one of the most popular nursery schools in the area with a somewhat boutique appeal; with most of our current children being here due to recommendations from previous parents.</p>
           <p>The head teacher and the core members of staff are Montessori qualified and those with other qualifications offer the advantages of their own particular training within the guidance of the head.</p>
         </div>
