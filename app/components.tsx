@@ -95,6 +95,7 @@ export function SiteHeader() {
   const currentNursery = activeNursery === "abbey-road" ? "Abbey Road" : "Angel";
   const [open, setOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
+  const [headerStuck, setHeaderStuck] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const homeHref = activeNursery ? `/${activeNursery}` : "/";
   const visitHref = activeNursery ? `/visit?location=${activeNursery}` : "/visit";
@@ -129,6 +130,8 @@ export function SiteHeader() {
       const delta = currentY - previousY;
       previousY = currentY;
       const header = headerRef.current;
+      // Stuck to the top of the screen once the notice bar has scrolled away.
+      setHeaderStuck(currentY > 0 && (header?.getBoundingClientRect().top ?? 1) <= 0);
       const interacting = header?.querySelector(":focus-visible") ||
         header?.querySelector('.timetable-mega-menu:not([hidden])');
 
@@ -161,7 +164,7 @@ export function SiteHeader() {
         <span className="notice-text"><span className="notice-long">Taking registrations</span><span className="notice-short">Registering</span> for 2026{activeNursery && ` at ${currentNursery}`}</span>
         <Link href={visitHref}>Arrange a visit</Link>
       </div>
-      <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>
+      <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}${headerStuck ? " is-stuck" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>
         <Link className="wordmark" href={homeHref} aria-label="Beckett House home">
           <Image
             src="/images/beckett-house-logo-dark.svg"

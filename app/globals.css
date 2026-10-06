@@ -5349,13 +5349,18 @@ main .virtual-tour-heading p {
 
 /* Logo badge: a white circle tucked under the notice bar that drops below the
    header. The header's bottom line continues around the part that hangs out. */
-.site-header { --badge-size: 96px; --header-height: 76px; }
-.site-header .wordmark { align-self: flex-start; background: #fff; border-radius: 50%; height: var(--badge-size); justify-content: center; position: relative; width: var(--badge-size); z-index: 2; }
-.site-header .wordmark::after { border: 1px solid var(--line); border-radius: 50%; clip-path: inset(calc(var(--header-height) - 1px) 0 0 0); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.site-header { --badge-size: 96px; --header-height: 76px; --badge-lift: 0px; }
+.site-header .wordmark { align-self: flex-start; background: #fff; border-radius: 50%; height: var(--badge-size); justify-content: center; position: relative; top: calc(var(--badge-lift) * -1); width: var(--badge-size); z-index: 2; }
+.site-header .wordmark::after { border: 1px solid var(--line); border-radius: 50%; clip-path: inset(calc(var(--header-height) + var(--badge-lift) - 1px) 0 0 0); content: ""; inset: 0; pointer-events: none; position: absolute; }
 .site-header .wordmark img { width: 66px; }
-.site-header.is-scroll-hidden { transform: translateY(calc(-100% - var(--badge-size) + var(--header-height))); }
-@media (max-width: 1039px) { .site-header .wordmark { top: 0; } }
+.site-header.is-scroll-hidden { transform: translateY(calc(-100% - var(--badge-size) + var(--header-height) + var(--badge-lift))); }
+/* Once stuck to the top of the screen there is no notice bar to rise into. */
+.site-header.is-stuck { --badge-lift: 0px; }
+.site-header .wordmark { transition: top 200ms ease; }
+@media (prefers-reduced-motion: reduce) { .site-header .wordmark { transition: none; } }
+@media (max-width: 1039px) { .site-header .wordmark { top: calc(var(--badge-lift) * -1); } }
 @media (min-width: 1040px) {
-  .site-header { --badge-size: 132px; --header-height: 86px; }
+  .site-header { --badge-size: 132px; --header-height: 86px; --badge-lift: 15px; }
+  .site-header.is-stuck { --badge-lift: 0px; }
   .site-header .wordmark img { width: 92px; }
 }
