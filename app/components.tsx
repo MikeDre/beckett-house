@@ -254,7 +254,7 @@ export function SiteFooter() {
             <p>A family-run Montessori nursery in Angel and Abbey Road, London.</p>
             <p className="footer-review-note">
               Leave us a{" "}
-              <a href="https://g.page/r/CVdsknk9EQetEBM/review" target="_blank" rel="noopener noreferrer">
+              <a href={nursery.reviewUrl} target="_blank" rel="noopener noreferrer">
                 review on Google
               </a>
             </p>
