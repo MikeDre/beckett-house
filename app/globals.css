@@ -5346,3 +5346,16 @@ main .virtual-tour-heading p {
   .footer-links .footer-address { max-width: none; }
   .footer-bottom { flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; font-size: .625rem; margin-top: 1rem; padding-top: .75rem; }
 }
+
+/* Logo badge: a white circle tucked under the notice bar that drops below the
+   header. The header's bottom line continues around the part that hangs out. */
+.site-header { --badge-size: 96px; --header-height: 76px; }
+.site-header .wordmark { align-self: flex-start; background: #fff; border-radius: 50%; height: var(--badge-size); justify-content: center; position: relative; width: var(--badge-size); z-index: 2; }
+.site-header .wordmark::after { border: 1px solid var(--line); border-radius: 50%; clip-path: inset(calc(var(--header-height) - 1px) 0 0 0); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.site-header .wordmark img { width: 66px; }
+.site-header.is-scroll-hidden { transform: translateY(calc(-100% - var(--badge-size) + var(--header-height))); }
+@media (max-width: 1039px) { .site-header .wordmark { top: 0; } }
+@media (min-width: 1040px) {
+  .site-header { --badge-size: 132px; --header-height: 86px; }
+  .site-header .wordmark img { width: 92px; }
+}
