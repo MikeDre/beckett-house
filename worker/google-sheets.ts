@@ -8,7 +8,8 @@ function encode(value: object) {
   return base64url(new TextEncoder().encode(JSON.stringify(value)));
 }
 
-export async function appendSheetRow(env: Env, spreadsheetId: string | undefined, row: string[]) {
+export async function appendSheetRow(env: Env, tab: string, row: string[]) {
+  const spreadsheetId = env.FORM_SHEET_ID;
   if (!spreadsheetId) {
     console.warn("Form spreadsheet is not configured; skipping append.");
     return;
@@ -31,7 +32,7 @@ export async function appendSheetRow(env: Env, spreadsheetId: string | undefined
   if (!token.access_token) throw new Error("Google authentication returned no access token.");
   // USER_ENTERED preserves dates, but user text must never become a formula.
   const values = row.map((value) => /^[=+\-@]/.test(value.trimStart()) ? `'${value}` : value);
-  const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {
+  const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent(`'${tab}'!A1`)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token.access_token}`, "Content-Type": "application/json" },
     body: JSON.stringify({ majorDimension: "ROWS", values: [values] }),

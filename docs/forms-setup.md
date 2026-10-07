@@ -23,7 +23,7 @@ If the nursery email fails, the visitor sees an error, so nothing is lost silent
 - [ ] Add the domain `beckett-house.co.uk` and add the DNS records Resend shows at the domain's DNS provider
 - [ ] Wait for the domain to show as **Verified**
 - [ ] Create an API key (sending access is enough)
-- [ ] Decide the "from" address, e.g. `Beckett House Montessori <hello@beckett-house.co.uk>`. It must be on the verified domain.
+- [ ] Decide the "from" address, e.g. `Beckett House Montessori <info@beckett-house.co.uk>`. It must be on the verified domain.
 
 Free plan: 3,000 emails/month, 100/day.
 
@@ -36,12 +36,13 @@ Free plan: 3,000 emails/month, 100/day.
 
 ### 3. Google Sheets
 
-- [ ] Create the spreadsheets: four (one per form for each nursery), or two (one per form) and reuse the same ID for both nurseries
-  - Visit requests – Angel
-  - Visit requests – Abbey Road
-  - Registrations – Angel
-  - Registrations – Abbey Road
-- [ ] Paste these headings into row 1 of the **first tab** of each sheet (rows are always appended to the first tab)
+- [x] One spreadsheet: https://docs.google.com/spreadsheets/d/1z1thzQW8bpPtefz47RdX8lbsKeUZaakkAAFhdX4GSW4/edit
+- [ ] Add four tabs, named exactly as below (the website writes to them by name, so renaming a tab breaks it):
+  - `Angel visits`
+  - `Abbey Road visits`
+  - `Angel registrations`
+  - `Abbey Road registrations`
+- [ ] Paste these headings into row 1 of each tab
 
   **Visit requests:**
 
@@ -62,8 +63,8 @@ Free plan: 3,000 emails/month, 100/day.
 - [ ] APIs & Services → Library → enable **Google Sheets API**
 - [ ] IAM & Admin → Service accounts → Create service account (no roles needed)
 - [ ] On the service account → Keys → Add key → JSON → download the file
-- [ ] Share each sheet with the service account's email (`…@….iam.gserviceaccount.com`) as **Editor**
-- [ ] Each sheet's ID is the part of its URL between `/d/` and `/edit`
+- [ ] Share the spreadsheet with the service account's email (`…@….iam.gserviceaccount.com`) as **Editor**
+- [ ] The spreadsheet ID is the part of its URL between `/d/` and `/edit`
 
 ### 5. Store the secrets in Cloudflare
 
@@ -72,13 +73,10 @@ Run these from the project folder. Each one prompts for its value, which is stor
 ```sh
 npx wrangler secret put RESEND_API_KEY
 npx wrangler secret put TURNSTILE_SECRET_KEY
-npx wrangler secret put FORM_FROM_EMAIL                # Beckett House Montessori <hello@beckett-house.co.uk>
+npx wrangler secret put FORM_FROM_EMAIL                # Beckett House Montessori <info@beckett-house.co.uk>
 npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_EMAIL
 jq -r .private_key ~/Downloads/<key-file>.json | npx wrangler secret put GOOGLE_PRIVATE_KEY
-npx wrangler secret put SHEET_VISIT_ANGEL
-npx wrangler secret put SHEET_VISIT_ABBEY_ROAD
-npx wrangler secret put SHEET_REGISTER_ANGEL
-npx wrangler secret put SHEET_REGISTER_ABBEY_ROAD
+npx wrangler secret put FORM_SHEET_ID                  # 1z1thzQW8bpPtefz47RdX8lbsKeUZaakkAAFhdX4GSW4
 ```
 
 Delete the downloaded JSON key file once `GOOGLE_PRIVATE_KEY` is stored.

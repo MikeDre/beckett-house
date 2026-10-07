@@ -9,10 +9,7 @@ export interface Env {
   FORM_FROM_EMAIL?: string;
   GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
   GOOGLE_PRIVATE_KEY?: string;
-  SHEET_VISIT_ANGEL?: string;
-  SHEET_VISIT_ABBEY_ROAD?: string;
-  SHEET_REGISTER_ANGEL?: string;
-  SHEET_REGISTER_ABBEY_ROAD?: string;
+  FORM_SHEET_ID?: string;
   ASSETS: Fetcher;
   DB: D1Database;
   IMAGES: {

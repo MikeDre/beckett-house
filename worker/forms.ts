@@ -109,10 +109,11 @@ export async function handleForm(request: Request, env: Env, ctx: ExecutionConte
   const confirmation = kind === "visit" ? `Thank you for your visit request – Beckett House ${nursery.name}` : `We've received your registration – Beckett House ${nursery.name}`;
   const intro = `Thank you for ${kind === "visit" ? "your interest in visiting" : "registering your child with"} Beckett House ${nursery.name}. Our team will be in touch shortly, usually within two working days.\n\nIf you have any questions, please call ${nursery.phone} or email ${nursery.email}.\n\nHere is a copy of what you submitted.`;
   ctx.waitUntil(sendEmail(env, email, nursery.email, confirmation, emailBody(confirmation, intro, fields)).catch((error) => console.error("Form confirmation failed:", error)));
-  const sheet = kind === "visit" ? (nursery.slug === "angel" ? env.SHEET_VISIT_ANGEL : env.SHEET_VISIT_ABBEY_ROAD) : (nursery.slug === "angel" ? env.SHEET_REGISTER_ANGEL : env.SHEET_REGISTER_ABBEY_ROAD);
+  // One spreadsheet, one tab per form and nursery, e.g. "Angel visits".
+  const tab = `${nursery.name} ${kind === "visit" ? "visits" : "registrations"}`;
   const timestamp = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", dateStyle: "medium", timeStyle: "long" }).format(new Date());
   // Visit columns follow the form's input order; registration already does.
   const values = kind === "visit" ? [person, email, nursery.name, fields[3][1], fields[4][1]] : fields.map(([, value]) => value);
-  ctx.waitUntil(appendSheetRow(env, sheet, [timestamp, ...values]).catch((error) => console.error("Form spreadsheet append failed:", error)));
+  ctx.waitUntil(appendSheetRow(env, tab, [timestamp, ...values]).catch((error) => console.error("Form spreadsheet append failed:", error)));
   return json(true);
 }
