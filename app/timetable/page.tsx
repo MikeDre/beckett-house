@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 type Activity = { time: string; title: string; note?: string };
-const morning: Activity[] = [
+// Two years to school age: the same routine at both nurseries.
+const preschoolMorning: Activity[] = [
   { time: "8:00am", title: "Arrival time for the children" },
   { time: "8:00–8:45am", title: "Breakfast time and free play" },
   { time: "8:45–9:00am", title: "Welcome circle time" },
@@ -23,7 +24,7 @@ const morning: Activity[] = [
   { time: "12:00–12:30pm", title: "Lunch" },
   { time: "12:30–1:30pm", title: "Outside play, activities and rest time for all-day children", note: "The school provides mattresses, pillows and blankets." },
 ];
-const afternoon: Activity[] = [
+const preschoolAfternoon: Activity[] = [
   { time: "1:00pm", title: "Collection and arrival time" },
   { time: "1:30–1:45pm", title: "Welcome circle time" },
   { time: "1:45–3:15pm", title: "Montessori work cycle" },
@@ -44,39 +45,30 @@ const angelSessions: Activity[] = [
   { time: "8am–6pm", title: "Full day" },
 ];
 const abbeyRoadBabyMorning: Activity[] = [
-  { time: "8:00–9:00am", title: "Drop-off, bottles and breakfast" },
-  { time: "9:00–9:30am", title: "Nappies" },
-  { time: "9:30–10:00am", title: "Circle time", note: "Books, songs, puppets and finger plays." },
-  { time: "10:00–10:15am", title: "Bottles and morning snack" },
-  { time: "10:15–10:30am", title: "Nappies and clean-up" },
-  { time: "10:30–11:30am", title: "Nap time" },
-  { time: "11:30am–12:00pm", title: "Bottles and lunch" },
+  { time: "8:00–8:45am", title: "Drop-off, bottles and breakfast" },
+  { time: "8:45–9:15am", title: "Nappy change" },
+  { time: "9:15–9:30am", title: "Welcome circle time" },
+  { time: "9:30–10:15am", title: "Outside play with outdoor activities" },
+  { time: "10:15–10:30am", title: "Bottles and morning snack" },
+  { time: "10:30–10:45am", title: "Nappy check", note: "Changes where needed. Children with individual nap times follow their own routine." },
+  { time: "10:45–11:30am", title: "Key groups, messy play or art activities" },
+  { time: "11:30am–12:00pm", title: "Nappy change" },
+  { time: "11:30am–12:00pm", title: "Group circle time and action rhymes", note: "Books, songs, puppets and finger plays." },
+  { time: "12:00–12:30pm", title: "Lunch and bottle time" },
+  { time: "12:30–2:00pm", title: "Sleep time for all-day children" },
 ];
 const abbeyRoadBabyAfternoon: Activity[] = [
-  { time: "12:00–12:30pm", title: "Story time", note: "Books and songs." },
-  { time: "12:30–1:30pm", title: "Outside play and gross motor activities" },
-  { time: "1:30–2:30pm", title: "Nap time" },
-  { time: "2:00pm", title: "Arrival time for afternoon children" },
-  { time: "2:30–3:00pm", title: "Bottles and snack" },
-  { time: "3:00–4:00pm", title: "Sensory or art activity" },
-  { time: "4:00–5:00pm", title: "Individual play time" },
-];
-const abbeyRoadMorning: Activity[] = [
-  { time: "8:00am", title: "Arrival time for the children" },
-  { time: "8:30–11:30am", title: "Montessori work cycle" },
-  { time: "8:30–11:30am", title: "Free-flow snack time" },
-  { time: "11:30am", title: "Circle time or group activity", note: "Topical, and extra-curricular activities." },
-  { time: "12:30pm", title: "Lunch" },
-  { time: "1:15–2:00pm", title: "Rest time for all-day children" },
-  { time: "2:00pm", title: "Collection time for morning children" },
-];
-const abbeyRoadAfternoon: Activity[] = [
-  { time: "2:00pm", title: "Arrival time for afternoon children" },
-  { time: "2:15–4:00pm", title: "Montessori and Circle Time" },
-  { time: "2:15–4:30pm", title: "Free-flow snack time" },
-  { time: "4:30pm", title: "Music & Story Time" },
-  { time: "4:30–5:30pm", title: "Physical activity", note: "Music & Movement, Song & Dance." },
-  { time: "6:00pm", title: "Collection time for the children" },
+  { time: "1:00pm", title: "Collection and arrival time for morning and afternoon children" },
+  { time: "1:15–2:00pm", title: "Key groups, messy play or art activities" },
+  { time: "2:00–2:30pm", title: "Bottles and snack" },
+  { time: "2:30–2:45pm", title: "Nappy change" },
+  { time: "2:45–3:15pm", title: "Outside play and gross motor activities", note: "Children with individual nap times follow their own routine." },
+  { time: "3:15–4:00pm", title: "Key groups: sensory or art activities" },
+  { time: "4:00–4:30pm", title: "Teatime" },
+  { time: "4:30–5:00pm", title: "Nappy change" },
+  { time: "5:00–5:30pm", title: "Individual play time" },
+  { time: "5:40–6:00pm", title: "Circle time, music, action rhymes and story time" },
+  { time: "6:00pm", title: "All children collected" },
 ];
 const abbeyRoadOpeningHours: Activity[] = [
   { time: "8am–6pm", title: "Monday–Friday" },
@@ -141,7 +133,7 @@ export default function TimetablePage() {
         <div className="schedule-grid"><Schedule heading="Opening hours" activities={angelOpeningHours} /><Schedule heading="Sessions" activities={angelSessions} /></div>
         <h3 className="schedule-section-title">Daily routine</h3>
         <p className="schedule-group-title">Two years to school age</p>
-        <div className="schedule-grid"><Schedule heading="Morning" activities={morning} /><Schedule heading="Afternoon" activities={afternoon} /></div>
+        <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div>
         <aside className="schedule-note"><h3>Time outdoors</h3><p>As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens.</p></aside>
         <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <TermCard key={term.start} term={term} />)}</div></section>
       </section>
@@ -155,7 +147,7 @@ export default function TimetablePage() {
         <p className="schedule-group-title">From babies to two years (or walking)</p>
         <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div>
         <p className="schedule-group-title">Two years to school age</p>
-        <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadMorning} /><Schedule heading="Afternoon" activities={abbeyRoadAfternoon} /></div>
+        <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div>
         <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <TermCard key={term.start} term={term} />)}</div></section>
       </section>
       </NurseryView>
