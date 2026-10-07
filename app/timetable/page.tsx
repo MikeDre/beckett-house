@@ -12,22 +12,27 @@ export const metadata: Metadata = {
 
 type Activity = { time: string; title: string; note?: string };
 const morning: Activity[] = [
-  { time: "8:00am", title: "Arrival time for all-day children" },
-  { time: "8:00–11:30am", title: "Montessori and Circle Time" },
-  { time: "8:30–11:30am", title: "Free-flow snack time" },
-  { time: "11:30am", title: "Circle time or group activity", note: "Topical (seasonal or project work). Extra-curricular classes: dance, music, drama, yoga or sport." },
-  { time: "12:30pm", title: "Lunch" },
-  { time: "1:15–2:00pm", title: "Rest time for all-day children", note: "The school provides mattresses, pillows and blankets." },
-  { time: "2:00pm", title: "Collection time for morning children" },
+  { time: "8:00am", title: "Arrival time for the children" },
+  { time: "8:00–8:45am", title: "Breakfast time and free play" },
+  { time: "8:45–9:00am", title: "Welcome circle time" },
+  { time: "9:00–10:30am", title: "Montessori work cycle" },
+  { time: "9:30–10:15am", title: "Free-flow snack time" },
+  { time: "10:00–10:30am", title: "Arts and crafts or messy activities" },
+  { time: "10:30–11:15am", title: "Outside play with outdoor activities" },
+  { time: "11:30am–12:00pm", title: "Circle time or group activity", note: "Topical and extra-curricular activities, then handwashing for lunch." },
+  { time: "12:00–12:30pm", title: "Lunch" },
+  { time: "12:30–1:30pm", title: "Outside play, activities and rest time for all-day children", note: "The school provides mattresses, pillows and blankets." },
 ];
 const afternoon: Activity[] = [
-  { time: "2:00pm", title: "Arrival time for afternoon children" },
-  { time: "2:15–4:00pm", title: "Montessori and Circle Time" },
-  { time: "2:15–4:30pm", title: "Free-flow snack time" },
-  { time: "4:30pm", title: "Music & Story Time" },
-  { time: "4:30pm", title: "Physical activity", note: "Music & Movement, Song & Dance or Climbing Frame." },
-  { time: "6:00pm", title: "Collection time for afternoon children" },
-  { time: "6:00pm", title: "Collection time for all-day children" },
+  { time: "1:00pm", title: "Collection and arrival time" },
+  { time: "1:30–1:45pm", title: "Welcome circle time" },
+  { time: "1:45–3:15pm", title: "Montessori work cycle" },
+  { time: "2:00–2:30pm", title: "Free-flow snack time" },
+  { time: "3:15–4:00pm", title: "Outside play with outdoor activities" },
+  { time: "4:00–4:30pm", title: "Teatime" },
+  { time: "4:30–5:15pm", title: "Key group time", note: "Activities, outside play or physical activity." },
+  { time: "5:30–6:00pm", title: "Music & Story Time" },
+  { time: "6:00pm", title: "Collection time for the children" },
 ];
 const angelOpeningHours: Activity[] = [
   { time: "8am–6pm", title: "Monday–Friday" },
