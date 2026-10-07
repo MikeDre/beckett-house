@@ -108,7 +108,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "What are the session prices?",
         answer:
-          "At Angel, the published rates are £500 for full-time day care per week, £100 for a full day, £60 for a morning and £40 for an afternoon. Abbey Road’s fees depend on your child’s age and weekly attendance, and are set out on our Opening Hours & Fees page. Beckett House reserves the right to alter fees without notice.",
+          "At Angel, standard monthly fees are £1,200 for 3 days a week, £1,600 for 4 days and £2,000 for full time (5 days), and are the same for 2, 3 and 4 year olds. Fees with 15 or 30 funded hours applied, and Abbey Road’s fees, which depend on your child’s age, are set out on our Opening Hours & Fees page. Beckett House reserves the right to alter fees without notice.",
         sources: [angelRegistration, abbeyRoad],
       },
       {
