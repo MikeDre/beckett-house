@@ -39,8 +39,8 @@ const angelOpeningHours: Activity[] = [
   { time: "48 weeks", title: "Open 48 weeks a year", note: "Closed for two weeks in August and two weeks at Christmas." },
 ];
 const angelSessions: Activity[] = [
-  { time: "8am–2pm", title: "Morning" },
-  { time: "2pm–6pm", title: "Afternoon" },
+  { time: "8am–1pm", title: "Morning" },
+  { time: "1pm–6pm", title: "Afternoon" },
   { time: "8am–6pm", title: "Full day" },
 ];
 const abbeyRoadBabyMorning: Activity[] = [
@@ -88,9 +88,9 @@ const abbeyRoadSessions: Activity[] = [
   { time: "8am–6pm", title: "Full day" },
 ];
 const terms = [
-  { title: "Summer term 2026", start: "2026-04-27", end: "2026-08-14" },
   { title: "Autumn term 2026", start: "2026-09-01", end: "2026-12-18" },
   { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23" },
+  { title: "Summer term 2027", start: "2027-04-26", end: "2027-08-13" },
 ];
 const abbeyRoadTerms = [
   { title: "Summer term 2026", start: "2026-05-18", end: "2026-08-28" },
