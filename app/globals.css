@@ -5367,3 +5367,6 @@ main .virtual-tour-heading p {
 
 .fee-footnote-mark { font-size: .75em; margin-left: .1em; }
 .fee-footnote { font-size: .875rem; line-height: 1.6; margin: .75rem 0 0; }
+
+.routine-picker { display: grid; gap: .5rem; margin: 0 0 1.25rem; max-width: 22rem; }
+.routine-picker label { font-size: 1rem; font-weight: 600; }

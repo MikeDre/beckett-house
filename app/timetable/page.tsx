@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
 import { NurseryToggle, NurseryView } from "../nursery-toggle";
+import { RoutinePicker } from "./routine-picker";
 import { CONTENT_LAST_REVIEWED, getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "Timetable & Term Dates";
@@ -144,10 +145,10 @@ export default function TimetablePage() {
         <h3 className="schedule-section-title">Opening hours & sessions</h3>
         <div className="schedule-grid"><Schedule heading="Opening hours" activities={abbeyRoadOpeningHours} /><Schedule heading="Sessions" activities={abbeyRoadSessions} /></div>
         <h3 className="schedule-section-title">Daily routine</h3>
-        <p className="schedule-group-title">From babies to two years (or walking)</p>
-        <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div>
-        <p className="schedule-group-title">Two years to school age</p>
-        <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div>
+        <RoutinePicker groups={[
+          { label: "From babies to two years (or walking)", content: <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div> },
+          { label: "Two years to school age", content: <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div> },
+        ]} />
         <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <TermCard key={term.start} term={term} />)}</div></section>
       </section>
       </NurseryView>
