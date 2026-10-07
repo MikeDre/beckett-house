@@ -86,7 +86,6 @@ const terms = [
   { title: "Summer term 2027", start: "2027-04-26", end: "2027-08-13" },
 ];
 const abbeyRoadTerms = [
-  { title: "Summer term 2026", start: "2026-05-18", end: "2026-08-28" },
   { title: "Autumn term 2026", start: "2026-08-31", end: "2026-12-18" },
   { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23" },
 ];
