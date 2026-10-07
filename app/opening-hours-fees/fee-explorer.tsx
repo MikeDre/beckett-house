@@ -18,7 +18,7 @@ export default function FeeExplorer() {
       ? <div className="nursery-fade" key="angel">
         <h3>Angel plans</h3>
         <p>At Angel the fees are the same for 2, 3 and 4 year olds.</p>
-        <Plans groups={angelFees} initialAge={0} />
+        <Plans groups={angelFees} initialAge={0} fundedFootnote="Funded-hours fees are averaged across the year, so the actual monthly figure will fluctuate from term to term." />
         <p className="fees-note">Monthly fees shown are the published plan figures, not a personalised quote. Funding eligibility and attendance arrangements must be confirmed with the nursery.</p>
       </div>
       : <div className="nursery-fade" key="abbey-road">
@@ -31,11 +31,12 @@ export default function FeeExplorer() {
 }
 
 // The age picker only appears when a nursery has more than one age group.
-function Plans({ groups, initialAge }: { groups: FeeGroup[]; initialAge: number }) {
+function Plans({ groups, initialAge, fundedFootnote }: { groups: FeeGroup[]; initialAge: number; fundedFootnote?: string }) {
   const [age, setAge] = useState(initialAge);
   const [plan, setPlan] = useState<Plan>("standard");
   const group = groups[age];
   const rows = group[plan];
+  const footnote = plan !== "standard" ? fundedFootnote : undefined;
   return <>
     {groups.length > 1 && <div className="fee-controls"><label>Child’s age<select value={age} onChange={event => { const next = Number(event.target.value); setAge(next); if (!groups[next].funded15 && plan === "funded15") setPlan("standard"); }}>{groups.map((entry, index) => <option key={entry.age} value={index}>{entry.age}</option>)}</select></label></div>}
     <div className="fee-switch" role="group" aria-label="Choose fee plan">
@@ -44,7 +45,8 @@ function Plans({ groups, initialAge }: { groups: FeeGroup[]; initialAge: number 
       <button type="button" aria-pressed={plan === "funded30"} onClick={() => setPlan("funded30")}>30 funded hours</button>
     </div>
     <div aria-live="polite" aria-atomic="true">
-      <table className="fee-table"><caption>{group.age} · {plan === "standard" ? "Standard fees" : plan === "funded15" ? "15 funded hours applied" : "30 funded hours applied"}</caption><thead><tr><th scope="col">Attendance per week</th><th scope="col">Monthly fee</th></tr></thead><tbody>{rows?.map((value, index) => <tr key={index}><th scope="row">{["3 days", "4 days", "Full time (5 days)"][index]}</th><td>{money(value)}</td></tr>)}</tbody></table>
+      <table className="fee-table"><caption>{group.age} · {plan === "standard" ? "Standard fees" : plan === "funded15" ? "15 funded hours applied" : "30 funded hours applied"}</caption><thead><tr><th scope="col">Attendance per week</th><th scope="col">Monthly fee</th></tr></thead><tbody>{rows?.map((value, index) => <tr key={index}><th scope="row">{["3 days", "4 days", "Full time (5 days)"][index]}</th><td>{money(value)}{footnote && <sup className="fee-footnote-mark" aria-hidden="true">*</sup>}</td></tr>)}</tbody></table>
+      {footnote && <p className="fee-footnote"><span aria-hidden="true">* </span>{footnote}</p>}
       {plan !== "standard" && <><h3>Optional extras included in the funded fees above</h3><Extras amounts={group.extras} /></>}
     </div>
   </>;

@@ -5364,3 +5364,6 @@ main .virtual-tour-heading p {
   .site-header.is-stuck { --badge-lift: 0px; }
   .site-header .wordmark img { width: 92px; }
 }
+
+.fee-footnote-mark { font-size: .75em; margin-left: .1em; }
+.fee-footnote { font-size: .875rem; line-height: 1.6; margin: .75rem 0 0; }
