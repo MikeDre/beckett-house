@@ -61,7 +61,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "What are the opening hours and session times?",
         answer:
-          "Both nurseries are open from 8am to 6pm. At Angel, mornings are 8am–2pm and afternoons are 2pm–6pm; at Abbey Road, mornings are 8am–1pm and afternoons are 1pm–6pm. Full-day care is 8am–6pm at both.",
+          "Both nurseries are open from 8am to 6pm. Mornings are 8am–1pm, afternoons are 1pm–6pm and full-day care is 8am–6pm at both.",
         sources: [angelRegistration, abbeyRoad],
       },
       {

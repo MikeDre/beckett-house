@@ -17,8 +17,8 @@ export const registrationContent: Record<NurserySlug, RegistrationNursery> = {
   angel: {
     name: "Angel",
     email: "info@beckett-house.co.uk",
-    morning: "8am to 2pm",
-    afternoon: "2pm to 6pm",
+    morning: "8am to 1pm",
+    afternoon: "1pm to 6pm",
     terms: [
       {
         title: "Admission Policy",
@@ -55,7 +55,7 @@ export const registrationContent: Record<NurserySlug, RegistrationNursery> = {
       {
         title: "Term dates and opening hours",
         paragraphs: [
-          "Beckett House is open from 8.00am - 6.00pm. Full day care is from 8.00am - 6.00pm, Mornings are from 8.00am - 2pm and afternoons are from 2pm – 6.00pm. It is important that these times are adhered to so as not to interrupt the routine of the children.",
+          "Beckett House is open from 8.00am - 6.00pm. Full day care is from 8.00am - 6.00pm, Mornings are from 8.00am - 1pm and afternoons are from 1pm – 6.00pm. It is important that these times are adhered to so as not to interrupt the routine of the children.",
           "Beckett House reserves the right to alter timetables without notice.",
         ],
       },

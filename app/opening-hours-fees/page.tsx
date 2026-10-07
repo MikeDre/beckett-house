@@ -13,7 +13,7 @@ export default function FeesPage() {
     <header className="timetable-intro"><h1>Opening hours & fees</h1><NurseryToggle label="Choose a nursery" /></header>
     <section className="fees-opening" aria-labelledby="opening-title"><h2 id="opening-title">A little flexibility for your family</h2><p>Choose any number and configuration of available morning and afternoon sessions.</p><div className="fees-hours-grid">
       <article><h3>Opening hours</h3><p>Monday–Friday<br /><strong>8am–6pm</strong></p></article>
-      <NurseryView nursery="angel"><article><h3>Sessions at Angel</h3><p>Morning: 8am–2pm<br />Afternoon: 2pm–6pm<br />Full day: 8am–6pm</p></article></NurseryView>
+      <NurseryView nursery="angel"><article><h3>Sessions at Angel</h3><p>Morning: 8am–1pm<br />Afternoon: 1pm–6pm<br />Full day: 8am–6pm</p></article></NurseryView>
       <NurseryView nursery="abbey-road"><article><h3>Sessions at Abbey Road</h3><p>Morning: 8am–1pm<br />Afternoon: 1pm–6pm<br />Full day: 8am–6pm</p></article></NurseryView>
       <NurseryView nursery="angel"><article><h3>Weeks open</h3><p>48 weeks a year, closed for two weeks in August and two weeks over Christmas.</p><a href="/timetable?location=angel#term-dates">View Angel term dates</a></article></NurseryView>
       <NurseryView nursery="abbey-road"><article><h3>Weeks open</h3><p>50 weeks a year, closed for two weeks at Christmas.</p><a href="/timetable?location=abbey-road#abbey-road-term-dates">View Abbey Road term dates</a></article></NurseryView>
