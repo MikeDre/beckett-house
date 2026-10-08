@@ -70,6 +70,8 @@ Free plan: 3,000 emails/month, 100/day.
 
 Run these from the project folder. Each one prompts for its value, which is stored encrypted on the Worker. Never commit these values or paste them into chat.
 
+When running them through Claude Code's `!` prefix there is no prompt, so an empty value gets stored. Copy the value first and pipe it in instead, e.g. `pbpaste | npx wrangler secret put TURNSTILE_SECRET_KEY --name beckett-house-montessori`.
+
 ```sh
 npx wrangler secret put RESEND_API_KEY --name beckett-house-montessori
 npx wrangler secret put TURNSTILE_SECRET_KEY --name beckett-house-montessori
