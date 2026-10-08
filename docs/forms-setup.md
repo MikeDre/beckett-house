@@ -71,12 +71,12 @@ Free plan: 3,000 emails/month, 100/day.
 Run these from the project folder. Each one prompts for its value, which is stored encrypted on the Worker. Never commit these values or paste them into chat.
 
 ```sh
-npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put TURNSTILE_SECRET_KEY
-npx wrangler secret put FORM_FROM_EMAIL                # Beckett House Montessori <info@beckett-house.co.uk>
-npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_EMAIL
-jq -r .private_key ~/Downloads/<key-file>.json | npx wrangler secret put GOOGLE_PRIVATE_KEY
-npx wrangler secret put FORM_SHEET_ID                  # 1z1thzQW8bpPtefz47RdX8lbsKeUZaakkAAFhdX4GSW4
+npx wrangler secret put RESEND_API_KEY --name beckett-house-montessori
+npx wrangler secret put TURNSTILE_SECRET_KEY --name beckett-house-montessori
+npx wrangler secret put FORM_FROM_EMAIL --name beckett-house-montessori                # Beckett House Montessori <info@beckett-house.co.uk>
+npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_EMAIL --name beckett-house-montessori
+jq -r .private_key ~/Downloads/<key-file>.json | npx wrangler secret put GOOGLE_PRIVATE_KEY --name beckett-house-montessori
+npx wrangler secret put FORM_SHEET_ID --name beckett-house-montessori                  # 1z1thzQW8bpPtefz47RdX8lbsKeUZaakkAAFhdX4GSW4
 ```
 
 Delete the downloaded JSON key file once `GOOGLE_PRIVATE_KEY` is stored.
