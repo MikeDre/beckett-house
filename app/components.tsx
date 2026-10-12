@@ -1022,8 +1022,8 @@ export function VisitForm() {
       setStatus("Sending…");
       try {
         await postForm("visit", data, token);
-        setStatus(`Thank you – we've received your request and sent a confirmation to ${email}.`);
-        form.reset();
+        window.location.assign(`/thank-you?form=visit&location=${location === "Abbey Road" ? "abbey-road" : "angel"}`);
+        return;
       } catch (error) {
         setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
       } finally {

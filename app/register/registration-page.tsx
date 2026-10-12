@@ -41,13 +41,12 @@ export function RegistrationPage() {
     const form = event.currentTarget;
     const data = new FormData(form);
     if (TURNSTILE_SITE_KEY) {
-      const email = String(data.get("email") || "");
       setSending(true);
       setStatus("Sending…");
       try {
         await postForm("register", data, token, nursery);
-        setStatus(`Thank you – we've received your registration and sent a confirmation to ${email}.`);
-        form.reset();
+        window.location.assign(`/thank-you?form=register&location=${nursery}`);
+        return;
       } catch (error) {
         setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
       } finally {
