@@ -1046,7 +1046,7 @@ export function VisitForm() {
   }
 
   return (
-    <form className="visit-form" onSubmit={submit}>
+    <form className="visit-form" method="post" onSubmit={submit}>
       <div className="field-row">
         <label>
           Your name

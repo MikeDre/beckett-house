@@ -118,7 +118,7 @@ export function RegistrationPage() {
             </button>
           </div>
 
-          <form className="visit-form register-form" onSubmit={submit}>
+          <form className="visit-form register-form" method="post" onSubmit={submit}>
             <div className="register-form-heading">
               <p className="eyebrow">{content.name}</p>
               <h2 id="register-form-heading">Registration form</h2>
