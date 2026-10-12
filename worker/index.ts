@@ -10,6 +10,8 @@ export interface Env {
   GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
   GOOGLE_PRIVATE_KEY?: string;
   FORM_SHEET_ID?: string;
+  // Optional comma-separated addresses that get a blind copy of each nursery notification.
+  FORM_BCC?: string;
   ASSETS: Fetcher;
   DB: D1Database;
   IMAGES: {

@@ -23,11 +23,11 @@ function emailBody(heading: string, intro: string, fields: Fields) {
   };
 }
 
-async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>) {
+async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>, bcc?: string) {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: env.FORM_FROM_EMAIL, to: [to], reply_to: replyTo, subject, ...body }),
+    body: JSON.stringify({ from: env.FORM_FROM_EMAIL, to: [to], ...(bcc ? { bcc: bcc.split(",").map((address) => address.trim()) } : {}), reply_to: replyTo, subject, ...body }),
     signal: AbortSignal.timeout(15000),
   });
   if (!response.ok) throw new Error(`Resend email failed (${response.status}).`);
@@ -100,7 +100,7 @@ export async function handleForm(request: Request, env: Env, ctx: ExecutionConte
     const result = await verification.json() as { success?: boolean };
     if (result.success !== true) return json(false, 400, "Please complete the spam protection check again and try sending your form.");
     const subject = `${kind === "visit" ? "Visit request" : "Registration"}: ${nursery.name}, ${person.replace(/[\r\n]/g, " ")}`;
-    await sendEmail(env, nursery.email, email, subject, emailBody(`Beckett House ${nursery.name}`, kind === "visit" ? "A family would like to arrange a nursery visit." : "A family has submitted a registration.", fields));
+    await sendEmail(env, nursery.email, email, subject, emailBody(`Beckett House ${nursery.name}`, kind === "visit" ? "A family would like to arrange a nursery visit." : "A family has submitted a registration.", fields), env.FORM_BCC);
   } catch (error) {
     console.error("Form notification failed:", error);
     return json(false, 502, unavailable);
