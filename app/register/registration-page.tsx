@@ -5,6 +5,7 @@ import { useNurseryChoice } from "../nursery-choice";
 import CardAnimation from "../card-animation";
 import { registrationContent } from "./register-content";
 import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "../turnstile";
+import { rememberLead, trackEvent } from "../analytics";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -45,9 +46,11 @@ export function RegistrationPage() {
       setStatus("Sending…");
       try {
         await postForm("register", data, token, nursery);
+        rememberLead("register", nursery);
         window.location.assign(`/thank-you?form=register&location=${nursery}`);
         return;
       } catch (error) {
+        trackEvent("form_error", { form_type: "register", nursery });
         setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
       } finally {
         setSending(false);

@@ -9,6 +9,7 @@ import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import { locations, type Location } from "../lib/content";
 import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "./turnstile";
 import { OPEN_COOKIE_SETTINGS } from "./cookie-consent";
+import { rememberLead, trackEvent } from "./analytics";
 import {
   GOOGLE_MAPS_API_KEY,
   calmGoogleMapStyles,
@@ -722,6 +723,7 @@ function GoogleNurseryChooserMap({
 }
 
 function chooseNursery(location: Location) {
+  trackEvent("nursery_select", { nursery: location.slug });
   try { window.localStorage.setItem("beckett-house-nursery", location.slug); } catch { /* Selection still works without browser storage. */ }
   document.cookie = `bh_preferred_nursery=${location.slug}; path=/; max-age=31536000; SameSite=Lax`;
   window.location.assign(`/${location.slug}`);
@@ -872,6 +874,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
   async function chooseRoom(index: number) {
     if (index === selectedIndex) return;
     const nextRoom = location.panoramas[index];
+    trackEvent("virtual_tour_room", { nursery: location.slug, room: nextRoom.name });
     selectedIndexRef.current = index;
     setSelectedIndex(index);
     setIsChangingRoom(true);
@@ -916,7 +919,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
                 Start exploring
               </span>
             </div>
-            <button className="panorama-start-overlay" type="button" aria-label={`Start the interactive 360 degree tour of ${location.name}`} onClick={() => setIsOpen(true)} />
+            <button className="panorama-start-overlay" type="button" aria-label={`Start the interactive 360 degree tour of ${location.name}`} onClick={() => { setIsOpen(true); trackEvent("virtual_tour_start", { nursery: location.slug }); }} />
           </>
         )}
         <div
@@ -967,6 +970,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
                 selectedIndexRef.current = index;
                 setSelectedIndex(index);
                 setIsOpen(true);
+                trackEvent("virtual_tour_start", { nursery: location.slug, room: room.name });
               }
             }}
             key={room.src}
@@ -1024,9 +1028,11 @@ export function VisitForm() {
       setStatus("Sending…");
       try {
         await postForm("visit", data, token);
+        rememberLead("visit", location === "Abbey Road" ? "abbey-road" : "angel");
         window.location.assign(`/thank-you?form=visit&location=${location === "Abbey Road" ? "abbey-road" : "angel"}`);
         return;
       } catch (error) {
+        trackEvent("form_error", { form_type: "visit", nursery: location === "Abbey Road" ? "abbey-road" : "angel" });
         setStatus(error instanceof Error && error.name === "Error" ? error.message : "Sorry, we couldn't send your request. Please try again shortly.");
       } finally {
         setSending(false);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { locations } from "../../lib/content";
 import { useNurseryChoice } from "../nursery-choice";
+import { trackPendingLead } from "../analytics";
 
 const copy = {
   visit: {
@@ -36,6 +37,7 @@ export default function ThankYouContent({ animation }: { animation: ReactNode })
     // The page is static, so which form was sent is only known after hydration.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (new URLSearchParams(window.location.search).get("form") === "register") setForm("register");
+    trackPendingLead();
   }, []);
   const text = copy[form];
 
