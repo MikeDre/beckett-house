@@ -110,10 +110,10 @@ export default function Home() {
           </div>
           <Image
             className="manifesto-photo"
-            src="/images/children-circle-time.jpg"
-            alt="Children sitting together on the classroom floor and raising their hands during a group activity"
-            width={900}
-            height={590}
+            src="/images/child-face-paint-smile.jpg"
+            alt="A smiling child with colourful face paint sitting at a table in a Montessori classroom"
+            width={1600}
+            height={1016}
             loading="lazy"
             unoptimized
           />
