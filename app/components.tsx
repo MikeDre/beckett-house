@@ -32,7 +32,7 @@ const navItems = [
 ];
 
 const aboutItems = [
-  { title: "About Beckett House", href: "/beckett-house", image: "/images/children-circle-time.jpg", description: "Get to know our family-run, Montessori-accredited preschool, individual care and home-cooked food." },
+  { title: "About Beckett House", href: "/beckett-house", image: "/images/abbey-road/alphabet-carpet.webp", description: "Get to know our family-run, Montessori-accredited preschool, individual care and home-cooked food." },
   { title: "History", href: "/history", image: "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp", description: "Discover our beginnings in Barnsbury in 1996 and the home-from-home care that sets Beckett House apart." },
   { title: "About Montessori", href: "/montessori", image: "/images/angel/montessori-nursery-angel-sensorial-corner.webp", description: "Explore Montessori’s prepared environment, hands-on materials and freedom to learn independently." },
 ];
