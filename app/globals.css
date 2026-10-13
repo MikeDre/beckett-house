@@ -5374,6 +5374,8 @@ main .virtual-tour-heading p {
 /* Form confirmation page */
 .thank-you-card h2 { font-family: var(--font-display); font-size: 1.75rem; font-weight: 400; margin: 0 0 1rem; }
 .thank-you-card ol { font-size: 1rem; line-height: 1.6; list-style: decimal; margin: 0 0 1.25rem; padding-left: 1.25rem; }
+.thank-you-card ul { font-size: 1rem; line-height: 1.6; list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.thank-you-card ul a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
 .thank-you-card li + li { margin-top: 0.4rem; }
 .thank-you-card p { font-size: 0.9375rem; margin: 0 0 1.5rem; }
 .thank-you-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
