@@ -768,7 +768,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
           />}
       <div className="nursery-chooser-intro">
         {homepage ? <Image className="map-home-logo" src="/images/beckett-house-logo-dark.svg" alt="Beckett House Montessori" width={1428} height={1071} priority /> : <p className="eyebrow">Switch schools here</p>}
-        <h1 id="nursery-chooser-title">{homepage ? "Switch schools here" : "Which nursery feels like home?"}</h1>
+        <h1 id="nursery-chooser-title" className={homepage ? "visually-hidden" : undefined}>{homepage ? "Beckett House Montessori nurseries in Angel and Abbey Road" : "Which nursery feels like home?"}</h1>
         <p className={homepage ? "map-home-introduction" : undefined}>
           {homepage ? "Beckett House is a family-run Montessori nursery with warm, welcoming spaces in Angel and Abbey Road, where children can learn, explore and grow in confidence." : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
         </p>
