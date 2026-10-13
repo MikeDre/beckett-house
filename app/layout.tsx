@@ -5,6 +5,7 @@ import "./globals.css";
 import { SITE_URL } from "../lib/seo";
 import { LocationSwitcher } from "./location-switcher";
 import PageMotion from "./page-motion";
+import CookieConsent from "./cookie-consent";
 
 const title = "Beckett House Montessori | Nursery in Angel & Abbey Road";
 const description =
@@ -40,6 +41,8 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  // Keeps Google Search Console verified (the same tag the old Wix site used).
+  verification: { google: "U2tut4pRHKPeFqVt1sEj8t2MbeTQqLi1kXMtt-7EbGk" },
   formatDetection: {
     address: false,
     email: false,
@@ -91,7 +94,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}<PageMotion /><LocationSwitcher /></body>
+      <body>{children}<PageMotion /><LocationSwitcher /><CookieConsent /></body>
     </html>
   );
 }

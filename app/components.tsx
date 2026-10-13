@@ -8,6 +8,7 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
 import { locations, type Location } from "../lib/content";
 import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "./turnstile";
+import { OPEN_COOKIE_SETTINGS } from "./cookie-consent";
 import {
   GOOGLE_MAPS_API_KEY,
   calmGoogleMapStyles,
@@ -288,6 +289,7 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} Beckett House Montessori</span>
         <span>Learning with head, hands & heart.</span>
+        <button className="footer-cookie-settings" type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}>Cookie settings</button>
       </div>
     </footer>
     </>
