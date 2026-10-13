@@ -845,7 +845,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
           panorama: initialRoom.src,
           caption: initialRoom.name,
           loadingTxt: "Preparing the room…",
-          defaultZoomLvl: 34,
+          defaultZoomLvl: 0,
           minFov: 35,
           maxFov: 90,
           mousewheelCtrlKey: true,
@@ -879,7 +879,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
       await viewerRef.current?.setPanorama(nextRoom.src, {
         caption: nextRoom.name,
         transition: { effect: "fade", speed: "12rpm", rotation: true },
-        zoom: 34,
+        zoom: 0,
       });
     } catch {
       setViewerError(true);
