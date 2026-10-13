@@ -178,17 +178,17 @@ export const locations: Location[] = [
         src: "/panoramas/angel/main.jpg",
       },
       {
-        name: "Learning space one",
+        name: "Montessori work-cycle zone",
         description: "Materials prepared at a child’s height",
         src: "/panoramas/angel/space1.jpg",
       },
       {
-        name: "Learning space two",
+        name: "Home corner",
         description: "A calm place for independent work",
         src: "/panoramas/angel/space2.jpg",
       },
       {
-        name: "Learning space three",
+        name: "Practical Life and Sensorial",
         description: "Room to choose, concentrate and explore",
         src: "/panoramas/angel/space3.jpg",
       },
