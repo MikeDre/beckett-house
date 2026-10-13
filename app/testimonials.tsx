@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-type Testimonial = { quote: string; author: string };
+type Testimonial = { quote: string; author?: string };
 
 const defaultTestimonials: Testimonial[] = [
   { quote: "The staff are fantastic, and being family-run gives you a warm, caring feeling. The children all seem really happy when you drop off and pick up.", author: "Georgina H · Beckett House parent" },
-  { quote: "A welcoming place to learn, explore and grow in confidence, with thoughtful care at every step.", author: "Placeholder testimonial · for design preview" },
-  { quote: "Little discoveries, new friendships and the freedom to try things for themselves. Every day brings something to smile about.", author: "Placeholder testimonial · for design preview" },
+  { quote: "A welcoming place to learn, explore and grow in confidence, with thoughtful care at every step." },
+  { quote: "Little discoveries, new friendships and the freedom to try things for themselves. Every day brings something to smile about." },
 ];
 
 export default function Testimonials({ testimonials = defaultTestimonials }: { testimonials?: Testimonial[] }) {
@@ -37,8 +37,8 @@ export default function Testimonials({ testimonials = defaultTestimonials }: { t
     onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setFocused(false); }}>
     <span className="quote-mark" aria-hidden="true">“</span>
     <div className="testimonial-slides" aria-live="off">
-      {testimonials.map((testimonial, index) => <div key={testimonial.author + index} className={`testimonial-slide${active === index ? " is-active" : ""}`} aria-hidden={active !== index} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${testimonials.length}`}>
-        <blockquote>{testimonial.quote}</blockquote><p className="testimonial-author">{testimonial.author}</p>
+      {testimonials.map((testimonial, index) => <div key={index} className={`testimonial-slide${active === index ? " is-active" : ""}`} aria-hidden={active !== index} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${testimonials.length}`}>
+        <blockquote>{testimonial.quote}</blockquote>{testimonial.author && <p className="testimonial-author">{testimonial.author}</p>}
       </div>)}
     </div>
     {testimonials.length > 1 && <div className="testimonial-controls">
