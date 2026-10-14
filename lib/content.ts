@@ -284,13 +284,13 @@ export const locations: Location[] = [
         src: "/panoramas/abbey-road/abbey-road-lobby.jpg",
       },
       {
-        name: "Main learning space",
+        name: "Montessori Classroom",
         description: "An open room prepared for discovery",
         src: "/panoramas/abbey-road/abbey-road-space-1.jpg",
       },
       {
-        name: "Nursery room",
-        description: "A warm, ordered space for younger children",
+        name: "Baby room",
+        description: "A warm, calm space for our youngest children",
         src: "/panoramas/abbey-road/abbey-road-nursery-carpet.jpg",
       },
       {
@@ -299,13 +299,13 @@ export const locations: Location[] = [
         src: "/panoramas/abbey-road/abbey-road-nursery-kitchen.jpg",
       },
       {
-        name: "Quiet area",
-        description: "A softer corner for stories and rest",
+        name: "Sleep room",
+        description: "A quiet, restful space for naps",
         src: "/panoramas/abbey-road/abbey-road-quiet-area.jpg",
       },
       {
-        name: "Carpet area",
-        description: "Space to gather, read and work together",
+        name: "Sensorial",
+        description: "Materials that refine the senses",
         src: "/panoramas/abbey-road/abbey-road-outer-carpet.jpg",
       },
       {
@@ -324,8 +324,8 @@ export const locations: Location[] = [
         src: "/panoramas/abbey-road/abbey-road-childrens-bathroom.jpg",
       },
       {
-        name: "Outdoor space",
-        description: "Fresh air, movement and outdoor exploration",
+        name: "Entrance",
+        description: "Arriving at our Abbey Road setting",
         src: "/panoramas/abbey-road/abbey-road-outdoor.jpg",
       },
     ],
