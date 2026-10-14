@@ -108,7 +108,7 @@ export default function Gallery() {
     <div className="gallery-grid nursery-fade" key={selected}>
       {images.map((image, index) => <figure className="gallery-card" key={image.src}>
         <button type="button" aria-haspopup="dialog" aria-label={`Open larger view: ${image.alt}`} onClick={(event) => openImage(index, event)}>
-          <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" unoptimized />
+          <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" />
         </button>
         <figcaption>{image.caption}</figcaption>
       </figure>)}
@@ -130,7 +130,7 @@ export default function Gallery() {
       {currentImage && <div className="gallery-lightbox-inner">
         <button className="gallery-lightbox-close" type="button" aria-label="Close gallery" onClick={() => dialogRef.current?.close()}>×</button>
         <div className="gallery-lightbox-image">
-          <Image key={currentImage.src} src={currentImage.src} alt={currentImage.alt} width={currentImage.width} height={currentImage.height} sizes="95vw" unoptimized />
+          <Image key={currentImage.src} src={currentImage.src} alt={currentImage.alt} width={currentImage.width} height={currentImage.height} sizes="95vw" />
         </div>
         <button className="gallery-lightbox-arrow gallery-lightbox-previous" type="button" aria-label="Previous photo" onClick={() => move(-1)}><span aria-hidden="true">‹</span></button>
         <button className="gallery-lightbox-arrow gallery-lightbox-next" type="button" aria-label="Next photo" onClick={() => move(1)}><span aria-hidden="true">›</span></button>

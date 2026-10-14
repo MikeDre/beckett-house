@@ -36,7 +36,6 @@ export default function HeroSlideshow({ slides, interval = 6000 }: { slides: Her
           height={slide.height}
           sizes="100vw"
           priority={index === 0}
-          unoptimized
         />
       ))}
     </div>

@@ -15,6 +15,8 @@ const localBindingConfig = {
   name: "beckett-house-montessori",
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
+  // Lets worker/index.ts read static files (used to serve responsive image copies).
+  assets: { binding: "ASSETS" },
   d1_databases: d1
     ? [
         {

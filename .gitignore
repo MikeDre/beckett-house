@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Local high-resolution panorama source archive (web-ready copies live in public/)
 /assets/panoramas-originals/
+
+# generated responsive image copies (scripts/responsive-images.mjs)
+/public/_responsive/

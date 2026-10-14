@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Announcement } from "../lib/content";
 
@@ -23,7 +24,7 @@ export default function Announcements({ items }: { items: Announcement[] }) {
   return <section className="home-announcements" aria-label="Nursery news and announcements" aria-roledescription="carousel" onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setInteracting(false); }}>
     <div className="announcement-viewport"><div className="announcement-track" style={{ transform: `translateX(-${active * 100}%)` }}>
     {items.map((item, index) => <article className={`announcement-card${item.image ? " announcement-card-with-image" : ""}`} key={item.id} aria-labelledby={`announcement-${item.id}`} aria-hidden={active !== index} inert={active !== index}>
-      {item.image && <img className="announcement-image" src={item.image.src} alt={item.image.alt} width={item.image.width} height={item.image.height} loading="lazy" decoding="async" />}
+      {item.image && <Image className="announcement-image" src={item.image.src} alt={item.image.alt} width={item.image.width} height={item.image.height} sizes="(min-width: 900px) 40vw, 100vw" />}
       <div className="announcement-content">
         <div className="announcement-meta"><span>{item.category}</span>{item.date && <time dateTime={item.date}>{item.dateLabel ?? item.date}</time>}</div>
         <h2 id={`announcement-${item.id}`}>{item.title}</h2>

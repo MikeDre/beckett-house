@@ -1,0 +1,9 @@
+# Photos and panoramas aren't fingerprinted, so cache for 30 days rather than forever.
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/_responsive/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/panoramas/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/lottie/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400

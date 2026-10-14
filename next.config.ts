@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Sites serves the already-compressed local WebP assets directly. The
-    // runtime image transformer is not available in the hosted environment.
-    unoptimized: true,
+    // There's no runtime image transformer on the Worker. Instead
+    // scripts/responsive-images.mjs pre-generates 640px and 1080px copies at
+    // build time, and worker/index.ts serves the nearest one for each srcset width.
+    deviceSizes: [640, 1080, 1920],
   },
 };
 
