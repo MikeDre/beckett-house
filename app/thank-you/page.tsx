@@ -6,6 +6,7 @@ import ThankYouContent from "./thank-you-content";
 export const metadata: Metadata = {
   title: "Thank you",
   description: "Thank you for getting in touch with Beckett House Montessori.",
+  alternates: { canonical: "/thank-you" },
   robots: { index: false, follow: true },
 };
 

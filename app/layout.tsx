@@ -29,7 +29,6 @@ export const metadata: Metadata = {
   creator: "Beckett House Montessori",
   publisher: "Beckett House Montessori",
   referrer: "origin-when-cross-origin",
-  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,

@@ -16,7 +16,7 @@ const description =
   "Compare Beckett House Montessori nurseries in Angel, Islington and Abbey Road, St John's Wood by age range, location and opening hours.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: `${title} | Beckett House` },
   description,
   alternates: { canonical: "/find-your-nursery" },
   openGraph: { ...DEFAULT_OPEN_GRAPH,

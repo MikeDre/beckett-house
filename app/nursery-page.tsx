@@ -35,10 +35,10 @@ export async function generateMetadata({
   const title =
     location.slug === "angel"
       ? "Montessori Nursery in Angel, Islington"
-      : "Montessori Nursery on Abbey Road, St John's Wood";
+      : "Montessori Nursery in St John's Wood, NW8";
   const description = `Beckett House ${location.name} is a family-run Montessori nursery for ${location.ages}, open Monday to Friday, 8am–6pm. Explore the rooms and book a visit.`;
   return {
-    title,
+    title: { absolute: `${title} | Beckett House` },
     description,
     alternates: { canonical: `/${location.slug}` },
     openGraph: { ...DEFAULT_OPEN_GRAPH,
@@ -123,7 +123,6 @@ export default async function LocationPage({
           <div className="location-hero-image">
             <Image
               src={location.image}
-              unoptimized
               alt={location.imageAlt}
               width={location.slug === "angel" ? 2000 : 1600}
               height={location.slug === "angel" ? 1332 : 1067}
@@ -218,7 +217,6 @@ export default async function LocationPage({
           <div className="gallery-main">
             <Image
               src="/images/learning-room.webp"
-              unoptimized
               alt="A carefully ordered Montessori classroom"
               width={1400}
               height={934}
@@ -228,7 +226,6 @@ export default async function LocationPage({
           <div className="gallery-side">
             <Image
               src="/images/sensory-room.webp"
-              unoptimized
               alt="Montessori materials ready for children to explore"
               width={1400}
               height={934}

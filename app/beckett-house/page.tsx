@@ -6,7 +6,7 @@ import { SiteFooter, SiteHeader } from "../components";
 import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 
 const title = "About Beckett House";
-const description = "Discover Beckett House's family-run Montessori preschool in Barnsbury, Islington: individual attention, hands-on learning, home-cooked food and our history since 1996.";
+const description = "Discover Beckett House, a family-run Montessori preschool in Barnsbury, Islington: individual attention, hands-on learning and home-cooked food since 1996.";
 
 export const metadata: Metadata = {
   title,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 function AboutFeatureCard({ src, alt, width, height, children }: { src: string; alt: string; width: number; height: number; children: ReactNode }) {
   return <article>
-    <Image className="about-feature-image" src={src} alt={alt} width={width} height={height} sizes="(min-width: 900px) 30vw, 100vw" loading="lazy" unoptimized />
+    <Image className="about-feature-image" src={src} alt={alt} width={width} height={height} sizes="(min-width: 900px) 30vw, 100vw" loading="lazy" />
     <div className="about-feature-body">{children}</div>
   </article>;
 }
@@ -41,7 +41,7 @@ export default function AboutPage() {
           <h2 className="about-accredited-heading">Montessori accredited</h2>
           <blockquote className="montessori-opening-quote"><p>“We believe education is important... we believe language, the command of numbers and social behaviour are important... but more than anything, we believe your children should be happy and confident and enjoy every moment of their time at nursery school.”</p></blockquote>
         </div>
-        <div className="about-beckett-hero-image"><Image src="/images/abbey-road/main-room-3.webp" alt="The bright main room at Abbey Road, with a sofa, child-sized tables and shelves of Montessori materials" width={1600} height={1067} sizes="(min-width: 900px) 50vw, 100vw" priority unoptimized /></div>
+        <div className="about-beckett-hero-image"><Image src="/images/abbey-road/main-room-3.webp" alt="The bright main room at Abbey Road, with a sofa, child-sized tables and shelves of Montessori materials" width={1600} height={1067} sizes="(min-width: 900px) 50vw, 100vw" priority /></div>
       </section>
       <section className="about-school-introduction section-pad" aria-label="Our Montessori preschool">
         <p className="about-lede">Beckett House Montessori is a ‘good’ rated, and Montessori ‘MEAB’ <a className="text-link" href="https://www.montessori.org.uk/wp-content/uploads/2018/06/Beckett-House.pdf" target="_blank" rel="noopener noreferrer">accredited</a>, family run preschool.</p>

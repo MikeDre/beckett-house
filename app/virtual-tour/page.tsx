@@ -4,7 +4,7 @@ import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID, DEF
 import VirtualTour from "./tour";
 
 const title = "Virtual Tour";
-const description = "Explore Beckett House Montessori in Angel and Abbey Road through interactive 360° nursery panoramas. Look around classrooms and choose the spaces you want to see.";
+const description = "Explore Beckett House Montessori in Angel and Abbey Road through interactive 360° panoramas. Look around the classrooms before you visit.";
 export const metadata: Metadata = {
   title, description, alternates: { canonical: "/virtual-tour" },
   openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/virtual-tour", type: "website", locale: "en_GB" },

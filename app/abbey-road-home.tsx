@@ -93,8 +93,8 @@ export default function AbbeyRoadHome() {
         >
           <HeroSlideshow slides={heroSlides} />
           <div className="wide-photo-caption">
-            <span>Welcome to our new setting in Abbey Road</span>
             <h1 id="abbey-road-hero-title">
+              <span>Our new Montessori nursery on Abbey Road, NW8</span>{" "}
               A new home from home where your children learn.
             </h1>
             <div className="photo-hero-actions">
@@ -132,7 +132,6 @@ export default function AbbeyRoadHome() {
             width={1600}
             height={1067}
             loading="lazy"
-            unoptimized
           />
         </section>
 
@@ -189,7 +188,6 @@ export default function AbbeyRoadHome() {
                     "/images/abbey-road/montessori-puzzle.webp",
                     "/images/abbey-road/kitchen.webp",
                   ][index]}
-                  unoptimized
                   alt=""
                   width={1600}
                   height={1067}

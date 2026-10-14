@@ -4,7 +4,7 @@ import { locations } from "../lib/content";
 import { getLocationSchema, getOrganizationSchema, getWebsiteSchema, jsonLd, SITE_URL, DEFAULT_OPEN_GRAPH } from "../lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Beckett House Montessori | Montessori Nursery in Angel & Abbey Road" },
+  title: { absolute: "Montessori Nursery in Angel & Abbey Road | Beckett House" },
   description: "Choose your Beckett House Montessori nursery. Find Angel in Islington or Abbey Road in St John's Wood on our interactive location map.",
   alternates: { canonical: "/" }, openGraph: { ...DEFAULT_OPEN_GRAPH, url: "/" },
 };

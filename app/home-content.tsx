@@ -77,8 +77,8 @@ export default function Home() {
         >
           <HeroSlideshow slides={heroSlides} />
           <div className="wide-photo-caption">
-            <span>Welcome to Beckett House Montessori</span>
             <h1 id="home-hero-title">
+              <span>Montessori nursery in Angel, Islington</span>{" "}
               Calm spaces. Beautiful materials. Everything within reach.
             </h1>
             <p className="photo-hero-lede">
@@ -115,7 +115,6 @@ export default function Home() {
             width={1600}
             height={1016}
             loading="lazy"
-            unoptimized
           />
         </section>
 
@@ -161,7 +160,6 @@ export default function Home() {
             <article className="life-photo-card">
               <Image
                 src="/images/angel/montessori-nursery-angel-cosy-book-corner.webp"
-                unoptimized
                 alt="A cosy book corner with a sofa, rugs and bookshelves"
                 width={2000}
                 height={1333}
@@ -176,7 +174,6 @@ export default function Home() {
             <article className="life-photo-card">
               <Image
                 src="/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp"
-                unoptimized
                 alt="A keyboard, puzzles and an interactive screen beside colourful rugs"
                 width={2000}
                 height={1333}
@@ -191,7 +188,6 @@ export default function Home() {
             <article className="life-photo-card">
               <Image
                 src="/images/angel/montessori-nursery-angel-earth-day-artwork.webp"
-                unoptimized
                 alt="Children’s Earth Day artwork with handprints and magnetic shapes"
                 width={2000}
                 height={1333}

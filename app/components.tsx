@@ -81,10 +81,10 @@ function TimetableNavigation({ mobile = false, onNavigate, items = timetableItem
     </div>
     <div id={panelId} className="timetable-mega-menu" hidden={!expanded}>
       <div className="timetable-mega-links">{items.map((entry, index) => <Link key={entry.title} href={entry.href} className={active === index ? "is-active" : ""} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} onClick={() => { setExpanded(false); onNavigate?.(); }}>
-        {mobile && <Image src={entry.image} alt="" width={180} height={135} unoptimized />}
+        {mobile && <Image src={entry.image} alt="" width={180} height={135} />}
         <div><span>{entry.title}</span>{mobile && <p>{entry.description}</p>}</div>
       </Link>)}</div>
-      {!mobile && <div className="timetable-mega-preview"><Image key={item.image} src={item.image} alt="" width={640} height={400} unoptimized /><h3>{item.title}</h3><p>{item.description}</p></div>}
+      {!mobile && <div className="timetable-mega-preview"><Image key={item.image} src={item.image} alt="" width={640} height={400} /><h3>{item.title}</h3><p>{item.description}</p></div>}
     </div>
   </div>;
 }
@@ -237,10 +237,10 @@ export function SiteFooter() {
   return (
     <>
       <div className="footer-accreditations" role="group" aria-label="Nursery accreditation and inspection logos">
-        <Image src="/images/meab-accreditation.avif" alt="Montessori Evaluation and Accreditation Board accreditation" width={137} height={63} loading="lazy" unoptimized />
-        <Image src="/images/meab.avif" alt="MEAB" width={63} height={63} loading="lazy" unoptimized />
-        <Image src="/images/ofsted.avif" alt="Ofsted" width={74} height={74} loading="lazy" unoptimized />
-        <Image src="/images/food-hygiene.avif" alt="Food hygiene rating" width={101} height={52} loading="lazy" unoptimized />
+        <Image src="/images/meab-accreditation.avif" alt="Montessori Evaluation and Accreditation Board accreditation" width={137} height={63} loading="lazy" />
+        <Image src="/images/meab.avif" alt="MEAB" width={63} height={63} loading="lazy" />
+        <Image src="/images/ofsted.avif" alt="Ofsted" width={74} height={74} loading="lazy" />
+        <Image src="/images/food-hygiene.avif" alt="Food hygiene rating" width={101} height={52} loading="lazy" />
       </div>
     <footer className="site-footer">
       <div className="footer-top">
@@ -290,6 +290,7 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} Beckett House Montessori</span>
         <span>Learning with head, hands & heart.</span>
+        <Link className="footer-cookie-settings" href="/privacy">Privacy &amp; cookies</Link>
         <button className="footer-cookie-settings" type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}>Cookie settings</button>
       </div>
     </footer>
@@ -393,6 +394,7 @@ function LeafletLocationsMap({
   return <div
     className="locations-map"
     ref={containerRef}
+    role="region"
     aria-label="Interactive map showing Beckett House Montessori in Angel and Abbey Road"
   />;
 }
@@ -483,6 +485,7 @@ function GoogleLocationsMap({
   return <div
     className="locations-map"
     ref={containerRef}
+    role="region"
     aria-label="Interactive map showing Beckett House Montessori in Angel and Abbey Road"
   />;
 }
@@ -620,6 +623,7 @@ function LeafletNurseryChooserMap({
   return <div
     className="nursery-chooser-map"
     ref={containerRef}
+    role="region"
     aria-label="Full-screen map showing Beckett House Montessori in Angel and Abbey Road"
   />;
 }
@@ -718,6 +722,7 @@ function GoogleNurseryChooserMap({
   return <div
     className="nursery-chooser-map"
     ref={containerRef}
+    role="region"
     aria-label="Full-screen map showing Beckett House Montessori in Angel and Abbey Road"
   />;
 }
@@ -804,7 +809,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
             </button></h2>
             <div id={panelId} className="nursery-card-expansion" role="region" aria-labelledby={`${panelId}-trigger`} aria-hidden={!expanded} inert={!expanded}>
               <div className="nursery-card-overflow">
-                <Image className="nursery-card-photo" src={location.image} alt={location.imageAlt} width={900} height={600} sizes="(min-width: 900px) 31vw, 100vw" unoptimized />
+                <Image className="nursery-card-photo" src={location.image} alt={location.imageAlt} width={900} height={600} sizes="(min-width: 900px) 31vw, 100vw" />
                 <div className="nursery-card-details">
                   <div className="nursery-card-facts"><span>{location.ages}</span><span>{location.opening}</span></div>
                   <p>{location.strapline}</p>
@@ -901,7 +906,6 @@ export function PanoramaViewer({ location }: { location: Location }) {
             <Image
               className="panorama-poster"
               src={location.image}
-              unoptimized
               alt={`Preview of Beckett House Montessori ${location.name}`}
               width={location.slug === "angel" ? 2000 : 1600}
               height={location.slug === "angel" ? 1332 : 1067}
@@ -925,6 +929,7 @@ export function PanoramaViewer({ location }: { location: Location }) {
         <div
           className="panorama-canvas"
           ref={containerRef}
+          role="region"
           aria-label={`Interactive 360 degree view of ${selected.name} at Beckett House ${location.name}`}
         />
         {isOpen && (
@@ -1087,6 +1092,7 @@ export function VisitForm() {
         />
       </label>
       {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
+      <p className="form-privacy-note">We’ll use your details to reply to your request. See our <Link href="/privacy">privacy notice</Link>.</p>
       <button className="button button-dark form-submit" type="submit" disabled={sending}>
         {sending ? "Sending…" : "Request a visit"}
       </button>
