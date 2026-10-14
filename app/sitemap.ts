@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/opening-hours-fees", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/visit", changeFrequency: "monthly" as const, priority: 0.9 },
     { path: "/register", changeFrequency: "monthly" as const, priority: 0.9 },
+    { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
   ];
   return [
     ...pages.map((page) => ({

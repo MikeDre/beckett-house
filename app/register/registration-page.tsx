@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { useNurseryChoice } from "../nursery-choice";
 import CardAnimation from "../card-animation";
@@ -209,6 +210,7 @@ export function RegistrationPage() {
             </div>
 
             {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
+            <p className="form-privacy-note">We’ll use these details to process your registration. See our <Link href="/privacy">privacy notice</Link>.</p>
             <button className="button button-dark form-submit" type="submit" disabled={sending}>
               {sending ? "Sending…" : TURNSTILE_SITE_KEY ? "Submit registration" : "Prepare registration email"}
             </button>

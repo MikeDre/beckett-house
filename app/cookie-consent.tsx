@@ -37,7 +37,7 @@ export default function CookieConsent() {
   return (
     <section className="cookie-consent" role="region" aria-label="Cookie choices">
       <p>
-        <strong>Can we use analytics cookies?</strong> They help us see how people use the site so we can improve it. We only set them if you agree.
+        <strong>Can we use analytics cookies?</strong> They help us see how people use the site so we can improve it. We only set them if you agree. <a href="/privacy#cookies">Privacy &amp; cookies</a>
       </p>
       <div className="cookie-consent-actions">
         <button className="button button-light" type="button" onClick={() => choose("denied")}>No thanks</button>
