@@ -74,6 +74,12 @@ test("plain http is upgraded to https", async () => {
   assert.equal(response.headers.get("location"), "https://www.beckett-house.co.uk/angel");
 });
 
+test("the bare domain redirects to www", async () => {
+  const response = await render("/faq?x=1", "https://beckett-house.co.uk");
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get("location"), "https://www.beckett-house.co.uk/faq?x=1");
+});
+
 test("unknown pages return the 404 page", async () => {
   const response = await render("/this-page-does-not-exist");
   assert.equal(response.status, 404);

@@ -17,6 +17,14 @@ const localBindingConfig = {
   compatibility_flags: ["nodejs_compat"],
   // Lets worker/index.ts read static files (used to serve responsive image copies).
   assets: { binding: "ASSETS" },
+  // Keep the workers.dev address working alongside the live domain.
+  workers_dev: true,
+  preview_urls: true,
+  // The live domain. www is canonical; the worker redirects the bare domain to it.
+  routes: [
+    { pattern: "www.beckett-house.co.uk", custom_domain: true },
+    { pattern: "beckett-house.co.uk", custom_domain: true },
+  ],
   d1_databases: d1
     ? [
         {

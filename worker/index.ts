@@ -67,8 +67,11 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    if (url.protocol === "http:" && url.hostname !== "localhost" && url.hostname !== "127.0.0.1") {
+    // One canonical address: https and www.
+    const toWww = url.hostname === "beckett-house.co.uk";
+    if (toWww || (url.protocol === "http:" && url.hostname !== "localhost" && url.hostname !== "127.0.0.1")) {
       url.protocol = "https:";
+      if (toWww) url.hostname = "www.beckett-house.co.uk";
       return Response.redirect(url.toString(), 301);
     }
 
