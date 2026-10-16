@@ -3,10 +3,7 @@ import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { sites } from "./build/sites-vite-plugin";
 
-const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "00000000-0000-4000-8000-000000000000";
-
-const { d1, r2 } = hostingConfig;
+const { r2 } = hostingConfig;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
@@ -25,15 +22,7 @@ const localBindingConfig = {
     { pattern: "www.beckett-house.co.uk", custom_domain: true },
     { pattern: "beckett-house.co.uk", custom_domain: true },
   ],
-  d1_databases: d1
-    ? [
-        {
-          binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
-        },
-      ]
-    : [],
+  d1_databases: [{ binding: "DB", database_name: "beckett-house-admin", database_id: "35f9a552-2907-40c7-92a9-68ec0d7f4011", migrations_dir: "migrations" }],
   r2_buckets: r2
     ? [
         {

@@ -1,4 +1,7 @@
 export type Announcement = {
+  published?: boolean;
+  showFrom?: string;
+  showUntil?: string;
   id: string;
   category: string;
   title: string;
@@ -13,6 +16,7 @@ export type Announcement = {
 export const homeAnnouncements: Announcement[] = [
   {
     id: "halloween-open-day-2026",
+    showUntil: "2026-11-06",
     category: "Open day",
     title: "Halloween Open Day at Abbey Road",
     summary: "Come and join us! Visit from 2pm to 5pm for Halloween and Guy Fawkes activities, learn about Montessori and meet our teachers. Trick or treat prizes for the children! 84–86 Abbey Road, London NW8 0QA.",

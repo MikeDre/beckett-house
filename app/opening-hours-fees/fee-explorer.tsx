@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useNurseryChoice } from "../nursery-choice";
-import { abbeyRoadFees, angelFees, extraDescriptions, money } from "../../lib/fees";
+import { type FeeGroup, extraDescriptions, money } from "../../lib/fees";
 
 type Plan = "standard" | "funded15" | "funded30";
-type FeeGroup = (typeof abbeyRoadFees)[number];
 
-export default function FeeExplorer() {
+
+export default function FeeExplorer({ angelFees, abbeyRoadFees }: { angelFees: FeeGroup[]; abbeyRoadFees: FeeGroup[] }) {
   const [nursery, setNursery] = useNurseryChoice();
   return <section className="fee-explorer" aria-labelledby="explorer-title">
     <h2 id="explorer-title">Find your fees</h2>
@@ -32,9 +32,9 @@ export default function FeeExplorer() {
 
 // The age picker only appears when a nursery has more than one age group.
 function Plans({ groups, initialAge, fundedFootnote }: { groups: FeeGroup[]; initialAge: number; fundedFootnote?: string }) {
-  const [age, setAge] = useState(initialAge);
+  const [age, setAge] = useState(Math.min(initialAge, groups.length - 1));
   const [plan, setPlan] = useState<Plan>("standard");
-  const group = groups[age];
+  const group = groups[Math.min(age, groups.length - 1)];
   const rows = group[plan];
   const footnote = plan !== "standard" ? fundedFootnote : undefined;
   return <>

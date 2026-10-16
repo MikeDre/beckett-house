@@ -1,3 +1,4 @@
+import { getAnnouncements } from "../lib/site-data";
 import Image from "next/image";
 import Link from "next/link";
 import Testimonials from "./testimonials";
@@ -12,7 +13,7 @@ import {
   SiteFooter,
   SiteHeader,
 } from "./components";
-import { homeAnnouncements, homeFaqs, locations, principles } from "../lib/content";
+import {  homeFaqs, locations, principles } from "../lib/content";
 import {
   CONTENT_LAST_REVIEWED,
   getFaqSchema,
@@ -65,7 +66,8 @@ const structuredData = {
   ],
 };
 
-export default function Home() {
+export default async function Home() {
+  const announcements = await getAnnouncements();
   return (
     <>
       <SiteHeader />
@@ -92,7 +94,7 @@ export default function Home() {
           </div>
         </section>
 
-        <Announcements items={homeAnnouncements} />
+        <Announcements items={announcements} />
 
         <section className="manifesto section-pad" id="approach">
           <div className="manifesto-heading">

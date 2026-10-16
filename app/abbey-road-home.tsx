@@ -1,3 +1,4 @@
+import { getAnnouncements } from "../lib/site-data";
 import Image from "next/image";
 import Link from "next/link";
 import Announcements from "./announcements";
@@ -15,7 +16,6 @@ import {
 import {
   getLocation,
   getLocationFaqs,
-  homeAnnouncements,
   locations,
 } from "../lib/content";
 import {
@@ -81,7 +81,8 @@ const structuredData = {
   ],
 };
 
-export default function AbbeyRoadHome() {
+export default async function AbbeyRoadHome() {
+  const announcements = await getAnnouncements();
   return (
     <>
       <SiteHeader />
@@ -108,7 +109,7 @@ export default function AbbeyRoadHome() {
           </div>
         </section>
 
-        <Announcements items={homeAnnouncements} />
+        <Announcements items={announcements} />
 
         <section className="manifesto section-pad" id="approach">
           <div className="manifesto-heading">

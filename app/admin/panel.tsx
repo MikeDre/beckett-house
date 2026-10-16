@@ -1,0 +1,73 @@
+/* eslint-disable @next/next/no-img-element -- Staff need a direct preview of their chosen image path. */
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import type { Announcement } from "../../lib/content";
+import { locations } from "../../lib/content";
+import type { FeesContent, Notifications } from "../../lib/site-data";
+import Announcements from "../announcements";
+
+type Submission = { id: number; created_at: string; kind: string; nursery: string; name: string; email: string; status: string; fields?: [string, string][] };
+type Activity = { id: number; at: string; user: string; action: string; summary: string };
+const planLabels = { standard: "Standard fees", funded15: "15 funded hours", funded30: "30 funded hours", extras: "Optional extras" };
+const tabs = ["Announcements", "Fees & hours", "Form recipients", "Submissions", "Activity"];
+async function api<T = unknown>(path: string, method = "GET", data?: unknown) {
+  const response = await fetch(`/api/admin/${path}`, { method, cache: "no-store", ...(method !== "GET" ? { headers: { "Content-Type": "application/json" }, body: JSON.stringify(data ?? {}) } : {}) });
+  const result = await response.json();
+  if (!response.ok) throw new Error((result as { error?: string }).error || "Request failed.");
+  return result as T;
+}
+function Field({ label, value, onChange, type = "text" }: { label: string; value: string | number; onChange: (value: string) => void; type?: string }) {
+  return <label className="admin-field">{label}<input type={type} value={value} onChange={event => onChange(event.target.value)} {...(type === "number" ? { min: 0, step: "any" } : {})} /></label>;
+}
+function previewAnnouncement(item: Announcement): Announcement {
+  const image = item.image && /^\/images\/[\w/-]+\.(webp|jpe?g|png|avif)$/i.test(item.image.src) && !item.image.src.includes("..") ? { ...item.image, width: Math.max(1, Math.round(item.image.width) || 1600), height: Math.max(1, Math.round(item.image.height) || 1067) } : undefined;
+  return { ...item, image, href: item.href && /^(\/(?!\/)|https:\/\/)/.test(item.href) ? item.href : undefined };
+}
+function DeleteButton({ onDelete }: { onDelete: () => void }) {
+  const [confirm, setConfirm] = useState(false);
+  return confirm ? <span className="admin-actions">Delete permanently? <button type="button" onClick={onDelete}>Yes, delete</button><button type="button" onClick={() => setConfirm(false)}>Cancel</button></span> : <button type="button" onClick={() => setConfirm(true)}>Delete</button>;
+}
+export default function AdminPanel() {
+  const [tab, setTab] = useState(0), [email, setEmail] = useState(""), [message, setMessage] = useState("");
+  const [announcements, setAnnouncements] = useState<Announcement[] | null>(null), [fees, setFees] = useState<FeesContent | null>(null), [recipients, setRecipients] = useState<Record<string, string> | null>(null);
+  const [rows, setRows] = useState<Submission[]>([]), [detail, setDetail] = useState<Submission | null>(null), [activity, setActivity] = useState<Activity[]>([]);
+  const [filters, setFilters] = useState({ kind: "", nursery: "", status: "" }), [offset, setOffset] = useState(0), [loading, setLoading] = useState(true), [saving, setSaving] = useState(false);
+  useEffect(() => {
+    let live = true;
+    Promise.all([api<{ email: string }>("me"), api<Announcement[]>("announcements"), api<FeesContent>("fees"), api<Notifications>("notifications")]).then(([me, a, f, n]: [{ email: string }, Announcement[], FeesContent, Notifications]) => {
+      if (!live) return; setEmail(me.email); setAnnouncements(a); setFees(f); setRecipients(Object.fromEntries(Object.entries(n.copies).map(([key, list]) => [key, list.join("\n")])));
+    }).catch(error => { if (live) setMessage(error.message); }).finally(() => { if (live) setLoading(false); });
+    return () => { live = false; };
+  }, []);
+  useEffect(() => {
+    let live = true;
+    if (tab === 3 || tab === 4) (tab === 3 ? api<Submission[]>(`submissions?${new URLSearchParams({ ...filters, offset: String(offset), limit: "50" })}`).then(result => { if (live) setRows(result); }) : api<Activity[]>("activity").then(result => { if (live) setActivity(result); })).catch(error => { if (live) setMessage(error.message); });
+    return () => { live = false; };
+  }, [tab, filters, offset]);
+  async function run(work: () => Promise<void>, success = "Saved.") { setSaving(true); setMessage(""); try { await work(); setMessage(success); } catch (error) { setMessage((error as Error).message); } finally { setSaving(false); } }
+  function updateAnnouncement(index: number, patch: Partial<Announcement>) { setAnnouncements(current => current!.map((item, i) => i === index ? { ...item, ...patch } : item)); }
+  async function refreshRows() { setRows(await api<Submission[]>(`submissions?${new URLSearchParams({ ...filters, offset: String(offset), limit: "50" })}`)); }
+  return <main className="admin-panel"><header className="admin-header"><h1>Beckett House staff admin</h1><p>{email && <>Signed in as {email} · </>}<a href="/cdn-cgi/access/logout">Sign out</a> · <Link href="/">View site</Link></p></header>
+    <nav className="admin-tabs" aria-label="Admin sections">{tabs.map((name, i) => <button key={name} type="button" aria-current={tab === i ? "page" : undefined} onClick={() => { setTab(i); setMessage(""); }}>{name}</button>)}</nav>
+    <p role="status" className="admin-message">{loading ? "Loading…" : message}</p>
+    <fieldset disabled={saving || loading} className="admin-content"><legend>{tabs[tab]}</legend>
+    {tab === 0 && announcements && <><p>Items appear in this order. Show dates include the whole day in London time. Unpublished items stay in the editor.</p>{announcements.map((item, index) => <article className="admin-card" key={index}>
+      <h2>{item.title || "New announcement"}</h2><div className="admin-grid">{([['id', 'Unique ID'], ['category', 'Category'], ['title', 'Title'], ['summary', 'Summary'], ['date', 'Event date'], ['dateLabel', 'Date label'], ['href', 'Link'], ['linkLabel', 'Link label'], ['showFrom', 'Show from'], ['showUntil', 'Show until']] as const).map(([key, label]) => <Field key={key} label={label} type={['date', 'showFrom', 'showUntil'].includes(key) ? "date" : "text"} value={item[key] ?? ""} onChange={value => updateAnnouncement(index, { [key]: value })} />)}</div>
+      <label><input type="checkbox" checked={item.published !== false} onChange={event => updateAnnouncement(index, { published: event.target.checked })} /> Published</label>
+      <Field label="Image path (leave blank for no image)" value={item.image?.src ?? ""} onChange={src => updateAnnouncement(index, { image: src ? { src, alt: item.image?.alt ?? "", width: item.image?.width ?? 1600, height: item.image?.height ?? 1067 } : undefined })} />
+      {item.image && <><div className="admin-grid"><Field label="Image description" value={item.image.alt} onChange={alt => updateAnnouncement(index, { image: { ...item.image!, alt } })} />{(['width', 'height'] as const).map(key => <Field key={key} label={`Image ${key}`} type="number" value={item.image![key]} onChange={value => updateAnnouncement(index, { image: { ...item.image!, [key]: Number(value) } })} />)}</div>{/^\/images\//.test(item.image.src) && <img className="admin-image" src={item.image.src} alt={item.image.alt} />}</>}
+      <div className="admin-actions">{[-1, 1].map(direction => <button key={direction} type="button" disabled={index + direction < 0 || index + direction >= announcements.length} onClick={() => { const next = [...announcements]; [next[index], next[index + direction]] = [next[index + direction], next[index]]; setAnnouncements(next); }}>{direction < 0 ? "Move up" : "Move down"}</button>)}<DeleteButton onDelete={() => setAnnouncements(announcements.filter((_, i) => i !== index))} /></div>
+      <details><summary>Preview appearance</summary><Announcements key={JSON.stringify(item)} items={[previewAnnouncement(item)]} /></details>
+    </article>)}<div className="admin-actions"><button type="button" onClick={() => setAnnouncements([...announcements, { id: `news-${Date.now()}`, category: "Nursery news", title: "", published: false }])}>Add announcement</button><button className="button button-dark" onClick={() => run(async () => { setAnnouncements(await api<Announcement[]>("announcements", "PUT", announcements)); })}>Save announcements</button></div></>}
+    {tab === 1 && fees && <><div className="admin-grid"><Field label="Opening days" value={fees.openingHours.days} onChange={days => setFees({ ...fees, openingHours: { ...fees.openingHours, days } })} /><Field label="Opening hours" value={fees.openingHours.hours} onChange={hours => setFees({ ...fees, openingHours: { ...fees.openingHours, hours } })} /><Field label="Registration fee (£)" type="number" value={fees.registrationFee} onChange={value => setFees({ ...fees, registrationFee: Number(value) })} /></div>
+      {locations.map(location => { const slug = location.slug, key = slug === "angel" ? "angelFees" : "abbeyRoadFees"; return <section className="admin-card" key={slug}><h2>{location.name}</h2><div className="admin-grid">{(['morning', 'afternoon', 'fullDay'] as const).map(key => <Field key={key} label={`${location.name} ${key === 'fullDay' ? 'full day' : key} session`} value={fees.sessions[slug][key]} onChange={value => setFees({ ...fees, sessions: { ...fees.sessions, [slug]: { ...fees.sessions[slug], [key]: value } } })} />)}<Field label="Weeks open and closures" value={fees.weeksOpen[slug]} onChange={value => setFees({ ...fees, weeksOpen: { ...fees.weeksOpen, [slug]: value } })} /></div>
+        {fees[key].map((group, index) => <div key={index} className="admin-table-wrap"><h3>{group.age}</h3><table><caption>Monthly fees (£); extras per funded day (£)</caption><thead><tr><th>Plan</th><th>3 days / Food</th><th>4 days / Consumables</th><th>5 days / Activities</th></tr></thead><tbody>{(['standard', 'funded15', 'funded30', 'extras'] as const).map(plan => group[plan] && <tr key={plan}><th>{planLabels[plan]}</th>{group[plan]!.map((amount, col) => <td key={col}><Field label={`${group.age} ${planLabels[plan]} ${plan === 'extras' ? ['food', 'consumables', 'activities'][col] : `${col + 3} days`}`} value={amount} type="number" onChange={value => setFees({ ...fees, [key]: fees[key].map((g, i) => i === index ? { ...g, [plan]: g[plan]!.map((n, c) => c === col ? Number(value) : n) } : g) })} /></td>)}</tr>)}</tbody></table></div>)}
+      </section>; })}<button className="button button-dark" onClick={() => run(async () => { setFees(await api<FeesContent>("fees", "PUT", fees)); })}>Save fees & hours</button></>}
+    {tab === 2 && recipients && <><p>The nursery’s main address remains the To recipient. These lists receive blind copies for both visit and registration forms. Use one address per line, up to 20 per list. Once you save here, these lists replace the copy addresses that were set up at launch.</p>{locations.map(location => <p key={location.slug}>{location.name} main address (read-only): <strong>{location.email}</strong></p>)}{(['all', 'angel', 'abbey-road'] as const).map(key => <label className="admin-field" key={key}>{key === 'all' ? 'All nurseries' : key === 'angel' ? 'Angel only' : 'Abbey Road only'}<textarea rows={5} value={recipients[key]} onChange={event => setRecipients({ ...recipients, [key]: event.target.value })} /></label>)}<button className="button button-dark" onClick={() => run(async () => { const copies = Object.fromEntries(Object.entries(recipients).map(([key, value]) => [key, value.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean)])); await api("notifications", "PUT", { copies }); })}>Save recipients</button></>}
+    {tab === 3 && <><p>Visit requests should be kept for no more than 12 months. Review old submissions and delete them here.</p><div className="admin-grid">{Object.entries({ kind: ["visit", "register"], nursery: ["angel", "abbey-road"], status: ["new", "contacted", "archived"] }).map(([key, values]) => <label className="admin-field" key={key}>Filter by {key}<select value={filters[key as keyof typeof filters]} onChange={event => { setOffset(0); setDetail(null); setFilters({ ...filters, [key]: event.target.value }); }}><option value="">All</option>{values.map(value => <option key={value}>{value}</option>)}</select></label>)}</div><div className="admin-table-wrap"><table><caption>Submissions, newest first</caption><thead><tr><th>Date</th><th>Kind</th><th>Nursery</th><th>Name</th><th>Status</th><th>Details</th></tr></thead><tbody>{rows.map(row => <tr key={row.id}><td>{new Date(row.created_at).toLocaleDateString("en-GB")}</td><td>{row.kind}</td><td>{row.nursery}</td><td>{row.name}</td><td>{row.status}</td><td><button onClick={() => run(async () => setDetail(await api<Submission>(`submissions/${row.id}`)), "Submission opened.")}>View #{row.id}</button></td></tr>)}</tbody></table>{!rows.length && <p>No submissions match these filters.</p>}</div><div className="admin-actions"><button disabled={!offset} onClick={() => setOffset(Math.max(0, offset - 50))}>Previous</button><span>Page {offset / 50 + 1}</span><button disabled={rows.length < 50} onClick={() => setOffset(offset + 50)}>Next</button></div>
+      {detail && <section className="admin-card"><h2>Submission #{detail.id}: {detail.name}</h2><p>{detail.email} · {new Date(detail.created_at).toLocaleString("en-GB", { timeZone: "Europe/London" })}</p><dl>{detail.fields?.map(([label, value], index) => <div key={index}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><label className="admin-field">Status<select value={detail.status} onChange={event => { const status = event.target.value; run(async () => { await api(`submissions/${detail.id}`, "PATCH", { status }); setDetail({ ...detail, status }); await refreshRows(); }); }}>{['new', 'contacted', 'archived'].map(status => <option key={status}>{status}</option>)}</select></label><DeleteButton onDelete={() => run(async () => { await api(`submissions/${detail.id}`, "DELETE"); setDetail(null); await refreshRows(); }, "Submission deleted.")} /></section>}</>}
+    {tab === 4 && <><p>Latest 100 changes.</p><button onClick={() => run(async () => setActivity(await api<Activity[]>("activity")), "Activity refreshed.")}>Refresh</button><div className="admin-table-wrap"><table><caption>Activity log</caption><thead><tr><th>When (London)</th><th>Who</th><th>Action</th><th>What</th></tr></thead><tbody>{activity.map(item => <tr key={item.id}><td>{new Date(item.at).toLocaleString("en-GB", { timeZone: "Europe/London" })}</td><td>{item.user}</td><td>{item.action}</td><td>{item.summary}</td></tr>)}</tbody></table></div></>}
+    </fieldset></main>;
+}

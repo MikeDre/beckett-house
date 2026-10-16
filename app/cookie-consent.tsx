@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { loadAnalytics, readConsent, removeAnalyticsCookies, saveConsent, trackFormStart, trackLinkClick } from "./analytics";
 
@@ -7,8 +8,11 @@ export const OPEN_COOKIE_SETTINGS = "bh-open-cookie-settings";
 
 export default function CookieConsent() {
   const [open, setOpen] = useState(false);
+  // Staff pages are not tracked, so they never ask.
+  const admin = usePathname()?.startsWith("/admin") ?? false;
 
   useEffect(() => {
+    if (admin) return;
     const choice = readConsent();
     if (choice === "granted") loadAnalytics();
     // Consent lives in localStorage, so whether to ask is only known after hydration.
@@ -23,7 +27,7 @@ export default function CookieConsent() {
       document.removeEventListener("click", trackLinkClick);
       document.removeEventListener("focusin", trackFormStart);
     };
-  }, []);
+  }, [admin]);
 
   function choose(choice: "granted" | "denied") {
     saveConsent(choice);

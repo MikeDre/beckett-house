@@ -5420,3 +5420,28 @@ main .virtual-tour-heading p {
 .cookie-consent a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
 .form-privacy-note { font-size: 0.8125rem; line-height: 1.5; margin: 0; opacity: 0.85; }
 .form-privacy-note a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
+
+.admin-panel { max-width: 1200px; margin: 0 auto; padding: 2rem; color: var(--ink, #263247); }
+.admin-header h1 { font-size: 2rem; }
+.admin-tabs, .admin-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin: 1rem 0; }
+.admin-panel button, .admin-panel input, .admin-panel select, .admin-panel textarea { font: inherit; }
+.admin-panel button { cursor: pointer; padding: .65rem 1rem; border: 1px solid #9ca7b5; border-radius: .4rem; }
+.admin-panel button[aria-current="page"] { background: #233a72; color: white; }
+.admin-panel button:disabled { opacity: .5; cursor: default; }
+.admin-content { border: 0; padding: 0; min-width: 0; }
+.admin-content > legend { font-size: 1.6rem; font-weight: bold; margin-bottom: 1rem; }
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.admin-field { display: flex; flex-direction: column; gap: .35rem; margin: .7rem 0; }
+.admin-field input, .admin-field textarea, .admin-field select { width: 100%; padding: .6rem; border: 1px solid #9ca7b5; border-radius: .3rem; background: white; color: #263247; }
+.admin-card { padding: 1.5rem; margin: 1.5rem 0; border: 1px solid #cbd0da; border-radius: .6rem; background: #fff; }
+.admin-card h2 { font-size: 1.35rem; }
+.admin-image { max-width: 280px; max-height: 200px; object-fit: contain; }
+.admin-table-wrap { overflow-x: auto; margin: 1rem 0; }
+.admin-panel table { width: 100%; border-collapse: collapse; }
+.admin-panel th, .admin-panel td { text-align: left; padding: .7rem; border-bottom: 1px solid #cbd0da; }
+.admin-panel td .admin-field { min-width: 130px; }
+.admin-panel dt { font-weight: bold; margin-top: .75rem; }
+.admin-panel dd { white-space: pre-wrap; overflow-wrap: anywhere; margin: .25rem 0; }
+.admin-message { min-height: 1.7em; font-weight: bold; }
+.admin-panel :focus-visible { outline: 3px solid #233a72; outline-offset: 3px; }
+@media (max-width: 600px) { .admin-panel { padding: 1rem; } .admin-card { padding: 1rem; } }

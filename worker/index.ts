@@ -1,8 +1,14 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import handler from "vinext/server/app-router-entry";
 import { handleForm } from "./forms";
+import { adminIdentity } from "./admin-auth";
+import { adminJson, handleAdmin } from "./admin";
 
 export interface Env {
+  ACCESS_TEAM_DOMAIN?: string;
+  ACCESS_AUD?: string;
+  ADMIN_EMAILS?: string;
+  ADMIN_DEV_EMAIL?: string;
   TURNSTILE_SECRET_KEY?: string;
   RESEND_API_KEY?: string;
   FORM_FROM_EMAIL?: string;
@@ -63,6 +69,20 @@ async function serveResponsiveImage(request: Request, url: URL, env: Env): Promi
   return new Response("Not found", { status: 404 });
 }
 
+function adminPath(pathname: string) {
+  let decoded = pathname;
+  // Guard encoded aliases before vinext performs its own path normalisation.
+  for (let i = 0; i < 10; i++) {
+    try { const next = decodeURIComponent(decoded); if (next === decoded) break; decoded = next; } catch { break; }
+  }
+  const segments: string[] = [];
+  for (const part of decoded.replace(/\\/g, "/").split("/")) {
+    if (part === "..") segments.pop();
+    else if (part && part !== ".") segments.push(part);
+  }
+  return "/" + segments.join("/").toLowerCase();
+}
+
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -77,6 +97,21 @@ const worker = {
 
     const legacy = LEGACY_REDIRECTS[url.pathname.toLowerCase().replace(/\/+$/, "")];
     if (legacy) return Response.redirect(new URL(legacy, url).toString(), 301);
+
+    const protectedPath = adminPath(url.pathname);
+    if (protectedPath === "/admin" || protectedPath.startsWith("/admin/") || protectedPath === "/api/admin" || protectedPath.startsWith("/api/admin/")) {
+      const identity = await adminIdentity(request, env);
+      if ("error" in identity) {
+        if (protectedPath.startsWith("/api/")) return adminJson({ error: identity.error }, identity.status);
+        return new Response(identity.error, { status: identity.status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
+      }
+      if (protectedPath.startsWith("/api/")) return handleAdmin(request, env, identity.email);
+      const result = await handler.fetch(request, env, ctx);
+      const response = new Response(result.body, result);
+      response.headers.set("Cache-Control", "no-store");
+      response.headers.set("X-Robots-Tag", "noindex");
+      return response;
+    }
 
     if (request.method === "POST" && (url.pathname === "/api/forms/visit" || url.pathname === "/api/forms/register")) {
       return handleForm(request, env, ctx, url.pathname === "/api/forms/visit" ? "visit" : "register");

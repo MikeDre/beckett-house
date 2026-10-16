@@ -1,3 +1,4 @@
+import { getNotificationSettings } from "../lib/site-data";
 import { locations } from "../lib/content";
 import { registrationContent } from "../app/register/register-content";
 import type { Env, ExecutionContext } from "./index";
@@ -100,11 +101,15 @@ export async function handleForm(request: Request, env: Env, ctx: ExecutionConte
     const result = await verification.json() as { success?: boolean };
     if (result.success !== true) return json(false, 400, "Please complete the spam protection check again and try sending your form.");
     const subject = `${kind === "visit" ? "Visit request" : "Registration"}: ${nursery.name}, ${person.replace(/[\r\n]/g, " ")}`;
-    await sendEmail(env, nursery.email, email, subject, emailBody(`Beckett House ${nursery.name}`, kind === "visit" ? "A family would like to arrange a nursery visit." : "A family has submitted a registration.", fields), env.FORM_BCC);
+    const notifications = await getNotificationSettings(env.DB);
+    const bcc = notifications ? [...new Set([...notifications.copies.all, ...notifications.copies[nursery.slug]])].join(",") : env.FORM_BCC;
+    await sendEmail(env, nursery.email, email, subject, emailBody(`Beckett House ${nursery.name}`, kind === "visit" ? "A family would like to arrange a nursery visit." : "A family has submitted a registration.", fields), bcc);
   } catch (error) {
     console.error("Form notification failed:", error);
     return json(false, 502, unavailable);
   }
+
+  ctx.waitUntil(Promise.resolve().then(() => env.DB.prepare("INSERT INTO submissions (created_at, kind, nursery, name, email, fields) VALUES (?, ?, ?, ?, ?, ?)").bind(new Date().toISOString(), kind, nursery.slug, person, email, JSON.stringify(fields)).run()).catch(error => console.error("Form inbox insert failed:", error)));
 
   const confirmation = kind === "visit" ? `Thank you for your visit request – Beckett House ${nursery.name}` : `We've received your registration – Beckett House ${nursery.name}`;
   const intro = `Thank you for ${kind === "visit" ? "your interest in visiting" : "registering your child with"} Beckett House ${nursery.name}. Our team will be in touch shortly, usually within two working days.\n\nIf you have any questions, please call ${nursery.phone} or email ${nursery.email}.\n\nHere is a copy of what you submitted.`;

@@ -36,7 +36,7 @@ export function LocationSwitcher() {
     return () => document.removeEventListener("pointerdown", dismiss);
   }, [open, chatOpen, contactOpen]);
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname?.startsWith("/admin")) return null;
 
   return (
     <div className="location-switcher" ref={containerRef}
