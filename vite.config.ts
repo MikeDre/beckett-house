@@ -22,6 +22,11 @@ const localBindingConfig = {
     { pattern: "www.beckett-house.co.uk", custom_domain: true },
     { pattern: "beckett-house.co.uk", custom_domain: true },
   ],
+  // Cloudflare Access application protecting /admin (not secret: the audience tag is public).
+  vars: {
+    ACCESS_TEAM_DOMAIN: "joinrabble.cloudflareaccess.com",
+    ACCESS_AUD: "21c0e2ccd07d35c94a50ffb5f6b51658cffd800bd0c381ccb0897c25ceb1a4b5",
+  },
   d1_databases: [{ binding: "DB", database_name: "beckett-house-admin", database_id: "35f9a552-2907-40c7-92a9-68ec0d7f4011", migrations_dir: "migrations" }],
   r2_buckets: r2
     ? [
