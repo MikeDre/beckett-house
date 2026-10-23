@@ -34,8 +34,14 @@ voice search, an on-site answer system and future LLM workflows.
 
 ## Local development
 
+Use the patched Node.js version pinned in `.nvmrc` (24.22.1). Production runs
+on Cloudflare Workers; this Node.js requirement applies to development, builds
+and deployment tooling.
+
 ```bash
-npm install
+nvm install
+nvm use
+npm ci
 npm run dev
 npm test
 ```
