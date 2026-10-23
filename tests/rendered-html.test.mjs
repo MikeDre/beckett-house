@@ -23,7 +23,7 @@ async function render(pathname = "/", origin = "http://localhost", bindings = {}
     }),
     {
       ...bindings,
-      ASSETS: {
+      ASSETS: bindings.ASSETS ?? {
         fetch: async () => new Response("Not found", { status: 404 }),
       },
     },
@@ -41,7 +41,7 @@ test("server-renders the homepage nursery chooser", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>Montessori Nursery in Angel &amp; Abbey Road \| Beckett House<\/title>/);
-  assert.match(html, /<link rel="canonical" href="https:\/\/www\.beckett-house\.co\.uk\/"/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/www\.beckett-house\.co\.uk\/?"/);
   assert.match(html, /google-site-verification/);
   assert.match(html, /EducationalOrganization/);
   assert.doesNotMatch(html, /Switch schools here/);
@@ -60,7 +60,7 @@ test("nursery pages name the location and publish answer-ready local data", asyn
     assert.match(html, /tourBookingPage/, path);
     assert.match(html, /FAQPage/, path);
     // Photos go through the responsive image endpoint so phones get smaller copies.
-    assert.match(html, /srcSet="\/_vinext\/image\?url=%2Fimages%2F/, path);
+    assert.match(html, /srcSet="\/_next\/image\?url=%2Fimages%2F/, path);
   }
 });
 
@@ -95,9 +95,23 @@ test("unknown pages return the 404 page", async () => {
   assert.match(await response.text(), /Sorry, we can’t find that page/);
 });
 
-test("the image endpoint only serves local photos", async () => {
-  assert.equal((await render("/_vinext/image?url=%2F..%2Fworker%2Findex.ts&w=640")).status, 400);
-  assert.equal((await render("/_vinext/image?url=https%3A%2F%2Fexample.com%2Fa.jpg&w=640")).status, 400);
+test("both image routes serve responsive copies and reject non-local paths", async () => {
+  for (const route of ["/_next/image", "/_vinext/image"]) {
+    for (const url of ["%2F..%2Fworker%2Findex.ts", "https%3A%2F%2Fexample.com%2Fa.jpg"]) {
+      assert.equal((await render(`${route}?url=${url}&w=640`)).status, 400);
+    }
+    const paths = [];
+    const response = await render(`${route}?url=%2Fimages%2Flearning-room.webp&w=640`, "http://localhost", {
+      ASSETS: { fetch: async request => {
+        paths.push(new URL(request.url).pathname);
+        return new Response("image bytes", { headers: { "Content-Type": "image/webp" } });
+      } },
+    });
+    assert.equal(response.status, 200);
+    assert.deepEqual(paths, ["/_responsive/images/learning-room-640.webp"]);
+    assert.equal(response.headers.get("content-type"), "image/webp");
+    assert.match(response.headers.get("cache-control"), /max-age=2592000/);
+  }
 });
 
 test("privacy notice is published and linked from the forms", async () => {

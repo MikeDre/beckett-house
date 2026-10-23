@@ -117,7 +117,7 @@ const worker = {
       return handleForm(request, env, ctx, url.pathname === "/api/forms/visit" ? "visit" : "register");
     }
 
-    if (url.pathname === "/_vinext/image") return serveResponsiveImage(request, url, env);
+    if (url.pathname === "/_next/image" || url.pathname === "/_vinext/image") return serveResponsiveImage(request, url, env);
 
     return handler.fetch(request, env, ctx);
   },

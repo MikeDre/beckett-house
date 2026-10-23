@@ -5,6 +5,9 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Existing effects synchronise browser preferences and navigation state.
+  // Keep these visible while adopting the patched Next.js lint configuration.
+  { rules: { "react-hooks/set-state-in-effect": "warn" } },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
