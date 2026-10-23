@@ -24,3 +24,7 @@ Do not treat the full dependency tree as vulnerability-free. Recheck upstream fi
 ## Verification
 
 Used Node.js 24.22.1: production build and all 15 rendered Worker tests pass; `tsc --noEmit` passes; lint passes with six warnings; Wrangler production deployment dry run passes. The image regression test covers both URL routes and checks generated responsive asset selection.
+
+The production-only audit (`npm audit --omit=dev`) reports zero findings. This does not exclude build dependencies bundled into the Worker from the full-audit caveat above.
+
+Deployed to `https://www.beckett-house.co.uk` as Worker version `cf23f3fa-0371-4de4-94c0-bbfc0ab93b6a`. Live smoke checks pass for the homepage, both nursery pages, visit, registration, privacy, JavaScript assets, both image routes (including external URL rejection), and the bare-domain redirect. Unauthenticated admin pages and API remain closed with HTTP 503 because Access is not configured, matching the existing production setup.
