@@ -4,6 +4,17 @@
 
 ## Production setup
 
+Connected on 28 October 2026 in Cloudflare account `13f7cc851a43ef52f572ad63202e2b0d` (Info@mikedre.com's Account), on Zero Trust Free. The account team was renamed from `joinrabble` to `beckett-house`.
+
+- Team domain: `beckett-house.cloudflareaccess.com`
+- Application: **Beckett House Admin** (`8c2cc80f-65af-417b-923e-ec4a456f52b3`)
+- Protected hostnames/paths: `www.beckett-house.co.uk/admin`, `/admin/*`, and `/api/admin/*`, in the same application.
+- Allow policy: **Beckett House admin — Mike**, restricted to `info@mikedre.com`; all other identities are denied.
+- Session duration: 24 hours.
+- The Worker also restricts `ADMIN_EMAILS` to `info@mikedre.com` and validates the application audience and team issuer. Public Access identifiers and the allowlist are recorded in `vite.config.ts` so a subsequent build retains them.
+
+The existing production database was checked read-only: `settings`, `submissions`, `activity`, and `d1_migrations` are already present. No migration was needed for this connection.
+
 The Worker binds D1 `beckett-house-admin` as `DB`. Before using admin or collecting submissions, apply `migrations/0001_admin.sql`. The build writes its Wrangler config under `dist/server`, so copy migrations beside it after each build:
 
 ```sh
@@ -13,7 +24,7 @@ cp migrations/*.sql dist/server/migrations/
 npx wrangler d1 migrations apply beckett-house-admin --config dist/server/wrangler.json --remote
 ```
 
-The remote command is an operator step; it has not been run by the implementation agent. It creates three new tables and an index. Existing data is not deleted.
+For a fresh database, the remote command creates three new tables and an index. Existing data is not deleted. The current production database already has these tables.
 
 Configure Cloudflare Access to protect `/admin`, `/admin/*` and `/api/admin/*` on the public domain. Use the same Access application audience for these paths. Set Worker environment values:
 
