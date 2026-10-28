@@ -145,7 +145,7 @@ test("provides crawler and AI discovery files", async () => {
 });
 
 test("admin pages and API fail closed without authentication", async () => {
-  for (const path of ["/admin", "/admin/anything", "/admin/preview/home", "/api/admin/me", "/api/admin/pages/home", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
+  for (const path of ["/admin", "/admin/anything", "/admin/preview/home", "/admin/preview/angel", "/admin/preview/abbey-road", "/api/admin/me", "/api/admin/pages/home", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
     const response = await render(path);
     assert.ok([403, 503].includes(response.status), path);
     assert.equal(response.headers.get("cache-control"), "no-store");
@@ -256,4 +256,17 @@ test("authenticated staff workspace and homepage preview remain private", async 
   assert.equal(preview.headers.get("cache-control"), "no-store");
   assert.equal(preview.headers.get("x-robots-tag"), "noindex");
   assert.match(await preview.text(), /Beckett House Montessori nurseries/);
+});
+
+
+test("nursery draft previews render privately for both pages", async () => {
+  for (const slug of ["angel", "abbey-road"]) {
+    const preview = await render(`/admin/preview/${slug}`, "http://localhost", { ADMIN_DEV_EMAIL: "staff@example.invalid" });
+    assert.equal(preview.status, 200);
+    assert.equal(preview.headers.get("cache-control"), "no-store");
+    assert.equal(preview.headers.get("x-robots-tag"), "noindex");
+    const html = await preview.text();
+    assert.match(html, /(?:home|abbey-road)-hero-title/);
+    assert.match(html, /Book a visit/);
+  }
 });

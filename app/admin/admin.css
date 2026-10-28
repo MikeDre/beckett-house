@@ -429,3 +429,26 @@
   .cms-sidebar.is-open .cms-brand-logo { width: 100px; height: 75px; }
   .cms-sidebar.is-open .cms-brand-caption { font-size: 10px; }
 }
+
+/* Collapsed page sections keep long homepages easy to scan. */
+.cms-workspace .cms-editor-section { margin-bottom: 18px; overflow: hidden; }
+.cms-workspace .cms-editor-section > summary { display: flex; align-items: center; gap: 14px; padding: 23px 26px; cursor: pointer; list-style: none; }
+.cms-workspace .cms-editor-section > summary::-webkit-details-marker { display: none; }
+.cms-workspace .cms-editor-section > summary > span:nth-child(2) { flex: 1; min-width: 0; }
+.cms-workspace .cms-editor-section > summary strong { display: block; font-size: 17px; line-height: 1.4; color: var(--cms-ink); }
+.cms-workspace .cms-editor-section > summary small { display: block; margin-top: 4px; color: var(--cms-muted); line-height: 1.5; font-size: 13px; }
+.cms-workspace .cms-editor-section > summary > svg { transition: transform .18s ease; flex-shrink: 0; }
+.cms-workspace .cms-editor-section[open] > summary > svg { transform: rotate(90deg); }
+.cms-workspace .cms-editor-section > summary:hover { background: var(--cms-soft); }
+.cms-workspace .cms-editor-section > summary:focus-visible { outline: 3px solid var(--cms-ink); outline-offset: -4px; border-radius: 14px; }
+.cms-workspace .cms-editor-section[open] > summary { border-bottom: 1px solid var(--cms-line); }
+.cms-workspace .cms-editor-section-body { padding: 24px 26px 8px; }
+.cms-workspace .cms-media-grid { max-height: 55vh; overflow-y: auto; padding: 3px; }
+.cms-workspace .cms-repeat-item { padding: 20px; margin-bottom: 18px; border: 1px solid var(--cms-line); border-radius: 12px; background: #fff; }
+.cms-workspace .cms-repeat-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.cms-workspace .cms-repeat-header h3 { margin: 0; font-size: 15px; }
+@media (max-width: 600px) {
+ .cms-workspace .cms-editor-section > summary { padding: 18px 16px; gap: 10px; }
+ .cms-workspace .cms-editor-section-body { padding: 20px 16px 4px; }
+ .cms-workspace .cms-repeat-item { padding: 14px; }
+}

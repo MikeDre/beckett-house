@@ -90,10 +90,10 @@ function TimetableNavigation({ mobile = false, onNavigate, items = timetableItem
   </div>;
 }
 
-export function SiteHeader() {
+export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abbey-road" } = {}) {
   const pathname = usePathname();
   const [preferredNursery, setPreferredNursery] = useState<string | null>(null);
-  const routeNursery = pathname?.match(/^\/(angel|abbey-road)(?:\/|$)/)?.[1];
+  const routeNursery = previewNursery ?? pathname?.match(/^\/(angel|abbey-road)(?:\/|$)/)?.[1];
   const activeNursery = routeNursery ?? preferredNursery;
   const currentNursery = activeNursery === "abbey-road" ? "Abbey Road" : "Angel";
   const [open, setOpen] = useState(false);
@@ -107,8 +107,8 @@ export function SiteHeader() {
   useEffect(() => {
     const nursery = isNursery(routeNursery) ? routeNursery : readNurseryChoice();
     setPreferredNursery(nursery);
-    if (isNursery(routeNursery)) rememberNursery(routeNursery);
-  }, [routeNursery, pathname]);
+    if (!previewNursery && isNursery(routeNursery)) rememberNursery(routeNursery);
+  }, [routeNursery, pathname, previewNursery]);
   useNurseryChangeListener(setPreferredNursery);
   const switchNursery = useSwitchNursery();
   const switchToOther = () => switchNursery(activeNursery === "abbey-road" ? "angel" : "abbey-road");

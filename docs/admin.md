@@ -23,7 +23,7 @@ The CMS uses the public site's shared navy, lilac, sky blue, warm yellow and whi
 
 The Overview links to the main tasks and shows real recent enquiries and activity. Lists refresh when revisited. Announcements have a list/detail editor, existing-image chooser, appearance preview, publication windows and ordering. **Save announcements** still saves the whole list and immediately updates eligible published items; it does not use the homepage's separate publication workflow.
 
-Fees have nursery-specific session and fee panels, with separate monthly fees and per-day extras. Form recipients retain fixed primary nursery addresses and editable blind copies. The inbox provides filters, a search over the current page of results, pagination, a details drawer and confirmed permanent deletion. All writes retain existing origin, JSON, payload-size and Access checks. Images currently come from a curated selection of existing site assets or an explicit local image path; uploads are not part of this release.
+Fees have nursery-specific session and fee panels, with separate monthly fees and per-day extras. Form recipients retain fixed primary nursery addresses and editable blind copies. The inbox provides filters, a search over the current page of results, pagination, a details drawer and confirmed permanent deletion. All writes retain existing origin, JSON, payload-size and Access checks. Images are selected visually from a searchable library of 54 existing website photos. Source dimensions are filled automatically; editors do not enter image paths or sizes. Uploads are not part of this release.
 
 ## Verification
 
@@ -94,3 +94,9 @@ Public pages fall back to the existing content if a row is absent, invalid or st
 Deployed Worker version `1edd9410-7d09-4ff7-859d-380799bcc381`. The production build, all 15 rendered Worker tests, and TypeScript checks pass. Public pages remain available; unauthenticated `/admin`, `/admin/*`, and `/api/admin/*` redirect to the `beckett-house` login domain. The direct workers.dev admin and API reject unsigned requests with HTTP 403. Encoded admin paths also remain protected. The live browser displays the one-time PIN sign-in form for **Beckett House Admin**; the owner's real email-code sign-in must still be completed to verify an authenticated browser session.
 
 Cloudflare stores its login-page display label separately from the team domain. The old display label may still say `joinrabble.cloudflareaccess.com` until that cosmetic change is approved; the actual login domain and JWT issuer are `beckett-house.cloudflareaccess.com`.
+
+## Nursery homepage editors
+
+Pages contains the nursery selection map (`/`), Angel (`/angel`) and Abbey Road (`/abbey-road`). Each has its own private draft, published content and conflict protection. Both nursery homepages support hero slides, introduction, principles or room stages, virtual tour text, nursery life cards, location map heading, highlights, testimonials, FAQs and search appearance. The navigation, factual nursery details and shared announcements remain centrally managed.
+
+Content sections start collapsed. Expand a section to edit it, choose photos from the image library, and use the desktop or mobile preview before publishing. Saving a draft does not change the public page. Publishing requires confirmation and publishes only that page. Moving between pages retains unsaved edits; leaving the workspace warns if changes remain unsaved.

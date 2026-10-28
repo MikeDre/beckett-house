@@ -205,15 +205,15 @@ export const siteImages = [
   },
   {
     "src": "/images/angel/montessori-nursery-angel-childrens-artwork-display.webp",
-    "alt": "Montessori nursery angel childrens artwork display",
-    "name": "Angel · Montessori nursery angel childrens artwork display",
+    "alt": "Angel nursery: childrens artwork display",
+    "name": "Angel · childrens artwork display",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp",
-    "alt": "Montessori nursery angel classroom and kitchen",
-    "name": "Angel · Montessori nursery angel classroom and kitchen",
+    "alt": "Angel nursery: classroom and kitchen",
+    "name": "Angel · classroom and kitchen",
     "width": 2000,
     "height": 1333
   },
@@ -233,8 +233,8 @@ export const siteImages = [
   },
   {
     "src": "/images/angel/montessori-nursery-angel-classroom-reading-area.webp",
-    "alt": "Montessori nursery angel classroom reading area",
-    "name": "Angel · Montessori nursery angel classroom reading area",
+    "alt": "Angel nursery: classroom reading area",
+    "name": "Angel · classroom reading area",
     "width": 2000,
     "height": 1333
   },
@@ -247,57 +247,57 @@ export const siteImages = [
   },
   {
     "src": "/images/angel/montessori-nursery-angel-earth-day-artwork.webp",
-    "alt": "Montessori nursery angel earth day artwork",
-    "name": "Angel · Montessori nursery angel earth day artwork",
+    "alt": "Angel nursery: earth day artwork",
+    "name": "Angel · earth day artwork",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp",
-    "alt": "Montessori nursery angel music and interactive screen",
-    "name": "Angel · Montessori nursery angel music and interactive screen",
+    "alt": "Angel nursery: music and interactive screen",
+    "name": "Angel · music and interactive screen",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp",
-    "alt": "Montessori nursery angel practical life dressing frames",
-    "name": "Angel · Montessori nursery angel practical life dressing frames",
+    "alt": "Angel nursery: practical life dressing frames",
+    "name": "Angel · practical life dressing frames",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-reading-loft.webp",
-    "alt": "Montessori nursery angel reading loft",
-    "name": "Angel · Montessori nursery angel reading loft",
+    "alt": "Angel nursery: reading loft",
+    "name": "Angel · reading loft",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp",
-    "alt": "Montessori nursery angel rocket display and materials",
-    "name": "Angel · Montessori nursery angel rocket display and materials",
+    "alt": "Angel nursery: rocket display and materials",
+    "name": "Angel · rocket display and materials",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-sensorial-corner.webp",
-    "alt": "Montessori nursery angel sensorial corner",
-    "name": "Angel · Montessori nursery angel sensorial corner",
+    "alt": "Angel nursery: sensorial corner",
+    "name": "Angel · sensorial corner",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-snack-tables.webp",
-    "alt": "Montessori nursery angel snack tables",
-    "name": "Angel · Montessori nursery angel snack tables",
+    "alt": "Angel nursery: snack tables",
+    "name": "Angel · snack tables",
     "width": 2000,
     "height": 1333
   },
   {
     "src": "/images/angel/montessori-nursery-angel-solar-system-corner.webp",
-    "alt": "Montessori nursery angel solar system corner",
-    "name": "Angel · Montessori nursery angel solar system corner",
+    "alt": "Angel nursery: solar system corner",
+    "name": "Angel · solar system corner",
     "width": 2000,
     "height": 1333
   },
@@ -310,8 +310,8 @@ export const siteImages = [
   },
   {
     "src": "/images/bh-mark.png",
-    "alt": "Bh mark",
-    "name": "Website · Bh mark",
+    "alt": "Beckett House Montessori logo",
+    "name": "Brand · Beckett House logo",
     "width": 512,
     "height": 512
   },

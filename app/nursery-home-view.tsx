@@ -47,7 +47,7 @@ export default function NurseryHomeView({slug,content,announcements,previewOnly=
  ]};
   if (slug === "angel") return (
     <>
-      <SiteHeader />
+      <SiteHeader previewNursery={previewOnly ? slug : undefined} />
       <main className="home-page">
         {!previewOnly && <HomeMotion />}
         <section
@@ -158,7 +158,7 @@ export default function NurseryHomeView({slug,content,announcements,previewOnly=
   );
   return (
     <>
-      <SiteHeader />
+      <SiteHeader previewNursery={previewOnly ? slug : undefined} />
       <main className="home-page abbey-road-home">
         {!previewOnly && <HomeMotion />}
         <section
