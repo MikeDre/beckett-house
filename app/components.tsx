@@ -735,7 +735,7 @@ function chooseNursery(location: Location) {
   window.location.assign(`/${location.slug}`);
 }
 
-export function NurseryChooser({ locations, homepage = false, content }: { locations: Location[]; homepage?: boolean; content?: HomePageContent }) {
+export function NurseryChooser({ locations, homepage = false, content, previewOnly = false }: { locations: Location[]; homepage?: boolean; content?: HomePageContent; previewOnly?: boolean }) {
   const homepageContent = homepage ? content ?? defaultHomepageContent : undefined;
   const mapControllerRef = useRef<NurseryMapController | null>(null);
   const pendingMapFocusRef = useRef<Location | null>(null);
@@ -748,8 +748,8 @@ export function NurseryChooser({ locations, homepage = false, content }: { locat
     locations.find((location) => location.slug === selectedSlug) ?? locations[0];
   const handleMapSelect = useCallback((location: Location) => {
     setSelectedSlug(location.slug);
-    if (homepage) chooseNursery(location);
-  }, [homepage]);
+    if (homepage && !previewOnly) chooseNursery(location);
+  }, [homepage, previewOnly]);
   const handleGoogleMapsFailure = useCallback(() => setGoogleMapsFailed(true), []);
   const useGoogleMaps = Boolean(GOOGLE_MAPS_API_KEY) && !googleMapsFailed;
 
@@ -757,6 +757,11 @@ export function NurseryChooser({ locations, homepage = false, content }: { locat
     setSelectedSlug(location.slug);
     if (mapControllerRef.current) mapControllerRef.current.focus(location);
     else pendingMapFocusRef.current = location;
+  }
+
+  function selectNursery(location: Location) {
+    if (previewOnly) preview(location);
+    else chooseNursery(location);
   }
 
   return (
@@ -784,7 +789,7 @@ export function NurseryChooser({ locations, homepage = false, content }: { locat
           {homepage ? homepageContent!.introduction : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
         </p>
         {homepage && <div className="map-home-location-links" aria-label="Enter your nursery">
-          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => chooseNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}
+          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => selectNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}
         </div>}
       </div>
       {homepage && <details className="map-home-menu" onKeyDown={(event) => {
@@ -792,7 +797,7 @@ export function NurseryChooser({ locations, homepage = false, content }: { locat
       }}>
         <summary aria-label="Site navigation"><span className="map-menu-icon" aria-hidden="true"><span /><span /><span /></span><span className="map-menu-label">Menu</span></summary>
         <nav aria-label="Site navigation" className="map-home-menu-panel">
-          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => chooseNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}</div>
+          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => selectNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}</div>
           <div><h2>About us</h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <div><h2>Key information</h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <Link href="/virtual-tour">Virtual Tour</Link>
@@ -816,7 +821,7 @@ export function NurseryChooser({ locations, homepage = false, content }: { locat
                   <div className="nursery-card-facts"><span>{location.ages}</span><span>{location.opening}</span></div>
                   <p>{homepageContent?.nurseryCards[location.slug].summary ?? location.strapline}</p>
                   <p>{location.address}<br />{location.postcode}</p>
-                  <button className="button button-dark" type="button" onClick={() => chooseNursery(location)}>{homepageContent?.nurseryCards[location.slug].buttonLabel ?? `Choose ${location.name}`}</button>
+                  <button className="button button-dark" type="button" onClick={() => selectNursery(location)}>{homepageContent?.nurseryCards[location.slug].buttonLabel ?? `Choose ${location.name}`}</button>
                 </div>
               </div>
             </div>

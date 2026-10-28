@@ -30,6 +30,7 @@ export default function PageMotion() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) return;
     const main = document.querySelector("main");
     // Homepages run HomeMotion; the full-screen map page has its own entrance.
     if (!main || main.matches(".home-page, .nursery-chooser-page")) return;
