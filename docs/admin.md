@@ -10,6 +10,7 @@ Connected on 28 October 2026 in Cloudflare account `13f7cc851a43ef52f572ad63202e
 - Application: **Beckett House Admin** (`8c2cc80f-65af-417b-923e-ec4a456f52b3`)
 - Protected hostnames/paths: `www.beckett-house.co.uk/admin`, `/admin/*`, and `/api/admin/*`, in the same application.
 - Allow policy: **Beckett House admin — Mike**, restricted to `info@mikedre.com`; all other identities are denied.
+- Login method: Cloudflare email one-time PIN. Sign in at `https://www.beckett-house.co.uk/admin` using `info@mikedre.com`.
 - Session duration: 24 hours.
 - The Worker also restricts `ADMIN_EMAILS` to `info@mikedre.com` and validates the application audience and team issuer. Public Access identifiers and the allowlist are recorded in `vite.config.ts` so a subsequent build retains them.
 
@@ -59,3 +60,9 @@ The inbox contains successful nursery notifications received after this version 
 Filter submissions by kind, nursery and status; view details, mark new/contacted/archived, or permanently delete with the inline confirmation. Review visit requests and delete those no longer needed within the privacy notice's 12-month limit. There is no automatic deletion. Activity records contain staff identity, action and submission ID or setting name, without retaining deleted form answers. Reads are not logged.
 
 Public pages fall back to the existing content if a row is absent, invalid or storage is unavailable. Admin writes fail visibly if storage is unavailable. The API enforces JSON, same-origin writes and a 200 KB request limit. Admin pages and API responses are uncached and excluded from indexing.
+
+## Access connection verification (28 October 2026)
+
+Deployed Worker version `1edd9410-7d09-4ff7-859d-380799bcc381`. The production build, all 15 rendered Worker tests, and TypeScript checks pass. Public pages remain available; unauthenticated `/admin`, `/admin/*`, and `/api/admin/*` redirect to the `beckett-house` login domain. The direct workers.dev admin and API reject unsigned requests with HTTP 403. Encoded admin paths also remain protected. The live browser displays the one-time PIN sign-in form for **Beckett House Admin**; the owner's real email-code sign-in must still be completed to verify an authenticated browser session.
+
+Cloudflare stores its login-page display label separately from the team domain. The old display label may still say `joinrabble.cloudflareaccess.com` until that cosmetic change is approved; the actual login domain and JWT issuer are `beckett-house.cloudflareaccess.com`.
