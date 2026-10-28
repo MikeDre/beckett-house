@@ -4,7 +4,7 @@
 
 ## Pages: homepage editor
 
-Open **Pages → Homepage** (or `/admin#pages/home`). The homepage is the nursery-selection map at `/`; Angel and Abbey Road are separate pages and are not editable through this first Pages release.
+Open **Pages → Nursery selection map** (or `/admin#pages/home`). The homepage is the nursery-selection map at `/`; Angel and Abbey Road are separate pages and are not editable through this first Pages release.
 
 - **Page content:** edit the screen-reader heading, welcome introduction, nursery button labels, nursery card summaries, local images and their descriptions.
 - **Search appearance:** edit the search/social title and description, with character counts and an approximate search preview. The heading stays visually hidden behind the existing logo treatment, preserving the public homepage design.
