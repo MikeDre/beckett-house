@@ -1,3 +1,4 @@
+import { getHomepageRecord, saveHomepageDraft, publishHomepageDraft, HomepageConflictError, HomepageInputError } from "../lib/homepage-store";
 import type { Env } from "./index";
 import { getAllAnnouncements, getFeesContent, getNotificationSettings, emptyNotifications, validateAnnouncements, validateFees, validateNotifications } from "../lib/site-data";
 
@@ -19,6 +20,10 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     const data = ["PUT", "PATCH", "DELETE", "POST"].includes(method) ? await body(request) : undefined;
     const activity = (action: string, summary: string) => env.DB.prepare("INSERT INTO activity (at, user, action, summary) VALUES (?, ?, ?, ?)").bind(new Date().toISOString(), email, action, summary);
     if (path === "/api/admin/me" && method === "GET") return adminJson({ email });
+    if (method === "GET" && path === "/api/admin/pages") return adminJson([await getHomepageRecord(env.DB)]);
+    if (method === "GET" && path === "/api/admin/pages/home") return adminJson(await getHomepageRecord(env.DB));
+    if (method === "PUT" && path === "/api/admin/pages/home") return adminJson(await saveHomepageDraft(env.DB, data?.content, data?.version, email));
+    if (method === "POST" && path === "/api/admin/pages/home/publish") return adminJson(await publishHomepageDraft(env.DB, data?.version, email));
     const setting = path.match(/^\/api\/admin\/(announcements|fees|notifications)$/)?.[1];
     if (setting) {
       if (method === "GET") return adminJson(setting === "announcements" ? await getAllAnnouncements(env.DB) : setting === "fees" ? await getFeesContent(env.DB) : await getNotificationSettings(env.DB) ?? { copies: { ...emptyNotifications.copies, all: (env.FORM_BCC ?? "").split(",").map(value => value.trim()).filter(Boolean) } });
@@ -51,6 +56,8 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     }
     return adminJson({ error: "Route or method not found." }, 404);
   } catch (error) {
+    if (error instanceof HomepageConflictError) return adminJson({ error: error.message }, 409);
+    if (error instanceof HomepageInputError) return adminJson({ error: error.message }, 400);
     if (error instanceof InputError) return adminJson({ error: error.message }, error.status);
     console.error("Admin database operation failed:", error);
     return adminJson({ error: "Could not access admin storage. Please try again or check the database migration." }, 503);

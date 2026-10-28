@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultHomepageContent, type HomePageContent } from "../lib/homepage-content";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -734,7 +735,8 @@ function chooseNursery(location: Location) {
   window.location.assign(`/${location.slug}`);
 }
 
-export function NurseryChooser({ locations, homepage = false }: { locations: Location[]; homepage?: boolean }) {
+export function NurseryChooser({ locations, homepage = false, content }: { locations: Location[]; homepage?: boolean; content?: HomePageContent }) {
+  const homepageContent = homepage ? content ?? defaultHomepageContent : undefined;
   const mapControllerRef = useRef<NurseryMapController | null>(null);
   const pendingMapFocusRef = useRef<Location | null>(null);
   const [googleMapsFailed, setGoogleMapsFailed] = useState(false);
@@ -777,12 +779,12 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
           />}
       <div className="nursery-chooser-intro">
         {homepage ? <Image className="map-home-logo" src="/images/beckett-house-logo-dark.svg" alt="Beckett House Montessori" width={1428} height={1071} priority /> : <p className="eyebrow">Switch schools here</p>}
-        <h1 id="nursery-chooser-title" className={homepage ? "visually-hidden" : undefined}>{homepage ? "Beckett House Montessori nurseries in Angel and Abbey Road" : "Which nursery feels like home?"}</h1>
+        <h1 id="nursery-chooser-title" className={homepage ? "visually-hidden" : undefined}>{homepage ? homepageContent!.heading : "Which nursery feels like home?"}</h1>
         <p className={homepage ? "map-home-introduction" : undefined}>
-          {homepage ? "Beckett House is a family-run Montessori nursery with warm, welcoming spaces in Angel and Abbey Road, where children can learn, explore and grow in confidence." : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
+          {homepage ? homepageContent!.introduction : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
         </p>
         {homepage && <div className="map-home-location-links" aria-label="Enter your nursery">
-          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => chooseNursery(location)}>{location.name}</button>)}
+          {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => chooseNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}
         </div>}
       </div>
       {homepage && <details className="map-home-menu" onKeyDown={(event) => {
@@ -790,7 +792,7 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
       }}>
         <summary aria-label="Site navigation"><span className="map-menu-icon" aria-hidden="true"><span /><span /><span /></span><span className="map-menu-label">Menu</span></summary>
         <nav aria-label="Site navigation" className="map-home-menu-panel">
-          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => chooseNursery(location)}>{location.name}</button>)}</div>
+          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => chooseNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}</div>
           <div><h2>About us</h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <div><h2>Key information</h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
           <Link href="/virtual-tour">Virtual Tour</Link>
@@ -804,17 +806,17 @@ export function NurseryChooser({ locations, homepage = false }: { locations: Loc
           const panelId = `nursery-card-${location.slug}`;
           return <article className={`nursery-location-card chooser-${location.colour}${expanded ? " is-expanded" : ""}`} key={location.slug}>
             <h2><button id={`${panelId}-trigger`} className="nursery-card-trigger" type="button" onClick={() => preview(location)} aria-expanded={expanded} aria-controls={panelId}>
-              <span><strong>{location.name}</strong><small>{location.area}</small></span>
+              <span><strong>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</strong><small>{location.area}</small></span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
             </button></h2>
             <div id={panelId} className="nursery-card-expansion" role="region" aria-labelledby={`${panelId}-trigger`} aria-hidden={!expanded} inert={!expanded}>
               <div className="nursery-card-overflow">
-                <Image className="nursery-card-photo" src={location.image} alt={location.imageAlt} width={900} height={600} sizes="(min-width: 900px) 31vw, 100vw" />
+                <Image className="nursery-card-photo" src={homepageContent?.nurseryCards[location.slug].imageSrc ?? location.image} alt={homepageContent?.nurseryCards[location.slug].imageAlt ?? location.imageAlt} width={900} height={600} sizes="(min-width: 900px) 31vw, 100vw" />
                 <div className="nursery-card-details">
                   <div className="nursery-card-facts"><span>{location.ages}</span><span>{location.opening}</span></div>
-                  <p>{location.strapline}</p>
+                  <p>{homepageContent?.nurseryCards[location.slug].summary ?? location.strapline}</p>
                   <p>{location.address}<br />{location.postcode}</p>
-                  <button className="button button-dark" type="button" onClick={() => chooseNursery(location)}>Choose {location.name}</button>
+                  <button className="button button-dark" type="button" onClick={() => chooseNursery(location)}>{homepageContent?.nurseryCards[location.slug].buttonLabel ?? `Choose ${location.name}`}</button>
                 </div>
               </div>
             </div>
