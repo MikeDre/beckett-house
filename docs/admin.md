@@ -1,6 +1,32 @@
 # Staff admin
 
-`/admin` manages announcements, opening hours and fees, notification copies, the submissions inbox and the latest 100 changes. Changes take effect on the next public request without a deploy. Sign out uses Cloudflare Access logout.
+`/admin` is the staff CMS, with a responsive sidebar for Overview, Pages, Announcements, Submissions, Fees & hours, Form recipients, and Activity log. Sign out uses Cloudflare Access logout. Saved content changes take effect without a deploy; homepage drafts require a separate publish step.
+
+## Pages: homepage editor
+
+Open **Pages → Homepage** (or `/admin#pages/home`). The homepage is the nursery-selection map at `/`; Angel and Abbey Road are separate pages and are not editable through this first Pages release.
+
+- **Page content:** edit the screen-reader heading, welcome introduction, nursery button labels, nursery card summaries, local images and their descriptions.
+- **Search appearance:** edit the search/social title and description, with character counts and an approximate search preview. The heading stays visually hidden behind the existing logo treatment, preserving the public homepage design.
+- **Preview:** see current edits on the actual homepage layout, at desktop or mobile width. The iframe lives at protected `/admin/preview/home`; only same-origin messages from its parent editor are accepted, and nursery navigation is disabled inside the preview. It does not publish or expose a draft on the public URL.
+- **Save draft:** validates and saves privately to D1. The live site continues to use the last published content, or the original website defaults until the first publication.
+- **Publish changes:** shows a confirmation, saves current unsaved edits if necessary, then publishes the saved draft. The published content is available on the next public request. The saved draft is retained for further editing.
+- **Discard edits:** restores the last saved draft. It does not delete the saved draft or change published content.
+
+The editor tracks unsaved changes, preserves edits while switching workspace sections, and warns before closing or reloading a tab with unsaved edits. Two editors cannot silently overwrite each other's homepage changes: every save and publication requires the current record version, and stale requests return HTTP 409 while keeping local edits available to copy or reload. This first release does not include revision rollback or a general page builder.
+
+Homepage content uses one `settings` record, `page:home`; no new database migration is needed. Its draft and published content, timestamps, and version are updated atomically with activity entries. Invalid data or unavailable storage fails visibly in the editor; the public page falls back to the original safe content. Public rendering never reads the private draft as published content.
+
+## Workspace editing
+
+The Overview links to the main tasks and shows real recent enquiries and activity. Lists refresh when revisited. Announcements have a list/detail editor, existing-image chooser, appearance preview, publication windows and ordering. **Save announcements** still saves the whole list and immediately updates eligible published items; it does not use the homepage's separate publication workflow.
+
+Fees have nursery-specific session and fee panels, with separate monthly fees and per-day extras. Form recipients retain fixed primary nursery addresses and editable blind copies. The inbox provides filters, a search over the current page of results, pagination, a details drawer and confirmed permanent deletion. All writes retain existing origin, JSON, payload-size and Access checks. Images currently come from a curated selection of existing site assets or an explicit local image path; uploads are not part of this release.
+
+## Verification
+
+`npm test` builds production output and runs the homepage CMS tests plus rendered Worker tests. CMS tests use in-memory SQLite to verify private drafts, publication, invalid input, conflicts between simultaneous saves, audit entries and storage fallback. Browser checks used a local database to exercise draft saving, draft isolation on the public page, preview hydration, publication, existing settings and mobile layouts. No test content was written to production.
+
 
 ## Production setup
 

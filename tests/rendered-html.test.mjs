@@ -145,7 +145,7 @@ test("provides crawler and AI discovery files", async () => {
 });
 
 test("admin pages and API fail closed without authentication", async () => {
-  for (const path of ["/admin", "/admin/anything", "/api/admin/me", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
+  for (const path of ["/admin", "/admin/anything", "/admin/preview/home", "/api/admin/me", "/api/admin/pages/home", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
     const response = await render(path);
     assert.ok([403, 503].includes(response.status), path);
     assert.equal(response.headers.get("cache-control"), "no-store");
@@ -238,4 +238,22 @@ test("successful forms store submissions in the background and honour recipient 
     await Promise.all(background);
     assert.deepEqual(emails.at(-2).bcc, ["legacy@example.invalid"]);
   } finally { globalThis.fetch = originalFetch; }
+});
+
+
+test("authenticated staff workspace and homepage preview remain private", async () => {
+  const bindings = { ADMIN_DEV_EMAIL: "staff@example.invalid" };
+  const workspace = await render("/admin", "http://localhost", bindings);
+  assert.equal(workspace.status, 200);
+  assert.equal(workspace.headers.get("cache-control"), "no-store");
+  assert.equal(workspace.headers.get("x-robots-tag"), "noindex");
+  const html = await workspace.text();
+  assert.match(html, /CMS navigation/);
+  assert.match(html, /Pages/);
+  assert.match(html, /Skip to workspace content/);
+  const preview = await render("/admin/preview/home", "http://localhost", bindings);
+  assert.equal(preview.status, 200);
+  assert.equal(preview.headers.get("cache-control"), "no-store");
+  assert.equal(preview.headers.get("x-robots-tag"), "noindex");
+  assert.match(await preview.text(), /Beckett House Montessori nurseries/);
 });
