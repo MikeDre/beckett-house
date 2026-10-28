@@ -19,6 +19,8 @@ Homepage content uses one `settings` record, `page:home`; no new database migrat
 
 ## Workspace editing
 
+The CMS uses the public site's shared navy, lilac, sky blue, warm yellow and white colour tokens from `app/globals.css`, with the official light/dark SVG logos and existing nursery photography. Branding assets are reused directly rather than redrawn or replaced with a CMS monogram.
+
 The Overview links to the main tasks and shows real recent enquiries and activity. Lists refresh when revisited. Announcements have a list/detail editor, existing-image chooser, appearance preview, publication windows and ordering. **Save announcements** still saves the whole list and immediately updates eligible published items; it does not use the homepage's separate publication workflow.
 
 Fees have nursery-specific session and fee panels, with separate monthly fees and per-day extras. Form recipients retain fixed primary nursery addresses and editable blind copies. The inbox provides filters, a search over the current page of results, pagination, a details drawer and confirmed permanent deletion. All writes retain existing origin, JSON, payload-size and Access checks. Images currently come from a curated selection of existing site assets or an explicit local image path; uploads are not part of this release.
