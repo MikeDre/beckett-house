@@ -93,7 +93,7 @@ Public pages fall back to the existing content if a row is absent, invalid or st
 
 Deployed Worker version `1edd9410-7d09-4ff7-859d-380799bcc381`. The production build, all 15 rendered Worker tests, and TypeScript checks pass. Public pages remain available; unauthenticated `/admin`, `/admin/*`, and `/api/admin/*` redirect to the `beckett-house` login domain. The direct workers.dev admin and API reject unsigned requests with HTTP 403. Encoded admin paths also remain protected. The live browser displays the one-time PIN sign-in form for **Beckett House Admin**; the owner's real email-code sign-in must still be completed to verify an authenticated browser session.
 
-Cloudflare stores its login-page display label separately from the team domain. The old display label may still say `joinrabble.cloudflareaccess.com` until that cosmetic change is approved; the actual login domain and JWT issuer are `beckett-house.cloudflareaccess.com`.
+Cloudflare stores its login-page display label separately from the team domain. On 29 October 2026, the login page’s organisation name was updated from `joinrabble.cloudflareaccess.com` to **Beckett House Montessori** under Reusable components → Custom pages → Customize Login Page. The corrected name was verified on the live login screen. The login domain and JWT issuer remain `beckett-house.cloudflareaccess.com`; authentication and access policies were unchanged.
 
 ## Nursery homepage editors
 
