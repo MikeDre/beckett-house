@@ -10,6 +10,7 @@ import {
   SITE_URL,
   WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import { faqGroups, faqItems } from "./faq-content";
+import FaqIndex from "./faq-index";
 import "./faq.css";
 
 const title = "Frequently Asked Questions";
@@ -66,16 +67,7 @@ export default function FaqPage() {
         </header>
 
         <div className="faq-page-layout">
-          <nav className="faq-page-index" aria-label="Frequently asked question topics">
-            <p>On this page</p>
-            <ol>
-              {faqGroups.map((group) => (
-                <li key={group.id}>
-                  <a href={`#${group.id}`}>{group.heading}</a>
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <FaqIndex groups={faqGroups.map(({ id, heading }) => ({ id, heading }))} />
 
           <div className="faq-page-groups">
             {faqGroups.map((group) => (
