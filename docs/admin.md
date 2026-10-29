@@ -34,7 +34,7 @@ Fees have nursery-specific session and fee panels, with separate monthly fees an
 
 Connected on 28 October 2026 in Cloudflare account `13f7cc851a43ef52f572ad63202e2b0d` (Info@mikedre.com's Account), on Zero Trust Free. The account team was renamed from `joinrabble` to `beckett-house`.
 
-- Team domain: `beckett-house.cloudflareaccess.com`
+- Team domain: `newnuevo.cloudflareaccess.com`
 - Application: **Beckett House Admin** (`8c2cc80f-65af-417b-923e-ec4a456f52b3`)
 - Protected hostnames/paths: `www.beckett-house.co.uk/admin`, `/admin/*`, and `/api/admin/*`, in the same application.
 - Allow policy: **Beckett House admin — Mike**, restricted to `info@mikedre.com`; all other identities are denied.
@@ -100,3 +100,7 @@ Cloudflare stores its login-page display label separately from the team domain. 
 Pages contains the nursery selection map (`/`), Angel (`/angel`) and Abbey Road (`/abbey-road`). Each has its own private draft, published content and conflict protection. Both nursery homepages support hero slides, introduction, principles or room stages, virtual tour text, nursery life cards, location map heading, highlights, testimonials, FAQs and search appearance. The navigation, factual nursery details and shared announcements remain centrally managed.
 
 Content sections start collapsed. Expand a section to edit it, choose photos from the image library, and use the desktop or mobile preview before publishing. Saving a draft does not change the public page. Publishing requires confirmation and publishes only that page. Moving between pages retains unsaved edits; leaving the workspace warns if changes remain unsaved.
+
+## Access team rename (29 October 2026)
+
+The existing Zero Trust team was renamed to `newnuevo.cloudflareaccess.com`. The Worker’s `ACCESS_TEAM_DOMAIN` now uses this hostname for signing-key retrieval and JWT issuer validation. The existing application audience and allowlist are unchanged. Earlier verification entries above describe the domain at the time.
