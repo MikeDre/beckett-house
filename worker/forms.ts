@@ -82,7 +82,7 @@ export async function handleForm(request: Request, env: Env, ctx: ExecutionConte
     text("website");
     if (kind === "visit") {
       person = text("name", true, 200);
-      fields = [["Location", nursery.name], ["Parent / carer", person], ["Email", email], ["Child's age", text("childAge", true)], ["Message", text("message") || "Not provided"]];
+      fields = [["Location", nursery.name], ["Parent / carer", person], ["Email", email], ["Child's age", text("childAge", true)], ["Message", text("message") || "Not provided"], ["Phone number", text("phone", true, 80)]];
     } else {
       person = text("childName", true, 200);
       fields = [["Nursery", nursery.name], ["Child's full name", person], ["Date of birth", date("dateOfBirth")], ["Mother's full name", text("motherName", true)], ["Mother's mobile number", text("motherMobile", true)], ["Father's full name", text("fatherName", true)], ["Father's mobile number", text("fatherMobile", true)], ["Email", email], ["Home address", text("homeAddress") || "Not provided"], ["Home phone", text("homePhone") || "Not provided"], ["Planned starting date", date("startDate")], ["Full days (8am to 6pm)", selected("fullDays")], [`Mornings (${content.morning})`, selected("mornings")], [`Afternoons (${content.afternoon})`, selected("afternoons")]];
@@ -117,8 +117,8 @@ export async function handleForm(request: Request, env: Env, ctx: ExecutionConte
   // One spreadsheet, one tab per form and nursery, e.g. "Angel visits".
   const tab = `${nursery.name} ${kind === "visit" ? "visits" : "registrations"}`;
   const timestamp = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", dateStyle: "medium", timeStyle: "long" }).format(new Date());
-  // Visit columns follow the form's input order; registration already does.
-  const values = kind === "visit" ? [person, email, nursery.name, fields[3][1], fields[4][1]] : fields.map(([, value]) => value);
-  ctx.waitUntil(appendSheetRow(env, tab, [timestamp, ...values]).catch((error) => console.error("Form spreadsheet append failed:", error)));
+  // Preserve existing visit columns; append phone after Message for older rows.
+  const values = kind === "visit" ? [person, email, nursery.name, fields[3][1], fields[4][1], fields[5][1]] : fields.map(([, value]) => value);
+  ctx.waitUntil(appendSheetRow(env, tab, [timestamp, ...values], kind === "visit" ? [6] : []).catch((error) => console.error("Form spreadsheet append failed:", error)));
   return json(true);
 }

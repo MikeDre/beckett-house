@@ -208,32 +208,46 @@ test("Access verifies RSA signature, issuer, audience, expiry, cookie and allowl
 
 test("successful forms store submissions in the background and honour recipient overrides", async () => {
   const originalFetch = globalThis.fetch;
-  const emails = [], inserts = [];
+  const emails = [], inserts = [], sheetRows = [];
+  const pair = await crypto.subtle.generateKey({ name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" }, true, ["sign", "verify"]);
+  const privateKey = Buffer.from(await crypto.subtle.exportKey("pkcs8", pair.privateKey)).toString("base64");
   globalThis.fetch = async (url, init) => {
     if (String(url).includes("turnstile")) return Response.json({ success: true });
+    if (String(url).includes("oauth2.googleapis.com")) return Response.json({ access_token: "test-token" });
+    if (String(url).includes("sheets.googleapis.com")) {
+      sheetRows.push({ url: String(url), ...JSON.parse(init.body) });
+      return Response.json({ updates: { updatedRows: 1 } });
+    }
     assert.equal(String(url), "https://api.resend.com/emails");
     emails.push(JSON.parse(init.body));
     return Response.json({ id: "test" });
   };
   const bindings = {
+    FORM_SHEET_ID: "test-sheet", GOOGLE_SERVICE_ACCOUNT_EMAIL: "test@example.invalid", GOOGLE_PRIVATE_KEY: privateKey,
     RESEND_API_KEY: "test", FORM_FROM_EMAIL: "test@example.invalid", TURNSTILE_SECRET_KEY: "test", FORM_BCC: "legacy@example.invalid",
     DB: { prepare(sql) { return { bind(...values) { return { first: async () => ({ value: JSON.stringify({ copies: { all: ["copy@example.invalid"], angel: ["copy@example.invalid", "angel@example.invalid"], "abbey-road": [] } }) }), run: async () => { inserts.push({ sql, values }); } }; } }; } },
   };
   try {
     for (const kind of ["visit", "register"]) {
       const background = [];
-      const payload = { location: "Angel", nursery: "angel", email: "family@example.invalid", name: "Test parent", childAge: "3", turnstileToken: "test", childName: "Test child", dateOfBirth: "2023-01-01", motherName: "Test parent", motherMobile: "00000", fatherName: "Test parent", fatherMobile: "00000", startDate: "2027-01-01" };
+      const payload = { location: "Angel", nursery: "angel", email: "family@example.invalid", name: "Test parent", phone: "020 7946 0123", childAge: "3", turnstileToken: "test", childName: "Test child", dateOfBirth: "2023-01-01", motherName: "Test parent", motherMobile: "00000", fatherName: "Test parent", fatherMobile: "00000", startDate: "2027-01-01" };
       const response = await render(`/api/forms/${kind}`, "http://localhost", bindings, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }, background);
       assert.equal(response.status, 200);
       await Promise.all(background);
       assert.equal(inserts.at(-1).values[1], kind);
       assert.equal(inserts.at(-1).values[2], "angel");
       assert.ok(Array.isArray(JSON.parse(inserts.at(-1).values[5])));
+      if (kind === "visit") {
+        assert.deepEqual(sheetRows.at(-1).values[0].slice(1), ["Test parent", "family@example.invalid", "Angel", "3", "Not provided", "'020 7946 0123"]);
+        assert.match(emails.at(-2).text, /Phone number: 020 7946 0123/);
+        assert.match(emails.at(-1).html, /020 7946 0123/);
+        assert.ok(JSON.parse(inserts.at(-1).values[5]).some(([label, value]) => label === "Phone number" && value === "020 7946 0123"));
+      }
       assert.deepEqual(emails.at(-2).bcc, ["copy@example.invalid", "angel@example.invalid"]);
     }
     bindings.DB.prepare = () => { throw new Error("Storage unavailable"); };
     const background = [];
-    const response = await render("/api/forms/visit", "http://localhost", bindings, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Angel", email: "family@example.invalid", name: "Test parent", childAge: "3", turnstileToken: "test" }) }, background);
+    const response = await render("/api/forms/visit", "http://localhost", bindings, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ location: "Angel", email: "family@example.invalid", name: "Test parent", phone: "020 7946 0123", childAge: "3", turnstileToken: "test" }) }, background);
     assert.equal(response.status, 200);
     await Promise.all(background);
     assert.deepEqual(emails.at(-2).bcc, ["legacy@example.invalid"]);

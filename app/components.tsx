@@ -1033,6 +1033,7 @@ export function VisitForm() {
     const location = String(data.get("location") || "Angel");
     const name = String(data.get("name") || "");
     const email = String(data.get("email") || "");
+    const phone = String(data.get("phone") || "");
     const childAge = String(data.get("childAge") || "");
     const message = String(data.get("message") || "");
     if (TURNSTILE_SITE_KEY) {
@@ -1059,7 +1060,7 @@ export function VisitForm() {
         : "info@beckett-house.co.uk";
     const subject = encodeURIComponent(`Visit request: ${location}, ${name}`);
     const body = encodeURIComponent(
-      `Hello Beckett House,\n\nI'd like to arrange a visit.\n\nLocation: ${location}\nParent / carer: ${name}\nEmail: ${email}\nChild's age: ${childAge}\n\n${message}\n`,
+      `Hello Beckett House,\n\nI'd like to arrange a visit.\n\nLocation: ${location}\nParent / carer: ${name}\nEmail: ${email}\nPhone number: ${phone}\nChild's age: ${childAge}\n\n${message}\n`,
     );
     setStatus("Your email app is opening with the visit details ready to send.");
     window.location.href = `mailto:${destination}?subject=${subject}&body=${body}`;
@@ -1077,6 +1078,10 @@ export function VisitForm() {
           <input name="email" type="email" autoComplete="email" required />
         </label>
       </div>
+      <label>
+        Phone number
+        <input name="phone" type="tel" autoComplete="tel" maxLength={80} required />
+      </label>
       <div className="field-row">
         <label>
           Preferred nursery

@@ -46,8 +46,8 @@ Free plan: 3,000 emails/month, 100/day.
 
   **Visit requests:**
 
-  | Submitted at | Parent / carer | Email | Nursery | Child's age | Message |
-  |---|---|---|---|---|---|
+  | Submitted at | Parent / carer | Email | Nursery | Child's age | Message | Phone number |
+  |---|---|---|---|---|---|---|
 
   **Registrations:**
 
