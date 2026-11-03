@@ -3,6 +3,7 @@
 import { locations } from "../lib/content";
 
 const GA_ID = "G-4JGQVYM4ZG";
+const GTM_ID = "GTM-NVBMRVP3";
 const CONSENT_KEY = "bh_analytics_consent";
 const PENDING_LEAD_KEY = "bh_pending_lead";
 
@@ -43,6 +44,12 @@ export function loadAnalytics() {
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
   document.head.appendChild(script);
+
+  w.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+  const tagManager = document.createElement("script");
+  tagManager.async = true;
+  tagManager.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  document.head.appendChild(tagManager);
 }
 
 export function removeAnalyticsCookies() {
