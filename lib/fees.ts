@@ -7,7 +7,7 @@ export const abbeyRoadFees: FeeGroup[] = [
 ];
 // Angel has no baby room and charges the same for 2, 3 and 4 year olds, so it has a single age group.
 export const angelFees: FeeGroup[] = [
-  { age: "2–5 years", standard: [1200, 1600, 2000], funded30: [566, 966, 1366], funded15: [883, 1283, 1683], extras: [8.10, 3, 20] },
+  { age: "2–5 years", standard: [1320, 1760, 2200], funded30: [686, 1126, 1566], funded15: [1003, 1443, 1883], extras: [8.10, 3, 20] },
 ];
 export const money = (value: number) => new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
 export const extraDescriptions = [
