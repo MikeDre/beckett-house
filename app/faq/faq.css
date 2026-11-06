@@ -246,3 +246,8 @@
   text-decoration-color: currentColor;
 }
 
+
+.faq-page-intro,
+.faq-page-section .faq-list details p {
+  white-space: pre-line;
+}

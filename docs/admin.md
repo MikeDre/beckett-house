@@ -4,7 +4,7 @@
 
 ## Pages: homepage editor
 
-Open **Pages → Nursery selection map** (or `/admin#pages/home`). The homepage is the nursery-selection map at `/`; Angel and Abbey Road are separate pages and are not editable through this first Pages release.
+Open **Pages → Nursery selection map** (or `/admin#pages/home`). The homepage is the nursery-selection map at `/`; Angel and Abbey Road homepages and the FAQ page have their own editors under Pages.
 
 - **Page content:** edit the screen-reader heading, welcome introduction, nursery button labels, nursery card summaries, local images and their descriptions.
 - **Search appearance:** edit the search/social title and description, with character counts and an approximate search preview. The heading stays visually hidden behind the existing logo treatment, preserving the public homepage design.
@@ -104,3 +104,11 @@ Content sections start collapsed. Expand a section to edit it, choose photos fro
 ## Access team rename (29 October 2026)
 
 The existing Zero Trust team was renamed to `newnuevo.cloudflareaccess.com`. The Worker’s `ACCESS_TEAM_DOMAIN` now uses this hostname for signing-key retrieval and JWT issuer validation. The existing application audience and allowlist are unchanged. Earlier verification entries above describe the domain at the time.
+
+## FAQ editor
+
+Pages → Frequently asked questions (`/admin#pages/faq`) edits `/faq`. Staff can edit the page introduction, topic headings, questions, answers, search title and description. Topics and questions can be added, removed with confirmation, and reordered using Move up/Move down. Sections begin collapsed. At least one topic and one question per topic are required; identifiers stay stable when headings change and when items move.
+
+The FAQ uses the existing Save draft / Preview / Publish workflow with unsaved-change warnings and version-conflict protection. Its `page:faq` settings record is independent of the homepages and needs no database migration. The private desktop/mobile preview accepts validated same-origin messages from its editor, allows topic anchors and blocks links to other pages. Invalid edits leave the last valid preview visible with an explanation.
+
+Only published content feeds the public FAQ headings, answers, sidebar and FAQPage JSON-LD. Search/social metadata comes from published search fields. The FAQ is rendered dynamically so publishing does not depend on a deployment or page-cache expiry. Until first publication, the existing questions remain the public defaults. Homepage FAQ snippets are separate content and are not changed by this editor.

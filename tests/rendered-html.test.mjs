@@ -284,3 +284,46 @@ test("nursery draft previews render privately for both pages", async () => {
     assert.match(html, /Book a visit/);
   }
 });
+
+test("FAQ public text, sidebar, metadata and structured data use published content only", async () => {
+  const { env } = await import('cloudflare:workers');
+  const original = env.DB;
+  const firstResponse = await render('/faq');
+  assert.equal(firstResponse.status, 200);
+  const first = await firstResponse.text();
+  const initialLd = [...first.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const initialFaq = initialLd.flatMap(item => item['@graph'] ?? [item]).find(item => item['@type'] === 'FAQPage');
+  assert.ok(initialFaq.mainEntity.length > 0);
+  const content = { seoTitle: 'FAQ search title test', seoDescription: 'FAQ search description test', heading: 'Published FAQ fixture', introduction: 'Introduction fixture', groups: [
+    { id: 'topic-second', heading: 'Second topic first', items: [{ id: 'question-second', question: 'Second question first?', answer: 'A safe answer & useful detail.' }, { id: 'question-third', question: 'Third question next?', answer: 'Same topic, next answer.' }] },
+    { id: 'topic-first', heading: 'First topic second', items: [{ id: 'question-first', question: 'First question second?', answer: 'Another answer.' }] },
+  ] };
+  // With only a private draft, no fixture text may reach the public response.
+  const defaults = JSON.parse(JSON.stringify(content));
+  defaults.heading = 'Original published fixture';
+  const record = { slug: 'faq', title: 'Frequently asked questions', path: '/faq', draft: content, published: defaults, draftUpdatedAt: '2026-11-06T12:00:00Z', publishedAt: null, version: 1 };
+  env.DB = { prepare() { return { bind(key) { return { first: async () => key === 'page:faq' ? { value: JSON.stringify(record) } : null }; } }; } };
+  try {
+    const draftHtml = await (await render('/faq')).text();
+    assert.match(draftHtml, /Original published fixture/);
+    assert.doesNotMatch(draftHtml, /Published FAQ fixture/);
+    record.published = content; record.version = 2;
+    const published = await render('/faq');
+    assert.equal(published.status, 200);
+    const html = await published.text();
+    assert.match(html, /<h1>Published FAQ fixture<\/h1>/);
+    assert.match(html, /FAQ search title test/);
+    assert.match(html, /FAQ search description test/);
+    assert.ok(html.indexOf('href="#topic-second"') < html.indexOf('href="#topic-first"'));
+    assert.ok(html.indexOf('id="topic-second"') < html.indexOf('id="topic-first"'));
+    const data = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+    const faq = data.flatMap(item => item['@graph'] ?? [item]).find(item => item['@type'] === 'FAQPage');
+    assert.deepEqual(faq.mainEntity.map(item => item.name), ['Second question first?', 'Third question next?', 'First question second?']);
+    assert.equal(faq.mainEntity[0].acceptedAnswer.text, content.groups[0].items[0].answer);
+    assert.equal((await render('/admin/preview/faq')).status, 503);
+    const preview = await render('/admin/preview/faq', 'http://localhost', { ADMIN_DEV_EMAIL: 'staff@example.invalid' });
+    assert.equal(preview.status, 200);
+    assert.equal(preview.headers.get('cache-control'), 'no-store');
+    assert.equal(preview.headers.get('x-robots-tag'), 'noindex');
+  } finally { env.DB = original; }
+});
