@@ -71,6 +71,7 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     if (error instanceof FaqConflictError || error instanceof HomepageConflictError || error instanceof NurseryPageConflictError) return adminJson({ error: error.message }, 409);
     if (error instanceof FaqInputError || error instanceof HomepageInputError || error instanceof NurseryPageInputError) return adminJson({ error: error.message }, 400);
     if (error instanceof InputError) return adminJson({ error: error.message }, error.status);
+    if (error instanceof Error && error.message.includes("An uploaded image is unavailable")) return adminJson({ error: "An uploaded image is unavailable. Choose another image." }, 400);
     console.error("Admin database operation failed:", error);
     return adminJson({ error: "Could not access admin storage. Please try again or check the database migration." }, 503);
   }

@@ -1,10 +1,14 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
+import { handleMedia, serveUploadedImage } from "./media";
 import handler from "vinext/server/app-router-entry";
 import { handleForm } from "./forms";
 import { adminIdentity } from "./admin-auth";
 import { adminJson, handleAdmin } from "./admin";
 
 export interface Env {
+  CLOUDINARY_CLOUD_NAME?: string;
+  CLOUDINARY_API_KEY?: string;
+  CLOUDINARY_API_SECRET?: string;
   ACCESS_TEAM_DOMAIN?: string;
   ACCESS_AUD?: string;
   ADMIN_EMAILS?: string;
@@ -54,6 +58,7 @@ const LONG_CACHE = "public, max-age=2592000, stale-while-revalidate=86400";
 async function serveResponsiveImage(request: Request, url: URL, env: Env): Promise<Response> {
   const src = url.searchParams.get("url") ?? "";
   const width = Number(url.searchParams.get("w")) || 0;
+  if (src.startsWith("/images/uploads/")) return serveUploadedImage(request, env, src, width);
   if (!/^\/images\/[\w\-/]+\.(webp|jpe?g|png|avif)$/i.test(src) || src.includes("..")) {
     return new Response("Bad image request", { status: 400 });
   }
@@ -105,6 +110,7 @@ const worker = {
         if (protectedPath.startsWith("/api/")) return adminJson({ error: identity.error }, identity.status);
         return new Response(identity.error, { status: identity.status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
       }
+      if (url.pathname === "/api/admin/media" || url.pathname.startsWith("/api/admin/media/")) return handleMedia(request, env, identity.email);
       if (protectedPath.startsWith("/api/")) return handleAdmin(request, env, identity.email);
       const result = await handler.fetch(request, env, ctx);
       const response = new Response(result.body, result);
@@ -116,6 +122,8 @@ const worker = {
     if (request.method === "POST" && (url.pathname === "/api/forms/visit" || url.pathname === "/api/forms/register")) {
       return handleForm(request, env, ctx, url.pathname === "/api/forms/visit" ? "visit" : "register");
     }
+
+    if (url.pathname.startsWith("/images/uploads/")) return serveUploadedImage(request, env, url.pathname);
 
     if (url.pathname === "/_next/image" || url.pathname === "/_vinext/image") return serveResponsiveImage(request, url, env);
 

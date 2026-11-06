@@ -452,3 +452,10 @@
  .cms-workspace .cms-editor-section-body { padding: 20px 16px 4px; }
  .cms-workspace .cms-repeat-item { padding: 14px; }
 }
+
+.cms-media-item { min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 4px; }
+.cms-media-item > button { display: block; width: 100%; padding: 0; border: 0; background: var(--paper); text-align: left; color: var(--ink); }
+.cms-media-item > button.is-selected { outline: 2px solid var(--ink); }
+.cms-media-item > button:disabled { opacity: 1; cursor: default; }
+.cms-media-meta { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; padding: 8px; }
+.cms-media-meta small { font-size: 11px; }

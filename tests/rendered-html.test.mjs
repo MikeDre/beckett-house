@@ -145,7 +145,7 @@ test("provides crawler and AI discovery files", async () => {
 });
 
 test("admin pages and API fail closed without authentication", async () => {
-  for (const path of ["/admin", "/admin/anything", "/admin/preview/home", "/admin/preview/angel", "/admin/preview/abbey-road", "/api/admin/me", "/api/admin/pages/home", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
+  for (const path of ["/admin", "/admin/anything", "/admin/preview/home", "/admin/preview/angel", "/admin/preview/abbey-road", "/api/admin/me", "/api/admin/pages/home", "/api/admin/media", "/api/admin/media/00000000-0000-0000-0000-000000000000", "/%61dmin", "/%2561dmin", "/api/%61dmin/me", "/Admin"]) {
     const response = await render(path);
     assert.ok([403, 503].includes(response.status), path);
     assert.equal(response.headers.get("cache-control"), "no-store");

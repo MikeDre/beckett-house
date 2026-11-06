@@ -73,11 +73,59 @@ export function Modal({ open, title, children, onClose, wide = false, drawer = f
 export function Confirm({ open, title, description, action = "Confirm", danger = false, busy = false, onConfirm, onClose }: { open: boolean; title: string; description: string; action?: string; danger?: boolean; busy?: boolean; onConfirm: () => void; onClose: () => void }) { return <Modal open={open} title={title} onClose={() => { if (!busy) onClose(); }}><div className="cms-modal-body"><span className={`cms-confirm-icon${danger ? " is-danger" : ""}`}><Icon name={danger ? "trash" : "globe"} size={24}/></span><p>{description}</p></div><footer className="cms-modal-footer"><button className="cms-btn cms-btn-secondary" autoFocus type="button" disabled={busy} onClick={onClose}>Cancel</button><button className={`cms-btn ${danger ? "cms-btn-danger" : "cms-btn-primary"}`} type="button" disabled={busy} onClick={onConfirm}>{busy ? "Working…" : action}</button></footer></Modal>; }
 export function formatDate(date?: string | null, time = false) { if (!date) return "Not yet"; const parsed = new Date(date); return Number.isNaN(parsed.getTime()) ? "Unknown date" : new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", ...(time ? { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" } : { year: "numeric" }) }).format(parsed); }
 export { siteImages } from "../../lib/media-library";
-export function ImagePicker({ src, alt, onChoose }: { src: string; alt: string; onChoose: (image: typeof siteImages[number]) => void }) {
-  const [open, setOpen] = useState(false), [search, setSearch] = useState("");
-  const images = siteImages.filter(image => `${image.name} ${image.alt}`.toLowerCase().includes(search.trim().toLowerCase()));
+export type LibraryImage = typeof siteImages[number] & { id?: string; uploaded?: boolean; used?: boolean };
+export function ImagePicker({ src, alt, onChoose }: { src: string; alt: string; onChoose: (image: LibraryImage) => void }) {
+  const [open, setOpen] = useState(false);
   const safe = /^\/images\/[\w/-]+\.(webp|jpe?g|png|avif)$/i.test(src) && !src.includes("..");
-  return <><div className="cms-image-picker">{safe ? <img src={src} alt={alt || "Selected website image"}/> : <span className="cms-image-placeholder"><Icon name="image" size={28}/></span>}<div><strong>{src ? "Selected image" : "Add an image"}</strong><p>{"Choose from the website image library."}</p><button type="button" className="cms-btn cms-btn-secondary cms-btn-small" onClick={() => setOpen(true)}><Icon name="image" size={15}/>{src ? "Change image" : "Choose image"}</button></div></div><Modal open={open} title="Choose a website image" wide onClose={() => setOpen(false)}><div className="cms-modal-body"><p className="cms-muted">Choose a website photo, then check its description. Image sizes are handled automatically.</p><Field label="Search images" hint={`${images.length} images available`} value={search} onChange={setSearch}/>{!images.length && <p role="status">No images match your search. Try Angel, Abbey Road or classroom.</p>}<div className="cms-media-grid">{images.map(image => <button type="button" key={image.src} aria-pressed={src === image.src} className={src === image.src ? "is-selected" : ""} onClick={() => { onChoose(image); setOpen(false); }}><img src={image.src} alt={image.alt} loading="lazy"/><span>{image.name}{src === image.src && <Icon name="check" size={15}/>}</span></button>)}</div></div></Modal></>;
+  return <><div className="cms-image-picker">{safe ? <img src={src} alt={alt || "Selected website image"}/> : <span className="cms-image-placeholder"><Icon name="image" size={28}/></span>}<div><strong>{src ? "Selected image" : "Add an image"}</strong><p>Choose a photo or upload a new one.</p><button type="button" className="cms-btn cms-btn-secondary cms-btn-small" onClick={() => setOpen(true)}><Icon name="image" size={15}/>{src ? "Change image" : "Choose image"}</button></div></div><Modal open={open} title="Choose a website image" wide onClose={() => setOpen(false)}>{open && <div className="cms-modal-body"><MediaLibrary selected={src} onChoose={image => { onChoose(image); setOpen(false); }}/></div>}</Modal></>;
+}
+export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoose?: (image: LibraryImage) => void }) {
+  const resource = useResource<{ configured: boolean; images: LibraryImage[]; pendingDeletes: {id:string;name:string}[] }>("media");
+  const [search, setSearch] = useState(""), [name, setName] = useState(""), [alt, setAlt] = useState(""), [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false), [message, setMessage] = useState(""), [error, setError] = useState(""), [removing, setRemoving] = useState<{id:string;name:string} | null>(null);
+  const input = useRef<HTMLInputElement>(null);
+  const library: LibraryImage[] = resource.data?.images ?? siteImages;
+  const images = library.filter(image => `${image.name} ${image.alt}`.toLowerCase().includes(search.trim().toLowerCase()));
+  async function upload() {
+    if (!file || !name.trim() || !alt.trim()) { setError("Choose a photo and enter its name and description."); return; }
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5*1024*1024) { setError("Choose a JPEG, PNG or WebP photo no larger than 5 MB."); return; }
+    setBusy(true); setError(""); setMessage("");
+    try {
+      const body = new FormData(); body.set('file',file); body.set('name',name); body.set('alt',alt);
+      const response = await fetch('/api/admin/media',{method:'POST',body,signal:AbortSignal.timeout(60000)});
+      const result = await response.json() as LibraryImage & {error?:string};
+      if (!response.ok) throw new Error(result.error || 'Photo upload failed. Please try again.');
+      setFile(null); setName(""); setAlt(""); setSearch(""); if (input.current) input.current.value = "";
+      setMessage("Photo uploaded."); resource.reload(); onChoose?.(result);
+    } catch (error) { setError(error instanceof Error ? error.message : 'Photo upload failed. Please try again.'); }
+    finally { setBusy(false); }
+  }
+  async function remove() {
+    if (!removing) return; setBusy(true); setError("");
+    try { await api(`media/${removing.id}`,'DELETE',{}); setRemoving(null); setMessage('Photo removed.'); resource.reload(); }
+    catch (error) { setError((error as Error).message); resource.reload(); }
+    finally { setBusy(false); }
+  }
+  return <>
+    <p className="cms-muted">Existing website photos and uploaded images. Photos are resized and optimised automatically.</p>
+    {resource.loading && <Loading label="Loading image library…"/>}
+    {resource.error && <ErrorState message={resource.error} retry={resource.reload}/>}
+    {resource.data && !resource.data.configured && <p role="status">Uploads will be available once the image-storage connection is configured.</p>}
+    {resource.data?.configured && <details className="cms-card cms-editor-section"><summary><strong>Upload a photo</strong></summary><fieldset className="cms-editor-section-body cms-fieldset" disabled={busy} onKeyDown={event => { if (event.key === 'Enter' && event.target instanceof HTMLInputElement && event.target.type !== 'file') event.preventDefault(); }}>
+      <label className="cms-field"><span className="cms-field-label">Photo</span><input ref={input} type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const next = event.target.files?.[0] ?? null; setFile(next); if (next && !name) setName(next.name.replace(/\.[^.]+$/, '').replace(/[-_]/g,' ')); }}/><span className="cms-field-hint">JPEG, PNG or WebP · up to 5 MB</span></label>
+      <Field label="Image name" value={name} maxLength={150} onChange={setName}/><Field label="Image description" hint="Describe what is shown for people using screen readers." value={alt} maxLength={500} onChange={setAlt}/>
+      <button type="button" className="cms-btn cms-btn-primary" disabled={busy || !file || !name.trim() || !alt.trim()} onClick={() => void upload()}>{busy ? 'Working…' : 'Upload photo'}</button>
+    </fieldset></details>}
+    {error && <p role="alert">{error}</p>}{message && <p role="status">{message}</p>}
+    <Field label="Search images" hint={`${images.length} images available`} value={search} onChange={setSearch}/>
+    {!images.length && <p role="status">No images match your search.</p>}
+    <div className="cms-media-grid">{images.map(image => <div className="cms-media-item" key={image.src}>
+      <button type="button" disabled={!onChoose || busy} aria-pressed={selected === image.src} className={selected === image.src ? 'is-selected' : ''} onClick={() => onChoose?.(image)}><img src={image.src} alt={image.alt} loading="lazy"/><span>{image.name}{selected === image.src && <Icon name="check" size={15}/>}</span></button>
+      {image.uploaded && <div className="cms-media-meta"><small>{image.used ? 'Used in saved content' : 'Not used in saved content'}</small><button type="button" className="cms-text-btn" disabled={busy || image.used || image.src === selected} onClick={() => setRemoving({id:image.id!,name:image.name})}>Remove</button></div>}
+    </div>)}</div>
+    {resource.data?.pendingDeletes.map(image => <p key={image.id}>Removal pending: {image.name} <button type="button" className="cms-text-btn" disabled={busy} onClick={() => setRemoving(image)}>Retry removal</button></p>)}
+    <Confirm open={Boolean(removing)} title="Remove this photo?" description={`${removing?.name || 'This photo'} will be removed permanently. Photos used in saved drafts or published content cannot be removed.`} action="Remove photo" busy={busy} onClose={() => setRemoving(null)} onConfirm={() => void remove()}/>
+  </>;
 }
 
 export function EditorSection({ title, description, number, children }: { title: string; description: string; number?: string; children: ReactNode }) { return <details className="cms-card cms-editor-section"><summary><span className="cms-section-number">{number || <Icon name="pages" size={17}/>}</span><span><strong>{title}</strong><small>{description}</small></span><Icon name="chevron" size={18}/></summary><div className="cms-editor-section-body">{children}</div></details>; }

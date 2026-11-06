@@ -24,6 +24,8 @@ const localBindingConfig = {
   ],
   // Public Access identifiers; JWTs are verified again inside the Worker.
   vars: {
+    CLOUDINARY_CLOUD_NAME: "nwfeapre",
+    CLOUDINARY_API_KEY: "833191338232478",
     ACCESS_TEAM_DOMAIN: "newnuevo.cloudflareaccess.com",
     ACCESS_AUD: "766184dd709988797bc43cfc08b31a8b908f5db69a9409d438fb56b76f87c57f",
     ADMIN_EMAILS: "info@mikedre.com",
