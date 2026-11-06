@@ -459,3 +459,10 @@
 .cms-media-item > button:disabled { opacity: 1; cursor: default; }
 .cms-media-meta { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; padding: 8px; }
 .cms-media-meta small { font-size: 11px; }
+
+.cms-media-meta { align-items: center; }
+.cms-media-actions { display: flex; gap: 4px; margin-left: auto; }
+.cms-media-actions .cms-icon-btn { width: 36px; height: 36px; text-decoration: none; flex-shrink: 0; }
+.cms-media-actions .cms-icon-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.cms-media-actions .cms-media-delete:not(:disabled):hover { color: #a32b2b; background: #fff0f0; }
+.cms-media-actions .cms-icon-btn:disabled { opacity: .4; cursor: not-allowed; }

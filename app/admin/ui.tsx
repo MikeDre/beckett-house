@@ -4,7 +4,7 @@ import { siteImages } from "../../lib/media-library";
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
-export type IconName = "grid" | "pages" | "news" | "inbox" | "clock" | "settings" | "mail" | "arrow" | "external" | "chevron" | "check" | "plus" | "close" | "eye" | "search" | "image" | "globe" | "logout" | "menu" | "back" | "desktop" | "phone" | "save" | "trash" | "leaf" | "alert";
+export type IconName = "grid" | "pages" | "news" | "inbox" | "clock" | "settings" | "mail" | "arrow" | "external" | "chevron" | "check" | "plus" | "close" | "eye" | "search" | "image" | "globe" | "logout" | "menu" | "back" | "desktop" | "phone" | "save" | "trash" | "copy" | "leaf" | "alert";
 const paths: Record<IconName, ReactNode> = {
   grid: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
   pages: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></>,
@@ -22,6 +22,7 @@ const paths: Record<IconName, ReactNode> = {
   logout: <><path d="M9 4H4v16h5M9 12h12m-5-5 5 5-5 5"/></>, menu: <path d="M4 6h16M4 12h16M4 18h16"/>, back: <path d="M20 12H4m6-6-6 6 6 6"/>,
   desktop: <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>, phone: <><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></>,
   save: <><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12l4 4v12a2 2 0 0 1-2 2Z"/><path d="M7 3v6h10V3M7 21v-8h10v8"/></>,
+  copy: <><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></>,
   trash: <><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></>,
   leaf: <><path d="M20 3C10 2 3 5 4 13c1 6 8 8 12 3 3-4 2-8 4-13Z"/><path d="M4 21 15 9"/></>,
   alert: <><path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v4M12 17h.01"/></>,
@@ -86,6 +87,13 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
   const input = useRef<HTMLInputElement>(null);
   const library: LibraryImage[] = resource.data?.images ?? siteImages;
   const images = library.filter(image => `${image.name} ${image.alt}`.toLowerCase().includes(search.trim().toLowerCase()));
+  async function copyUrl(image: LibraryImage) {
+    setError(""); setMessage("");
+    try {
+      await navigator.clipboard.writeText(new URL(image.src, window.location.origin).href);
+      setMessage(`Image URL copied for ${image.name}.`);
+    } catch { setError("Unable to copy the image URL. Please allow clipboard access in your browser and try again."); }
+  }
   async function upload() {
     if (!file || !name.trim() || !alt.trim()) { setError("Choose a photo and enter its name and description."); return; }
     if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5*1024*1024) { setError("Choose a JPEG, PNG or WebP photo no larger than 5 MB."); return; }
@@ -121,10 +129,14 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
     {!images.length && <p role="status">No images match your search.</p>}
     <div className="cms-media-grid">{images.map(image => <div className="cms-media-item" key={image.src}>
       <button type="button" disabled={!onChoose || busy} aria-pressed={selected === image.src} className={selected === image.src ? 'is-selected' : ''} onClick={() => onChoose?.(image)}><img src={image.src} alt={image.alt} loading="lazy"/><span>{image.name}{selected === image.src && <Icon name="check" size={15}/>}</span></button>
-      {image.uploaded && <div className="cms-media-meta"><small>{image.used ? 'Used in saved content' : 'Not used in saved content'}</small><button type="button" className="cms-text-btn" disabled={busy || image.used || image.src === selected} onClick={() => setRemoving({id:image.id!,name:image.name})}>Remove</button></div>}
+      <div className="cms-media-meta"><small>{image.uploaded ? (image.used ? 'Used in saved content' : 'Not used in saved content') : 'Website image'}</small><div className="cms-media-actions">
+        <button type="button" className="cms-icon-btn" title="Copy image URL" aria-label={`Copy image URL for ${image.name}`} onClick={() => void copyUrl(image)}><Icon name="copy" size={17}/></button>
+        <a className="cms-icon-btn" href={image.src} target="_blank" rel="noopener noreferrer" title="Open image" aria-label={`Open ${image.name} in a new tab`}><Icon name="external" size={17}/></a>
+        {image.uploaded && <button type="button" className="cms-icon-btn cms-media-delete" title={image.used ? 'Photos used in saved content cannot be removed' : image.src === selected ? 'The selected photo cannot be removed' : 'Remove photo'} aria-label={`Remove ${image.name}`} disabled={busy || image.used || image.src === selected} onClick={() => setRemoving({id:image.id!,name:image.name})}><Icon name="trash" size={17}/></button>}
+      </div></div>
     </div>)}</div>
     {resource.data?.pendingDeletes.map(image => <p key={image.id}>Removal pending: {image.name} <button type="button" className="cms-text-btn" disabled={busy} onClick={() => setRemoving(image)}>Retry removal</button></p>)}
-    <Confirm open={Boolean(removing)} title="Remove this photo?" description={`${removing?.name || 'This photo'} will be removed permanently. Photos used in saved drafts or published content cannot be removed.`} action="Remove photo" busy={busy} onClose={() => setRemoving(null)} onConfirm={() => void remove()}/>
+    <Confirm open={Boolean(removing)} title="Remove this photo?" description={`${removing?.name || 'This photo'} will be removed permanently. Photos used in saved drafts or published content cannot be removed.`} action="Remove photo" danger busy={busy} onClose={() => setRemoving(null)} onConfirm={() => void remove()}/>
   </>;
 }
 
