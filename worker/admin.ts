@@ -1,3 +1,4 @@
+import { getAboutRecord, saveAboutDraft, publishAboutDraft, AboutConflictError, AboutInputError } from "../lib/about-store";
 import { getFaqRecord, saveFaqDraft, publishFaqDraft, FaqConflictError, FaqInputError } from "../lib/faq-store";
 import { getNurseryPageRecord, saveNurseryPageDraft, publishNurseryPageDraft, NurseryPageConflictError, NurseryPageInputError } from "../lib/nursery-page-store";
 import { getHomepageRecord, saveHomepageDraft, publishHomepageDraft, HomepageConflictError, HomepageInputError } from "../lib/homepage-store";
@@ -22,10 +23,13 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     const data = ["PUT", "PATCH", "DELETE", "POST"].includes(method) ? await body(request) : undefined;
     const activity = (action: string, summary: string) => env.DB.prepare("INSERT INTO activity (at, user, action, summary) VALUES (?, ?, ?, ?)").bind(new Date().toISOString(), email, action, summary);
     if (path === "/api/admin/me" && method === "GET") return adminJson({ email });
-    if (method === "GET" && path === "/api/admin/pages") return adminJson(await Promise.all([getHomepageRecord(env.DB), getNurseryPageRecord(env.DB, "angel"), getNurseryPageRecord(env.DB, "abbey-road"), getFaqRecord(env.DB)]));
+    if (method === "GET" && path === "/api/admin/pages") return adminJson(await Promise.all([getHomepageRecord(env.DB), getNurseryPageRecord(env.DB, "angel"), getNurseryPageRecord(env.DB, "abbey-road"), getFaqRecord(env.DB), getAboutRecord(env.DB)]));
     if (method === "GET" && path === "/api/admin/pages/home") return adminJson(await getHomepageRecord(env.DB));
     if (method === "PUT" && path === "/api/admin/pages/home") return adminJson(await saveHomepageDraft(env.DB, data?.content, data?.version, email));
     if (method === "POST" && path === "/api/admin/pages/home/publish") return adminJson(await publishHomepageDraft(env.DB, data?.version, email));
+    if (method === "GET" && path === "/api/admin/pages/about") return adminJson(await getAboutRecord(env.DB));
+    if (method === "PUT" && path === "/api/admin/pages/about") return adminJson(await saveAboutDraft(env.DB, data?.content, data?.version, email));
+    if (method === "POST" && path === "/api/admin/pages/about/publish") return adminJson(await publishAboutDraft(env.DB, data?.version, email));
     if (method === "GET" && path === "/api/admin/pages/faq") return adminJson(await getFaqRecord(env.DB));
     if (method === "PUT" && path === "/api/admin/pages/faq") return adminJson(await saveFaqDraft(env.DB, data?.content, data?.version, email));
     if (method === "POST" && path === "/api/admin/pages/faq/publish") return adminJson(await publishFaqDraft(env.DB, data?.version, email));
@@ -68,8 +72,8 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     }
     return adminJson({ error: "Route or method not found." }, 404);
   } catch (error) {
-    if (error instanceof FaqConflictError || error instanceof HomepageConflictError || error instanceof NurseryPageConflictError) return adminJson({ error: error.message }, 409);
-    if (error instanceof FaqInputError || error instanceof HomepageInputError || error instanceof NurseryPageInputError) return adminJson({ error: error.message }, 400);
+    if (error instanceof AboutConflictError || error instanceof FaqConflictError || error instanceof HomepageConflictError || error instanceof NurseryPageConflictError) return adminJson({ error: error.message }, 409);
+    if (error instanceof AboutInputError || error instanceof FaqInputError || error instanceof HomepageInputError || error instanceof NurseryPageInputError) return adminJson({ error: error.message }, 400);
     if (error instanceof InputError) return adminJson({ error: error.message }, error.status);
     if (error instanceof Error && error.message.includes("An uploaded image is unavailable")) return adminJson({ error: "An uploaded image is unavailable. Choose another image." }, 400);
     console.error("Admin database operation failed:", error);

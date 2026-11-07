@@ -4,17 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import { validateHomepageContent, type HomePageContent, type HomePageRecord } from "../../lib/homepage-content";
 import { validateNurseryPageContent, type NurseryPageContent, type NurseryPageRecord } from "../../lib/nursery-pages";
 import { validateFaqContent, type FaqContent, type FaqRecord } from "../../lib/faq-content";
+import { validateAboutContent, type AboutContent, type AboutRecord } from "../../lib/about-content";
+import AboutFields from "./about-fields";
 import FaqFields from "./faq-fields";
 import NurseryFields from "./nursery-fields";
 import { ApiError, api, Badge, Confirm, EditorSection, ErrorState, Field, formatDate, Icon, ImagePicker, Loading, useDirty, useResource, type DirtyHandler, type Notify } from "./ui";
 
-type PageRecord = HomePageRecord | NurseryPageRecord | FaqRecord;
-type PageContent = HomePageContent | NurseryPageContent | FaqContent;
+type PageRecord = HomePageRecord | NurseryPageRecord | FaqRecord | AboutRecord;
+type PageContent = HomePageContent | NurseryPageContent | FaqContent | AboutContent;
 type NurserySlug = "angel" | "abbey-road";
 const nurseryNames: Record<NurserySlug, string> = { angel: "Angel", "abbey-road": "Abbey Road" };
 const equal = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
-const pageName = (record: PageRecord) => record.slug === "home" ? "Nursery selection map" : record.slug === "faq" ? "Frequently asked questions" : `${record.title} nursery homepage`;
-const validate = (slug: PageRecord["slug"], content: unknown): PageContent => slug === "home" ? validateHomepageContent(content) : slug === "faq" ? validateFaqContent(content) : validateNurseryPageContent(content);
+const pageName = (record: PageRecord) => record.slug === "home" ? "Nursery selection map" : record.slug === "about" ? "About Beckett House" : record.slug === "faq" ? "Frequently asked questions" : `${record.title} nursery homepage`;
+const validate = (slug: PageRecord["slug"], content: unknown): PageContent => slug === "home" ? validateHomepageContent(content) : slug === "about" ? validateAboutContent(content) : slug === "faq" ? validateFaqContent(content) : validateNurseryPageContent(content);
 
 export function PagesSection({ page, navigate, notify, onDirty }: { page: string | null; navigate: (view: string) => void; notify: Notify; onDirty: DirtyHandler }) {
   const resource = useResource<PageRecord[]>("pages");
@@ -82,7 +84,7 @@ function PageEditor({ initial, active, onRecord, notify, onDirty, navigate }: { 
     {conflict && <div className="cms-conflict" role="alert"><Icon name="alert"/><div><strong>A newer version was saved elsewhere.</strong><p>Your edits are still here. Copy any changes you need before loading the latest version.</p><button type="button" disabled={busy} className="cms-text-btn" onClick={() => setDiscard(true)}>Reload latest draft <Icon name="arrow" size={15}/></button></div></div>}
     <div className="cms-editor-layout" hidden={tab === "preview"}><div className="cms-editor-main"><fieldset disabled={busy} className="cms-fieldset">
       <div role="tabpanel" id={`editor-${slug}-panel-content`} aria-labelledby={`editor-${slug}-tab-content`} hidden={tab !== "content"}>
-        {slug === "home" ? <MapFields content={content as HomePageContent} onChange={setContent}/> : slug === "faq" ? <FaqFields content={content as FaqContent} onChange={setContent}/> : <NurseryFields content={content as NurseryPageContent} onChange={setContent}/>}
+        {slug === "home" ? <MapFields content={content as HomePageContent} onChange={setContent}/> : slug === "about" ? <AboutFields content={content as AboutContent} onChange={setContent}/> : slug === "faq" ? <FaqFields content={content as FaqContent} onChange={setContent}/> : <NurseryFields content={content as NurseryPageContent} onChange={setContent}/>}
       </div>
       <div role="tabpanel" id={`editor-${slug}-panel-seo`} aria-labelledby={`editor-${slug}-tab-seo`} hidden={tab !== "seo"}>
         <EditorSection title="Search appearance" description="Title and description used by search engines and social previews.">
@@ -126,7 +128,7 @@ function DraftPreview({ slug, content, active }: { slug: PageRecord["slug"]; con
   const [mobile, setMobile] = useState(false), [scale, setScale] = useState(1), [ready, setReady] = useState(false);
   const container = useRef<HTMLDivElement>(null), frame = useRef<HTMLIFrameElement>(null);
   const width = mobile ? 390 : 1280, height = mobile ? 844 : 800;
-  const name = slug === "home" ? "Nursery map" : slug === "faq" ? "FAQ" : `${nurseryNames[slug]} homepage`, path = slug === "home" ? "/" : `/${slug}`;
+  const name = slug === "home" ? "Nursery map" : slug === "about" ? "About Beckett House" : slug === "faq" ? "FAQ" : `${nurseryNames[slug]} homepage`, path = slug === "about" ? "/beckett-house" : slug === "home" ? "/" : `/${slug}`;
   const messageType = slug === "home" ? "beckett-homepage-preview" : "beckett-page-preview";
   const readyType = slug === "home" ? "beckett-homepage-preview-ready" : "beckett-page-preview-ready";
   useEffect(() => {

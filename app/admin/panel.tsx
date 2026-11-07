@@ -24,6 +24,7 @@ const descriptions: Record<string, string> = {
   pages: "Edit page content, manage drafts and publish updates.",
   "pages/angel": "Edit the Angel homepage, including its photos, page sections and search appearance.",
   "pages/abbey-road": "Edit the Abbey Road homepage, including its photos, page sections and search appearance.",
+  "pages/about": "Edit the About page text, photos and search appearance.",
   "pages/faq": "Edit FAQ topics, questions, answers and search appearance.",
   "pages/home": "Edit the nursery map page at /, including its introduction, nursery cards and search metadata.",
   media: "Upload and manage website photos.",
@@ -33,7 +34,7 @@ const descriptions: Record<string, string> = {
   recipients: "Configure notification recipients for website forms.",
   activity: "Review content changes and administrative activity.",
 };
-const validView = (value: string) => ["pages/home", "pages/angel", "pages/abbey-road", "pages/faq"].includes(value) || navigation.some(item => item.id === value) ? value : "overview";
+const validView = (value: string) => ["pages/home", "pages/angel", "pages/abbey-road", "pages/faq", "pages/about"].includes(value) || navigation.some(item => item.id === value) ? value : "overview";
 export default function AdminPanel() {
   const [view, setView] = useState("overview"), [mobileNav, setMobileNav] = useState(false), [dirtySections, setDirtySections] = useState<Record<string, boolean>>({});
   const [notice, setNotice] = useState<{ kind: "success" | "error"; message: string } | null>(null);
@@ -45,7 +46,7 @@ export default function AdminPanel() {
   useEffect(() => { const update = () => { setView(validView(window.location.hash.slice(1))); setMobileNav(false); }; update(); window.addEventListener("hashchange", update); return () => window.removeEventListener("hashchange", update); }, []);
   useEffect(() => { if (!hasUnsaved) return; const guard = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; }; window.addEventListener("beforeunload", guard); return () => window.removeEventListener("beforeunload", guard); }, [hasUnsaved]);
   useEffect(() => { if (notice?.kind !== "success") return; const timeout = window.setTimeout(() => setNotice(null), 6500); return () => clearTimeout(timeout); }, [notice]);
-  const title = view === "pages/faq" ? "Frequently asked questions" : view === "pages/home" ? "Nursery selection map" : view === "pages/angel" ? "Angel homepage" : view === "pages/abbey-road" ? "Abbey Road homepage" : navigation.find(item => item.id === view)?.label ?? "Overview";
+  const title = view === "pages/about" ? "About Beckett House" : view === "pages/faq" ? "Frequently asked questions" : view === "pages/home" ? "Nursery selection map" : view === "pages/angel" ? "Angel homepage" : view === "pages/abbey-road" ? "Abbey Road homepage" : navigation.find(item => item.id === view)?.label ?? "Overview";
   useEffect(() => { document.title = `${title} · Beckett House CMS`; }, [title]);
   function navigate(next: string) { const safe = validView(next); setView(safe); setMobileNav(false); if (window.location.hash !== `#${safe}`) window.history.pushState(null, "", `#${safe}`); requestAnimationFrame(() => { heading.current?.focus({ preventScroll: true }); window.scrollTo({ top: 0, behavior: "instant" }); }); }
   const activeNav = view.startsWith("pages") ? "pages" : view;

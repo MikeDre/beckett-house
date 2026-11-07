@@ -67,7 +67,7 @@ test('absent record reads without mutation; draft is private; publish uses saved
   assert.equal((await getFaqRecord(db)).version, 0);
   assert.equal(sqlite.prepare('SELECT count(*) AS n FROM settings').get().n, 0);
   const list = await (await api(db, '/pages')).json();
-  assert.equal(list.length, 4); assert.ok(list.some(record => record.slug === 'faq' && record.path === '/faq'));
+  assert.equal(list.length, 5); assert.ok(list.some(record => record.slug === 'faq' && record.path === '/faq'));
   assert.equal((await api(db, '/pages/faq/publish', 'POST', { version: 0 })).status, 400);
   const savedResponse = await api(db, '/pages/faq', 'PUT', { version: 0, content: changed() });
   assert.equal(savedResponse.status, 200);

@@ -320,10 +320,32 @@ test("FAQ public text, sidebar, metadata and structured data use published conte
     const faq = data.flatMap(item => item['@graph'] ?? [item]).find(item => item['@type'] === 'FAQPage');
     assert.deepEqual(faq.mainEntity.map(item => item.name), ['Second question first?', 'Third question next?', 'First question second?']);
     assert.equal(faq.mainEntity[0].acceptedAnswer.text, content.groups[0].items[0].answer);
+    assert.equal((await render('/admin/preview/about')).status, 503);
     assert.equal((await render('/admin/preview/faq')).status, 503);
     const preview = await render('/admin/preview/faq', 'http://localhost', { ADMIN_DEV_EMAIL: 'staff@example.invalid' });
     assert.equal(preview.status, 200);
     assert.equal(preview.headers.get('cache-control'), 'no-store');
     assert.equal(preview.headers.get('x-robots-tag'), 'noindex');
   } finally { env.DB = original; }
+});
+
+test('About published content drives HTML and SEO while drafts and previews remain private', async () => {
+  const { env } = await import('cloudflare:workers');
+  const original = env.DB;
+  const source = await readFile(new URL('../lib/about-content.ts', import.meta.url), 'utf8');
+  const content = JSON.parse(source.split('defaultAboutContent:AboutContent = ')[1].split(';\nexport const aboutSections')[0]);
+  const draft = structuredClone(content); draft.texts.text1 = 'Private About heading';
+  const record = {slug:'about',title:'About Beckett House',path:'/beckett-house',draft,published:content,draftUpdatedAt:'2026-11-07T12:00:00Z',publishedAt:null,version:1};
+  env.DB = {prepare(){return {bind(key){return {first:async()=> key==='page:about' ? {value:JSON.stringify(record)} : null};}};}};
+  try {
+    const html = await (await render('/beckett-house')).text();
+    assert.match(html, /About Beckett House/); assert.doesNotMatch(html, /Private About heading/);
+    assert.match(html, /<strong>home-from-home<\/strong>/);
+    record.published = draft; draft.seoTitle = 'Published About SEO title';
+    const published = await (await render('/beckett-house')).text();
+    assert.match(published, /Private About heading/); assert.match(published, /Published About SEO title/);
+    const preview = await render('/admin/preview/about','http://localhost',{ADMIN_DEV_EMAIL:'staff@example.invalid'});
+    assert.equal(preview.status,200); assert.equal(preview.headers.get('cache-control'),'no-store');
+    assert.equal(preview.headers.get('x-robots-tag'),'noindex');
+  } finally {env.DB = original;}
 });

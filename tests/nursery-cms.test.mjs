@@ -52,7 +52,7 @@ test('reads never mutate; draft and publication remain isolated by page',async()
  const {db,sqlite}=database();
  for(const slug of ['angel','abbey-road']) assert.equal((await getNurseryPageRecord(db,slug)).version,0);
  assert.equal(sqlite.prepare('SELECT count(*) AS n FROM settings').get().n,0);
- assert.deepEqual((await (await api(db,'/pages')).json()).map(p=>p.slug),['home','angel','abbey-road','faq']);
+ assert.deepEqual((await (await api(db,'/pages')).json()).map(p=>p.slug),['home','angel','abbey-road','faq','about']);
  assert.equal((await api(db,'/pages/angel/publish','POST',{version:0})).status,400);
  const saved=await saveNurseryPageDraft(db,'angel',changed(),0,'editor');assert.equal(saved.version,1);
  assert.deepEqual(await getPublishedNurseryPage('angel',db),defaultNurseryPages.angel);
