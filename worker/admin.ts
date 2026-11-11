@@ -1,3 +1,4 @@
+import { getTimetableRecord, saveTimetableDraft, publishTimetableDraft, TimetableConflictError, TimetableInputError } from "../lib/timetable-store";
 import { historyPages, getHistoryPage, getRevision, restoreRevision, type HistoryPage } from "../lib/page-history";
 import { getAboutRecord, saveAboutDraft, publishAboutDraft, AboutConflictError, AboutInputError } from "../lib/about-store";
 import { getFaqRecord, saveFaqDraft, publishFaqDraft, FaqConflictError, FaqInputError } from "../lib/faq-store";
@@ -41,10 +42,13 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
         return adminJson(await restoreRevision(env.DB,slug,revision.content,data?.version,email,version));
       }
     }
-    if (method === "GET" && path === "/api/admin/pages") return adminJson(await Promise.all([getHomepageRecord(env.DB), getNurseryPageRecord(env.DB, "angel"), getNurseryPageRecord(env.DB, "abbey-road"), getFaqRecord(env.DB), getAboutRecord(env.DB)]));
+    if (method === "GET" && path === "/api/admin/pages") return adminJson(await Promise.all([getHomepageRecord(env.DB), getNurseryPageRecord(env.DB, "angel"), getNurseryPageRecord(env.DB, "abbey-road"), getFaqRecord(env.DB), getAboutRecord(env.DB), getTimetableRecord(env.DB)]));
     if (method === "GET" && path === "/api/admin/pages/home") return adminJson(await getHomepageRecord(env.DB));
     if (method === "PUT" && path === "/api/admin/pages/home") return adminJson(await saveHomepageDraft(env.DB, data?.content, data?.version, email));
     if (method === "POST" && path === "/api/admin/pages/home/publish") return adminJson(await publishHomepageDraft(env.DB, data?.version, email));
+    if (method === "GET" && path === "/api/admin/pages/timetable") return adminJson(await getTimetableRecord(env.DB));
+    if (method === "PUT" && path === "/api/admin/pages/timetable") return adminJson(await saveTimetableDraft(env.DB, data?.content, data?.version, email));
+    if (method === "POST" && path === "/api/admin/pages/timetable/publish") return adminJson(await publishTimetableDraft(env.DB, data?.version, email));
     if (method === "GET" && path === "/api/admin/pages/about") return adminJson(await getAboutRecord(env.DB));
     if (method === "PUT" && path === "/api/admin/pages/about") return adminJson(await saveAboutDraft(env.DB, data?.content, data?.version, email));
     if (method === "POST" && path === "/api/admin/pages/about/publish") return adminJson(await publishAboutDraft(env.DB, data?.version, email));
@@ -90,8 +94,8 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     }
     return adminJson({ error: "Route or method not found." }, 404);
   } catch (error) {
-    if (error instanceof AboutConflictError || error instanceof FaqConflictError || error instanceof HomepageConflictError || error instanceof NurseryPageConflictError) return adminJson({ error: error.message }, 409);
-    if (error instanceof AboutInputError || error instanceof FaqInputError || error instanceof HomepageInputError || error instanceof NurseryPageInputError) return adminJson({ error: error.message }, 400);
+    if (error instanceof TimetableConflictError || error instanceof AboutConflictError || error instanceof FaqConflictError || error instanceof HomepageConflictError || error instanceof NurseryPageConflictError) return adminJson({ error: error.message }, 409);
+    if (error instanceof TimetableInputError || error instanceof AboutInputError || error instanceof FaqInputError || error instanceof HomepageInputError || error instanceof NurseryPageInputError) return adminJson({ error: error.message }, 400);
     if (error instanceof InputError) return adminJson({ error: error.message }, error.status);
     if (error instanceof Error && error.message.includes("An uploaded image is unavailable")) return adminJson({ error: "An uploaded image is unavailable. Choose another image." }, 400);
     console.error("Admin database operation failed:", error);

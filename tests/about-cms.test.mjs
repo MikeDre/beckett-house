@@ -62,6 +62,6 @@ test('About drafts remain private, publishing and stale-editor protection use th
  assert.equal((await api(db,'/pages/about/publish','POST',{version:1})).status,200);
  assert.deepEqual(await getPublishedAboutContent(db),changed());
  assert.equal(sqlite.prepare('SELECT count(*) AS n FROM activity').get().n,2);
- const list=await (await api(db,'/pages')).json(); assert.equal(list.length,5); assert.ok(list.some(p=>p.slug==='about'));
+ const list=await (await api(db,'/pages')).json(); assert.equal(list.length,6); assert.ok(list.some(p=>p.slug==='about'));
  sqlite.close();
 });

@@ -350,3 +350,19 @@ test('About published content drives HTML and SEO while drafts and previews rema
     assert.equal(preview.headers.get('x-robots-tag'),'noindex');
   } finally {env.DB = original;}
 });
+
+test('timetable uses published dates, routines and SEO while its preview stays private', async () => {
+ const {env}=await import('cloudflare:workers');const original=env.DB;
+ const source=await readFile(new URL('../lib/timetable-content.ts',import.meta.url),'utf8');
+ const content=JSON.parse(source.split('defaultTimetableContent:TimetableContent = ')[1].split(';\nfunction object')[0]);
+ const draft=structuredClone(content);draft.heading='Private timetable heading';draft.seoTitle='Timetable SEO fixture';draft.terms.angel[0].end='2026-12-17';draft.holidays.angel=[{title:'Christmas closure fixture',start:'2026-12-21',end:'2027-01-01'}];draft.schedules.preschoolMorning[0].title='Arrival routine fixture';
+ const record={slug:'timetable',title:'Timetable and term dates',path:'/timetable',draft,published:content,version:1,draftUpdatedAt:'2026-11-11T12:00:00Z',publishedAt:null};
+ env.DB={prepare(){return{bind(key){return{first:async()=>key==='page:timetable'?{value:JSON.stringify(record)}:null};}};}};
+ try {
+  let html=await (await render('/timetable')).text();assert.doesNotMatch(html,/Private timetable heading|Christmas closure fixture|Arrival routine fixture/);assert.match(html,/2026-12-18/);
+  record.published=draft;record.version=2;
+  html=await (await render('/timetable')).text();assert.match(html,/Private timetable heading/);assert.match(html,/Timetable SEO fixture/);assert.match(html,/Christmas closure fixture/);assert.match(html,/Arrival routine fixture/);assert.match(html,/2026-12-17/);
+  assert.equal((await render('/admin/preview/timetable')).status,503);
+  const preview=await render('/admin/preview/timetable','http://localhost',{ADMIN_DEV_EMAIL:'staff@example.invalid'});assert.equal(preview.status,200);assert.equal(preview.headers.get('cache-control'),'no-store');assert.equal(preview.headers.get('x-robots-tag'),'noindex');
+ }finally{env.DB=original;}
+});

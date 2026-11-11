@@ -20,7 +20,7 @@ register(`data:text/javascript,${encodeURIComponent(`
 `)}`, import.meta.url);
 const { handleMedia } = await import('../worker/media.ts');
 const { handleAdmin } = await import('../worker/admin.ts');
-const schema = (await readFile(new URL('../migrations/0001_admin.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0002_media.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0003_page_revisions.sql',import.meta.url),'utf8'));
+const schema = (await readFile(new URL('../migrations/0001_admin.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0002_media.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0003_page_revisions.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0004_timetable_history.sql',import.meta.url),'utf8'));
 function database() {
   const sqlite = new DatabaseSync(':memory:'); sqlite.exec(schema);
   function statement(sql, values = []) { return {
@@ -36,7 +36,7 @@ function database() {
 function api(db,path,method='GET',data,origin='http://localhost') {return handleAdmin(new Request(`http://localhost/api/admin/pages/${path}`,{method,headers:{Origin:origin,'Content-Type':'application/json'},...(data===undefined?{}:{body:JSON.stringify(data)})}),{DB:db},'editor@example.invalid');}
 test('all page types record publications atomically and restore privately with version conflict protection',async()=>{
  const {db,sqlite}=database();
- for(const slug of ['home','angel','abbey-road','faq','about']) {
+ for(const slug of ['home','angel','abbey-road','faq','about','timetable']) {
   const initial=await (await api(db,slug)).json();
   let history=await (await api(db,slug+'/history')).json(); assert.equal(history.revisions.length,1);
   const content=structuredClone(initial.published);content.seoTitle='First publication '+slug;

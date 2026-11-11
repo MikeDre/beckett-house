@@ -1,158 +1,30 @@
+import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
-import { NurseryToggle, NurseryView } from "../nursery-toggle";
-import { RoutinePicker } from "./routine-picker";
-import { CONTENT_LAST_REVIEWED, getBreadcrumbSchema, jsonLd, SITE_URL, WEBSITE_ID, DEFAULT_OPEN_GRAPH } from "../../lib/seo";
+import { DEFAULT_OPEN_GRAPH } from "../../lib/seo";
+import { getPublishedTimetableContent } from "../../lib/timetable-store";
+import TimetableView from "./timetable-view";
 
-const title = "Timetable & Term Dates";
-const description = "Daily timetable, session times and term dates for Beckett House Montessori nurseries in Angel and Abbey Road.";
-export const metadata: Metadata = {
-  title, description, alternates: { canonical: "/timetable" },
-  openGraph: { ...DEFAULT_OPEN_GRAPH, title, description, url: "/timetable", type: "website", locale: "en_GB" },
-};
-
-type Activity = { time: string; title: string; note?: string };
-// Two years to school age: the same routine at both nurseries.
-const preschoolMorning: Activity[] = [
-  { time: "8:00am", title: "Arrival time for the children" },
-  { time: "8:00–8:45am", title: "Breakfast time and free play" },
-  { time: "8:45–9:00am", title: "Welcome circle time" },
-  { time: "9:00–10:30am", title: "Montessori work cycle" },
-  { time: "9:30–10:15am", title: "Free-flow snack time" },
-  { time: "10:00–10:30am", title: "Arts and crafts or messy activities" },
-  { time: "10:30–11:15am", title: "Outside play with outdoor activities" },
-  { time: "11:30am–12:00pm", title: "Circle time or group activity", note: "Topical and extra-curricular activities, then handwashing for lunch." },
-  { time: "12:00–12:30pm", title: "Lunch" },
-  { time: "12:30–1:30pm", title: "Outside play, activities and rest time for all-day children", note: "The school provides mattresses, pillows and blankets." },
-];
-const preschoolAfternoon: Activity[] = [
-  { time: "1:00pm", title: "Collection and arrival time" },
-  { time: "1:30–1:45pm", title: "Welcome circle time" },
-  { time: "1:45–3:15pm", title: "Montessori work cycle" },
-  { time: "2:00–2:30pm", title: "Free-flow snack time" },
-  { time: "3:15–4:00pm", title: "Outside play with outdoor activities" },
-  { time: "4:00–4:30pm", title: "Teatime" },
-  { time: "4:30–5:15pm", title: "Key group time", note: "Activities, outside play or physical activity." },
-  { time: "5:30–6:00pm", title: "Music & Story Time" },
-  { time: "6:00pm", title: "Collection time for the children" },
-];
-const angelOpeningHours: Activity[] = [
-  { time: "8am–6pm", title: "Monday–Friday" },
-  { time: "48 weeks", title: "Open 48 weeks a year", note: "Closed for two weeks in August and two weeks at Christmas." },
-];
-const angelSessions: Activity[] = [
-  { time: "8am–1pm", title: "Morning" },
-  { time: "1pm–6pm", title: "Afternoon" },
-  { time: "8am–6pm", title: "Full day" },
-];
-const abbeyRoadBabyMorning: Activity[] = [
-  { time: "8:00–8:45am", title: "Drop-off, bottles and breakfast" },
-  { time: "8:45–9:15am", title: "Nappy change" },
-  { time: "9:15–9:30am", title: "Welcome circle time" },
-  { time: "9:30–10:15am", title: "Outside play with outdoor activities" },
-  { time: "10:15–10:30am", title: "Bottles and morning snack" },
-  { time: "10:30–10:45am", title: "Nappy check", note: "Changes where needed. Children with individual nap times follow their own routine." },
-  { time: "10:45–11:30am", title: "Key groups, messy play or art activities" },
-  { time: "11:30am–12:00pm", title: "Nappy change" },
-  { time: "11:30am–12:00pm", title: "Group circle time and action rhymes", note: "Books, songs, puppets and finger plays." },
-  { time: "12:00–12:30pm", title: "Lunch and bottle time" },
-  { time: "12:30–2:00pm", title: "Sleep time for all-day children" },
-];
-const abbeyRoadBabyAfternoon: Activity[] = [
-  { time: "1:00pm", title: "Collection and arrival time for morning and afternoon children" },
-  { time: "1:15–2:00pm", title: "Key groups, messy play or art activities" },
-  { time: "2:00–2:30pm", title: "Bottles and snack" },
-  { time: "2:30–2:45pm", title: "Nappy change" },
-  { time: "2:45–3:15pm", title: "Outside play and gross motor activities", note: "Children with individual nap times follow their own routine." },
-  { time: "3:15–4:00pm", title: "Key groups: sensory or art activities" },
-  { time: "4:00–4:30pm", title: "Teatime" },
-  { time: "4:30–5:00pm", title: "Nappy change" },
-  { time: "5:00–5:30pm", title: "Individual play time" },
-  { time: "5:40–6:00pm", title: "Circle time, music, action rhymes and story time" },
-  { time: "6:00pm", title: "All children collected" },
-];
-const abbeyRoadOpeningHours: Activity[] = [
-  { time: "8am–6pm", title: "Monday–Friday" },
-  { time: "50 weeks", title: "Open 50 weeks a year", note: "Closed for two weeks at Christmas." },
-];
-const abbeyRoadSessions: Activity[] = [
-  { time: "8am–1pm", title: "Morning" },
-  { time: "1pm–6pm", title: "Afternoon" },
-  { time: "8am–6pm", title: "Full day" },
-];
-const terms = [
-  { title: "Autumn term 2026", start: "2026-09-01", end: "2026-12-18" },
-  { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23" },
-  { title: "Summer term 2027", start: "2027-04-26", end: "2027-08-13" },
-];
-const abbeyRoadTerms = [
-  { title: "Autumn term 2026", start: "2026-08-31", end: "2026-12-18" },
-  { title: "Spring term 2027", start: "2027-01-04", end: "2027-04-23" },
-];
-
-type Term = { title: string; start: string; end: string };
-const termWeekday = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" });
-const termDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
-// "Mon 27 April" / "Fri 14 August 2026": built by hand because en-GB adds a comma after the weekday.
-const termDay = (iso: string, withYear = false) => { const date = new Date(iso); return `${termWeekday.format(date)} ${termDate.format(date)}${withYear ? ` ${date.getUTCFullYear()}` : ""}`; };
-
-function TermCard({ term }: { term: Term }) {
-  return <article className="term-card"><h3>{term.title}</h3><p>
-    <time dateTime={term.start}>{termDay(term.start)}</time>
-    <span className="term-card-arrow" aria-hidden="true"> → </span><span className="visually-hidden"> to </span>
-    <time dateTime={term.end}>{termDay(term.end, true)}</time>
-  </p></article>;
+export const dynamic = "force-dynamic";
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPublishedTimetableContent();
+  return {
+    title: content.seoTitle, description: content.seoDescription,
+    alternates: { canonical: "/timetable" },
+    openGraph: { ...DEFAULT_OPEN_GRAPH, title: content.seoTitle, description: content.seoDescription, url: "/timetable", type: "website", locale: "en_GB" },
+    twitter: { card: "summary_large_image", title: content.seoTitle, description: content.seoDescription },
+  };
 }
-
-function Schedule({ heading, activities }: { heading: string; activities: Activity[] }) {
-  return <section className="schedule-card" aria-label={heading}>
-    <h4>{heading}</h4>
-    <ol className="schedule-list">{activities.map((activity, index) => <li key={`${activity.time}-${index}`}>
-      <span className="schedule-time">{activity.time}</span>
-      <div><h5>{activity.title}</h5>{activity.note && <p>{activity.note}</p>}</div>
-    </li>)}</ol>
-  </section>;
-}
-
-export default function TimetablePage() {
+export default async function TimetablePage() {
+  const content = await getPublishedTimetableContent();
   const url = `${SITE_URL}/timetable`;
-  const schema = { "@context": "https://schema.org", "@graph": [
-    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: title, description, inLanguage: "en-GB", dateModified: CONTENT_LAST_REVIEWED, isPartOf: { "@id": WEBSITE_ID } },
-    getBreadcrumbSchema([{ name: "Home", url: `${SITE_URL}/` }, { name: title, url }]),
-  ] };
-  return <>
-    <SiteHeader />
-    <main className="timetable-page">
-      <header className="timetable-intro"><h1>Timetable & term dates</h1>
-        <NurseryToggle label="Choose a nursery timetable" />
-      </header>
-      <NurseryView nursery="angel">
-      <section id="angel" className="nursery-schedule" aria-labelledby="angel-title">
-        <div className="timetable-nursery-heading"><h2 id="angel-title">Angel</h2><p className="timetable-address">98 Richmond Avenue, Islington</p></div>
-        <h3 className="schedule-section-title">Opening hours & sessions</h3>
-        <div className="schedule-grid"><Schedule heading="Opening hours" activities={angelOpeningHours} /><Schedule heading="Sessions" activities={angelSessions} /></div>
-        <h3 className="schedule-section-title">Daily routine</h3>
-        <p className="schedule-group-title">Two years to school age</p>
-        <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div>
-        <aside className="schedule-note"><h3>Time outdoors</h3><p>As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens.</p></aside>
-        <section id="term-dates" className="term-dates" aria-labelledby="term-title"><h2 id="term-title">Angel term dates</h2><div className="term-grid">{terms.map(term => <TermCard key={term.start} term={term} />)}</div></section>
-      </section>
-      </NurseryView>
-      <NurseryView nursery="abbey-road">
-      <section id="abbey-road" className="nursery-schedule" aria-labelledby="abbey-road-title">
-        <div className="timetable-nursery-heading"><h2 id="abbey-road-title">Abbey Road</h2><p className="timetable-address">Abbey Hive, 84–86 Abbey Road, London, NW8 0QA</p></div>
-        <h3 className="schedule-section-title">Opening hours & sessions</h3>
-        <div className="schedule-grid"><Schedule heading="Opening hours" activities={abbeyRoadOpeningHours} /><Schedule heading="Sessions" activities={abbeyRoadSessions} /></div>
-        <h3 className="schedule-section-title">Daily routine</h3>
-        <RoutinePicker groups={[
-          { label: "From babies to two years (or walking)", content: <div className="schedule-grid"><Schedule heading="Morning" activities={abbeyRoadBabyMorning} /><Schedule heading="Afternoon" activities={abbeyRoadBabyAfternoon} /></div> },
-          { label: "Two years to school age", content: <div className="schedule-grid"><Schedule heading="Morning" activities={preschoolMorning} /><Schedule heading="Afternoon" activities={preschoolAfternoon} /></div> },
-        ]} />
-        <section id="abbey-road-term-dates" className="term-dates" aria-labelledby="abbey-road-term-title"><h2 id="abbey-road-term-title">Abbey Road term dates</h2><div className="term-grid">{abbeyRoadTerms.map(term => <TermCard key={term.start} term={term} />)}</div></section>
-      </section>
-      </NurseryView>
-    </main>
-    <SiteFooter />
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
-  </>;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebPage", "@id": `${url}#webpage`, url, name: content.seoTitle, description: content.seoDescription, inLanguage: "en-GB", isPartOf: { "@id": WEBSITE_ID }, about: { "@id": ORGANISATION_ID } },
+      getBreadcrumbSchema([{ name: "Home", url: `${SITE_URL}/` }, { name: "Timetable and term dates", url }]),
+    ],
+  };
+
+  return <><SiteHeader /><TimetableView content={content} /><SiteFooter /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} /></>;
 }

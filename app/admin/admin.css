@@ -476,3 +476,5 @@
 .cms-history-heading p { font-size: 13px; }
 .cms-savebar[hidden] { display: none; }
 @media(max-width:760px) { .cms-history-row,.cms-history-heading { align-items: flex-start; flex-direction: column; }.cms-editor-tabs { overflow-x: auto; }.cms-editor-tabs button { white-space: nowrap; } }
+.cms-timetable-row { padding: 20px 0; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.cms-timetable-row:first-child { padding-top: 0; }
