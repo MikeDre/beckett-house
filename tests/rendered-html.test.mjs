@@ -320,6 +320,7 @@ test("FAQ public text, sidebar, metadata and structured data use published conte
     const faq = data.flatMap(item => item['@graph'] ?? [item]).find(item => item['@type'] === 'FAQPage');
     assert.deepEqual(faq.mainEntity.map(item => item.name), ['Second question first?', 'Third question next?', 'First question second?']);
     assert.equal(faq.mainEntity[0].acceptedAnswer.text, content.groups[0].items[0].answer);
+    assert.equal((await render('/api/admin/pages/about/history')).status, 503);
     assert.equal((await render('/admin/preview/about')).status, 503);
     assert.equal((await render('/admin/preview/faq')).status, 503);
     const preview = await render('/admin/preview/faq', 'http://localhost', { ADMIN_DEV_EMAIL: 'staff@example.invalid' });

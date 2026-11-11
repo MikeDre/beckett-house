@@ -129,14 +129,14 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
     {!images.length && <p role="status">No images match your search.</p>}
     <div className="cms-media-grid">{images.map(image => <div className="cms-media-item" key={image.src}>
       <button type="button" disabled={!onChoose || busy} aria-pressed={selected === image.src} className={selected === image.src ? 'is-selected' : ''} onClick={() => onChoose?.(image)}><img src={image.src} alt={image.alt} loading="lazy"/><span>{image.name}{selected === image.src && <Icon name="check" size={15}/>}</span></button>
-      <div className="cms-media-meta"><small>{image.uploaded ? (image.used ? 'Used in saved content' : 'Not used in saved content') : 'Website image'}</small><div className="cms-media-actions">
+      <div className="cms-media-meta"><small>{image.uploaded ? (image.used ? 'Used in content or history' : 'Not used in saved content') : 'Website image'}</small><div className="cms-media-actions">
         <button type="button" className="cms-icon-btn" title="Copy image URL" aria-label={`Copy image URL for ${image.name}`} onClick={() => void copyUrl(image)}><Icon name="copy" size={17}/></button>
         <a className="cms-icon-btn" href={image.src} target="_blank" rel="noopener noreferrer" title="Open image" aria-label={`Open ${image.name} in a new tab`}><Icon name="external" size={17}/></a>
-        {image.uploaded && <button type="button" className="cms-icon-btn cms-media-delete" title={image.used ? 'Photos used in saved content cannot be removed' : image.src === selected ? 'The selected photo cannot be removed' : 'Remove photo'} aria-label={`Remove ${image.name}`} disabled={busy || image.used || image.src === selected} onClick={() => setRemoving({id:image.id!,name:image.name})}><Icon name="trash" size={17}/></button>}
+        {image.uploaded && <button type="button" className="cms-icon-btn cms-media-delete" title={image.used ? 'Photos used in saved content or version history cannot be removed' : image.src === selected ? 'The selected photo cannot be removed' : 'Remove photo'} aria-label={`Remove ${image.name}`} disabled={busy || image.used || image.src === selected} onClick={() => setRemoving({id:image.id!,name:image.name})}><Icon name="trash" size={17}/></button>}
       </div></div>
     </div>)}</div>
     {resource.data?.pendingDeletes.map(image => <p key={image.id}>Removal pending: {image.name} <button type="button" className="cms-text-btn" disabled={busy} onClick={() => setRemoving(image)}>Retry removal</button></p>)}
-    <Confirm open={Boolean(removing)} title="Remove this photo?" description={`${removing?.name || 'This photo'} will be removed permanently. Photos used in saved drafts or published content cannot be removed.`} action="Remove photo" danger busy={busy} onClose={() => setRemoving(null)} onConfirm={() => void remove()}/>
+    <Confirm open={Boolean(removing)} title="Remove this photo?" description={`${removing?.name || 'This photo'} will be removed permanently. Photos used in saved drafts, published content or version history cannot be removed.`} action="Remove photo" danger busy={busy} onClose={() => setRemoving(null)} onConfirm={() => void remove()}/>
   </>;
 }
 

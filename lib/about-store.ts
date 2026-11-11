@@ -26,18 +26,18 @@ export async function getPublishedAboutContent(db?: D1Database): Promise<AboutCo
   } catch { /* Public pages remain available when storage is unavailable or corrupt. */ }
   return structuredClone(defaultAboutContent);
 }
-export async function saveAboutDraft(db: D1Database, content: unknown, version: unknown, email: string) {
+export async function saveAboutDraft(db: D1Database, content: unknown, version: unknown, email: string, summary?: string) {
   let validated: AboutContent;
   try { validated = validateAboutContent(content); } catch (error) { throw new AboutInputError((error as Error).message); }
-  return mutate(db, version, email, validated);
+  return mutate(db, version, email, validated, summary);
 }
 export async function publishAboutDraft(db: D1Database, version: unknown, email: string) { return mutate(db, version, email); }
-async function mutate(db: D1Database, version: unknown, email: string, content?: AboutContent): Promise<AboutRecord> {
+async function mutate(db: D1Database, version: unknown, email: string, content?: AboutContent, summary?: string): Promise<AboutRecord> {
   if (typeof version !== "number" || !Number.isSafeInteger(version) || version < 0 || version >= Number.MAX_SAFE_INTEGER) throw new AboutInputError("Supply a valid ABOUT version.");
   const { raw, record } = await read(db);
   if (version !== record.version) throw new AboutConflictError("The ABOUT has changed. Reload it before saving or publishing.");
   if (!content && !record.draft) throw new AboutInputError("Save a draft before publishing.");
-  const now = new Date().toISOString();
+  const now = new Date(!content && record.publishedAt ? Math.max(Date.now(), Date.parse(record.publishedAt) + 1) : Date.now()).toISOString();
   const next: AboutRecord = content
     ? { ...record, draft: content, draftUpdatedAt: now, version: version + 1 }
     : { ...record, published: record.draft!, publishedAt: now, version: version + 1 };
@@ -46,7 +46,7 @@ async function mutate(db: D1Database, version: unknown, email: string, content?:
   const write = raw === null
     ? db.prepare("INSERT INTO settings (key, value, updated_at, updated_by) VALUES (?, ?, ?, ?) ON CONFLICT(key) DO NOTHING").bind(ABOUT_SETTING_KEY, JSON.stringify(next), now, email)
     : db.prepare("UPDATE settings SET value = ?, updated_at = ?, updated_by = ? WHERE key = ? AND value = ?").bind(JSON.stringify(next), now, email, ABOUT_SETTING_KEY, raw);
-  const results = await db.batch([write, db.prepare("INSERT INTO activity (at, user, action, summary) SELECT ?, ?, ?, ? WHERE changes() = 1").bind(now, email, content ? "draft" : "publish", content ? "ABOUT draft saved" : "ABOUT published")]);
+  const results = await db.batch([write, db.prepare("INSERT INTO activity (at, user, action, summary) SELECT ?, ?, ?, ? WHERE changes() = 1").bind(now, email, content ? "draft" : "publish", content ? (summary ?? "ABOUT draft saved") : "ABOUT published")]);
   if (results.some(result => !result.success)) throw new Error("ABOUT storage write failed.");
   if (results[0].meta.changes !== 1) throw new AboutConflictError("The ABOUT has changed. Reload it before saving or publishing.");
   return next;

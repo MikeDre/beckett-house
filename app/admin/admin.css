@@ -466,3 +466,13 @@
 .cms-media-actions .cms-icon-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .cms-media-actions .cms-media-delete:not(:disabled):hover { color: #a32b2b; background: #fff0f0; }
 .cms-media-actions .cms-icon-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.cms-history-list { margin: 20px 0; }
+.cms-history-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); }
+.cms-history-row:last-child { border-bottom: 0; }
+.cms-history-row small { display: block; margin-top: 6px; overflow-wrap: anywhere; }
+.cms-history-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 28px 0 18px; }
+.cms-history-heading h2 { font-size: 20px; }
+.cms-history-heading p { font-size: 13px; }
+.cms-savebar[hidden] { display: none; }
+@media(max-width:760px) { .cms-history-row,.cms-history-heading { align-items: flex-start; flex-direction: column; }.cms-editor-tabs { overflow-x: auto; }.cms-editor-tabs button { white-space: nowrap; } }

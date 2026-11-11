@@ -56,7 +56,7 @@ async function cloudinary(env: Env, action: string, params: Record<string,string
   if (!response.ok) throw new MediaError("Cloudinary could not complete this request. Please try again.",502);
   return await response.json() as { public_id?: string; width?: number; height?: number; bytes?: number; version?: number; result?: string };
 }
-function references() { return "EXISTS (SELECT 1 FROM settings s, json_tree(s.value) j WHERE j.type = 'text' AND j.value = '/images/uploads/' || media.id || '.webp')"; }
+function references() { return "(EXISTS (SELECT 1 FROM settings s, json_tree(s.value) j WHERE j.type = 'text' AND j.value = '/images/uploads/' || media.id || '.webp') OR EXISTS (SELECT 1 FROM page_revisions r, json_tree(r.content) j WHERE j.type = 'text' AND j.value = '/images/uploads/' || media.id || '.webp'))"; }
 export async function handleMedia(request: Request, env: Env, email: string) {
   try {
     const url = new URL(request.url), match = url.pathname.match(/^\/api\/admin\/media\/([a-f0-9-]{36})$/);
@@ -95,7 +95,7 @@ export async function handleMedia(request: Request, env: Env, email: string) {
       if (!row) throw new MediaError("Image not found.",404);
       if (row.cloud_name !== env.CLOUDINARY_CLOUD_NAME) throw new MediaError("This image belongs to a different Cloudinary connection.",409);
       const claimed = await env.DB.prepare(`UPDATE media SET status = 'deleting' WHERE id = ? AND status IN ('ready','deleting') AND NOT ${references()}`).bind(id).run();
-      if (claimed.meta.changes !== 1) throw new MediaError("This image is used in saved content or a draft. Replace it there first.",409);
+      if (claimed.meta.changes !== 1) throw new MediaError("This image is used in saved content, a draft or version history.",409);
       const result = await cloudinary(env,'destroy',{public_id:row.public_id,timestamp:String(Math.floor(Date.now()/1000)),invalidate:'true'});
       if (!['ok','not found'].includes(result.result ?? '')) throw new MediaError("Photo removal is pending. Please retry.",502);
       await env.DB.batch([env.DB.prepare("UPDATE media SET status = 'deleted' WHERE id = ?").bind(id),env.DB.prepare("INSERT INTO activity (at,user,action,summary) VALUES (?,?,?,?)").bind(new Date().toISOString(),email,'delete',`Image removed: ${row.name}`)]);

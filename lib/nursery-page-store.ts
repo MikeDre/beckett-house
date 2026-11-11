@@ -27,18 +27,18 @@ export async function getPublishedNurseryPage(slug: NurseryPageSlug, db?: D1Data
   } catch { /* Public pages remain available when storage is unavailable or corrupt. */ }
   return structuredClone(defaultNurseryPages[slug]);
 }
-export async function saveNurseryPageDraft(db: D1Database, slug: NurseryPageSlug, content: unknown, version: unknown, email: string) {
+export async function saveNurseryPageDraft(db: D1Database, slug: NurseryPageSlug, content: unknown, version: unknown, email: string, summary?: string) {
   let validated: NurseryPageContent;
   try { validated = validateNurseryPageContent(content); } catch (error) { throw new NurseryPageInputError((error as Error).message); }
-  return mutate(db, slug, version, email, validated);
+  return mutate(db, slug, version, email, validated, summary);
 }
 export async function publishNurseryPageDraft(db: D1Database, slug: NurseryPageSlug, version: unknown, email: string) { return mutate(db, slug, version, email); }
-async function mutate(db: D1Database, slug: NurseryPageSlug, version: unknown, email: string, content?: NurseryPageContent): Promise<NurseryPageRecord> {
+async function mutate(db: D1Database, slug: NurseryPageSlug, version: unknown, email: string, content?: NurseryPageContent, summary?: string): Promise<NurseryPageRecord> {
   if (typeof version !== "number" || !Number.isSafeInteger(version) || version < 0 || version >= Number.MAX_SAFE_INTEGER) throw new NurseryPageInputError("Supply a valid nursery page version.");
   const { raw, record } = await read(db, slug);
   if (version !== record.version) throw new NurseryPageConflictError("The nursery page has changed. Reload it before saving or publishing.");
   if (!content && !record.draft) throw new NurseryPageInputError("Save a draft before publishing.");
-  const now = new Date().toISOString();
+  const now = new Date(!content && record.publishedAt ? Math.max(Date.now(), Date.parse(record.publishedAt) + 1) : Date.now()).toISOString();
   const next: NurseryPageRecord = content
     ? { ...record, draft: content, draftUpdatedAt: now, version: version + 1 }
     : { ...record, published: record.draft!, publishedAt: now, version: version + 1 };
@@ -47,7 +47,7 @@ async function mutate(db: D1Database, slug: NurseryPageSlug, version: unknown, e
   const write = raw === null
     ? db.prepare("INSERT INTO settings (key, value, updated_at, updated_by) VALUES (?, ?, ?, ?) ON CONFLICT(key) DO NOTHING").bind(settingKey(slug), JSON.stringify(next), now, email)
     : db.prepare("UPDATE settings SET value = ?, updated_at = ?, updated_by = ? WHERE key = ? AND value = ?").bind(JSON.stringify(next), now, email, settingKey(slug), raw);
-  const results = await db.batch([write, db.prepare("INSERT INTO activity (at, user, action, summary) SELECT ?, ?, ?, ? WHERE changes() = 1").bind(now, email, content ? "draft" : "publish", content ? `${title(slug)} draft saved` : `${title(slug)} published`)]);
+  const results = await db.batch([write, db.prepare("INSERT INTO activity (at, user, action, summary) SELECT ?, ?, ?, ? WHERE changes() = 1").bind(now, email, content ? "draft" : "publish", content ? (summary ?? `${title(slug)} draft saved`) : `${title(slug)} published`)]);
   if (results.some(result => !result.success)) throw new Error("Nursery page storage write failed.");
   if (results[0].meta.changes !== 1) throw new NurseryPageConflictError("The nursery page has changed. Reload it before saving or publishing.");
   return next;

@@ -19,7 +19,7 @@ register(`data:text/javascript,${encodeURIComponent(`
   }
 `)}`, import.meta.url);
 const { handleMedia, imageSize, serveUploadedImage } = await import('../worker/media.ts');
-const schema = (await readFile(new URL('../migrations/0001_admin.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0002_media.sql',import.meta.url),'utf8'));
+const schema = (await readFile(new URL('../migrations/0001_admin.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0002_media.sql',import.meta.url),'utf8')) + (await readFile(new URL('../migrations/0003_page_revisions.sql',import.meta.url),'utf8'));
 function database() {
   const sqlite = new DatabaseSync(':memory:'); sqlite.exec(schema);
   function statement(sql, values = []) { return {

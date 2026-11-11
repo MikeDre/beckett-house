@@ -1,3 +1,4 @@
+import { historyPages, getHistoryPage, getRevision, restoreRevision, type HistoryPage } from "../lib/page-history";
 import { getAboutRecord, saveAboutDraft, publishAboutDraft, AboutConflictError, AboutInputError } from "../lib/about-store";
 import { getFaqRecord, saveFaqDraft, publishFaqDraft, FaqConflictError, FaqInputError } from "../lib/faq-store";
 import { getNurseryPageRecord, saveNurseryPageDraft, publishNurseryPageDraft, NurseryPageConflictError, NurseryPageInputError } from "../lib/nursery-page-store";
@@ -23,6 +24,23 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     const data = ["PUT", "PATCH", "DELETE", "POST"].includes(method) ? await body(request) : undefined;
     const activity = (action: string, summary: string) => env.DB.prepare("INSERT INTO activity (at, user, action, summary) VALUES (?, ?, ?, ?)").bind(new Date().toISOString(), email, action, summary);
     if (path === "/api/admin/me" && method === "GET") return adminJson({ email });
+    const historyRoute = path.match(/^\/api\/admin\/pages\/([a-z-]+)\/history(?:\/(\d+)(\/restore)?)?$/);
+    if (historyRoute && historyPages.includes(historyRoute[1] as HistoryPage)) {
+      const slug = historyRoute[1] as HistoryPage;
+      if (!historyRoute[2] && method === "GET") {
+        const rows = (await env.DB.prepare("SELECT version, published_at, published_by FROM page_revisions WHERE page = ? ORDER BY version DESC LIMIT 50").bind(slug).all()).results;
+        const record = await getHistoryPage(env.DB,slug);
+        return adminJson({ currentVersion: record.version, revisions: rows.length ? rows : [{version:0,published_at:null,published_by:null}] });
+      }
+      if (historyRoute[2] && (method === "GET" || (method === "POST" && historyRoute[3]))) {
+        const version = Number(historyRoute[2]);
+        if (!Number.isSafeInteger(version)) throw new InputError("Invalid version.");
+        const revision = await getRevision(env.DB,slug,version);
+        if (!revision) return adminJson({error:"This version is no longer available."},404);
+        if (method === "GET") return adminJson(revision);
+        return adminJson(await restoreRevision(env.DB,slug,revision.content,data?.version,email,version));
+      }
+    }
     if (method === "GET" && path === "/api/admin/pages") return adminJson(await Promise.all([getHomepageRecord(env.DB), getNurseryPageRecord(env.DB, "angel"), getNurseryPageRecord(env.DB, "abbey-road"), getFaqRecord(env.DB), getAboutRecord(env.DB)]));
     if (method === "GET" && path === "/api/admin/pages/home") return adminJson(await getHomepageRecord(env.DB));
     if (method === "PUT" && path === "/api/admin/pages/home") return adminJson(await saveHomepageDraft(env.DB, data?.content, data?.version, email));
