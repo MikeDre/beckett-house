@@ -60,3 +60,11 @@ test('timetable edits remain private until published and stale edits conflict',a
  assert.deepEqual(await getPublishedTimetableContent(db),c);
  assert.equal((await getTimetableRecord(db)).version,2);sqlite.close();
 });
+
+test('opening hours and session times come from one shared setting without changing routines or dates',async()=>{
+ const {withTimetableHours}=await import('../lib/timetable-hours.ts');const {defaultFees}=await import('../lib/site-data.ts');
+ const fees=structuredClone(defaultFees);fees.openingHours={days:'Monday to Thursday',hours:'8:30am–5:30pm'};fees.sessions.angel.morning='8:30am–12:30pm';fees.weeksOpen.angel='46 weeks';
+ const before=structuredClone(defaultTimetableContent);const merged=withTimetableHours(before,fees);
+ assert.deepEqual(merged.schedules.angelOpeningHours[0],{time:'8:30am–5:30pm',title:'Monday to Thursday'});assert.equal(merged.schedules.angelSessions[0].time,'8:30am–12:30pm');assert.equal(merged.schedules.angelOpeningHours[1].title,'46 weeks');
+ assert.equal(merged.schedules.abbeyRoadSessions[0].time,defaultFees.sessions['abbey-road'].morning);assert.deepEqual(merged.terms,before.terms);assert.deepEqual(merged.schedules.preschoolMorning,before.schedules.preschoolMorning);assert.deepEqual(before,defaultTimetableContent);
+});

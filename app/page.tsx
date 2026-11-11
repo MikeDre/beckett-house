@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getPublishedHomepageContent } from "../lib/homepage-store";
 import type { Metadata } from "next";
 import { NurseryChooser } from "./components";

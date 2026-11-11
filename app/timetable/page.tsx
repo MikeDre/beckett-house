@@ -1,3 +1,5 @@
+import { getFeesContent } from "../../lib/site-data";
+import { withTimetableHours } from "../../lib/timetable-hours";
 import { getBreadcrumbSchema, jsonLd, ORGANISATION_ID, SITE_URL, WEBSITE_ID } from "../../lib/seo";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
@@ -16,7 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function TimetablePage() {
-  const content = await getPublishedTimetableContent();
+  const [published, fees] = await Promise.all([getPublishedTimetableContent(), getFeesContent()]);
+  const content = withTimetableHours(published, fees);
   const url = `${SITE_URL}/timetable`;
   const schema = {
     "@context": "https://schema.org",

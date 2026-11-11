@@ -5,40 +5,44 @@ import { validateHomepageContent, type HomePageContent, type HomePageRecord } fr
 import { validateNurseryPageContent, type NurseryPageContent, type NurseryPageRecord } from "../../lib/nursery-pages";
 import { validateFaqContent, type FaqContent, type FaqRecord } from "../../lib/faq-content";
 import { validateAboutContent, type AboutContent, type AboutRecord } from "../../lib/about-content";
+import { cmsPages } from "../../lib/cms-pages";
 import PageHistory from "./page-history";
 import { validateTimetableContent, type TimetableContent, type TimetableRecord } from "../../lib/timetable-content";
 import TimetableFields from "./timetable-fields";
+import { validateHistoryContent, type HistoryContent, type HistoryRecord } from "../../lib/history-content";
+import HistoryFields from "./history-fields";
 import AboutFields from "./about-fields";
 import FaqFields from "./faq-fields";
 import NurseryFields from "./nursery-fields";
 import { ApiError, api, Badge, Confirm, EditorSection, ErrorState, Field, formatDate, Icon, ImagePicker, Loading, useDirty, useResource, type DirtyHandler, type Notify } from "./ui";
 
-export type PageRecord = HomePageRecord | NurseryPageRecord | FaqRecord | AboutRecord | TimetableRecord;
-export type PageContent = HomePageContent | NurseryPageContent | FaqContent | AboutContent | TimetableContent;
+export type PageRecord = HomePageRecord | NurseryPageRecord | FaqRecord | AboutRecord | TimetableRecord | HistoryRecord;
+export type PageContent = HomePageContent | NurseryPageContent | FaqContent | AboutContent | TimetableContent | HistoryContent;
 type NurserySlug = "angel" | "abbey-road";
 const nurseryNames: Record<NurserySlug, string> = { angel: "Angel", "abbey-road": "Abbey Road" };
 const equal = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
-const pageName = (record: PageRecord) => record.slug === "home" ? "Nursery selection map" : record.slug === "timetable" ? "Timetable and term dates" : record.slug === "about" ? "About Beckett House" : record.slug === "faq" ? "Frequently asked questions" : `${record.title} nursery homepage`;
-const validate = (slug: PageRecord["slug"], content: unknown): PageContent => slug === "home" ? validateHomepageContent(content) : slug === "timetable" ? validateTimetableContent(content) : slug === "about" ? validateAboutContent(content) : slug === "faq" ? validateFaqContent(content) : validateNurseryPageContent(content);
+const pageName = (record: PageRecord) => cmsPages.find(page => page.slug === record.slug)?.title ?? record.title;
+const validate = (slug: PageRecord["slug"], content: unknown): PageContent => slug === "home" ? validateHomepageContent(content) : slug === "history" ? validateHistoryContent(content) : slug === "timetable" ? validateTimetableContent(content) : slug === "about" ? validateAboutContent(content) : slug === "faq" ? validateFaqContent(content) : validateNurseryPageContent(content);
 
 export function PagesSection({ page, navigate, notify, onDirty }: { page: string | null; navigate: (view: string) => void; notify: Notify; onDirty: DirtyHandler }) {
   const resource = useResource<PageRecord[]>("pages");
   if (resource.loading) return <Loading label="Loading your pages…"/>;
   if (resource.error || !resource.data) return <ErrorState message={resource.error || "Your pages couldn’t be loaded."} retry={resource.reload}/>;
-  const records = resource.data;
+  const records = [...resource.data].sort((a,b) => cmsPages.findIndex(page=>page.slug===a.slug)-cmsPages.findIndex(page=>page.slug===b.slug));
   function updateRecord(next: PageRecord) { resource.setData(current => current?.map(record => record.slug === next.slug ? next : record) ?? null); }
   return <>
     <div hidden={page !== null}>
       <div className="cms-section-toolbar"><div className="cms-search cms-search-static"><Icon name="pages" size={18}/><span>{records.length} editable pages</span></div><span className="cms-muted cms-small">Drafts and publishing are managed separately for each page.</span></div>
       <div className="cms-card cms-pages-list"><div className="cms-list-heading"><span>Page</span><span>Status</span><span>Last updated</span><span/></div>
         {records.map(record => <a href={`#pages/${record.slug}`} key={record.slug} className="cms-page-row" onClick={event => { event.preventDefault(); navigate(`pages/${record.slug}`); }}>
-          <span className="cms-page-identity"><span className="cms-page-thumb"><Icon name={record.slug === "home" ? "globe" : "leaf"} size={26}/></span><span><strong>{pageName(record)}</strong><small>{record.slug === "home" ? "Homepage" : record.title} · {record.path}</small></span></span>
+          <span className="cms-page-identity"><span className="cms-page-thumb"><Icon name={record.slug === "home" ? "globe" : "leaf"} size={26}/></span><span><strong>{pageName(record)}</strong><small>{record.path}</small></span></span>
           <span className="cms-page-badges"><Badge tone="green">Published</Badge>{record.draft && !equal(record.draft, record.published) && <Badge tone="amber">Draft changes</Badge>}</span>
           <span className="cms-muted cms-small">{record.draftUpdatedAt ? formatDate(record.draftUpdatedAt, true) : "Original website content"}</span><span className="cms-page-edit">Edit page <Icon name="arrow" size={17}/></span>
         </a>)}
       </div>
-      <div className="cms-inline-note"><Icon name="leaf" size={18}/><p>Each page has its own draft and publishing history. Changes stay private until you choose to publish that page.</p></div>
+      <div className="cms-inline-note"><Icon name="leaf" size={18}/><p>Save draft keeps page edits private. Preview lets you review them. Publish changes updates the live page. Version history lets you restore an earlier version.</p></div>
     </div>
+    {page === null && <div className="cms-inline-note"><Icon name="settings" size={18}/><p>Fees and opening hours, announcements and form recipients have their own sections in the menu. Those settings take effect when saved. Other website pages currently require a developer to update.</p></div>}
     {page !== null && !records.some(record => record.slug === page) && <ErrorState message="This page is not available in the editor." retry={() => navigate("pages")}/>}
     {records.map(record => <div key={record.slug} hidden={page !== record.slug}><PageEditor initial={record} active={page === record.slug} onRecord={updateRecord} notify={notify} onDirty={onDirty} navigate={navigate}/></div>)}
   </>;
@@ -92,7 +96,7 @@ function PageEditor({ initial, active, onRecord, notify, onDirty, navigate }: { 
     {conflict && <div className="cms-conflict" role="alert"><Icon name="alert"/><div><strong>A newer version was saved elsewhere.</strong><p>Your edits are still here. Copy any changes you need before loading the latest version.</p><button type="button" disabled={busy} className="cms-text-btn" onClick={() => setDiscard(true)}>Reload latest draft <Icon name="arrow" size={15}/></button></div></div>}
     <div className="cms-editor-layout" hidden={tab === "preview" || tab === "history"}><div className="cms-editor-main"><fieldset disabled={busy} className="cms-fieldset">
       <div role="tabpanel" id={`editor-${slug}-panel-content`} aria-labelledby={`editor-${slug}-tab-content`} hidden={tab !== "content"}>
-        {slug === "home" ? <MapFields content={content as HomePageContent} onChange={setContent}/> : slug === "timetable" ? <TimetableFields content={content as TimetableContent} onChange={setContent}/> : slug === "about" ? <AboutFields content={content as AboutContent} onChange={setContent}/> : slug === "faq" ? <FaqFields content={content as FaqContent} onChange={setContent}/> : <NurseryFields content={content as NurseryPageContent} onChange={setContent}/>}
+        {slug === "home" ? <MapFields content={content as HomePageContent} onChange={setContent}/> : slug === "history" ? <HistoryFields content={content as HistoryContent} onChange={setContent}/> : slug === "timetable" ? <TimetableFields content={content as TimetableContent} onChange={setContent}/> : slug === "about" ? <AboutFields content={content as AboutContent} onChange={setContent}/> : slug === "faq" ? <FaqFields content={content as FaqContent} onChange={setContent}/> : <NurseryFields content={content as NurseryPageContent} onChange={setContent}/>}
       </div>
       <div role="tabpanel" id={`editor-${slug}-panel-seo`} aria-labelledby={`editor-${slug}-tab-seo`} hidden={tab !== "seo"}>
         <EditorSection title="Search appearance" description="Title and description used by search engines and social previews.">
@@ -128,7 +132,7 @@ function MapFields({ content, onChange }: { content: HomePageContent; onChange: 
       <Field label={`${nurseryNames[nursery]} image description`} hint="Describe what’s in the image for people using screen readers." maxLength={500} value={card.imageAlt} required onChange={imageAlt => updateCard({ imageAlt })}/>
       <Field label={`${nurseryNames[nursery]} summary`} maxLength={2000} multiline required value={card.summary} onChange={summary => updateCard({ summary })}/>
       <Field label={`${nurseryNames[nursery]} call to action`} maxLength={100} value={card.buttonLabel} required onChange={buttonLabel => updateCard({ buttonLabel })}/>
-      <p className="cms-field-note"><Icon name="settings" size={15}/>Addresses, ages and opening times are shared nursery information and stay consistent across the site.</p>
+      <p className="cms-field-note"><Icon name="settings" size={15}/>Nursery addresses and age ranges are maintained by your website developer. Opening hours on the timetable and fees pages are managed in Fees & hours.</p>
     </EditorSection>
   </>;
 }
@@ -137,7 +141,7 @@ export function DraftPreview({ slug, content, active, historical = false }: { hi
   const [mobile, setMobile] = useState(false), [scale, setScale] = useState(1), [ready, setReady] = useState(false);
   const container = useRef<HTMLDivElement>(null), frame = useRef<HTMLIFrameElement>(null);
   const width = mobile ? 390 : 1280, height = mobile ? 844 : 800;
-  const name = slug === "home" ? "Nursery map" : slug === "timetable" ? "Timetable and term dates" : slug === "about" ? "About Beckett House" : slug === "faq" ? "FAQ" : `${nurseryNames[slug]} homepage`, path = slug === "about" ? "/beckett-house" : slug === "home" ? "/" : `/${slug}`;
+  const name = slug === "history" ? "Our history" : slug === "home" ? "Nursery map" : slug === "timetable" ? "Timetable and term dates" : slug === "about" ? "About Beckett House" : slug === "faq" ? "FAQ" : `${nurseryNames[slug]} homepage`, path = slug === "about" ? "/beckett-house" : slug === "home" ? "/" : `/${slug}`;
   const messageType = slug === "home" ? "beckett-homepage-preview" : "beckett-page-preview";
   const readyType = slug === "home" ? "beckett-homepage-preview-ready" : "beckett-page-preview-ready";
   useEffect(() => {

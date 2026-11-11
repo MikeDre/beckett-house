@@ -1,9 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import type { FeesContent } from "../../../../lib/site-data";
+import { withTimetableHours } from "../../../../lib/timetable-hours";
+import { useResource } from "../../ui";
 import TimetableView from "../../../timetable/timetable-view";
 import { defaultTimetableContent, validateTimetableContent } from "../../../../lib/timetable-content";
 
 export default function TimetablePreview() {
+  const hours = useResource<FeesContent>("fees");
   const [content, setContent] = useState(defaultTimetableContent), [error, setError] = useState("");
   useEffect(() => {
     const receive = (event: MessageEvent) => {
@@ -17,5 +21,5 @@ export default function TimetablePreview() {
   return <><div onClickCapture={event => {
     const link = (event.target as Element).closest("a");
     if (link && !link.getAttribute("href")?.startsWith("#")) { event.preventDefault(); event.stopPropagation(); }
-  }}><TimetableView content={content} /></div>{error && <p role="alert" style={{ position: "fixed", bottom: 12, left: 12, right: 12, background: "var(--sun)", color: "var(--ink)", padding: 16, zIndex: 9999 }}>Preview is showing the last valid content. {error}</p>}</>;
+  }}>{hours.data ? <TimetableView content={withTimetableHours(content,hours.data)}/> : <p role="status">{hours.error || "Loading shared opening hours…"}{hours.error && <button type="button" onClick={hours.reload}>Try again</button>}</p>}</div>{error && <p role="alert" style={{ position: "fixed", bottom: 12, left: 12, right: 12, background: "var(--sun)", color: "var(--ink)", padding: 16, zIndex: 9999 }}>Preview is showing the last valid content. {error}</p>}</>;
 }

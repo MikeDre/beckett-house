@@ -101,6 +101,7 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
     try {
       const body = new FormData(); body.set('file',file); body.set('name',name); body.set('alt',alt);
       const response = await fetch('/api/admin/media',{method:'POST',body,signal:AbortSignal.timeout(60000)});
+      if (!response.headers.get("content-type")?.includes("application/json")) throw new Error("Your sign-in may have expired. Reload this page to sign in again.");
       const result = await response.json() as LibraryImage & {error?:string};
       if (!response.ok) throw new Error(result.error || 'Photo upload failed. Please try again.');
       setFile(null); setName(""); setAlt(""); setSearch(""); if (input.current) input.current.value = "";

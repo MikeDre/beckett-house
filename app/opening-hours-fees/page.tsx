@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getFeesContent } from "../../lib/site-data";
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "../components";

@@ -23,7 +23,7 @@ export default function AboutView({content}:{content:AboutContent}) { return (
         <div className="about-beckett-hero-image"><Image {...content.images[0]} alt={content.images[0].alt} sizes="(min-width: 900px) 50vw, 100vw" priority /></div>
       </section>
       <section className="about-school-introduction section-pad" aria-label="Our Montessori preschool">
-        <p className="about-lede">{content.texts.text28}<a className="text-link" href="https://www.montessori.org.uk/wp-content/uploads/2018/06/Beckett-House.pdf" target="_blank" rel="noopener noreferrer">{content.texts.text4}</a>{content.texts.text29}</p>
+        <p className="about-lede">{content.texts.text28.trimEnd()}{" "}<a className="text-link" href="https://www.montessori.org.uk/wp-content/uploads/2018/06/Beckett-House.pdf" target="_blank" rel="noopener noreferrer">{content.texts.text4}</a>{content.texts.text29.trimStart().startsWith(",") ? content.texts.text29.trimStart() : ` ${content.texts.text29.trimStart()}`}</p>
         <p><AboutText text={content.texts.paragraph2}/></p>
       </section>
       <section className="about-home-from-home section-pad" aria-labelledby="home-from-home-title">

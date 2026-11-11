@@ -366,3 +366,19 @@ test('timetable uses published dates, routines and SEO while its preview stays p
   const preview=await render('/admin/preview/timetable','http://localhost',{ADMIN_DEV_EMAIL:'staff@example.invalid'});assert.equal(preview.status,200);assert.equal(preview.headers.get('cache-control'),'no-store');assert.equal(preview.headers.get('x-robots-tag'),'noindex');
  }finally{env.DB=original;}
 });
+
+test('History page uses published copy and its editor preview remains private',async()=>{
+ const {env}=await import('cloudflare:workers');const original=env.DB;
+ const source=await readFile(new URL('../lib/history-content.ts',import.meta.url),'utf8');const content=JSON.parse(source.split('defaultHistoryContent:HistoryContent = ')[1].split(';\nfunction text')[0]);const draft=structuredClone(content);draft.texts.text1='History publication fixture';draft.seoTitle='History search fixture';
+ const record={slug:'history',title:'Our history',path:'/history',draft,published:content,version:1,draftUpdatedAt:'2026-11-11T12:00:00Z',publishedAt:null};
+ env.DB={prepare(){return{bind(key){return{first:async()=>key==='page:history'?{value:JSON.stringify(record)}:null};}};}};
+ try {let html=await (await render('/history')).text();assert.doesNotMatch(html,/History publication fixture/);assert.match(html,/A Brief History/);record.published=draft;html=await (await render('/history')).text();assert.match(html,/History publication fixture/);assert.match(html,/History search fixture/);assert.equal((await render('/admin/preview/history')).status,503);const preview=await render('/admin/preview/history','http://localhost',{ADMIN_DEV_EMAIL:'staff@example.invalid'});assert.equal(preview.status,200);assert.equal(preview.headers.get('cache-control'),'no-store');assert.equal(preview.headers.get('x-robots-tag'),'noindex');}finally{env.DB=original;}
+});
+
+test('fees and timetable publish the same shared opening hours and session times',async()=>{
+ const {env}=await import('cloudflare:workers');const original=env.DB;
+ const emptyDb={prepare(){return{bind(){return{first:async()=>null};}};}};
+ const response=await render('/api/admin/fees','http://localhost',{ADMIN_DEV_EMAIL:'staff@example.invalid',DB:emptyDb});assert.equal(response.status,200);const fees=await response.json();fees.openingHours.hours='8:15am–5:45pm';fees.sessions.angel.morning='8:15am–12:45pm';
+ env.DB={prepare(){return{bind(key){return{first:async()=>key==='fees'?{value:JSON.stringify(fees)}:null};}};}};
+ try {for(const path of ['/timetable','/opening-hours-fees']){const html=await (await render(path)).text();assert.ok(html.includes('8:15am–5:45pm'),path);assert.ok(html.includes('8:15am–12:45pm'),path);}}finally{env.DB=original;}
+});

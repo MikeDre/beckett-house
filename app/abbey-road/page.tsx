@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import { DEFAULT_OPEN_GRAPH } from "../../lib/seo";
 import { getPublishedNurseryPage } from "../../lib/nursery-page-store";

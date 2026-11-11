@@ -137,6 +137,14 @@ Apply `0003_page_revisions.sql` before deploying this feature. It preserves the 
 
 ### Timetable and term dates
 
-**Pages → Timetable and term dates** manages the `/timetable` page. Select Angel or Abbey Road, then expand Term dates, Holiday closures or the relevant routine/session section. Dates use date pickers; invalid dates, reversed ranges and overlapping terms or holiday periods are rejected. Periods display chronologically. Holiday closures are optional and appear publicly only when added. Activities can be added, removed and moved up/down. Preschool routines explicitly apply to both nurseries; babies' routines apply to Abbey Road only. Opening hours/session copy here affects the timetable page; the Fees & hours editor remains responsible for the fees page.
+**Pages → Timetable and term dates** manages the `/timetable` page. Select Angel or Abbey Road, then expand Term dates, Holiday closures or the relevant daily routine section. Dates use date pickers; invalid dates, reversed ranges and overlapping terms or holiday periods are rejected. Periods display chronologically. Holiday closures are optional and appear publicly only when added. Activities can be added, removed and moved up/down. Preschool routines explicitly apply to both nurseries; babies' routines apply to Abbey Road only. Opening hours, session times and annual closure descriptions are managed in Fees & hours and shared by both pages.
 
 The editor includes search appearance, private desktop/mobile preview, draft/publish and 50-version history. Apply `0004_timetable_history.sql` before deployment to extend history triggers to this page. Existing routines, dates and nursery switching are preserved as defaults; no holiday closures are inferred.
+
+### Our history and CMS consistency
+
+**Pages → Our history** manages `/history`: origins, teaching team, home-from-home statement, Abbey Road, lasting connections, welcome photo and SEO. Use the same draft, preview, publish and version history controls as the other six page editors. Apply `0005_history_page.sql` before deployment to include it in revision triggers.
+
+Opening hours, annual closure descriptions and session times are now managed only in **Fees & hours** for both the fees and timetable pages. The timetable editor manages routines, term dates and date-specific holiday closures. Old timetable records remain readable; stored opening/session rows are no longer editable or used by the public view. Historical timetable previews use the current shared settings and explain this explicitly. Review free-text FAQ/nursery descriptions separately when changing operational details.
+
+The full content/UX review and remaining client content questions are in [cms-review.md](cms-review.md).

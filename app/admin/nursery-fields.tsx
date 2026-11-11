@@ -1,13 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import type { NurseryPageContent, PageImage } from "../../lib/nursery-pages";
-import { EditorSection, Field, Icon, ImagePicker } from "./ui";
+import { Confirm, EditorSection, Field, Icon, ImagePicker } from "./ui";
 
 function ImageField({ label, image, onChange }: { label: string; image: PageImage; onChange: (image: PageImage) => void }) {
   return <div className="cms-image-field"><h3>{label}</h3><ImagePicker src={image.src} alt={image.alt} onChoose={selected => onChange({ src: selected.src, alt: selected.alt, width: selected.width, height: selected.height })}/><Field label={`${label} description`} hint="Describe the scene for screen readers. Leave blank only when the image is decorative." value={image.alt} maxLength={500} onChange={alt => onChange({ ...image, alt })}/></div>;
 }
 function Remove({ label, disabled, onClick }: { label: string; disabled: boolean; onClick: () => void }) {
-  return <button type="button" className="cms-text-btn" aria-label={label} disabled={disabled} onClick={onClick}><Icon name="trash" size={15}/>Remove</button>;
+  const [open,setOpen] = useState(false);
+  return <><button type="button" className="cms-text-btn" aria-label={label} disabled={disabled} onClick={()=>setOpen(true)}><Icon name="trash" size={15}/>Remove</button><Confirm open={open} title="Remove this entry?" description="This removes the entry from your draft. The live page changes only when you publish." action="Remove entry" onClose={()=>setOpen(false)} onConfirm={()=>{setOpen(false);onClick();}}/></>;
 }
 function Add({ label, disabled, onClick }: { label: string; disabled: boolean; onClick: () => void }) {
   return <button type="button" className="cms-btn cms-btn-secondary cms-btn-small" disabled={disabled} onClick={onClick}><Icon name="plus" size={15}/>{label}</button>;
@@ -16,18 +18,18 @@ function Add({ label, disabled, onClick }: { label: string; disabled: boolean; o
 export default function NurseryFields({ content: c, onChange }: { content: NurseryPageContent; onChange: (content: NurseryPageContent) => void }) {
   function update(patch: Partial<NurseryPageContent>) { onChange({ ...c, ...patch }); }
   return <>
-    <EditorSection number="01" title="Hero & welcome" description="The first words and photographs families see when they arrive.">
-      <Field label="Hero eyebrow" hint="The short location line above your main heading." value={c.hero.eyebrow} maxLength={300} required onChange={eyebrow => update({ hero: { ...c.hero, eyebrow } })}/>
-      <Field label="Hero heading" value={c.hero.heading} maxLength={500} required onChange={heading => update({ hero: { ...c.hero, heading } })}/>
-      <Field label="Hero introduction" hint="Optional supporting text below the heading." value={c.hero.introduction} maxLength={4000} multiline onChange={introduction => update({ hero: { ...c.hero, introduction } })}/>
+    <EditorSection number="01" title="Welcome and photos" description="The heading, introduction and photos at the top of the page.">
+      <Field label="Location label" hint="The short location line above your main heading." value={c.hero.eyebrow} maxLength={300} required onChange={eyebrow => update({ hero: { ...c.hero, eyebrow } })}/>
+      <Field label="Main heading" value={c.hero.heading} maxLength={500} required onChange={heading => update({ hero: { ...c.hero, heading } })}/>
+      <Field label="Introduction" hint="Optional supporting text below the heading." value={c.hero.introduction} maxLength={4000} multiline onChange={introduction => update({ hero: { ...c.hero, introduction } })}/>
       <Field label="Visit button label" value={c.hero.buttonLabel} maxLength={100} required onChange={buttonLabel => update({ hero: { ...c.hero, buttonLabel } })}/>
       <p className="cms-field-note">Use 1–8 photographs. The first photograph also represents this page in search and social previews.</p>
       {c.hero.slides.map((image, index) => <div className="cms-repeat-item" key={index}>
-        <div className="cms-card-header"><h3>Photograph {index + 1}</h3><Remove label={`Remove hero photograph ${index + 1}`} disabled={c.hero.slides.length <= 1} onClick={() => update({ hero: { ...c.hero, slides: c.hero.slides.filter((_, i) => i !== index) } })}/></div>
-        <ImageField label={`Hero photograph ${index + 1}`} image={image} onChange={value => update({ hero: { ...c.hero, slides: c.hero.slides.map((slide, i) => i === index ? value : slide) } })}/>
-        <div className="cms-actions"><button type="button" className="cms-text-btn" disabled={index === 0} onClick={() => { const slides = [...c.hero.slides]; [slides[index - 1], slides[index]] = [slides[index], slides[index - 1]]; update({ hero: { ...c.hero, slides } }); }}>Move earlier</button><button type="button" className="cms-text-btn" disabled={index === c.hero.slides.length - 1} onClick={() => { const slides = [...c.hero.slides]; [slides[index], slides[index + 1]] = [slides[index + 1], slides[index]]; update({ hero: { ...c.hero, slides } }); }}>Move later</button></div>
+        <div className="cms-card-header"><h3>Photograph {index + 1}</h3><Remove label={`Remove welcome photograph ${index + 1}`} disabled={c.hero.slides.length <= 1} onClick={() => update({ hero: { ...c.hero, slides: c.hero.slides.filter((_, i) => i !== index) } })}/></div>
+        <ImageField label={`Welcome photograph ${index + 1}`} image={image} onChange={value => update({ hero: { ...c.hero, slides: c.hero.slides.map((slide, i) => i === index ? value : slide) } })}/>
+        <div className="cms-actions"><button type="button" className="cms-text-btn" disabled={index === 0} onClick={() => { const slides = [...c.hero.slides]; [slides[index - 1], slides[index]] = [slides[index], slides[index - 1]]; update({ hero: { ...c.hero, slides } }); }}>Move up</button><button type="button" className="cms-text-btn" disabled={index === c.hero.slides.length - 1} onClick={() => { const slides = [...c.hero.slides]; [slides[index], slides[index + 1]] = [slides[index + 1], slides[index]]; update({ hero: { ...c.hero, slides } }); }}>Move down</button></div>
       </div>)}
-      <Add label="Add hero photograph" disabled={c.hero.slides.length >= 8} onClick={() => update({ hero: { ...c.hero, slides: [...c.hero.slides, { ...c.hero.slides[0] }] } })}/>
+      <Add label="Add welcome photograph" disabled={c.hero.slides.length >= 8} onClick={() => update({ hero: { ...c.hero, slides: [...c.hero.slides, { ...c.hero.slides[0] }] } })}/>
     </EditorSection>
     <EditorSection number="02" title="Our approach" description="Introduce the care and Montessori education behind your nursery.">
       <Field label="Approach heading" value={c.approach.heading} maxLength={500} required onChange={heading => update({ approach: { ...c.approach, heading } })}/>
@@ -39,7 +41,7 @@ export default function NurseryFields({ content: c, onChange }: { content: Nurse
       {c.principles.map((p, index) => <div className="cms-repeat-item" key={index}><h3>Card {index + 1}</h3><Field label={`Card ${index + 1} label`} hint="Optional age range or short label." value={p.label} maxLength={200} onChange={label => update({ principles: c.principles.map((item, i) => i === index ? { ...item, label } : item) })}/><Field label={`Card ${index + 1} title`} value={p.title} maxLength={300} required onChange={title => update({ principles: c.principles.map((item, i) => i === index ? { ...item, title } : item) })}/><Field label={`Card ${index + 1} text`} value={p.body} maxLength={4000} multiline required onChange={body => update({ principles: c.principles.map((item, i) => i === index ? { ...item, body } : item) })}/></div>)}
     </EditorSection>
     <EditorSection number="04" title="Room explorer" description="Invite families to explore the nursery before booking a visit.">
-      <Field label="Explorer eyebrow" value={c.explorer.eyebrow} maxLength={300} required onChange={eyebrow => update({ explorer: { ...c.explorer, eyebrow } })}/>
+      <Field label="Short location label" value={c.explorer.eyebrow} maxLength={300} required onChange={eyebrow => update({ explorer: { ...c.explorer, eyebrow } })}/>
       <Field label="Explorer heading" value={c.explorer.heading} maxLength={500} required onChange={heading => update({ explorer: { ...c.explorer, heading } })}/>
       <Field label="Explorer introduction" value={c.explorer.body} maxLength={4000} multiline required onChange={body => update({ explorer: { ...c.explorer, body } })}/>
       <Field label="Explorer note title" value={c.explorer.noteTitle} maxLength={300} required onChange={noteTitle => update({ explorer: { ...c.explorer, noteTitle } })}/>
