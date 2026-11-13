@@ -2,9 +2,9 @@
 "use client";
 import { siteImages } from "../../lib/media-library";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 
-export type IconName = "grid" | "pages" | "news" | "inbox" | "clock" | "settings" | "mail" | "arrow" | "external" | "chevron" | "check" | "plus" | "close" | "eye" | "search" | "image" | "globe" | "logout" | "menu" | "back" | "desktop" | "phone" | "save" | "trash" | "copy" | "leaf" | "alert";
+export type IconName = "grid" | "pages" | "news" | "inbox" | "clock" | "settings" | "mail" | "arrow" | "external" | "chevron" | "check" | "plus" | "close" | "eye" | "search" | "image" | "globe" | "logout" | "menu" | "back" | "desktop" | "phone" | "save" | "trash" | "copy" | "upload" | "leaf" | "alert";
 const paths: Record<IconName, ReactNode> = {
   grid: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
   pages: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></>,
@@ -22,6 +22,7 @@ const paths: Record<IconName, ReactNode> = {
   logout: <><path d="M9 4H4v16h5M9 12h12m-5-5 5 5-5 5"/></>, menu: <path d="M4 6h16M4 12h16M4 18h16"/>, back: <path d="M20 12H4m6-6-6 6 6 6"/>,
   desktop: <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>, phone: <><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></>,
   save: <><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12l4 4v12a2 2 0 0 1-2 2Z"/><path d="M7 3v6h10V3M7 21v-8h10v8"/></>,
+  upload: <><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></>,
   copy: <><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></>,
   trash: <><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></>,
   leaf: <><path d="M20 3C10 2 3 5 4 13c1 6 8 8 12 3 3-4 2-8 4-13Z"/><path d="M4 21 15 9"/></>,
@@ -85,6 +86,8 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
   const [search, setSearch] = useState(""), [name, setName] = useState(""), [alt, setAlt] = useState(""), [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(""), [error, setError] = useState(""), [removing, setRemoving] = useState<{id:string;name:string} | null>(null);
   const input = useRef<HTMLInputElement>(null);
+  const [uploadOpen,setUploadOpen] = useState(false);
+  const uploadId = useId();
   const library: LibraryImage[] = resource.data?.images ?? siteImages;
   const images = library.filter(image => `${image.name} ${image.alt}`.toLowerCase().includes(search.trim().toLowerCase()));
   async function copyUrl(image: LibraryImage) {
@@ -105,7 +108,7 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
       const result = await response.json() as LibraryImage & {error?:string};
       if (!response.ok) throw new Error(result.error || 'Photo upload failed. Please try again.');
       setFile(null); setName(""); setAlt(""); setSearch(""); if (input.current) input.current.value = "";
-      setMessage("Photo uploaded."); resource.reload(); onChoose?.(result);
+      setMessage("Photo uploaded."); setUploadOpen(false); resource.reload(); onChoose?.(result);
     } catch (error) { setError(error instanceof Error ? error.message : 'Photo upload failed. Please try again.'); }
     finally { setBusy(false); }
   }
@@ -120,13 +123,16 @@ export function MediaLibrary({ selected, onChoose }: { selected?: string; onChoo
     {resource.loading && <Loading label="Loading image library…"/>}
     {resource.error && <ErrorState message={resource.error} retry={resource.reload}/>}
     {resource.data && !resource.data.configured && <p role="status">Uploads will be available once the image-storage connection is configured.</p>}
-    {resource.data?.configured && <details className="cms-card cms-editor-section"><summary><strong>Upload a photo</strong></summary><fieldset className="cms-editor-section-body cms-fieldset" disabled={busy} onKeyDown={event => { if (event.key === 'Enter' && event.target instanceof HTMLInputElement && event.target.type !== 'file') event.preventDefault(); }}>
-      <label className="cms-field"><span className="cms-field-label">Photo</span><input ref={input} type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const next = event.target.files?.[0] ?? null; setFile(next); if (next && !name) setName(next.name.replace(/\.[^.]+$/, '').replace(/[-_]/g,' ')); }}/><span className="cms-field-hint">JPEG, PNG or WebP · up to 5 MB</span></label>
+    <div className="cms-media-toolbar">
+      <div className="cms-media-search-group"><label className="cms-media-search"><Icon name="search" size={18}/><input type="search" aria-label="Search images" placeholder="Search images…" value={search} onChange={event=>setSearch(event.target.value)}/></label><span className="cms-media-count" role="status">{search.trim() ? `${images.length} of ${library.length}` : `${library.length} images`}</span></div>
+      {resource.data?.configured && <button type="button" className="cms-btn cms-btn-primary cms-btn-small" aria-expanded={uploadOpen} aria-controls={uploadId} disabled={busy} onClick={()=>setUploadOpen(value=>!value)}><Icon name={uploadOpen?"close":"upload"} size={17}/>{uploadOpen?"Close upload":"Upload photo"}</button>}
+    </div>
+    {resource.data?.configured && <section id={uploadId} hidden={!uploadOpen} className="cms-card cms-media-upload" aria-label="Upload a photo"><div className="cms-media-upload-heading"><Icon name="image" size={20}/><div><h2>Upload a photo</h2><p>JPEG, PNG or WebP · up to 5 MB</p></div></div><fieldset className="cms-fieldset" disabled={busy} onKeyDown={event => { if (event.key === 'Enter' && event.target instanceof HTMLInputElement && event.target.type !== 'file') event.preventDefault(); }}>
+      <label className="cms-field"><span className="cms-field-label">Photo</span><input ref={input} type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const next = event.target.files?.[0] ?? null; setFile(next); if (next && !name) setName(next.name.replace(/\.[^.]+$/, '').replace(/[-_]/g,' ')); }}/></label>
       <Field label="Image name" value={name} maxLength={150} onChange={setName}/><Field label="Image description" hint="Describe what is shown for people using screen readers." value={alt} maxLength={500} onChange={setAlt}/>
-      <button type="button" className="cms-btn cms-btn-primary" disabled={busy || !file || !name.trim() || !alt.trim()} onClick={() => void upload()}>{busy ? 'Working…' : 'Upload photo'}</button>
-    </fieldset></details>}
+      <button type="button" className="cms-btn cms-btn-primary" disabled={busy || !file || !name.trim() || !alt.trim()} onClick={() => void upload()}><Icon name="upload" size={16}/>{busy ? 'Uploading…' : 'Upload photo'}</button>
+    </fieldset></section>}
     {error && <p role="alert">{error}</p>}{message && <p role="status">{message}</p>}
-    <Field label="Search images" hint={`${images.length} images available`} value={search} onChange={setSearch}/>
     {!images.length && <p role="status">No images match your search.</p>}
     <div className="cms-media-grid">{images.map(image => <div className="cms-media-item" key={image.src}>
       <button type="button" disabled={!onChoose || busy} aria-pressed={selected === image.src} className={selected === image.src ? 'is-selected' : ''} onClick={() => onChoose?.(image)}><img src={image.src} alt={image.alt} loading="lazy"/><span>{image.name}{selected === image.src && <Icon name="check" size={15}/>}</span></button>
