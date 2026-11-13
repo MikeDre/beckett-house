@@ -37,10 +37,10 @@ Connected on 28 October 2026 in Cloudflare account `13f7cc851a43ef52f572ad63202e
 - Team domain: `newnuevo.cloudflareaccess.com`
 - Application: **Beckett House Admin** (`8c2cc80f-65af-417b-923e-ec4a456f52b3`)
 - Protected hostnames/paths: `www.beckett-house.co.uk/admin`, `/admin/*`, and `/api/admin/*`, in the same application.
-- Allow policy: **Beckett House admin — Staff**, restricted to `info@mikedre.com`, `kamranhamid@hotmail.co.uk` and `shahidhamid@msn.com`; all other identities are denied.
+- Allow policy: **Beckett House admin — Staff**, restricted to `info@mikedre.com`, `kamranhamid@hotmail.co.uk`, `shahidhamid@msn.com` and `mike@newnuevo.com`; all other identities are denied.
 - Login methods: Google or Cloudflare email one-time PIN. Sign in at `https://www.beckett-house.co.uk/admin` using an allowed email address. A Google account is not required; the one-time PIN is delivered to that mailbox.
 - Session duration: 24 hours.
-- The Worker also restricts `ADMIN_EMAILS` to the same three staff addresses and validates the application audience and team issuer. Public Access identifiers and the allowlist are recorded in `vite.config.ts` so a subsequent build retains them.
+- The Worker also restricts `ADMIN_EMAILS` to the same four staff addresses and validates the application audience and team issuer. Public Access identifiers and the allowlist are recorded in `vite.config.ts` so a subsequent build retains them.
 
 The existing production database was checked read-only: `settings`, `submissions`, `activity`, and `d1_migrations` are already present. No migration was needed for this connection.
 
