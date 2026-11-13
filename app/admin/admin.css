@@ -495,3 +495,5 @@
 .cms-media-upload input[type=file]::file-selector-button { border: 0; border-radius: 5px; padding: 8px 12px; margin-right: 12px; background: #edf4fa; color: var(--ink); cursor: pointer; font: inherit; }
 .cms-submissions-actions { display: flex; justify-content: flex-end; margin-bottom: 16px; }
 @media(max-width:600px) { .cms-media-toolbar { flex-wrap: wrap; gap: 12px; }.cms-media-search-group { flex-basis: 100%; }.cms-media-search { width: 100%; }.cms-media-upload { padding: 18px; }.cms-media-toolbar > .cms-btn { margin-left: auto; } }
+.cms-sort-control { display: inline-flex; align-items: center; gap: 8px; }
+.cms-sort-control > span { font-size: 12px; white-space: nowrap; }

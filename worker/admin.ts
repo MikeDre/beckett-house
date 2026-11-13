@@ -82,7 +82,10 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
       for (const [key, allowed] of Object.entries({ kind: ["visit", "register"], nursery: ["angel", "abbey-road"], status: ["new", "contacted", "archived"] })) { const value = url.searchParams.get(key); if (value) { if (!allowed.includes(value)) throw new InputError(`Invalid ${key}.`); clauses.push(`${key} = ?`); values.push(value); } }
       function integer(key: string, fallback: number, max: number) { const raw = url.searchParams.get(key); if (raw === null) return fallback; if (!/^\d+$/.test(raw) || Number(raw) > max) throw new InputError(`Invalid ${key}.`); return Number(raw); }
       const limit = integer("limit", 50, 100), offset = integer("offset", 0, 1000000);
-      return adminJson((await env.DB.prepare(`SELECT id, created_at, kind, nursery, name, email, status FROM submissions${clauses.length ? ` WHERE ${clauses.join(" AND ")}` : ""} ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?`).bind(...values, limit, offset).all()).results);
+      const orders: Record<string,string> = { newest: "created_at DESC, id DESC", oldest: "created_at ASC, id ASC", "name-asc": "name COLLATE NOCASE ASC, created_at DESC, id DESC", "name-desc": "name COLLATE NOCASE DESC, created_at DESC, id DESC" };
+      const sort = url.searchParams.get("sort") ?? "newest";
+      if (!Object.hasOwn(orders,sort)) throw new InputError("Choose a valid sort order.");
+      return adminJson((await env.DB.prepare(`SELECT id, created_at, kind, nursery, name, email, status FROM submissions${clauses.length ? ` WHERE ${clauses.join(" AND ")}` : ""} ORDER BY ${orders[sort]} LIMIT ? OFFSET ?`).bind(...values, limit, offset).all()).results);
     }
     const id = path.match(/^\/api\/admin\/submissions\/([1-9]\d*)$/)?.[1];
     if (id) {

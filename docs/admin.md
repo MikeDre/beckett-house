@@ -148,3 +148,7 @@ The editor includes search appearance, private desktop/mobile preview, draft/pub
 Opening hours, annual closure descriptions and session times are now managed only in **Fees & hours** for both the fees and timetable pages. The timetable editor manages routines, term dates and date-specific holiday closures. Old timetable records remain readable; stored opening/session rows are no longer editable or used by the public view. Historical timetable previews use the current shared settings and explain this explicitly. Review free-text FAQ/nursery descriptions separately when changing operational details.
 
 The full content/UX review and remaining client content questions are in [cms-review.md](cms-review.md).
+
+### Submission sorting
+
+The inbox offers Newest first (default), Oldest first, Name A–Z and Name Z–A. Sorting applies to the complete filtered result before pagination; changing sort order returns to page 1. The name is the parent/carer for visit requests and the child for registrations. Search remains scoped to the currently displayed page.
