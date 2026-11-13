@@ -28,7 +28,7 @@ const localBindingConfig = {
     CLOUDINARY_API_KEY: "833191338232478",
     ACCESS_TEAM_DOMAIN: "newnuevo.cloudflareaccess.com",
     ACCESS_AUD: "766184dd709988797bc43cfc08b31a8b908f5db69a9409d438fb56b76f87c57f",
-    ADMIN_EMAILS: "info@mikedre.com",
+    ADMIN_EMAILS: "info@mikedre.com,kamranhamid@hotmail.co.uk,shahidhamid@msn.com",
   },
   d1_databases: [{ binding: "DB", database_name: "beckett-house-admin", database_id: "35f9a552-2907-40c7-92a9-68ec0d7f4011", migrations_dir: "migrations" }],
   r2_buckets: r2

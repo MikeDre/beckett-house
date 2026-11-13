@@ -189,7 +189,7 @@ test("Access verifies RSA signature, issuer, audience, expiry, cookie and allowl
     assert.equal(String(url), "https://test-team.cloudflareaccess.com/cdn-cgi/access/certs");
     return Response.json({ keys: [{ ...jwk, kid: "test-key" }] });
   };
-  const bindings = { ACCESS_TEAM_DOMAIN: "test-team.cloudflareaccess.com", ACCESS_AUD: "test-aud", ADMIN_EMAILS: "STAFF@example.invalid" };
+  const bindings = { ACCESS_TEAM_DOMAIN: "test-team.cloudflareaccess.com", ACCESS_AUD: "test-aud", ADMIN_EMAILS: "STAFF@example.invalid,kamranhamid@hotmail.co.uk,shahidhamid@msn.com" };
   async function token(overrides = {}, header = {}) {
     const encode = value => Buffer.from(JSON.stringify(value)).toString("base64url");
     const message = `${encode({ alg: "RS256", kid: "test-key", ...header })}.${encode({ email: "staff@example.invalid", iss: "https://test-team.cloudflareaccess.com", aud: ["test-aud"], exp: Math.floor(Date.now() / 1000) + 300, ...overrides })}`;
@@ -198,6 +198,9 @@ test("Access verifies RSA signature, issuer, audience, expiry, cookie and allowl
   }
   try {
     const valid = await token();
+    for (const email of ["kamranhamid@hotmail.co.uk", "shahidhamid@msn.com"]) {
+      assert.equal((await render("/api/admin/me", "https://example.workers.dev", bindings, { headers: { "Cf-Access-Jwt-Assertion": await token({email}) } })).status, 200);
+    }
     assert.equal((await render("/api/admin/me", "https://example.workers.dev", bindings, { headers: { "Cf-Access-Jwt-Assertion": valid } })).status, 200);
     assert.equal((await render("/api/admin/me", "https://example.workers.dev", bindings, { headers: { Cookie: `other=1; CF_Authorization=${valid}; next=2` } })).status, 200);
     for (const invalid of [await token({ exp: 1 }), await token({ aud: ["wrong"] }), await token({ iss: "https://wrong.invalid" }), await token({ email: "other@example.invalid" }), await token({}, { alg: "none" }), `${valid.slice(0, -10)}AAAAAAAAAA`]) {
