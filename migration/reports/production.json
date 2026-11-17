@@ -1,0 +1,70 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/angel",
+      "status": 200
+    },
+    {
+      "path": "/abbey-road",
+      "status": 200
+    },
+    {
+      "path": "/faq",
+      "status": 200
+    },
+    {
+      "path": "/beckett-house",
+      "status": 200
+    },
+    {
+      "path": "/history",
+      "status": 200
+    },
+    {
+      "path": "/timetable",
+      "status": 200
+    },
+    {
+      "path": "/opening-hours-fees",
+      "status": 200
+    },
+    {
+      "path": "/montessori",
+      "status": 200
+    },
+    {
+      "path": "/gallery",
+      "status": 200
+    },
+    {
+      "path": "/virtual-tour",
+      "status": 200
+    },
+    {
+      "path": "/find-your-nursery",
+      "status": 200
+    },
+    {
+      "path": "/visit",
+      "status": 200
+    },
+    {
+      "path": "/register",
+      "status": 200
+    },
+    {
+      "path": "/privacy",
+      "status": 200
+    },
+    {
+      "path": "/thank-you",
+      "status": 200
+    }
+  ],
+  "draftSessions": "disabled",
+  "invalidForms": "rejected before delivery"
+}
