@@ -1,4 +1,6 @@
 "use client";
+import {CmsText, useCmsContent, useEditAttribute} from "../cms-content";
+
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
@@ -39,33 +41,34 @@ export default function ThankYouContent({ animation }: { animation: ReactNode })
     if (new URLSearchParams(window.location.search).get("form") === "register") setForm("register");
     trackPendingLead();
   }, []);
-  const text = copy[form];
+  const editAttribute=useEditAttribute("thank-you",`confirmation.${form}`);
+  const text = useCmsContent("thank-you",{confirmation:copy}).confirmation[form];
 
   return <>
-    <section className="visit-hero">
+    <section className="visit-hero" data-sanity={editAttribute}>
       {animation}
       <div>
         <p className="eyebrow">{text.eyebrow}</p>
         <h1>{text.title}</h1>
       </div>
-      <p>{text.intro} The {nursery.name} team will contact you, usually within two working days.</p>
+      <p>{text.intro} <CmsText page="thank-you" field="copy.the" fallback={" The "} />{nursery.name} <CmsText page="thank-you" field="copy.teamWillContactYouUsuallyWithinTwo" fallback={" team will contact you, usually within two working days."} /></p>
     </section>
     <section className="visit-layout section-pad">
       <div className="visit-form thank-you-card">
-        <h2>What happens next</h2>
+        <h2><CmsText page="thank-you" field="copy.whatHappensNext" fallback={"What happens next"} /></h2>
         <ol>{text.steps.map((step) => <li key={step}>{step}</li>)}</ol>
-        <p>Can’t see our email? Check your spam or junk folder.</p>
+        <p><CmsText page="thank-you" field="copy.cantSeeOurEmailCheckYourSpam" fallback={"Can’t see our email? Check your spam or junk folder."} /></p>
         <div className="thank-you-actions">
-          <Link className="button button-dark" href={`/gallery?location=${nursery.slug}`}>See the nursery<span aria-hidden="true">→</span></Link>
-          <Link className="button button-light" href="/">Back to home<span aria-hidden="true">→</span></Link>
+          <Link className="button button-dark" href={`/gallery?location=${nursery.slug}`}><CmsText page="thank-you" field="copy.seeTheNursery" fallback={"See the nursery"} /><span aria-hidden="true"><CmsText page="thank-you" field="copy.text" fallback={"→"} /></span></Link>
+          <Link className="button button-light" href="/"><CmsText page="thank-you" field="copy.backToHome" fallback={"Back to home"} /><span aria-hidden="true"><CmsText page="thank-you" field="copy.text" fallback={"→"} /></span></Link>
         </div>
       </div>
       <aside className="visit-aside">
-        <p className="eyebrow">Any questions?</p>
+        <p className="eyebrow"><CmsText page="thank-you" field="copy.anyQuestions" fallback={"Any questions?"} /></p>
         <div className={`visit-location visit-${nursery.colour}`}>
           <span>{nursery.area}</span>
           <h2>{nursery.name}</h2>
-          <p>{nursery.address}, {nursery.postcode}</p>
+          <p>{nursery.address}<CmsText page="thank-you" field="copy.text2" fallback={", "} />{nursery.postcode}</p>
           <a href={`tel:${nursery.phoneHref}`}>{nursery.phone}</a>
           <a href={`mailto:${nursery.email}`}>{nursery.email}</a>
         </div>

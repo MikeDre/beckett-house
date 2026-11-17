@@ -1,8 +1,9 @@
+import {getCmsLocations} from "../lib/sanity/locations";
 export const dynamic = "force-dynamic";
 import { getPublishedHomepageContent } from "../lib/homepage-store";
 import type { Metadata } from "next";
 import { NurseryChooser } from "./components";
-import { locations } from "../lib/content";
+
 import { getLocationSchema, getOrganizationSchema, getWebsiteSchema, jsonLd, SITE_URL, DEFAULT_OPEN_GRAPH } from "../lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function Home() {
+ const locations=await getCmsLocations();
   const content = await getPublishedHomepageContent();
   const schema = { "@context": "https://schema.org", "@graph": [
     getOrganizationSchema(locations), getWebsiteSchema(), ...locations.map(getLocationSchema),

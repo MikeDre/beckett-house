@@ -1,3 +1,5 @@
+import {previewEndpoint,previewAuthorized} from './sanity-preview';
+import type {SanityEnvironment} from '../lib/sanity/server';
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleMedia, serveUploadedImage } from "./media";
 import handler from "vinext/server/app-router-entry";
@@ -5,7 +7,7 @@ import { handleForm } from "./forms";
 import { adminIdentity } from "./admin-auth";
 import { adminJson, handleAdmin } from "./admin";
 
-export interface Env {
+export interface Env extends SanityEnvironment {
   CLOUDINARY_CLOUD_NAME?: string;
   CLOUDINARY_API_KEY?: string;
   CLOUDINARY_API_SECRET?: string;
@@ -58,6 +60,15 @@ const LONG_CACHE = "public, max-age=2592000, stale-while-revalidate=86400";
 async function serveResponsiveImage(request: Request, url: URL, env: Env): Promise<Response> {
   const src = url.searchParams.get("url") ?? "";
   const width = Number(url.searchParams.get("w")) || 0;
+  if (/^https:\/\/cdn\.sanity\.io\/images\/lk8ts1r7\/production\/[a-f0-9]+-\d+x\d+\.(?:webp|jpe?g|png|avif)$/.test(src)) {
+    const assetUrl=new URL(src);
+    assetUrl.searchParams.set('w',String(Math.min(2560,Math.max(64,width || 1920))));
+    assetUrl.searchParams.set('auto','format');
+    const asset=await fetch(assetUrl);
+    const response=new Response(asset.body,asset);
+    response.headers.set('Cache-Control',LONG_CACHE);
+    return response;
+  }
   if (src.startsWith("/images/uploads/")) return serveUploadedImage(request, env, src, width);
   if (!/^\/images\/[\w\-/]+\.(webp|jpe?g|png|avif)$/i.test(src) || src.includes("..")) {
     return new Response("Bad image request", { status: 400 });
@@ -91,6 +102,23 @@ function adminPath(pathname: string) {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    const pageHeaders=new Headers(request.headers);
+    pageHeaders.set("x-beckett-content-path",url.pathname.replace(/\/$/, "") || "/");
+    request=new Request(request,{headers:pageHeaders});
+    const previewResponse=await previewEndpoint(request,env);
+    if(previewResponse) return previewResponse;
+    if(env.SANITY_VISUAL_PREVIEW==='true') {
+      if(url.pathname.startsWith('/api/forms/') || url.pathname.startsWith('/admin') || url.pathname.startsWith('/api/admin')) return new Response('Not available in preview',{status:404});
+      const asset=/\.(?:js|css|png|jpg|jpeg|webp|avif|svg|woff2?|json|ico)$/.test(url.pathname) || url.pathname.startsWith('/_');
+      if(!asset && !(await previewAuthorized(request,env))) return new Response('Open this preview from Sanity Presentation.',{status:401,headers:{'Cache-Control':'no-store','X-Robots-Tag':'noindex'}});
+      const result=await handler.fetch(request,env,ctx);
+      const response=new Response(result.body,result);
+      response.headers.set('Cache-Control','private, no-store');
+      response.headers.set('X-Robots-Tag','noindex, nofollow');
+      response.headers.delete('X-Frame-Options');
+      response.headers.set('Content-Security-Policy',"frame-ancestors 'self' https://beckett-house.sanity.studio https://sanity.io https://www.sanity.io http://localhost:3333");
+      return response;
+    }
 
     // One canonical address: https and www.
     const toWww = url.hostname === "beckett-house.co.uk";
@@ -110,6 +138,8 @@ const worker = {
         if (protectedPath.startsWith("/api/")) return adminJson({ error: identity.error }, identity.status);
         return new Response(identity.error, { status: identity.status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
       }
+      if(env.SANITY_CONTENT_ENABLED==='true' && protectedPath.startsWith('/api/admin/') && protectedPath!=='/api/admin/me' && !/^\/api\/admin\/submissions(?:\/|$)/.test(protectedPath)) return adminJson({error:'Website content is managed in Sanity.'},410);
+      if(env.SANITY_CONTENT_ENABLED==='true' && protectedPath.startsWith('/admin/')) return Response.redirect(new URL('/admin#submissions',url),302);
       if (url.pathname === "/api/admin/media" || url.pathname.startsWith("/api/admin/media/")) return handleMedia(request, env, identity.email);
       if (protectedPath.startsWith("/api/")) return handleAdmin(request, env, identity.email);
       const result = await handler.fetch(request, env, ctx);

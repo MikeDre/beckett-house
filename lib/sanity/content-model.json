@@ -1,0 +1,2297 @@
+[
+  {
+    "slug": "home",
+    "title": "Homepage",
+    "path": "/",
+    "content": {
+      "seoTitle": "Montessori Nursery in Angel & Abbey Road | Beckett House",
+      "seoDescription": "Choose your Beckett House Montessori nursery. Find Angel in Islington or Abbey Road in St John's Wood on our interactive location map.",
+      "heading": "Beckett House Montessori nurseries in Angel and Abbey Road",
+      "introduction": "Beckett House is a family-run Montessori nursery with warm, welcoming spaces in Angel and Abbey Road, where children can learn, explore and grow in confidence.",
+      "nurseryLabels": {
+        "angel": "Angel",
+        "abbey-road": "Abbey Road"
+      },
+      "nurseryCards": {
+        "angel": {
+          "imageSrc": "/images/angel/montessori-nursery-angel-classroom-islington.webp",
+          "imageAlt": "A bright Beckett House Montessori classroom with low wooden shelves and child-sized tables",
+          "summary": "A home from home where your children learn.",
+          "buttonLabel": "Choose Angel"
+        },
+        "abbey-road": {
+          "imageSrc": "/images/abbey-road/main-room-4.webp",
+          "imageAlt": "The main Abbey Road classroom, with low Montessori shelves, activity tables and a sofa",
+          "summary": "A new home from home where your children learn.",
+          "buttonLabel": "Choose Abbey Road"
+        }
+      }
+    }
+  },
+  {
+    "slug": "angel",
+    "title": "Angel",
+    "path": "/angel",
+    "content": {
+      "seoTitle": "Montessori Nursery in Angel, Islington | Beckett House",
+      "seoDescription": "A warm, family-run Montessori nursery for children from 3 months to 5 years, with settings in Angel, Islington and Abbey Road, St John's Wood.",
+      "hero": {
+        "eyebrow": "Montessori nursery in Angel, Islington",
+        "heading": "Calm spaces. Beautiful materials. Everything within reach.",
+        "introduction": "A home from home where your children learn, in Angel and Abbey Road.",
+        "buttonLabel": "Book a visit",
+        "slides": [
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-islington.webp",
+            "alt": "A wide view across the Beckett House Montessori classroom in Angel",
+            "width": 2000,
+            "height": 1332
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-planets.webp",
+            "alt": "The Angel classroom with hanging planets, cardboard rockets and child-sized tables",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-reading-area.webp",
+            "alt": "A sofa, rugs and bookshelves in the Angel reading area",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-reading-loft.webp",
+            "alt": "A wooden reading loft with cushions in the Angel classroom",
+            "width": 2000,
+            "height": 1333
+          }
+        ]
+      },
+      "approach": {
+        "heading": "Happy, confident and enjoying every moment.",
+        "body": "Language, numbers and social development matter. More than anything, we want children to feel happy and confident, with the freedom to discover and do things for themselves.",
+        "linkLabel": "How Montessori works",
+        "image": {
+          "src": "/images/child-face-paint-smile.jpg",
+          "alt": "A smiling child with colourful face paint sitting at a table in a Montessori classroom",
+          "width": 1600,
+          "height": 1016
+        }
+      },
+      "principles": [
+        {
+          "title": "Individual attention",
+          "body": "Children are known well and introduced gently to the classroom, its materials and daily routines.",
+          "label": ""
+        },
+        {
+          "title": "A love of learning",
+          "body": "Children experience, experiment and make discoveries, building confidence in their own abilities.",
+          "label": ""
+        },
+        {
+          "title": "Home-cooked food",
+          "body": "Fresh, balanced and varied meals are prepared in our own kitchens, with most dietary needs accommodated.",
+          "label": ""
+        }
+      ],
+      "explorer": {
+        "eyebrow": "Step inside",
+        "heading": "See the room at their level, before you visit.",
+        "body": "Our classrooms are calm, safe and carefully prepared with genuine Montessori materials, beautiful, mainly wooden and made for hands-on independent learning.",
+        "noteTitle": "Interactive room explorer",
+        "noteBody": "Drag the view, then book a real walkthrough with the team."
+      },
+      "life": {
+        "heading": "A familiar rhythm, with something new to discover.",
+        "cards": [
+          {
+            "title": "Calm spaces to concentrate",
+            "body": "Children choose purposeful Montessori activities, repeat them at their own pace and learn to return each material with care.",
+            "image": {
+              "src": "/images/angel/montessori-nursery-angel-cosy-book-corner.webp",
+              "alt": "A cosy book corner with a sofa, rugs and bookshelves",
+              "width": 2000,
+              "height": 1333
+            }
+          },
+          {
+            "title": "Learning through movement",
+            "body": "Music, dance, drama, yoga and sport sit alongside outdoor time and neighbourhood visits to local parks and garden squares.",
+            "image": {
+              "src": "/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp",
+              "alt": "A keyboard, puzzles and an interactive screen beside colourful rugs",
+              "width": 2000,
+              "height": 1333
+            }
+          },
+          {
+            "title": "Families stay involved",
+            "body": "Key workers know their children well, share observations and keep conversations with parents part of the everyday routine.",
+            "image": {
+              "src": "/images/angel/montessori-nursery-angel-earth-day-artwork.webp",
+              "alt": "Children’s Earth Day artwork with handprints and magnetic shapes",
+              "width": 2000,
+              "height": 1333
+            }
+          }
+        ]
+      },
+      "locationsHeading": "Where to find us",
+      "highlights": {
+        "paragraphs": [
+          "A close-knit, family-run nursery where children are known as individuals and parents remain part of the everyday conversation."
+        ],
+        "linkLabel": "Discover our approach",
+        "cards": [
+          {
+            "title": "Family-run since 1996",
+            "body": "Second-generation care with the same home-from-home feeling."
+          },
+          {
+            "title": "Montessori accredited",
+            "body": "Genuine materials, trained teachers and purposeful independence."
+          },
+          {
+            "title": "Funded places available",
+            "body": "Eligible families can access 15 or 30 funded hours."
+          }
+        ]
+      },
+      "testimonials": [
+        {
+          "quote": "The staff are fantastic, and being family-run gives you a warm, caring feeling. The children all seem really happy when you drop off and pick up.",
+          "author": "Georgina H · Beckett House parent"
+        },
+        {
+          "quote": "A welcoming place to learn, explore and grow in confidence, with thoughtful care at every step.",
+          "author": ""
+        },
+        {
+          "quote": "Little discoveries, new friendships and the freedom to try things for themselves. Every day brings something to smile about.",
+          "author": ""
+        }
+      ],
+      "faqs": {
+        "heading": "Have a question?",
+        "contactLabel": "Get in contact",
+        "items": [
+          {
+            "question": "What ages does Beckett House accept?",
+            "answer": "Abbey Road welcomes babies and children from 3 months to 5 years. Angel is a mixed-age Montessori preschool for children aged 2 to 5."
+          },
+          {
+            "question": "What are the opening hours?",
+            "answer": "Both nurseries are open Monday to Friday from 8am to 6pm. Angel opens for 48 weeks each year and Abbey Road for 50 weeks. Flexible morning, afternoon and full-day sessions are available, subject to places."
+          },
+          {
+            "question": "Do you offer 15 and 30 funded hours?",
+            "answer": "Yes. Eligible families can use government-funded hours, including working parent entitlements. The team will help you understand how your hours can be used across the nursery year."
+          },
+          {
+            "question": "Can we visit before applying?",
+            "answer": "Absolutely. A visit is the best way to meet the team, see the prepared environment and talk through your child’s routine. Choose a location and request a suitable time."
+          },
+          {
+            "question": "Is Beckett House Montessori accredited?",
+            "answer": "Yes. Beckett House is MEAB accredited. Montessori-qualified teachers work alongside colleagues with complementary childcare qualifications, and both settings also follow the Early Years Foundation Stage."
+          },
+          {
+            "question": "What food is provided?",
+            "answer": "Lunch is home-cooked from fresh ingredients in the nursery kitchen. Meals are nutritionally balanced and varied, and the team can accommodate most dietary needs. Fruit, milk and low-sugar snacks are also provided."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "slug": "abbey-road",
+    "title": "Abbey Road",
+    "path": "/abbey-road",
+    "content": {
+      "seoTitle": "Montessori Nursery in St John's Wood, NW8 | Beckett House",
+      "seoDescription": "Beckett House Abbey Road is a family-run Montessori nursery for 3 months–5 years, open Monday to Friday, 8am–6pm. Explore the rooms and book a visit.",
+      "hero": {
+        "eyebrow": "Our new Montessori nursery on Abbey Road, NW8",
+        "heading": "A new home from home where your children learn.",
+        "introduction": "",
+        "buttonLabel": "Book a visit",
+        "slides": [
+          {
+            "src": "/images/abbey-road/main-room-hero.webp",
+            "alt": "The main Abbey Road classroom, with low Montessori shelves, activity tables and a sofa",
+            "width": 2560,
+            "height": 1707
+          },
+          {
+            "src": "/images/hero/abbey-road-2.webp",
+            "alt": "A wide view of the Abbey Road main learning space with tables and low shelves",
+            "width": 2400,
+            "height": 1600
+          },
+          {
+            "src": "/images/hero/abbey-road-3.webp",
+            "alt": "Low Montessori shelves and a sofa in the Abbey Road main room",
+            "width": 2400,
+            "height": 1600
+          },
+          {
+            "src": "/images/hero/abbey-road-4.webp",
+            "alt": "The Abbey Road nursery room with a play mat, soft toys and a sofa",
+            "width": 2400,
+            "height": 1600
+          }
+        ]
+      },
+      "approach": {
+        "heading": "Not so much a school… More a home-from-home where your children learn.",
+        "body": "We believe education is important. We believe language, the command of numbers and social behaviour are important. But more than anything, we believe your children should be happy and confident and enjoy every moment of their time at nursery school.",
+        "linkLabel": "Montessori education",
+        "image": {
+          "src": "/images/abbey-road/main-room-3.webp",
+          "alt": "The Abbey Road main room, with a sofa, activity tables and low Montessori shelves",
+          "width": 1600,
+          "height": 1067
+        }
+      },
+      "principles": [
+        {
+          "title": "Baby room",
+          "body": "Cuddles, love and fun, with a dedicated sleep area, feeding station, outdoor play and a learning plan recorded each day.",
+          "label": "From 3 months"
+        },
+        {
+          "title": "Toddler room",
+          "body": "Children move through ability rather than age, developing as strong, healthy learners and skilful communicators.",
+          "label": "Once walking"
+        },
+        {
+          "title": "Preschool room",
+          "body": "Montessori materials invite children to choose, discover and build concentration, self-discipline and a lasting love of learning.",
+          "label": "Preparing for school"
+        }
+      ],
+      "explorer": {
+        "eyebrow": "Step inside",
+        "heading": "See the room at their level, before you visit.",
+        "body": "Our classrooms are calm, safe and carefully prepared with genuine Montessori materials, beautiful, mainly wooden and made for hands-on independent learning.",
+        "noteTitle": "Interactive room explorer",
+        "noteBody": "Drag the view, then book a real walkthrough with the team."
+      },
+      "life": {
+        "heading": "A sound introduction to education.",
+        "cards": [
+          {
+            "title": "Individual attention",
+            "body": "Children are welcomed from three months, with routines, care and learning shaped around their individual needs from the beginning.",
+            "image": {
+              "src": "/images/abbey-road/nursery-room.webp",
+              "alt": "",
+              "width": 1600,
+              "height": 1067
+            }
+          },
+          {
+            "title": "A love of learning",
+            "body": "Genuine Montessori materials invite independent discovery, helping children develop concentration, motivation and confidence.",
+            "image": {
+              "src": "/images/abbey-road/montessori-puzzle.webp",
+              "alt": "",
+              "width": 1600,
+              "height": 1067
+            }
+          },
+          {
+            "title": "Home-cooked food",
+            "body": "Fresh, nutritionally balanced lunches are prepared in our own kitchen, with most dietary requirements accommodated.",
+            "image": {
+              "src": "/images/abbey-road/kitchen.webp",
+              "alt": "",
+              "width": 1600,
+              "height": 1067
+            }
+          }
+        ]
+      },
+      "locationsHeading": "Where to find us",
+      "highlights": {
+        "paragraphs": [
+          "Our teaching and caring teams are led by Kim Redman, who brings more than 30 years of childcare experience and a deep understanding of Montessori education and homely nursery care.",
+          "Abbey Road is Beckett House’s second-generation nursery setting, created to bring high-quality care, strong learning outcomes and Montessori careers to the local community. It opened in summer 2026."
+        ],
+        "linkLabel": "",
+        "cards": [
+          {
+            "title": "Montessori accredited",
+            "body": "The head teacher and the core members of staff are Montessori qualified."
+          },
+          {
+            "title": "Open 50 weeks a year",
+            "body": "Monday–Friday, 8am–6pm"
+          },
+          {
+            "title": "15 or 30 funded hours",
+            "body": "Choose any suitable combination of morning, afternoon and full-day sessions. Eligible families can access 15 or 30 funded hours and Working Parent Entitlements."
+          }
+        ]
+      },
+      "testimonials": [
+        {
+          "quote": "Without hesitating I would recommend this nursery. The staff are fantastic, and the fact it's family run also gives you a warm, caring feeling. The children all seem really happy when you drop off and pick up.",
+          "author": "Georgina H · daynurseries.co.uk"
+        }
+      ],
+      "faqs": {
+        "heading": "Have a question?",
+        "contactLabel": "Get in contact",
+        "items": [
+          {
+            "question": "What ages can attend Beckett House Abbey Road?",
+            "answer": "Dedicated baby, toddler and preschool rooms, growing with children from 3 months to 5 years."
+          },
+          {
+            "question": "What are the opening hours at Abbey Road?",
+            "answer": "Beckett House Abbey Road is open monday–friday, 8am–6pm and 50 weeks a year."
+          },
+          {
+            "question": "Does Abbey Road offer funded childcare hours?",
+            "answer": "Choose any suitable combination of morning, afternoon and full-day sessions. Eligible families can access 15 or 30 funded hours and Working Parent Entitlements."
+          },
+          {
+            "question": "Is Beckett House Abbey Road a Montessori nursery?",
+            "answer": "Yes. Montessori-trained teachers support child-led, hands-on learning in a carefully prepared environment, alongside the Early Years Foundation Stage."
+          },
+          {
+            "question": "How can I visit Beckett House Abbey Road?",
+            "answer": "Book a nursery visit online, call 020 4568 7042, or email abbeyroad@beckett-house.co.uk. The team will arrange a relaxed tour and answer questions about routines, sessions, funding and availability."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "slug": "faq",
+    "title": "Frequently asked questions",
+    "path": "/faq",
+    "content": {
+      "seoTitle": "Frequently Asked Questions",
+      "seoDescription": "Answers about places, sessions, fees, funding and nursery life at Beckett House Montessori in Angel and Abbey Road.",
+      "heading": "Frequently Asked Questions",
+      "introduction": "Practical answers for families considering Beckett House Montessori in Angel or Abbey Road.",
+      "groups": [
+        {
+          "id": "places-and-registration",
+          "heading": "Places and registration",
+          "items": [
+            {
+              "id": "places-and-registration-q-1",
+              "question": "What ages do the nurseries accept?",
+              "answer": "At Angel, Beckett House accepts children aged 2 to 5. At Abbey Road, children are accepted from 3 months to 5 years."
+            },
+            {
+              "id": "places-and-registration-q-2",
+              "question": "Is there a registration fee?",
+              "answer": "The registration fee is £75. It is non-refundable, does not guarantee a place and does not apply to funded places."
+            },
+            {
+              "id": "places-and-registration-q-3",
+              "question": "How much is the deposit?",
+              "answer": "A deposit equal to four weeks’ fees is due when a place is offered and secures the place. The nursery may request an increase if your child’s attendance increases."
+            },
+            {
+              "id": "places-and-registration-q-4",
+              "question": "How much notice do I need to give when leaving?",
+              "answer": "A whole term’s written notice is required. With that notice, the deposit is refunded, with any adjustments, by the end of the month after the end of term; it cannot be refunded if a child does not start."
+            },
+            {
+              "id": "places-and-registration-q-5",
+              "question": "Can I visit before registering?",
+              "answer": "Yes. Beckett House invites families to arrange a meeting or register to join at either nursery."
+            }
+          ]
+        },
+        {
+          "id": "hours-sessions-and-term-dates",
+          "heading": "Hours, sessions and term dates",
+          "items": [
+            {
+              "id": "hours-sessions-and-term-dates-q-1",
+              "question": "What are the opening hours and session times?",
+              "answer": "Both nurseries are open from 8am to 6pm. Mornings are 8am–1pm, afternoons are 1pm–6pm and full-day care is 8am–6pm at both."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-2",
+              "question": "How many weeks a year are the nurseries open?",
+              "answer": "At Angel, the nursery is open 48 weeks a year and closes for two weeks at Christmas and two weeks in summer. At Abbey Road, it is open 50 weeks a year and closes for two weeks at Christmas. The terms also list bank holidays and three inset training days each year."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-3",
+              "question": "Can funded hours be used throughout the year?",
+              "answer": "Funded-only attendance is available for the government-funded 38 weeks. For a full-time place, funded hours can be stretched across Angel’s 48 open weeks or Abbey Road’s 50 open weeks."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-4",
+              "question": "How does settling in work?",
+              "answer": "Before the start date, a child can attend free for short periods, usually a day or two in the final weeks of the previous term. A parent or guardian must attend, although the child may be left briefly with staff agreement."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-5",
+              "question": "What should I do if my child will be absent?",
+              "answer": "Please notify the nursery by 9am if your child cannot attend."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-6",
+              "question": "Who can collect my child?",
+              "answer": "A child will only be released to someone known to a member of staff. The nursery must receive specific instructions about any change to collection arrangements."
+            },
+            {
+              "id": "hours-sessions-and-term-dates-q-7",
+              "question": "What happens if I am late for collection?",
+              "answer": "Call the nursery if you will be late. For persistent late collection that has not been arranged, the nursery reserves the right to charge £5 per minute."
+            }
+          ]
+        },
+        {
+          "id": "fees-and-funding",
+          "heading": "Fees and funding",
+          "items": [
+            {
+              "id": "fees-and-funding-q-1",
+              "question": "What are the session prices?",
+              "answer": "At Angel, standard monthly fees are £1,200 for 3 days a week, £1,600 for 4 days and £2,000 for full time (5 days), and are the same for 2, 3 and 4 year olds. Fees with 15 or 30 funded hours applied, and Abbey Road’s fees, which depend on your child’s age, are set out on our Opening Hours & Fees page. Beckett House reserves the right to alter fees without notice."
+            },
+            {
+              "id": "fees-and-funding-q-2",
+              "question": "When are fees paid, and can I pay by instalments?",
+              "answer": "Invoices are issued monthly. The terms say fees are due in full at the beginning of each term, with an option to pay by instalments on dates and at intervals set by Beckett House; if an instalment is missed, the rest of the term’s fees become due."
+            },
+            {
+              "id": "fees-and-funding-q-3",
+              "question": "Are fees refunded for missed days?",
+              "answer": "No refunds are made if a child starts late, finishes early, reduces their hours or misses nursery, including through illness. Holidays taken outside nursery closure dates are not deducted."
+            },
+            {
+              "id": "fees-and-funding-q-4",
+              "question": "What 15- and 30-hour funding is available?",
+              "answer": "The universal 15-hour entitlement covers 38 weeks and applies when a child’s third birthday fell in the previous term. Depending on family circumstances, the Working Parents Entitlement provides 30 hours a week from the term after a child turns 9 months, up to 1,140 hours a year; some two-year-olds whose families receive additional government support may receive 15 hours."
+            },
+            {
+              "id": "fees-and-funding-q-5",
+              "question": "Are there additional charges with funded hours?",
+              "answer": "Additional charges apply only to the funded part of a place. At Angel, the listed charges per funded day are £8.10 for food, £3 for non-food consumables and £20 for extra-curricular activities; Abbey Road applies the same categories of charge. Families receiving funding may choose to opt out of additional charges; please speak with the Nursery Manager."
+            },
+            {
+              "id": "fees-and-funding-q-6",
+              "question": "What happens if I opt out of funded-place extras?",
+              "answer": "Children can bring a packed lunch, nappies and wipes from home. If they opt out of extra-curricular activities, trained staff provide other enriched activities on site."
+            }
+          ]
+        },
+        {
+          "id": "food-and-day-to-day",
+          "heading": "Food and day-to-day",
+          "items": [
+            {
+              "id": "food-and-day-to-day-q-1",
+              "question": "What meals and snacks are provided?",
+              "answer": "Lunch is home-cooked, and snacks include fresh and dried fruit, low-sugar biscuits, milk and water. At Angel, full days include morning and afternoon snacks plus a cooked lunch; mornings include a snack and cooked lunch, and afternoons include a light snack."
+            },
+            {
+              "id": "food-and-day-to-day-q-2",
+              "question": "Can my child bring sweets or crisps?",
+              "answer": "No. The nurseries do not offer sweets or crisps, and parents are asked not to let children bring them in."
+            },
+            {
+              "id": "food-and-day-to-day-q-3",
+              "question": "What should my child wear and bring?",
+              "answer": "Children should wear comfortable, washable clothes they can manage, with every item named. Please provide a fabric shoe bag, slippers, a toothbrush and spare clothes, including nappies where relevant; children should not bring money or expensive toys."
+            }
+          ]
+        },
+        {
+          "id": "health-and-wellbeing",
+          "heading": "Health and wellbeing",
+          "items": [
+            {
+              "id": "health-and-wellbeing-q-1",
+              "question": "What happens if my child becomes ill at nursery?",
+              "answer": "Parents are contacted promptly, and the child is cared for until a parent or designated person collects them. Please tell the nursery if your child has been in contact with an infectious disease."
+            },
+            {
+              "id": "health-and-wellbeing-q-2",
+              "question": "Can staff give my child medication?",
+              "answer": "Staff cannot administer medicine without consent and instructions. If regular medication is vital, special permission can be arranged, and written instructions must state the dosage and times; verbal instructions are not accepted."
+            },
+            {
+              "id": "health-and-wellbeing-q-3",
+              "question": "How do I tell the nursery about allergies or health needs?",
+              "answer": "A health questionnaire covering wellbeing and allergies is sent before your child starts and must be returned by their first day. Tell the nursery if any new allergy develops."
+            },
+            {
+              "id": "health-and-wellbeing-q-4",
+              "question": "What happens in a medical emergency?",
+              "answer": "The nursery obtains immediate medical treatment and promptly contacts parents and, if needed, the child’s doctor. If a child goes to hospital by ambulance, a staff member accompanies them and parents are told which hospital they have been taken to."
+            }
+          ]
+        },
+        {
+          "id": "montessori-and-learning",
+          "heading": "Montessori and learning",
+          "items": [
+            {
+              "id": "montessori-and-learning-q-1",
+              "question": "How do Montessori and the EYFS work together?",
+              "answer": "Beckett House follows the Montessori approach alongside the Early Years Foundation Stage. Its approach emphasises hands-on, independent learning, continuous observation and tailoring support to each child’s needs."
+            },
+            {
+              "id": "montessori-and-learning-q-2",
+              "question": "What extra-curricular activities are offered?",
+              "answer": "Activities can include creative dance, music, drama, yoga and indoor sport. The timetable changes from time to time."
+            },
+            {
+              "id": "montessori-and-learning-q-3",
+              "question": "How can parents observe progress and join nursery events?",
+              "answer": "Parents may observe their child and nursery activities at any time, with prior notice welcomed. One-to-one interviews with the child’s key teacher are held twice a year in spring and autumn, with a family Open Day in summer and a nativity play each Christmas."
+            }
+          ]
+        },
+        {
+          "id": "getting-in-touch",
+          "heading": "Getting in touch",
+          "items": [
+            {
+              "id": "getting-in-touch-q-1",
+              "question": "How do I contact each nursery?",
+              "answer": "For Angel, email info@beckett-house.co.uk or call 020 7278 8824. For Abbey Road, email abbeyroad@beckett-house.co.uk or call 020 4568 7042."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "about",
+    "title": "About Beckett House",
+    "path": "/beckett-house",
+    "content": {
+      "seoTitle": "About Beckett House",
+      "seoDescription": "Discover Beckett House, a family-run Montessori preschool in Barnsbury, Islington: individual attention, hands-on learning and home-cooked food since 1996.",
+      "texts": {
+        "paragraph1": "“We believe education is important... we believe language, the command of numbers and social behaviour are important... but more than anything, we believe your children should be happy and confident and enjoy every moment of their time at nursery school.”",
+        "paragraph2": "It is a calm and comfortable environment, where ages 2 to 5 play together in one room that is divided into the different Montessori areas, such as: language and maths, art, etc. Children are free to choose their Montessori activities, with support from specialist staff. Care is child centered, and our attentive teachers have stayed here for years. Key workers especially relate to their assigned children. We work in partnership with parents, meeting once per term, and speaking throughout.",
+        "paragraph3": "More a **home-from-home** where your children learn",
+        "paragraph4": "The focus of Beckett House Nursery School is to provide the best possible environment for the children who attend.",
+        "paragraph5": "The nursery offers Montessori education in a very calm, safe, warm, home from home environment, where children aged between two to five years play and learn together.",
+        "paragraph6": "Through continuous observations and a tailored approach, we strive to meet each child's needs with emphasis on hands-on independent learning. This encourages children's natural curiosity and helps them to learn by doing things for themselves and with other children.",
+        "paragraph7": "In addition to the Montessori philosophy we follow the Early Years Foundation Stage (EYFS). The principles underlying the EYFS are ones with which Montessori teachers are familiar and which they enthusiastically endorse.",
+        "paragraph8": "Beckett House Montessori Nursery School has been established to give young pre-school children a very sound introduction to education. We believe that it is important for your child to spend this transitional period in a ‘home from home’ environment where the staff are experienced, friendly and responsible and the school safe, warm and welcoming.",
+        "paragraph9": "Children are welcomed from the age of two and a quarter. Much time will be spent initially in accommodating the children and their **individual needs** while carefully introducing them to the concept of ‘school’ with its classroom layout, educational materials and daily routines.",
+        "paragraph10": "The curriculum is varied and follows the Montessori philosophy. The children are encouraged at all times to **experience**, to **experiment** and above all to develop a love for learning. The **high ratio of staff** to children, on average one to six, allows much one-to-one encouragement and guidance and ensures that the children are offered the best opportunity to find faith in themselves and to reach their full potential. The school also offers dance, music, drama, yoga and sport as part of the extracurricular activities.",
+        "paragraph11": "Lunch is home-cooked, prepared from **fresh ingredients** in our own kitchen. All meals are nutritionally balanced and varied and we can accommodate most **dietary needs**. The school will not provide sugar, sweets or crisps.",
+        "text1": "About Beckett House",
+        "text2": "Montessori accredited",
+        "text28": "Beckett House Montessori is a ‘good’ rated, and Montessori ‘MEAB’ ",
+        "text4": "accredited",
+        "text29": ", family run preschool.",
+        "text6": "Not so much a school...",
+        "text13": "Individual attention",
+        "text15": "A love for learning creates confidence in their own abilities",
+        "text19": "Home-cooked food",
+        "text22": "Find out more",
+        "text23": "Daily timetable",
+        "text24": "Funding",
+        "text25": "Term dates",
+        "text26": "Opening hours & fees",
+        "text27": "Explore our history"
+      },
+      "images": [
+        {
+          "src": "/images/abbey-road/main-room-3.webp",
+          "alt": "The bright main room at Abbey Road, with a sofa, child-sized tables and shelves of Montessori materials",
+          "width": 1600,
+          "height": 1067
+        },
+        {
+          "src": "/images/children-circle-time.jpg",
+          "alt": "Children taking part in a classroom group activity",
+          "width": 900,
+          "height": 590
+        },
+        {
+          "src": "/images/abbey-road/alphabet-carpet.webp",
+          "alt": "An alphabet carpet with soft toys in a bright nursery room with Montessori shelves beyond",
+          "width": 1600,
+          "height": 1067
+        },
+        {
+          "src": "/images/angel/montessori-nursery-angel-snack-tables.webp",
+          "alt": "Child-sized tables and chairs beside the nursery kitchen area",
+          "width": 2000,
+          "height": 1333
+        }
+      ]
+    }
+  },
+  {
+    "slug": "history",
+    "title": "Our history",
+    "path": "/history",
+    "content": {
+      "seoTitle": "Our History",
+      "seoDescription": "The history of Beckett House Montessori in Barnsbury, Islington, from its opening in January 1996 to lasting connections with nursery families.",
+      "texts": {
+        "text1": "A Brief History",
+        "text2": "Beckett House is a Montessori nursery school, established in 1996 in Barnsbury, Islington, North London. We now also have a second setting in St John’s Wood.",
+        "text3": "We opened in January 1996 since when we have established ourselves as one of the most popular nursery schools in the area with a somewhat boutique appeal; with most of our current children being here due to recommendations from previous parents.",
+        "text4": "The head teacher and the core members of staff are Montessori qualified and those with other qualifications offer the advantages of their own particular training within the guidance of the head.",
+        "text5": "Parents maintain it is the **‘home from home’** nature that sets Beckett House apart from other nurseries.",
+        "text6": "Abbey Road",
+        "text7": "Our new setting on Abbey Road aims to provide high quality care for the community, learning outcomes for your children and developing careers for our teachers. We opened in Summer 2026. At Beckett House we recognise the parent carer as a primary educator of the child and we pride ourselves on working closely in partnership. Respect is shown to family traditions and childcare practices and every effort is made to comply with parents’ wishes for their children where appropriate to the ethos of our school.",
+        "text8": "At Beckett House it will be our initial aim to introduce the children to the philosophy of the Montessori method of education. To make this possible we have fully equipped our school with a complete range of genuine Montessori materials. Montessori materials are unique, beautiful, mainly wooden and carefully crafted by experts.",
+        "text9": "Learning is a key ingredient in its philosophy but so is care, nurturing, discipline, parental involvement, family values and an encouragement to embrace the world and all its wonders.",
+        "text10": "Many children move on to some of the best schools in London and since 2006 some of its first ever children have been coming back for their work experience; tall, clever and just amazing!"
+      },
+      "image": {
+        "src": "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp",
+        "alt": "The Angel classroom with a round table, low shelves and the nursery kitchen area",
+        "width": 2000,
+        "height": 1333
+      }
+    }
+  },
+  {
+    "slug": "timetable",
+    "title": "Timetable and term dates",
+    "path": "/timetable",
+    "content": {
+      "seoTitle": "Timetable & Term Dates",
+      "seoDescription": "Daily timetable, session times and term dates for Beckett House Montessori nurseries in Angel and Abbey Road.",
+      "heading": "Timetable & term dates",
+      "schedules": {
+        "preschoolMorning": [
+          {
+            "time": "8:00am",
+            "title": "Arrival time for the children"
+          },
+          {
+            "time": "8:00–8:45am",
+            "title": "Breakfast time and free play"
+          },
+          {
+            "time": "8:45–9:00am",
+            "title": "Welcome circle time"
+          },
+          {
+            "time": "9:00–10:30am",
+            "title": "Montessori work cycle"
+          },
+          {
+            "time": "9:30–10:15am",
+            "title": "Free-flow snack time"
+          },
+          {
+            "time": "10:00–10:30am",
+            "title": "Arts and crafts or messy activities"
+          },
+          {
+            "time": "10:30–11:15am",
+            "title": "Outside play with outdoor activities"
+          },
+          {
+            "time": "11:30am–12:00pm",
+            "title": "Circle time or group activity",
+            "note": "Topical and extra-curricular activities, then handwashing for lunch."
+          },
+          {
+            "time": "12:00–12:30pm",
+            "title": "Lunch"
+          },
+          {
+            "time": "12:30–1:30pm",
+            "title": "Outside play, activities and rest time for all-day children",
+            "note": "The school provides mattresses, pillows and blankets."
+          }
+        ],
+        "preschoolAfternoon": [
+          {
+            "time": "1:00pm",
+            "title": "Collection and arrival time"
+          },
+          {
+            "time": "1:30–1:45pm",
+            "title": "Welcome circle time"
+          },
+          {
+            "time": "1:45–3:15pm",
+            "title": "Montessori work cycle"
+          },
+          {
+            "time": "2:00–2:30pm",
+            "title": "Free-flow snack time"
+          },
+          {
+            "time": "3:15–4:00pm",
+            "title": "Outside play with outdoor activities"
+          },
+          {
+            "time": "4:00–4:30pm",
+            "title": "Teatime"
+          },
+          {
+            "time": "4:30–5:15pm",
+            "title": "Key group time",
+            "note": "Activities, outside play or physical activity."
+          },
+          {
+            "time": "5:30–6:00pm",
+            "title": "Music & Story Time"
+          },
+          {
+            "time": "6:00pm",
+            "title": "Collection time for the children"
+          }
+        ],
+        "angelOpeningHours": [
+          {
+            "time": "8am–6pm",
+            "title": "Monday–Friday"
+          },
+          {
+            "time": "48 weeks",
+            "title": "Open 48 weeks a year",
+            "note": "Closed for two weeks in August and two weeks at Christmas."
+          }
+        ],
+        "angelSessions": [
+          {
+            "time": "8am–1pm",
+            "title": "Morning"
+          },
+          {
+            "time": "1pm–6pm",
+            "title": "Afternoon"
+          },
+          {
+            "time": "8am–6pm",
+            "title": "Full day"
+          }
+        ],
+        "abbeyRoadBabyMorning": [
+          {
+            "time": "8:00–8:45am",
+            "title": "Drop-off, bottles and breakfast"
+          },
+          {
+            "time": "8:45–9:15am",
+            "title": "Nappy change"
+          },
+          {
+            "time": "9:15–9:30am",
+            "title": "Welcome circle time"
+          },
+          {
+            "time": "9:30–10:15am",
+            "title": "Outside play with outdoor activities"
+          },
+          {
+            "time": "10:15–10:30am",
+            "title": "Bottles and morning snack"
+          },
+          {
+            "time": "10:30–10:45am",
+            "title": "Nappy check",
+            "note": "Changes where needed. Children with individual nap times follow their own routine."
+          },
+          {
+            "time": "10:45–11:30am",
+            "title": "Key groups, messy play or art activities"
+          },
+          {
+            "time": "11:30am–12:00pm",
+            "title": "Nappy change"
+          },
+          {
+            "time": "11:30am–12:00pm",
+            "title": "Group circle time and action rhymes",
+            "note": "Books, songs, puppets and finger plays."
+          },
+          {
+            "time": "12:00–12:30pm",
+            "title": "Lunch and bottle time"
+          },
+          {
+            "time": "12:30–2:00pm",
+            "title": "Sleep time for all-day children"
+          }
+        ],
+        "abbeyRoadBabyAfternoon": [
+          {
+            "time": "1:00pm",
+            "title": "Collection and arrival time for morning and afternoon children"
+          },
+          {
+            "time": "1:15–2:00pm",
+            "title": "Key groups, messy play or art activities"
+          },
+          {
+            "time": "2:00–2:30pm",
+            "title": "Bottles and snack"
+          },
+          {
+            "time": "2:30–2:45pm",
+            "title": "Nappy change"
+          },
+          {
+            "time": "2:45–3:15pm",
+            "title": "Outside play and gross motor activities",
+            "note": "Children with individual nap times follow their own routine."
+          },
+          {
+            "time": "3:15–4:00pm",
+            "title": "Key groups: sensory or art activities"
+          },
+          {
+            "time": "4:00–4:30pm",
+            "title": "Teatime"
+          },
+          {
+            "time": "4:30–5:00pm",
+            "title": "Nappy change"
+          },
+          {
+            "time": "5:00–5:30pm",
+            "title": "Individual play time"
+          },
+          {
+            "time": "5:40–6:00pm",
+            "title": "Circle time, music, action rhymes and story time"
+          },
+          {
+            "time": "6:00pm",
+            "title": "All children collected"
+          }
+        ],
+        "abbeyRoadOpeningHours": [
+          {
+            "time": "8am–6pm",
+            "title": "Monday–Friday"
+          },
+          {
+            "time": "50 weeks",
+            "title": "Open 50 weeks a year",
+            "note": "Closed for two weeks at Christmas."
+          }
+        ],
+        "abbeyRoadSessions": [
+          {
+            "time": "8am–1pm",
+            "title": "Morning"
+          },
+          {
+            "time": "1pm–6pm",
+            "title": "Afternoon"
+          },
+          {
+            "time": "8am–6pm",
+            "title": "Full day"
+          }
+        ]
+      },
+      "terms": {
+        "angel": [
+          {
+            "title": "Autumn term 2026",
+            "start": "2026-09-01",
+            "end": "2026-12-18"
+          },
+          {
+            "title": "Spring term 2027",
+            "start": "2027-01-04",
+            "end": "2027-04-23"
+          },
+          {
+            "title": "Summer term 2027",
+            "start": "2027-04-26",
+            "end": "2027-08-13"
+          }
+        ],
+        "abbey-road": [
+          {
+            "title": "Autumn term 2026",
+            "start": "2026-08-31",
+            "end": "2026-12-18"
+          },
+          {
+            "title": "Spring term 2027",
+            "start": "2027-01-04",
+            "end": "2027-04-23"
+          }
+        ]
+      },
+      "holidays": {
+        "angel": [],
+        "abbey-road": []
+      },
+      "outdoorsTitle": "Time outdoors",
+      "outdoorsBody": "As the school does not have its own playground or large garden, every effort is made to visit the local Islington parks as often as possible, such as Lonsdale Square and Barnard Park. Most of these have play areas that are protected by wardens."
+    }
+  },
+  {
+    "slug": "fees",
+    "title": "Fees and opening hours",
+    "path": "/opening-hours-fees",
+    "content": {
+      "openingHours": {
+        "days": "Monday–Friday",
+        "hours": "8am–6pm"
+      },
+      "sessions": {
+        "angel": {
+          "morning": "8am–1pm",
+          "afternoon": "1pm–6pm",
+          "fullDay": "8am–6pm"
+        },
+        "abbey-road": {
+          "morning": "8am–1pm",
+          "afternoon": "1pm–6pm",
+          "fullDay": "8am–6pm"
+        }
+      },
+      "weeksOpen": {
+        "angel": "48 weeks a year, closed for two weeks in August and two weeks over Christmas.",
+        "abbey-road": "50 weeks a year, closed for two weeks at Christmas."
+      },
+      "registrationFee": 75,
+      "angelFees": [
+        {
+          "age": "2–5 years",
+          "standard": [
+            1320,
+            1760,
+            2200
+          ],
+          "funded30": [
+            686,
+            1126,
+            1566
+          ],
+          "funded15": [
+            1003,
+            1443,
+            1883
+          ],
+          "extras": [
+            8.1,
+            3,
+            20
+          ]
+        }
+      ],
+      "abbeyRoadFees": [
+        {
+          "age": "3–23 months",
+          "standard": [
+            1584,
+            1920,
+            2400
+          ],
+          "funded30": [
+            541.66,
+            987.1,
+            1467.1
+          ],
+          "funded15": null,
+          "extras": [
+            7,
+            3,
+            7
+          ]
+        },
+        {
+          "age": "2–3 years",
+          "standard": [
+            1452,
+            1760,
+            2200
+          ],
+          "funded30": [
+            633.48,
+            1041.8,
+            1481.8
+          ],
+          "funded15": null,
+          "extras": [
+            8,
+            4,
+            18
+          ]
+        },
+        {
+          "age": "3 years+",
+          "standard": [
+            1320,
+            1600,
+            2000
+          ],
+          "funded30": [
+            696.8,
+            1068,
+            1468
+          ],
+          "funded15": [
+            1008.4,
+            1334,
+            1734
+          ],
+          "extras": [
+            9,
+            3,
+            28
+          ]
+        }
+      ],
+      "copy": {
+        "openingHoursFees": "Opening hours & fees",
+        "aLittleFlexibilityForYourFamily": "A little flexibility for your family",
+        "chooseAnyNumberAndConfigurationOfAvailable": "Choose any number and configuration of available morning and afternoon sessions.",
+        "openingHours": "Opening hours",
+        "sessionsAtAngel": "Sessions at Angel",
+        "morning": "Morning: ",
+        "afternoon": "Afternoon: ",
+        "fullDay": "Full day: ",
+        "sessionsAtAbbeyRoad": "Sessions at Abbey Road",
+        "weeksOpen": "Weeks open",
+        "viewAngelTermDates": "View Angel term dates",
+        "viewAbbeyRoadTermDates": "View Abbey Road term dates",
+        "text15And30HoursFunding": "15 and 30 hours funding",
+        "allThreeAndFouryearoldsInEnglandCan": "All three- and four-year-olds in England can receive 15 funded hours a week from the term after their third birthday. Eligible working families can receive 30 hours a week from the term after their child turns nine months until school age. Some two-year-olds whose families receive additional support may qualify for 15 hours.",
+        "entitlementsCover38WeeksAYear570": "Entitlements cover 38 weeks a year: 570 annual hours for a 15-hour entitlement, or 1,140 for a 30-hour entitlement. Subject to nursery agreement, funding can be stretched across more weeks with fewer funded hours each week, for example across Angel’s 48 weeks or Abbey Road’s 50 weeks. Funded-only sessions depend on availability; ask your nursery to confirm its attendance and stretching arrangements.",
+        "forTheUniversalThreeAndFouryearoldEntitlement": "For the universal three- and four-year-old entitlement, Beckett House arranges the funding. Working-parent entitlements require an application and eligibility code.",
+        "checkFundingAndEligibility": "Check funding and eligibility",
+        "applyForChildcareSupport": "Apply for childcare support",
+        "islingtonSupportForTwoyearolds": "Islington support for two-year-olds",
+        "paymentsReservingAPlaceAtAngel": "Payments & reserving a place at Angel",
+        "paymentsReservingAPlaceAtAbbeyRoad": "Payments & reserving a place at Abbey Road",
+        "invoicesAreIssuedMonthlyForPrivatelyPaid": "Invoices are issued monthly. For privately paid places, a £",
+        "registrationFeeAndADepositEqualTo": " registration fee and a deposit equal to four weeks’ fees reserve your place. The registration fee does not apply to funded hours. Registration is not enrolment.",
+        "ifYouWishToCancelYourPlace": "If you wish to cancel your place, please give one term’s notice.",
+        "beckettHouseLimitedReservesTheRightTo": "Beckett House Limited reserves the right to alter fees, timetable and conditions without notice. Please confirm fees, funding arrangements and deposit terms with the nursery before booking."
+      }
+    }
+  },
+  {
+    "slug": "announcements",
+    "title": "Nursery announcements",
+    "path": "/angel",
+    "content": {
+      "items": [
+        {
+          "id": "halloween-open-day-2026",
+          "showUntil": "2026-11-06",
+          "category": "Open day",
+          "title": "Halloween Open Day at Abbey Road",
+          "summary": "Come and join us! Visit from 2pm to 5pm for Halloween and Guy Fawkes activities, learn about Montessori and meet our teachers. Trick or treat prizes for the children! 84–86 Abbey Road, London NW8 0QA.",
+          "date": "2026-11-06",
+          "dateLabel": "Friday 6 November 2026, 2pm–5pm",
+          "href": "/visit?location=abbey-road",
+          "linkLabel": "Let us know you’re coming",
+          "image": {
+            "src": "/images/halloween-open-day-news.webp",
+            "alt": "Three young children in hats and coats collecting autumn leaves in a London park",
+            "width": 1600,
+            "height": 1067
+          }
+        },
+        {
+          "id": "angel-ofsted-2024",
+          "category": "Angel news",
+          "title": "Beckett House Montessori in Angel receives a Good Ofsted report",
+          "summary": "Angel was rated Good across all inspection areas. The report highlights the warm welcome children receive, their growing independence and strong partnerships with parents.",
+          "date": "2024-01-29",
+          "dateLabel": "Inspected 29 January 2024",
+          "href": "https://files.ofsted.gov.uk/v1/file/50241041",
+          "linkLabel": "Read the Ofsted report (PDF)",
+          "image": {
+            "src": "/images/angel-ofsted-news.jpg",
+            "alt": "A Beckett House classroom with child-sized tables, chairs and learning materials",
+            "width": 786,
+            "height": 523
+          }
+        },
+        {
+          "id": "interactive-learning",
+          "category": "Nursery news",
+          "title": "Meet Robot NAO and our interactive learning table",
+          "summary": "Robot NAO is an interactive learning companion at Beckett House. Our interactive table brings playful multitouch activities into the classroom, giving children another way to explore and learn together.",
+          "image": {
+            "src": "/images/interactive-learning-news.jpg",
+            "alt": "Beckett House announcement introducing Robot NAO and an interactive multitouch learning table",
+            "width": 938,
+            "height": 523
+          }
+        },
+        {
+          "id": "abbey-road-opening",
+          "category": "Nursery news",
+          "title": "Our new setting in St John’s Wood is now open",
+          "summary": "Beckett House Abbey Road opened in summer 2026, welcoming babies and children from 3 months to 5 years in dedicated baby, toddler and preschool rooms.",
+          "href": "/abbey-road",
+          "linkLabel": "Discover Abbey Road",
+          "image": {
+            "src": "/images/abbey-road/main-room-4.webp",
+            "alt": "The main Abbey Road classroom, with low Montessori shelves, activity tables and a sofa",
+            "width": 1600,
+            "height": 1067
+          }
+        }
+      ]
+    }
+  },
+  {
+    "slug": "montessori",
+    "title": "Montessori",
+    "path": "/montessori",
+    "content": {
+      "copy": {
+        "aboutMontessori": "About Montessori",
+        "theMontessoriChildShouldBeTruthfulCourageous": "“The Montessori child should be... truthful, courageous, free of fear, confident, attentive, self-disciplined, generous and respectful, with a love for order and the environment, a love of work as a form of self-expression, the love of silence, of working alone, independent and creative with the ability to concentrate and develop intellectually. Overall, the child should be calm and happy.”",
+        "mariaMontessoriHerLifeAndWork": "Maria Montessori: Her Life and Work",
+        "eMStanding1957": "E M Standing, 1957",
+        "montessoriFreedomMeansThe": "Montessori freedom means the ",
+        "unlimitedFreedomToDoRight": "unlimited freedom to do right",
+        "suggestedReading": "Suggested reading",
+        "aParentsGuideToTheMontessoriClassroom": "A Parent's Guide to the Montessori Classroom",
+        "byADWolf": ", by A D Wolf.",
+        "thisBookletDescribesInDetailTheMontessori": "This booklet describes in detail the Montessori programme for children between the ages of three and six. It is designed to help parents understand the long range purpose of Montessori education and to give a description of the equipment which the child will be using for approximately three years."
+      },
+      "photos": {
+        "photo1": {
+          "src": "/images/angel/montessori-nursery-angel-sensorial-corner.webp",
+          "alt": "Montessori materials on low shelves around a green table in the Angel classroom",
+          "width": 2000,
+          "height": 1333
+        },
+        "photo2": {
+          "src": "/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp",
+          "alt": "Montessori dressing frames and learning materials laid out in the Angel classroom",
+          "width": 2000,
+          "height": 1333
+        }
+      },
+      "sections": [
+        {
+          "id": "maria-montessori",
+          "title": "Maria Montessori",
+          "paragraphs": [
+            "Maria Montessori was an Italian scientist and the first woman in Italy to obtain a degree in Medicine. She was born at Chiaravalle in Ancona in 1870 and she died in Holland in 1952 after an exceptionally brilliant career committed to the development of child education.",
+            "One of her many important psychological 'discoveries' that influenced world wide pre-school education, was the recognition that every pre-school child between the ages of two and six has a spontaneous urge to learn. Children have a natural instinct to work and therefore require an education that is ordered, creative and personal to their own needs."
+          ]
+        },
+        {
+          "id": "prepared-environment",
+          "title": "The Prepared Environment",
+          "paragraphs": [
+            "The Montessori classroom of today contains special components that strictly adhere to Maria Montessori's principles and philosophy. These are real objects rather than imitation and feature glass, wood, cotton, etc. in their construction. The exercises may seem unexciting or lacking in instant attraction to parents but it is through performing successfully an array of simple tasks that the child not only learns but develops a sense of accomplishment, self-confidence and a desire to learn more.",
+            "Most of the early exercises or materials are tactile, allowing the child to learn through doing, touching or holding. All are displayed on open shelves in what Maria Montessori called a Prepared Environment. Each child is shown on a one-to-one basis how a task is performed, is invited to repeat it as often as he or she likes and is shown how to replace the materials when the task is finished.",
+            "Repetition is a vital element of the Montessori method and the child is encouraged to practise with the materials as often as he or she wants. The replacing of materials not only allows a continual presence of the Prepared Environment but conforms to the child's natural desire for order, which Maria Montessori noted as being part of the child's spontaneous self-discipline."
+          ]
+        },
+        {
+          "id": "control-of-error",
+          "title": "Control of Error",
+          "paragraphs": [
+            "An equally important element is what Maria Montessori termed the Control of Error: each activity has a method for correction should it not be performed correctly. Usually this is visual, i.e. the child can see what has gone wrong or what mistake has been made and he or she is shown the way in which this 'error' can be corrected.",
+            "Thus, the Control of Error completes the learning process: the child performs an activity, he drops something or spills something but he has the knowledge and the ability of how to put things right without having to ask for help or direction."
+          ]
+        },
+        {
+          "id": "holistic-learning",
+          "title": "Learning the whole concept",
+          "paragraphs": [
+            "The Montessori method is holistic and answers a child's simple questions and needs. Not with one-word answers but in such a way that he or she can seek to gain complete knowledge of a subject.",
+            "For example: What colour is the sky? The answer is not simply 'Blue'.",
+            "Rather, by showing the child ‘blue’ in terms of all the shades of blue. Also in relation to the word ‘blue’, the individual letters that make up the word, how it is written and how it is read. Using paint and colour; through other examples of what is also blue; what the child might have on or possess which is blue and by using examples which are extremely familiar to the child. In this way, the child can acquire the entire concept of 'blue' with extended language and examples."
+          ]
+        },
+        {
+          "id": "language-and-mathematics",
+          "title": "Language and mathematics",
+          "paragraphs": [
+            "The reading method is phonic, again using repetition and familiarity with symbols as its basis. The tactile approach is extended to the concepts of language and mathematics, allowing the child to physically grasp a new idea or image before taking it to its abstract. Letter and number shapes are cut out in sandpaper, there is a movable alphabet that encourages freedom of selection and creation of language, and songs, rhymes and games are also used to explain the alphabetical and numerical abstracts."
+          ]
+        },
+        {
+          "id": "freedom-of-choice",
+          "title": "Freedom of choice",
+          "paragraphs": [
+            "The child has complete freedom of choice within the nursery structure and layout. He or she also has the freedom to choose whether to work independently or as part of the group. This encourages not only independence and self-discipline but also confidence and language. The confidence to make his or her own choice of activity, the language to show understanding or to request assistance, or more advanced materials. The ability to show other children how something works and, as only one example of each activity is present in the nursery, the patience to wait until a chosen activity becomes available."
+          ]
+        },
+        {
+          "id": "role-of-staff",
+          "title": "The role of Montessori staff",
+          "paragraphs": [
+            "The members of staff in a Montessori classroom are not known as ‘teachers’ or ‘carers’, rather as ‘directresses’, a word that accurately defines their exact role.",
+            "No teacher is employed for their special knowledge or traits but rather for their ability and training to lead the child through the Montessori curriculum enthusiastically and conscientiously, encouraging the child to develop to his or her full potential. Without the directress, the Prepared Environment would not succeed as an educational system: she is the 'dynamic link' between the children and the environment."
+          ]
+        }
+      ],
+      "seoTitle": "About Montessori",
+      "seoDescription": "Learn about Montessori education, the Prepared Environment, hands-on learning, Control of Error and children's freedom of choice at Beckett House."
+    }
+  },
+  {
+    "slug": "gallery",
+    "title": "Gallery",
+    "path": "/gallery",
+    "content": {
+      "copy": {
+        "gallery": "Gallery",
+        "aLookInsideOurNurseriesInAngel": "A look inside our nurseries in Angel and Abbey Road. For an interactive look around, visit the ",
+        "text360VirtualTour": "360° virtual tour",
+        "text": ".",
+        "showing": "Showing ",
+        "photos": " photos",
+        "text2": "×",
+        "text3": "‹",
+        "text4": "›",
+        "of": " of "
+      },
+      "images": {
+        "angel": [
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-islington.webp",
+            "caption": "Angel classroom",
+            "alt": "A wide view of the Angel Montessori classroom with low shelves, round tables and a fire-exit door",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-planets.webp",
+            "caption": "Angel classroom",
+            "alt": "The Angel classroom with hanging planets, cardboard rockets and child-sized tables",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-reading-area.webp",
+            "caption": "Reading area",
+            "alt": "A sofa, rugs and bookshelves in the Angel reading area beneath hanging planets",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-reading-loft.webp",
+            "caption": "Reading loft",
+            "alt": "A wooden reading loft with cushions and a staircase in the Angel classroom",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-cosy-book-corner.webp",
+            "caption": "Book corner",
+            "alt": "A cosy book corner with a sofa, rugs, a keyboard and an interactive screen",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-music-and-interactive-screen.webp",
+            "caption": "Music and screen",
+            "alt": "A keyboard, puzzles and an interactive screen beside colourful rugs",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp",
+            "caption": "Montessori materials",
+            "alt": "Cardboard rocket displays above shelves of Montessori materials and a green table",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-sensorial-corner.webp",
+            "caption": "Montessori materials",
+            "alt": "Montessori materials on low shelves around a green table, with children’s swirl paintings",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-practical-life-dressing-frames.webp",
+            "caption": "Practical life",
+            "alt": "Montessori dressing frames laid out on a table in front of the rocket display",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-solar-system-corner.webp",
+            "caption": "Solar system corner",
+            "alt": "A hanging Sun and Mercury above cardboard rockets, swirl paintings and Montessori shelves",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp",
+            "caption": "Classroom and kitchen",
+            "alt": "The open classroom with a round table, shelves and the nursery kitchen area",
+            "width": 2000,
+            "height": 1333
+          },
+          {
+            "src": "/images/angel/montessori-nursery-angel-earth-day-artwork.webp",
+            "caption": "Children’s artwork",
+            "alt": "A Happy Earth Day 2026 poster with children’s handprints and magnetic shapes",
+            "width": 2000,
+            "height": 1333
+          }
+        ],
+        "abbey-road": [
+          {
+            "src": "/images/abbey-road/main-room.webp",
+            "caption": "Main learning space",
+            "alt": "A wide view of the Abbey Road main learning space with tables and low shelves",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/main-room-4.webp",
+            "caption": "Main learning space",
+            "alt": "The Abbey Road main learning space with Montessori materials set out on tables",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/main-room-3.webp",
+            "caption": "Main learning space",
+            "alt": "A sofa with cushions beside tables and low shelves in the Abbey Road main room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/main-room-2.webp",
+            "caption": "Main learning space",
+            "alt": "Low shelves, a sensory tray and an alphabet rug in the Abbey Road main room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/main-room-5.webp",
+            "caption": "Main learning space",
+            "alt": "Low Montessori shelves and a curved bench in the Abbey Road main room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/main-room-6.webp",
+            "caption": "Main learning space",
+            "alt": "Activity tables with a tray and chairs in the Abbey Road main room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/alphabet-carpet.webp",
+            "caption": "Main learning space",
+            "alt": "An alphabet rug and cushions in the Abbey Road main room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/montessori-puzzle.webp",
+            "caption": "Montessori materials",
+            "alt": "A wooden Montessori puzzle and coloured pencils on a low shelf",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/shape-sorters.webp",
+            "caption": "Montessori materials",
+            "alt": "Wooden shape sorters and small figures on a classroom table",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/sand-tray.webp",
+            "caption": "Sensory play",
+            "alt": "A sensory tray with sand, leaves and toy animals",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/carpet-corner.webp",
+            "caption": "Main learning space",
+            "alt": "A playful rug and a toy on the floor near a touchscreen table",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/learning-room.webp",
+            "caption": "Learning room",
+            "alt": "A table of wooden Montessori materials in a quieter learning room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/nursery-room.webp",
+            "caption": "Nursery room",
+            "alt": "The Abbey Road nursery room with a play mat, soft toys and a sofa",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/nursery-room-2.webp",
+            "caption": "Nursery room",
+            "alt": "A colourful rug with soft toys in the Abbey Road nursery room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/nursery-room-3.webp",
+            "caption": "Nursery room",
+            "alt": "The Abbey Road nursery room with a play mat, low bench and sofa",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/nursery-room-4.webp",
+            "caption": "Nursery room",
+            "alt": "Soft toys on a rug in the Abbey Road nursery room",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/baby-play-area.webp",
+            "caption": "Nursery room",
+            "alt": "A baby play gym and soft toys on a colourful rug",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/baby-play-gym.webp",
+            "caption": "Nursery room",
+            "alt": "Hanging toys on a baby play gym above fabric books",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/sofa-and-walker.webp",
+            "caption": "Nursery room",
+            "alt": "A wooden baby walker beside a sofa and bookshelf",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/sofa-teddy.webp",
+            "caption": "Nursery room",
+            "alt": "A teddy bear and picture book on a sofa by the windows",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/sleep-area.webp",
+            "caption": "Sleep area",
+            "alt": "Low cot beds lined up in the Abbey Road sleep area",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/sleep-area-2.webp",
+            "caption": "Sleep area",
+            "alt": "Cloud-shaped low beds in the Abbey Road sleep area",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/childrens-bathroom.webp",
+            "caption": "Children’s bathroom",
+            "alt": "Child-sized toilets with yellow doors in the children’s bathroom",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/kitchen.webp",
+            "caption": "Kitchen",
+            "alt": "The Abbey Road kitchen with ovens, worktops and a fridge",
+            "width": 1600,
+            "height": 1067
+          },
+          {
+            "src": "/images/abbey-road/entrance.webp",
+            "caption": "Entrance",
+            "alt": "The outside entrance to the Abbey Road nursery",
+            "width": 1600,
+            "height": 1067
+          }
+        ]
+      },
+      "seoTitle": "Gallery",
+      "seoDescription": "Browse photos of the classrooms and nursery spaces at Beckett House Montessori in Angel and Abbey Road."
+    }
+  },
+  {
+    "slug": "virtual-tour",
+    "title": "Virtual tour",
+    "path": "/virtual-tour",
+    "content": {
+      "copy": {
+        "virtualTour": "Virtual Tour",
+        "aLittleLookInsideOurWorldChoose": "A little look inside our world. Choose a nursery and explore at your own pace.",
+        "lookAround": "Look around",
+        "dragWithYourMouseOrUseTwo": "Drag with your mouse, or use two fingers on a touch screen.",
+        "exploreEverySpace": "Explore every space",
+        "chooseARoomBelowTheViewerTo": "Choose a room below the viewer to move between panoramas.",
+        "takeACloserLook": "Take a closer look",
+        "useTheZoomControlsAndFullscreenButton": "Use the zoom controls and fullscreen button inside the viewer."
+      },
+      "seoTitle": "Virtual Tour",
+      "seoDescription": "Explore Beckett House Montessori in Angel and Abbey Road through interactive 360° panoramas. Look around the classrooms before you visit."
+    }
+  },
+  {
+    "slug": "find-your-nursery",
+    "title": "Find your nursery",
+    "path": "/find-your-nursery",
+    "content": {
+      "heading": "Which nursery feels like home?",
+      "introduction": "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device.",
+      "seoTitle": "Find a Montessori Nursery in North London",
+      "seoDescription": "Compare Beckett House Montessori nurseries in Angel, Islington and Abbey Road, St John's Wood by age range, location and opening hours."
+    }
+  },
+  {
+    "slug": "visit",
+    "title": "Book a visit",
+    "path": "/visit",
+    "content": {
+      "copy": {
+        "comeAndMeetUs": "Come and meet us",
+        "letsFindTheRightFitTogether": "Let's find the right fit, together.",
+        "tellUsALittleAboutYourFamily": "Tell us a little about your family and preferred location. We'll get back to arrange a relaxed visit with the nursery team.",
+        "preferToTalk": "Prefer to talk?",
+        "text": ", ",
+        "whatToExpect": "What to expect",
+        "aShortConversationAboutYourChild": "A short conversation about your child",
+        "aTourAtTheirLevel": "A tour at their level",
+        "clearAnswersOnSessionsFeesAndFunding": "Clear answers on sessions, fees and funding"
+      },
+      "seoTitle": "Book a Montessori Nursery Visit",
+      "seoDescription": "Arrange a visit to Beckett House Montessori in Angel or Abbey Road. Meet the team, explore the rooms, and discuss sessions, fees and funded childcare."
+    }
+  },
+  {
+    "slug": "register",
+    "title": "Registration",
+    "path": "/register",
+    "content": {
+      "copy": {
+        "joinBeckettHouse": "Join Beckett House",
+        "registerYourChild": "Register your child.",
+        "chooseYourNurseryTellUsAboutYour": "Choose your nursery, tell us about your child and the sessions you need, then review the registration terms.",
+        "angel": "Angel",
+        "abbeyRoad": "Abbey Road",
+        "registrationForm": "Registration form",
+        "childsFullName": "Child's full name ",
+        "text": "*",
+        "dateOfBirth": "Date of birth ",
+        "mothersFullName": "Mother's full name ",
+        "mothersMobileNumber": "Mother's mobile number ",
+        "fathersFullName": "Father's full name ",
+        "fathersMobileNumber": "Father's mobile number ",
+        "email": "Email ",
+        "homeAddress": "Home address",
+        "homePhone": "Home phone",
+        "plannedStartingDate": "Planned starting date ",
+        "attendanceRequired": "Attendance required",
+        "text2": "(",
+        "text3": ")",
+        "wellUseTheseDetailsToProcessYour": "We’ll use these details to process your registration. See our ",
+        "privacyNotice": "privacy notice",
+        "text4": ".",
+        "beforeYouRegister": "Before you register",
+        "registrationProcess": "Registration process",
+        "a75RegistrationFeeIsRequiredWhen": "A £75 registration fee is required when applying for a place. It is non-refundable and does not guarantee a place. The registration fee is not applicable to funded places.",
+        "placesAreSecuredByADepositOf": "Places are secured by a deposit of four weeks' fees.",
+        "registrationAndTerms": "Registration and terms",
+        "text5": "+"
+      },
+      "registration": {
+        "angel": {
+          "name": "Angel",
+          "email": "info@beckett-house.co.uk",
+          "morning": "8am to 1pm",
+          "afternoon": "1pm to 6pm",
+          "terms": [
+            {
+              "title": "Admission Policy",
+              "paragraphs": [
+                "Beckett House Limited (the school) accepts children between the ages of two and five."
+              ]
+            },
+            {
+              "title": "Registration",
+              "paragraphs": [
+                "A registration fee of £75 is required when applying for a place. If you wish your child to be placed on our waiting list please complete the attached registration form and return it with this fee.",
+                "This is not refundable and does not guarantee a place. The registration fee is not applicable to funded places."
+              ]
+            },
+            {
+              "title": "Deposits, Refunds and Notice of leaving",
+              "paragraphs": [
+                "A deposit of a multiple of 4 weeks’ fees will be due on the date a place is offered and its payment will secure a child’s place. Until the deposit is paid the place will be offered to others. (If your child increases their time we may request an increase of this deposit). Provided we have received a whole term’s written notice of your child leaving this deposit will be refunded, plus or minus any adjustments, by the end of the month after the end of term. A deposit cannot be refunded if a child does not start at Beckett House."
+              ]
+            },
+            {
+              "title": "Fees",
+              "paragraphs": [
+                "Fees are due in full at the beginning of each term. However, we offer the option to pay by instalments during the term at dates and intervals determined by Beckett House. Refunds cannot be made if a child starts the term late, finishes early, reduces their hours or does not attend school for any other reason including illness. If an instalment is missed the remainder of the fees for the whole term will be due. The school reserves the right to retain deposits and where relevant any Working Parents Entitlements in lieu of unpaid fees. (Any expense incurred by the school in the recovery of unpaid fees will be paid by the parent) No child will be allowed to remain at school if fees are unpaid.",
+                "The rate for which you contract will be that pertaining at the date of your child’s enrolment (The date you pay the deposit). Apart from exceptional circumstances, this rate will not increase during your child’s time at school."
+              ]
+            },
+            {
+              "title": "Holidays and school closures",
+              "paragraphs": [
+                "The school closes for two weeks at Christmas, plus the bank holidays; and two weeks in the summer. Parents will be advised of the dates as early as possible. No deductions can be given for holidays taken outside the school holiday dates. The school will also close for a) the few bank holidays that remain, some of which may occur during the holidays and will be taken in lieu and b) three inset training days per year which are a stipulation of the Council and are required in order for parents of children over the age of 3 to receive the Working Parents Entitlements. None of these are refundable."
+              ]
+            },
+            {
+              "title": "Term dates and opening hours",
+              "paragraphs": [
+                "Beckett House is open from 8.00am - 6.00pm. Full day care is from 8.00am - 6.00pm, Mornings are from 8.00am - 1pm and afternoons are from 1pm – 6.00pm. It is important that these times are adhered to so as not to interrupt the routine of the children.",
+                "Beckett House reserves the right to alter timetables without notice."
+              ]
+            },
+            {
+              "title": "Collection",
+              "paragraphs": [
+                "No child will be allowed to leave the school with anyone who is not known to a member of the staff. The school must be given specific instructions for any changes. There can be no exception to this rule in the interest of the safety of your children"
+              ]
+            },
+            {
+              "title": "Collection Times",
+              "paragraphs": [
+                "Must be adhered to. Parents are expected to telephone and advise the school if they will be late. In the case of late collection, other than by arrangement, the school reserves the right to charge £5.00 per minute for persistent late collections."
+              ]
+            },
+            {
+              "title": "Settling-in period",
+              "paragraphs": [
+                "Prior to your child’s start date they can attend free of charge for short periods. (Usually a day or two during the final weeks of the previous term). This eases their settling into the school routine. A parent or guardian must attend with the child (It may be possible to leave the child as part of this process for short periods and with the agreement of the staff)."
+              ]
+            },
+            {
+              "title": "Attendance",
+              "paragraphs": [
+                "Parents are requested to notify the school by 9 am if their child is unable to attend."
+              ]
+            },
+            {
+              "title": "Illness",
+              "paragraphs": [
+                "If a child becomes ill during the day, the parents will be notified promptly and the child will be cared for until a parent or designated person comes to pick up the child. Parents are requested to inform the school if their child has been in contact with any infectious diseases."
+              ]
+            },
+            {
+              "title": "Emergency Medical Treatment",
+              "paragraphs": [
+                "In the event of an accident or illness requiring immediate medical treatment, the school is responsible for obtaining such treatment for the child. Parents and, if necessary, the child’s own doctor are promptly notified. The school has its own doctor: Dr Mills, Ritchie Street Practice, London, N1 0DG. In the event an ambulance is called and the child taken to hospital they will be accompanied by a member of staff and parents will be informed to which hospital their child has been taken."
+              ]
+            },
+            {
+              "title": "Medication",
+              "paragraphs": [
+                "It is not permitted for the school staff to administer medicine to children without consent and instruction. If regular medication is vital to the child’s well being, arrangements will be made to seek special permission. Instructions to the staff must be made in writing quoting specific dosage and times. No verbal instructions can be accepted."
+              ]
+            },
+            {
+              "title": "Allergies and General Health",
+              "paragraphs": [
+                "Before your child is due to start, a health questionnaire will be sent to you regarding their well-being and any allergies they may have. This must be completed and handed in on or before the day your child starts.",
+                "The school must be alerted to any new allergies should they develop."
+              ]
+            },
+            {
+              "title": "Clothing",
+              "paragraphs": [
+                "The children should wear comfortable, washable clothes that are easy for the children to manage. All clothing must be named. Parents are requested to supply their child with a fabric shoe bag, slippers, toothbrush and a set of spare clothes including nappies where relevant. The school cannot be held responsible for loss of, or damage to, property or clothing. Children should not bring money or expensive toys to the nursery, though favourite toys will never be discouraged."
+              ]
+            },
+            {
+              "title": "Meals",
+              "paragraphs": [
+                "Home-cooked meals for lunch are provided by the school. Snacks consist of fresh fruit, dried fruit, low-sugar biscuits, milk and water. Parents must inform the school if their child has any special dietary requirements or allergies. Sweets or crisps will not be offered and parents are asked not to allow their children to bring them to school"
+              ]
+            },
+            {
+              "title": "Notice board",
+              "paragraphs": [
+                "We would draw your attention to the notice board in the school entrance. Should you have a notice which you would like to display, please feel free to bring it to the school"
+              ]
+            },
+            {
+              "title": "Observations, Parents’ Meetings & Events",
+              "paragraphs": [
+                "Parents are welcome to observe their children and any of the school’s activities at any time. We would, however, welcome prior notice of this. Parents’ interviews which are one-to-one with your child’s key teacher are held twice a year in the Spring and Autumn terms. An Open Day is held in the summer for all the family and friends. There is a nativity play every Christmas."
+              ]
+            },
+            {
+              "title": "Education",
+              "paragraphs": [
+                "The school adopts the Montessori approach to education that shares the underlying principles of the Early Years’ Foundation Stage (EYFS) whilst promoting children’s welfare needs."
+              ]
+            }
+          ]
+        },
+        "abbey-road": {
+          "name": "Abbey Road",
+          "email": "abbeyroad@beckett-house.co.uk",
+          "morning": "8am to 1pm",
+          "afternoon": "1pm to 6pm",
+          "terms": [
+            {
+              "title": "Admission Policy",
+              "paragraphs": [
+                "Beckett House Limited (the school) accepts children between the ages of 3 months and 5."
+              ]
+            },
+            {
+              "title": "Registration",
+              "paragraphs": [
+                "A registration fee of £75 is required when applying for a place. If you wish your child to be placed on our waiting list please complete the attached registration form and return it with this fee.",
+                "This is not refundable and does not guarantee a place. The registration fee is not applicable to funded places."
+              ]
+            },
+            {
+              "title": "Deposits, Refunds and Notice of leaving",
+              "paragraphs": [
+                "A deposit of a multiple of 4 weeks’ fees will be due on the date a place is offered and its payment will secure a child’s place. Until the deposit is paid the place will be offered to others. (If your child increases their time we may request an increase of this deposit). Provided we have received a whole term’s written notice of your child leaving this deposit will be refunded, plus or minus any adjustments, by the end of the month after the end of term. A deposit cannot be refunded if a child does not start at Beckett House."
+              ]
+            },
+            {
+              "title": "Fees",
+              "paragraphs": [
+                "Fees are due in full at the beginning of each term. However, we offer the option to pay by instalments during the term at dates and intervals determined by Beckett House. Refunds cannot be made if a child starts the term late, finishes early, reduces their hours or does not attend school for any other reason including illness. If an instalment is missed the remainder of the fees for the whole term will be due. The school reserves the right to retain deposits and where relevant any Working Parents Entitlements in lieu of unpaid fees. (Any expense incurred by the school in the recovery of unpaid fees will be paid by the parent) No child will be allowed to remain at school if fees are unpaid.",
+                "The rate for which you contract will be that pertaining at the date of your child’s enrolment (The date you pay the deposit). Apart from exceptional circumstances, this rate will not increase during your child’s time at school."
+              ]
+            },
+            {
+              "title": "Holidays and school closures",
+              "paragraphs": [
+                "The school closes for two weeks at Christmas, plus the bank holidays. Parents will be advised of the dates as early as possible. No deductions can be given for holidays taken outside the school holiday dates. The school will also close for a) the few bank holidays that remain, some of which may occur during the holidays and will be taken in lieu and b) three inset training days per year which are a stipulation of the Council and are required in order for parents of children over the age of 3 to receive the Working Parents Entitlements. None of these are refundable."
+              ]
+            },
+            {
+              "title": "Term dates and opening hours",
+              "paragraphs": [
+                "Beckett House is open from 8.00am - 6.00pm. Full day care is from 8.00am - 6.00pm, Mornings are from 8.00am - 1pm and afternoons are from 1pm – 6.00pm. It is important that these times are adhered to so as not to interrupt the routine of the children.",
+                "Beckett House reserves the right to alter timetables without notice."
+              ]
+            },
+            {
+              "title": "Collection",
+              "paragraphs": [
+                "No child will be allowed to leave the school with anyone who is not known to a member of the staff. The school must be given specific instructions for any changes. There can be no exception to this rule in the interest of the safety of your children"
+              ]
+            },
+            {
+              "title": "Collection Times",
+              "paragraphs": [
+                "Must be adhered to. Parents are expected to telephone and advise the school if they will be late. In the case of late collection, other than by arrangement, the school reserves the right to charge £5.00 per minute for persistent late collections."
+              ]
+            },
+            {
+              "title": "Settling-in period",
+              "paragraphs": [
+                "Prior to your child’s start date they can attend free of charge for short periods. (Usually a day or two during the final weeks of the previous term). This eases their settling into the school routine. A parent or guardian must attend with the child (It may be possible to leave the child as part of this process for short periods and with the agreement of the staff)."
+              ]
+            },
+            {
+              "title": "Attendance",
+              "paragraphs": [
+                "Parents are requested to notify the school by 9 am if their child is unable to attend."
+              ]
+            },
+            {
+              "title": "Illness",
+              "paragraphs": [
+                "If a child becomes ill during the day, the parents will be notified promptly and the child will be cared for until a parent or designated person comes to pick up the child. Parents are requested to inform the school if their child has been in contact with any infectious diseases."
+              ]
+            },
+            {
+              "title": "Emergency Medical Treatment",
+              "paragraphs": [
+                "In the event of an accident or illness requiring immediate medical treatment, the school is responsible for obtaining such treatment for the child. Parents and, if necessary, the child’s own doctor are promptly notified. The school has its own doctor: Dr Mills, Ritchie Street Practice, London, N1 0DG. In the event an ambulance is called and the child taken to hospital they will be accompanied by a member of staff and parents will be informed to which hospital their child has been taken."
+              ]
+            },
+            {
+              "title": "Medication",
+              "paragraphs": [
+                "It is not permitted for the school staff to administer medicine to children without consent and instruction. If regular medication is vital to the child’s well being, arrangements will be made to seek special permission. Instructions to the staff must be made in writing quoting specific dosage and times. No verbal instructions can be accepted."
+              ]
+            },
+            {
+              "title": "Allergies and General Health",
+              "paragraphs": [
+                "Before your child is due to start, a health questionnaire will be sent to you regarding their well-being and any allergies they may have. This must be completed and handed in on or before the day your child starts.",
+                "The school must be alerted to any new allergies should they develop."
+              ]
+            },
+            {
+              "title": "Clothing",
+              "paragraphs": [
+                "The children should wear comfortable, washable clothes that are easy for the children to manage. All clothing must be named. Parents are requested to supply their child with a fabric shoe bag, slippers, toothbrush and a set of spare clothes including nappies where relevant. The school cannot be held responsible for loss of, or damage to, property or clothing. Children should not bring money or expensive toys to the nursery, though favourite toys will never be discouraged."
+              ]
+            },
+            {
+              "title": "Meals",
+              "paragraphs": [
+                "Home-cooked meals for lunch are provided by the school. Snacks consist of fresh fruit, dried fruit, low-sugar biscuits, milk and water. Parents must inform the school if their child has any special dietary requirements or allergies. Sweets or crisps will not be offered and parents are asked not to allow their children to bring them to school"
+              ]
+            },
+            {
+              "title": "Notice board",
+              "paragraphs": [
+                "We would draw your attention to the notice board in the school entrance. Should you have a notice which you would like to display, please feel free to bring it to the school"
+              ]
+            },
+            {
+              "title": "Observations, Parents’ Meetings & Events",
+              "paragraphs": [
+                "Parents are welcome to observe their children and any of the school’s activities at any time. We would, however, welcome prior notice of this. Parents’ interviews which are one-to-one with your child’s key teacher are held twice a year in the Spring and Autumn terms. An Open Day is held in the summer for all the family and friends. There is a nativity play every Christmas."
+              ]
+            },
+            {
+              "title": "Education",
+              "paragraphs": [
+                "The school adopts the Montessori approach to education that shares the underlying principles of the Early Years’ Foundation Stage (EYFS) whilst promoting children’s welfare needs."
+              ]
+            }
+          ]
+        }
+      },
+      "seoTitle": "Register Your Child",
+      "seoDescription": "Register your child with Beckett House Montessori in Angel or Abbey Road and review the nursery registration terms."
+    }
+  },
+  {
+    "slug": "privacy",
+    "title": "Privacy notice",
+    "path": "/privacy",
+    "content": {
+      "copy": {
+        "privacyCookies": "Privacy & cookies",
+        "thisNoticeExplainsHowBeckettHouseLimited": "This notice explains how Beckett House Limited (“Beckett House”, “we”, “us”) collects and uses personal information when you use this website, ask to visit, or register your child at our Angel or Abbey Road nursery.",
+        "lastUpdated": "Last updated ",
+        "whoWeAre": "Who we are",
+        "beckettHouseLimitedIsTheDataController": "Beckett House Limited is the data controller for the personal information described here. If you have any questions about this notice or your information, contact us:",
+        "angel": "Angel: ",
+        "infobecketthousecouk": "info@beckett-house.co.uk",
+        "text0207278882498RichmondAvenueLondon": ", 020 7278 8824, 98 Richmond Avenue, London N1 0LL",
+        "abbeyRoad": "Abbey Road: ",
+        "abbeyroadbecketthousecouk": "abbeyroad@beckett-house.co.uk",
+        "text02045687042AbbeyHive8486Abbey": ", 020 4568 7042, Abbey Hive, 84–86 Abbey Road, London NW8 0QA",
+        "whatWeCollect": "What we collect",
+        "whenYouBookAVisit": "When you book a visit",
+        "yourNameEmailAddressTheNurseryYoure": "Your name, email address, the nursery you’re interested in, your child’s age and anything you include in your message.",
+        "whenYouRegisterYourChild": "When you register your child",
+        "yourChildsFullNameAndDateOf": "Your child’s full name and date of birth; each parent or carer’s name and mobile number; your email address, home address and home phone number; the start date you’d like; and the sessions you’d like your child to attend.",
+        "whenYouBrowseTheWebsite": "When you browse the website",
+        "technicalInformationSuchAsYourIPAddress": "Technical information such as your IP address, browser and device, which our hosting and security providers need to deliver the site and protect it from abuse. If you accept analytics cookies, we also collect information about how you use the site (see ",
+        "cookies": "Cookies",
+        "text": ").",
+        "howWeUseItAndOurLawful": "How we use it, and our lawful basis",
+        "toReplyToYourEnquiryAndArrange": "To reply to your enquiry and arrange a visit.",
+        "thisIsInOurLegitimateInterestsIn": " This is in our legitimate interests in responding to people who contact us, and the steps you ask us to take before entering into a contract.",
+        "toProcessARegistrationAndIfA": "To process a registration and, if a place is offered, to provide childcare.",
+        "thisIsNecessaryToTakeStepsTowards": " This is necessary to take steps towards, and then perform, our contract with you.",
+        "toMeetOurLegalObligations": "To meet our legal obligations",
+        "forExampleUnderTheEarlyYearsFoundation": ", for example under the Early Years Foundation Stage and Ofsted requirements once your child attends.",
+        "toKeepTheWebsiteSecure": "To keep the website secure",
+        "andStopSpamWhichIsInOur": " and stop spam, which is in our legitimate interests.",
+        "toUnderstandHowTheWebsiteIsUsed": "To understand how the website is used",
+        "soWeCanImproveItOnlyIf": " so we can improve it, only if you consent to analytics cookies.",
+        "weSendYouAnAutomaticEmailConfirming": "We send you an automatic email confirming what you submitted. We don’t sell your information or use it for marketing without your permission.",
+        "whoWeShareItWith": "Who we share it with",
+        "onlyTheNurseryTeamHandlesYourEnquiry": "Only the nursery team handles your enquiry or registration. We use a small number of service providers who process information on our behalf, under contract and only on our instructions:",
+        "cloudflare": "Cloudflare",
+        "hostsTheWebsiteAndProvidesTurnstileWhich": " hosts the website and provides Turnstile, which checks that forms are sent by a person rather than a bot.",
+        "resend": "Resend",
+        "sendsTheFormEmailsToTheNursery": " sends the form emails to the nursery and your confirmation email. Emails are sent from its European (Ireland) region.",
+        "google": "Google",
+        "storesFormSubmissionsInGoogleSheetsFor": " stores form submissions in Google Sheets for the nursery team, provides Google Analytics if you consent, and supplies the maps and the website’s font.",
+        "someOfTheseProvidersAreBasedIn": "Some of these providers are based in, or may access information from, the United States. Where information leaves the UK, it’s protected by the UK’s adequacy arrangements (including the UK–US Data Bridge) or by the UK International Data Transfer Addendum to the standard contractual clauses.",
+        "weMayAlsoShareInformationWhereThe": "We may also share information where the law requires it, for example with Ofsted or the local authority, including for funded childcare.",
+        "howLongWeKeepIt": "How long we keep it",
+        "visitRequestsUpTo12MonthsAfter": "Visit requests: up to 12 months after our last contact, unless you go on to register.",
+        "registrationsThatDontLeadToAPlace": "Registrations that don’t lead to a place: up to 12 months after the planned start date.",
+        "onceYourChildAttendsTheirRecordsAre": "Once your child attends, their records are kept for the periods set out in our nursery data protection and record-keeping policy, which follows statutory guidance.",
+        "analyticsDataUpTo14Months": "Analytics data: up to 14 months.",
+        "yourRights": "Your rights",
+        "youCanAskUsForACopy": "You can ask us for a copy of your information, to correct it, to delete it, to restrict or object to how we use it, or to move it to another provider. Where we rely on your consent, you can withdraw it at any time. To make a request, contact the nursery using the details above. We’ll reply within one month.",
+        "ifYoureUnhappyWithHowWeveHandled": "If you’re unhappy with how we’ve handled your information, please tell us first so we can put it right. You can also complain to the Information Commissioner’s Office at ",
+        "icoorguk": "ico.org.uk",
+        "orOn03031231113": " or on 0303 123 1113.",
+        "cookiesAndSimilarStorage": "Cookies and similar storage",
+        "weOnlyUseAnalyticsCookiesIfYou": "We only use analytics cookies if you choose Accept on our cookie banner. Everything else is needed for the site to work.",
+        "name": "Name",
+        "purpose": "Purpose",
+        "type": "Type",
+        "lasts": "Lasts",
+        "ga": "_ga",
+        "text2": ", ",
+        "ga2": "_ga_*",
+        "googleAnalyticsCountsVisitsAndShowsHow": "Google Analytics: counts visits and shows how the site is used",
+        "analyticsOnlyWithConsent": "Analytics, only with consent",
+        "upTo2Years": "Up to 2 years",
+        "bhanalyticsconsent": "bh_analytics_consent",
+        "remembersYourCookieChoice": "Remembers your cookie choice",
+        "essentialBrowserStorage": "Essential (browser storage)",
+        "untilYouClearIt": "Until you clear it",
+        "bhpreferrednursery": "bh_preferred_nursery",
+        "remembersWhichNurseryYouChoseSoThe": "Remembers which nursery you chose so the site shows the right information",
+        "essentialCookieAndBrowserStorage": "Essential (cookie and browser storage)",
+        "text1Year": "1 year",
+        "bhpendinglead": "bh_pending_lead",
+        "recordsAFormSubmissionOnTheThankyou": "Records a form submission on the thank-you page, only if you accepted analytics",
+        "sessionStorage": "Session storage",
+        "untilYouCloseTheTab": "Until you close the tab",
+        "cloudflareTurnstile": "Cloudflare Turnstile",
+        "checksFormsAreSentByAPerson": "Checks forms are sent by a person, not a bot",
+        "essentialSecurity": "Essential (security)",
+        "session": "Session",
+        "googleMapsMaySetItsOwnCookies": "Google Maps may set its own cookies when a map is shown. You can change your analytics choice at any time:",
+        "changesToThisNotice": "Changes to this notice",
+        "wellUpdateThisPageIfTheWay": "We’ll update this page if the way we use personal information changes. The date at the top shows when it was last revised. See also our ",
+        "registrationTerms": "registration terms",
+        "text3": "."
+      },
+      "seoTitle": "Privacy & Cookies",
+      "seoDescription": "How Beckett House Montessori collects, uses and protects personal information from our website, visit requests and registrations, and how we use cookies."
+    }
+  },
+  {
+    "slug": "thank-you",
+    "title": "Confirmation pages",
+    "path": "/thank-you",
+    "content": {
+      "copy": {
+        "the": " The ",
+        "teamWillContactYouUsuallyWithinTwo": " team will contact you, usually within two working days.",
+        "whatHappensNext": "What happens next",
+        "cantSeeOurEmailCheckYourSpam": "Can’t see our email? Check your spam or junk folder.",
+        "seeTheNursery": "See the nursery",
+        "text": "→",
+        "backToHome": "Back to home",
+        "anyQuestions": "Any questions?",
+        "text2": ", "
+      },
+      "confirmation": {
+        "visit": {
+          "eyebrow": "Visit request received",
+          "title": "Thank you, we’ll be in touch soon.",
+          "intro": "We’ve emailed you a copy of your request.",
+          "steps": [
+            "The nursery team reads your request",
+            "We get in touch, usually within two working days, to arrange a time",
+            "You visit, meet the team and see the rooms"
+          ]
+        },
+        "register": {
+          "eyebrow": "Registration received",
+          "title": "Thank you for registering.",
+          "intro": "We’ve emailed you a copy of your registration.",
+          "steps": [
+            "The nursery team reviews your registration",
+            "We get in touch, usually within two working days, about availability",
+            "We confirm your child’s place and starting date"
+          ]
+        }
+      },
+      "seoTitle": "Thank you",
+      "seoDescription": "Thank you for getting in touch with Beckett House Montessori."
+    }
+  },
+  {
+    "slug": "site",
+    "title": "Shared navigation and forms",
+    "path": "/",
+    "content": {
+      "copy": {
+        "takingRegistrations": "Taking registrations",
+        "registering": "Registering",
+        "for2026": " for 2026",
+        "arrangeAVisit": "Arrange a visit",
+        "bookAVisit": "Book a visit",
+        "aFamilyrunMontessoriNurseryInAngelAnd": "A family-run Montessori nursery in Angel and Abbey Road, London.",
+        "leaveUsA": "Leave us a",
+        "reviewOnGoogle": "review on Google",
+        "explore": "Explore",
+        "ourApproach": "Our approach",
+        "angel": "Angel",
+        "abbeyRoad": "Abbey Road",
+        "visit": "Visit ",
+        "text": ", ",
+        "text2": "© ",
+        "beckettHouseMontessori": " Beckett House Montessori",
+        "learningWithHeadHandsHeart": "Learning with head, hands & heart.",
+        "privacyCookies": "Privacy & cookies",
+        "cookieSettings": "Cookie settings",
+        "interactiveMapDragOrPinchToExplore": "Interactive map · drag or pinch to explore",
+        "viewInGoogleMaps": "View in Google Maps",
+        "beckettHouseAngelAndAbbeyRoad": "Beckett House Angel and Abbey Road:",
+        "text3": " · ",
+        "googleMaps": "Google Maps",
+        "switchSchoolsHere": "Switch schools here",
+        "menu": "Menu",
+        "ourNurseries": "Our nurseries",
+        "aboutUs": "About us",
+        "keyInformation": "Key information",
+        "virtualTour": "Virtual Tour",
+        "gallery": "Gallery",
+        "backToBeckettHouse": "Back to Beckett House",
+        "interactive360Tour": "Interactive 360° tour",
+        "stepInside": "Step inside ",
+        "text4": ".",
+        "explore2": "Explore ",
+        "realSpacesAtYourOwnPace": " real spaces at your own pace.",
+        "startExploring": "Start exploring",
+        "text360": "360°",
+        "movingRooms": "Moving rooms…",
+        "weCouldntOpenThisRoom": "We couldn't open this room.",
+        "pleaseTryAnotherRoomOrRefreshThe": "Please try another room or refresh the page.",
+        "text5": "+",
+        "yourName": "Your name",
+        "emailAddress": "Email address",
+        "phoneNumber": "Phone number",
+        "preferredNursery": "Preferred nursery",
+        "childsAge": "Child's age",
+        "anythingWeShouldKnow": "Anything we should know?",
+        "wellUseYourDetailsToReplyTo": "We’ll use your details to reply to your request. See our ",
+        "privacyNotice": "privacy notice"
+      },
+      "photos": {
+        "photo1": {
+          "src": "/images/beckett-house-logo-dark.svg",
+          "alt": "",
+          "width": "1428",
+          "height": "1071"
+        },
+        "photo2": {
+          "src": "/images/meab-accreditation.avif",
+          "alt": "Montessori Evaluation and Accreditation Board accreditation",
+          "width": 137,
+          "height": 63
+        },
+        "photo3": {
+          "src": "/images/meab.avif",
+          "alt": "MEAB",
+          "width": 63,
+          "height": 63
+        },
+        "photo4": {
+          "src": "/images/ofsted.avif",
+          "alt": "Ofsted",
+          "width": 74,
+          "height": 74
+        },
+        "photo5": {
+          "src": "/images/food-hygiene.avif",
+          "alt": "Food hygiene rating",
+          "width": 101,
+          "height": 52
+        },
+        "photo6": {
+          "src": "/images/beckett-house-logo-light.svg",
+          "alt": "Beckett House Montessori",
+          "width": "1428",
+          "height": "1071"
+        },
+        "photo7": {
+          "src": "/images/beckett-house-logo-dark.svg",
+          "alt": "Beckett House Montessori",
+          "width": 1428,
+          "height": 1071
+        }
+      },
+      "locations": [
+        {
+          "slug": "angel",
+          "name": "Angel",
+          "area": "Barnsbury, Islington",
+          "strapline": "A home from home where your children learn.",
+          "ages": "2–5 years",
+          "ageDetail": "A calm mixed-age preschool community for children aged 2 to 5.",
+          "address": "98 Richmond Avenue, Barnsbury, Islington, London",
+          "streetAddress": "98 Richmond Avenue",
+          "addressLocality": "Islington",
+          "postcode": "N1 0LL",
+          "email": "info@beckett-house.co.uk",
+          "phone": "020 7278 8824",
+          "phoneHref": "+442072788824",
+          "mapsUrl": "https://www.google.com/maps?cid=12467953049128823895",
+          "ofstedUrl": "https://reports.ofsted.gov.uk/provider/16/131668",
+          "panoramaLabels": [
+            {
+              "name": "Main classroom",
+              "description": "The heart of our Angel setting"
+            },
+            {
+              "name": "Montessori work-cycle zone",
+              "description": "Materials prepared at a child’s height"
+            },
+            {
+              "name": "Home corner",
+              "description": "A calm place for independent work"
+            },
+            {
+              "name": "Practical Life and Sensorial",
+              "description": "Room to choose, concentrate and explore"
+            }
+          ]
+        },
+        {
+          "slug": "abbey-road",
+          "name": "Abbey Road",
+          "area": "St John’s Wood",
+          "strapline": "A new home from home where your children learn.",
+          "ages": "3 months–5 years",
+          "ageDetail": "Dedicated baby, toddler and preschool rooms, growing with children from 3 months to 5 years.",
+          "address": "Abbey Hive, 84–86 Abbey Road, London",
+          "streetAddress": "Abbey Hive, 84–86 Abbey Road",
+          "addressLocality": "St John's Wood",
+          "postcode": "NW8 0QA",
+          "email": "abbeyroad@beckett-house.co.uk",
+          "phone": "020 4568 7042",
+          "phoneHref": "+442045687042",
+          "mapsUrl": "https://www.google.com/maps/place/84-86+Abbey+Rd.,+London+NW8+0QA/data=!4m2!3m1!1s0x48761a9ef8f878d7:0x82948ec9092e97b7",
+          "ofstedUrl": "https://reports.ofsted.gov.uk/provider/16/2893397",
+          "panoramaLabels": [
+            {
+              "name": "Welcome lobby",
+              "description": "The entrance to our Abbey Road setting"
+            },
+            {
+              "name": "Montessori Classroom",
+              "description": "An open room prepared for discovery"
+            },
+            {
+              "name": "Baby room",
+              "description": "A warm, calm space for our youngest children"
+            },
+            {
+              "name": "Practical life area",
+              "description": "Everyday activities made child-sized"
+            },
+            {
+              "name": "Sleep room",
+              "description": "A quiet, restful space for naps"
+            },
+            {
+              "name": "Sensorial",
+              "description": "Materials that refine the senses"
+            },
+            {
+              "name": "Culture area",
+              "description": "Materials that open up the wider world"
+            },
+            {
+              "name": "Kitchen",
+              "description": "Where nourishing meals are prepared"
+            },
+            {
+              "name": "Children’s bathroom",
+              "description": "Designed to support everyday independence"
+            },
+            {
+              "name": "Entrance",
+              "description": "Arriving at our Abbey Road setting"
+            }
+          ]
+        }
+      ],
+      "menus": {
+        "navItems": [
+          {
+            "title": "FAQ",
+            "href": "/faq"
+          },
+          {
+            "title": "Register",
+            "href": "/register"
+          }
+        ],
+        "aboutItems": [
+          {
+            "title": "About Beckett House",
+            "href": "/beckett-house",
+            "image": "/images/abbey-road/alphabet-carpet.webp",
+            "description": "Get to know our family-run, Montessori-accredited preschool, individual care and home-cooked food."
+          },
+          {
+            "title": "History",
+            "href": "/history",
+            "image": "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp",
+            "description": "Discover our beginnings in Barnsbury in 1996 and the home-from-home care that sets Beckett House apart."
+          },
+          {
+            "title": "About Montessori",
+            "href": "/montessori",
+            "image": "/images/angel/montessori-nursery-angel-sensorial-corner.webp",
+            "description": "Explore Montessori’s prepared environment, hands-on materials and freedom to learn independently."
+          }
+        ],
+        "nurseryLifeItems": [
+          {
+            "title": "Virtual Tour",
+            "href": "/virtual-tour",
+            "image": "/images/angel/montessori-nursery-angel-classroom-reading-area.webp",
+            "description": "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces."
+          },
+          {
+            "title": "Gallery",
+            "href": "/gallery",
+            "image": "/images/abbey-road/main-room-2.webp",
+            "description": "Browse photos of our Angel and Abbey Road classrooms and spaces."
+          }
+        ],
+        "timetableItems": [
+          {
+            "title": "Daily timetable",
+            "href": "/timetable?location=angel",
+            "image": "/images/angel/montessori-nursery-angel-classroom-planets.webp",
+            "description": "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time."
+          },
+          {
+            "title": "Term dates",
+            "href": "/timetable?location=angel#term-dates",
+            "image": "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp",
+            "description": "Plan ahead with Angel’s nursery term dates and the start and end of each term."
+          },
+          {
+            "title": "Opening Hours & Fees",
+            "href": "/opening-hours-fees",
+            "image": "/images/angel/montessori-nursery-angel-snack-tables.webp",
+            "description": "Explore nursery opening hours, flexible sessions, fees and funded childcare options."
+          }
+        ],
+        "abbeyRoadTimetableItems": [
+          {
+            "title": "Daily timetable",
+            "href": "/timetable?location=abbey-road",
+            "image": "/images/abbey-road/main-room.webp",
+            "description": "Explore Abbey Road’s morning, afternoon and full-day session times."
+          },
+          {
+            "title": "Term dates",
+            "href": "/timetable?location=abbey-road#abbey-road-term-dates",
+            "image": "/images/abbey-road/reading-corner.webp",
+            "description": "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term."
+          },
+          {
+            "title": "Opening Hours & Fees",
+            "href": "/opening-hours-fees",
+            "image": "/images/angel/montessori-nursery-angel-snack-tables.webp",
+            "description": "Explore nursery opening hours, flexible sessions, fees and funded childcare options."
+          }
+        ]
+      }
+    }
+  }
+]

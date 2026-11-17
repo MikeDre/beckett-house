@@ -8,8 +8,10 @@ const { r2 } = hostingConfig;
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
+const visualPreview = process.env.BECKETT_VISUAL_PREVIEW === "true";
+
 const localBindingConfig = {
-  name: "beckett-house-montessori",
+  name: visualPreview ? "beckett-house-preview" : "beckett-house-montessori",
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
   // Lets worker/index.ts read static files (used to serve responsive image copies).
@@ -18,12 +20,14 @@ const localBindingConfig = {
   workers_dev: true,
   preview_urls: true,
   // The live domain. www is canonical; the worker redirects the bare domain to it.
-  routes: [
+  routes: visualPreview ? [] : [
     { pattern: "www.beckett-house.co.uk", custom_domain: true },
     { pattern: "beckett-house.co.uk", custom_domain: true },
   ],
   // Public Access identifiers; JWTs are verified again inside the Worker.
   vars: {
+    SANITY_CONTENT_ENABLED: process.env.BECKETT_SANITY_ENABLED === "false" ? "false" : "true",
+    SANITY_VISUAL_PREVIEW: visualPreview ? "true" : "false",
     CLOUDINARY_CLOUD_NAME: "nwfeapre",
     CLOUDINARY_API_KEY: "833191338232478",
     ACCESS_TEAM_DOMAIN: "newnuevo.cloudflareaccess.com",

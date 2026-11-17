@@ -1,0 +1,13 @@
+import ts from 'typescript';import {readFile,writeFile} from 'node:fs/promises';
+const file='app/components.tsx';let source=await readFile(file,'utf8');const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+const names=['navItems','aboutItems','nurseryLifeItems','timetableItems','abbeyRoadTimetableItems'];const snippets=[];
+function visit(node){if(ts.isVariableDeclaration(node)&&names.includes(node.name.getText(ast)))snippets.push('const '+node.name.getText(ast)+'='+node.initializer.getText(ast)+';');ts.forEachChild(node,visit)}visit(ast);
+const menus=Function(snippets.join('\n')+'return {'+names.join(',')+'};')();
+const models=JSON.parse(await readFile('lib/sanity/content-model.json','utf8'));models.find(m=>m.slug==='site').content.menus=menus;
+await writeFile('lib/sanity/content-model.json',JSON.stringify(models,null,2)+'\n');
+for(const name of names)source=source.replaceAll(name,'default'+name[0].toUpperCase()+name.slice(1));
+const defaults='{'+names.map(name=>name+':default'+name[0].toUpperCase()+name.slice(1)).join(',')+'}';
+const prefix='\n  const {'+names.join(',')+'}=useCmsContent("site",{menus:'+defaults+'}).menus;';
+source=source.replace('export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abbey-road" } = {}) {',match=>match+prefix);
+source=source.replace('  const homepageContent = homepage ?',prefix+'\n  const homepageContent = homepage ?');
+await writeFile(file,source);

@@ -1,3 +1,6 @@
+import {getSanityContent as readSeoContent} from "../../lib/sanity/server";
+
+import {CmsText} from "../cms-content";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../components";
 import {
@@ -14,7 +17,7 @@ const title = "Register Your Child";
 const description =
   "Register your child with Beckett House Montessori in Angel or Abbey Road and review the nursery registration terms.";
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/register" },
@@ -56,12 +59,10 @@ export default function RegisterPage() {
       <SiteHeader />
       <main>
         <section className="register-hero">
-          <p className="eyebrow">Join Beckett House</p>
-          <h1>Register your child.</h1>
+          <p className="eyebrow"><CmsText page="register" field="copy.joinBeckettHouse" fallback={"Join Beckett House"} /></p>
+          <h1><CmsText page="register" field="copy.registerYourChild" fallback={"Register your child."} /></h1>
           <p>
-            Choose your nursery, tell us about your child and the sessions you
-            need, then review the registration terms.
-          </p>
+            <CmsText page="register" field="copy.chooseYourNurseryTellUsAboutYour" fallback={"Choose your nursery, tell us about your child and the sessions you need, then review the registration terms."} /></p>
         </section>
         <RegistrationPage />
       </main>
@@ -72,4 +73,11 @@ export default function RegisterPage() {
       />
     </>
   );
+}
+
+export async function generateMetadata():Promise<Metadata> {
+ const content=await readSeoContent<{seoTitle?:string;seoDescription?:string}>("register");
+ const title=content?.seoTitle || defaultMetadata.title;
+ const description=content?.seoDescription || defaultMetadata.description;
+ return {...defaultMetadata,title,description,openGraph:{...defaultMetadata.openGraph,title:title as string,description:description || undefined},twitter:{...defaultMetadata.twitter,title:title as string,description:description || undefined}};
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import {CmsImage} from "../cms-content";
 import type { HistoryContent } from "../../lib/history-content";
 function HistoryText({text}:{text:string}) {return <>{text.split(/(\*\*[^*]+\*\*)/g).map((part,index)=>part.startsWith("**")&&part.endsWith("**")?<strong key={index}>{part.slice(2,-2)}</strong>:part)}</>;}
 export default function HistoryView({content}:{content:HistoryContent}) {return (
@@ -10,7 +10,7 @@ export default function HistoryView({content}:{content:HistoryContent}) {return 
           <p><HistoryText text={content.texts.text3}/></p>
           <p><HistoryText text={content.texts.text4}/></p>
         </div>
-        <div className="about-beckett-hero-image"><Image {...content.image} alt={content.image.alt} sizes="(min-width: 900px) 50vw, 100vw" priority /></div>
+        <div className="about-beckett-hero-image"><CmsImage page={"history"} field={((""+".image")).replace(/^\./, '')} {...content.image} alt={content.image.alt} sizes="(min-width: 900px) 50vw, 100vw" priority /></div>
       </section>
       <section className="about-home-from-home section-pad" aria-label="What sets Beckett House apart">
         <p><HistoryText text={content.texts.text5}/></p>

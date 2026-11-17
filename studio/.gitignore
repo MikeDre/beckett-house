@@ -27,3 +27,6 @@
 
 # Dotenv and similar local-only files
 *.local
+
+# Generated schema extraction (regenerate with npm run typegen)
+/schema.json

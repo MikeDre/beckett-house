@@ -1,6 +1,8 @@
+import {getSanityContent as readSeoContent} from "../../lib/sanity/server";
+import {getCmsLocations} from "../../lib/sanity/locations";
 import type { Metadata } from "next";
 import { NurseryChooser, SiteFooter, SiteHeader } from "../components";
-import { locations } from "../../lib/content";
+
 import {
   CONTENT_LAST_REVIEWED,
   getBreadcrumbSchema,
@@ -15,7 +17,7 @@ const title = "Find a Montessori Nursery in North London";
 const description =
   "Compare Beckett House Montessori nurseries in Angel, Islington and Abbey Road, St John's Wood by age range, location and opening hours.";
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title: { absolute: `${title} | Beckett House` },
   description,
   alternates: { canonical: "/find-your-nursery" },
@@ -29,7 +31,8 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title, description },
 };
 
-export default function FindYourNurseryPage() {
+export default async function FindYourNurseryPage() {
+ const locations=await getCmsLocations();
   const url = `${SITE_URL}/find-your-nursery`;
   const schema = {
     "@context": "https://schema.org",
@@ -74,4 +77,11 @@ export default function FindYourNurseryPage() {
       />
     </>
   );
+}
+
+export async function generateMetadata():Promise<Metadata> {
+ const content=await readSeoContent<{seoTitle?:string;seoDescription?:string}>("find-your-nursery");
+ const title=content?.seoTitle || defaultMetadata.title;
+ const description=content?.seoDescription || defaultMetadata.description;
+ return {...defaultMetadata,title,description,openGraph:{...defaultMetadata.openGraph,title:title as string,description:description || undefined},twitter:{...defaultMetadata.twitter,title:title as string,description:description || undefined}};
 }

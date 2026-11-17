@@ -497,3 +497,11 @@
 @media(max-width:600px) { .cms-media-toolbar { flex-wrap: wrap; gap: 12px; }.cms-media-search-group { flex-basis: 100%; }.cms-media-search { width: 100%; }.cms-media-upload { padding: 18px; }.cms-media-toolbar > .cms-btn { margin-left: auto; } }
 .cms-sort-control { display: inline-flex; align-items: center; gap: 8px; }
 .cms-sort-control > span { font-size: 12px; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .cms-inbox-workspace .cms-sidebar { display: none; }
+  .cms-inbox-workspace .cms-body { margin-left: 0; }
+}
+.cms-inbox-workspace .cms-notice { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; padding: 1rem; border-radius: .5rem; background: #edf5ef; }
+.cms-inbox-workspace .cms-notice-error { background: #fff0ed; }
+.cms-inbox-workspace .cms-notice button { border: 0; background: transparent; cursor: pointer; }

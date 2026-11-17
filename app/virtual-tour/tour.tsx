@@ -1,10 +1,13 @@
 "use client";
+import {CmsText, useCmsLocations} from "../cms-content";
 
-import { locations } from "../../lib/content";
+
+
 import { PanoramaViewer } from "../components";
 import { useNurseryChoice } from "../nursery-choice";
 
 export default function VirtualTour() {
+ const locations=useCmsLocations();
   const [selected, setSelected] = useNurseryChoice();
   const location = locations.find((nursery) => nursery.slug === selected) ?? locations[0];
   return <div className="virtual-tour-experience">
@@ -16,9 +19,9 @@ export default function VirtualTour() {
     </div>
     <div className="nursery-fade" key={location.slug}><PanoramaViewer location={location} /></div>
     <div className="virtual-tour-instructions">
-      <p><strong>Look around</strong><span>Drag with your mouse, or use two fingers on a touch screen.</span></p>
-      <p><strong>Explore every space</strong><span>Choose a room below the viewer to move between panoramas.</span></p>
-      <p><strong>Take a closer look</strong><span>Use the zoom controls and fullscreen button inside the viewer.</span></p>
+      <p><strong><CmsText page="virtual-tour" field="copy.lookAround" fallback={"Look around"} /></strong><span><CmsText page="virtual-tour" field="copy.dragWithYourMouseOrUseTwo" fallback={"Drag with your mouse, or use two fingers on a touch screen."} /></span></p>
+      <p><strong><CmsText page="virtual-tour" field="copy.exploreEverySpace" fallback={"Explore every space"} /></strong><span><CmsText page="virtual-tour" field="copy.chooseARoomBelowTheViewerTo" fallback={"Choose a room below the viewer to move between panoramas."} /></span></p>
+      <p><strong><CmsText page="virtual-tour" field="copy.takeACloserLook" fallback={"Take a closer look"} /></strong><span><CmsText page="virtual-tour" field="copy.useTheZoomControlsAndFullscreenButton" fallback={"Use the zoom controls and fullscreen button inside the viewer."} /></span></p>
     </div>
   </div>;
 }

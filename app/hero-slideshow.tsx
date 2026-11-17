@@ -1,5 +1,6 @@
 "use client";
 
+import {useEditAttribute} from "./cms-content";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -8,7 +9,7 @@ export type HeroSlide = { src: string; alt: string; width: number; height: numbe
 // Homepage hero photos that crossfade with a slow zoom. Only the first photo
 // loads with the page; the rest load once it has rendered, so the hero's first
 // paint isn't slowed. Reduced-motion visitors see the first photo only.
-export default function HeroSlideshow({ slides, interval = 6000 }: { slides: HeroSlide[]; interval?: number }) {
+export default function HeroSlideshow({ slides, interval = 6000, cmsPage }: { slides: HeroSlide[]; interval?: number; cmsPage?:string }) {
   const [active, setActive] = useState(0);
   const [loadRest, setLoadRest] = useState(false);
 
@@ -24,7 +25,7 @@ export default function HeroSlideshow({ slides, interval = 6000 }: { slides: Her
   }, [slides.length, interval]);
 
   return (
-    <div className="hero-slides">
+    <div className="hero-slides" data-sanity={useEditAttribute(cmsPage || "home","hero.slides")}>
       {slides.map((slide, index) => (index === 0 || loadRest) && (
         <Image
           key={slide.src}

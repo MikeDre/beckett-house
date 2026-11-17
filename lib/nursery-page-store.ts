@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultNurseryPages, validateNurseryPageContent, type NurseryPageContent, type NurseryPageRecord, type NurseryPageSlug } from "./nursery-pages";
@@ -21,6 +22,7 @@ async function read(db: D1Database, slug: NurseryPageSlug) {
 }
 export async function getNurseryPageRecord(db: D1Database, slug: NurseryPageSlug): Promise<NurseryPageRecord> { return (await read(db, slug)).record; }
 export async function getPublishedNurseryPage(slug: NurseryPageSlug, db?: D1Database): Promise<NurseryPageContent> {
+  if (!db) { const sanity=await getSanityContent<NurseryPageContent>(slug); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getNurseryPageRecord(database, slug)).published;

@@ -17,6 +17,9 @@
   },
   "dependencies": {
     "@photo-sphere-viewer/core": "^5.14.3",
+    "@sanity/client": "^8.16.0",
+    "@sanity/preview-url-secret": "^4.1.5",
+    "@sanity/visual-editing-standalone": "^2.0.4",
     "drizzle-orm": "0.45.2",
     "leaflet": "^1.9.4",
     "lottie-web": "^5.13.0",

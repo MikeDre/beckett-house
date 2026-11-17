@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { homeAnnouncements, type Announcement } from "./content";
@@ -76,10 +77,10 @@ export function validateNotifications(value: unknown): Notifications {
 export async function readSetting<T>(key: string, validate: (value: unknown) => T, db?: D1Database): Promise<T | null> {
   try { const row = await (db ?? (env as { DB?: D1Database }).DB)?.prepare("SELECT value FROM settings WHERE key = ?").bind(key).first<{ value: string }>(); return row ? validate(JSON.parse(row.value)) : null; } catch { return null; }
 }
-export async function getAllAnnouncements(db?: D1Database) { return await readSetting("announcements", validateAnnouncements, db) ?? homeAnnouncements; }
+export async function getAllAnnouncements(db?: D1Database) { if(!db) { const sanity=await getSanityContent<{items:Announcement[]}>("announcements"); if(sanity) return sanity.items; } return await readSetting("announcements", validateAnnouncements, db) ?? homeAnnouncements; }
 export async function getAnnouncements(now = new Date(), db?: D1Database) {
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
   return (await getAllAnnouncements(db)).filter(item => item.published !== false && (!item.showFrom || item.showFrom <= today) && (!item.showUntil || item.showUntil >= today));
 }
-export async function getFeesContent(db?: D1Database) { return await readSetting("fees", validateFees, db) ?? defaultFees; }
+export async function getFeesContent(db?: D1Database) { if(!db) { const sanity=await getSanityContent<FeesContent>("fees"); if(sanity) return sanity; } return await readSetting("fees", validateFees, db) ?? defaultFees; }
 export async function getNotificationSettings(db?: D1Database) { return readSetting("notifications", validateNotifications, db); }

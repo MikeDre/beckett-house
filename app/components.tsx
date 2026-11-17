@@ -1,4 +1,6 @@
 "use client";
+import {CmsText, CmsImage, CmsField, useCmsContent, useCmsLocations, useEditAttribute} from "./cms-content";
+
 
 import { defaultHomepageContent, type HomePageContent } from "../lib/homepage-content";
 import Image from "next/image";
@@ -7,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { isNursery, nurseryNames, readNurseryChoice, rememberNursery, useNurseryChangeListener, useActiveNursery, useNurseryChoice, useSwitchNursery } from "./nursery-choice";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import type { Viewer as PhotoSphereViewer } from "@photo-sphere-viewer/core";
-import { locations, type Location } from "../lib/content";
+import { type Location } from "../lib/content";
 import { Turnstile, TURNSTILE_SITE_KEY, postForm } from "./turnstile";
 import { OPEN_COOKIE_SETTINGS } from "./cookie-consent";
 import { rememberLead, trackEvent } from "./analytics";
@@ -29,35 +31,35 @@ const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const navItems = [
+const defaultNavItems = [
   { title: "FAQ", href: "/faq" },
   { title: "Register", href: "/register" },
 ];
 
-const aboutItems = [
+const defaultAboutItems = [
   { title: "About Beckett House", href: "/beckett-house", image: "/images/abbey-road/alphabet-carpet.webp", description: "Get to know our family-run, Montessori-accredited preschool, individual care and home-cooked food." },
   { title: "History", href: "/history", image: "/images/angel/montessori-nursery-angel-classroom-and-kitchen.webp", description: "Discover our beginnings in Barnsbury in 1996 and the home-from-home care that sets Beckett House apart." },
   { title: "About Montessori", href: "/montessori", image: "/images/angel/montessori-nursery-angel-sensorial-corner.webp", description: "Explore Montessori’s prepared environment, hands-on materials and freedom to learn independently." },
 ];
 
-const nurseryLifeItems = [
+const defaultNurseryLifeItems = [
   { title: "Virtual Tour", href: "/virtual-tour", image: "/images/angel/montessori-nursery-angel-classroom-reading-area.webp", description: "Step inside Angel and Abbey Road with interactive 360° views of our nursery spaces." },
   { title: "Gallery", href: "/gallery", image: "/images/abbey-road/main-room-2.webp", description: "Browse photos of our Angel and Abbey Road classrooms and spaces." },
 ];
 
-const timetableItems = [
+const defaultTimetableItems = [
   { title: "Daily timetable", href: "/timetable?location=angel", image: "/images/angel/montessori-nursery-angel-classroom-planets.webp", description: "Explore Angel’s morning and afternoon sessions, from Montessori activities to meals and rest time." },
   { title: "Term dates", href: "/timetable?location=angel#term-dates", image: "/images/angel/montessori-nursery-angel-rocket-display-and-materials.webp", description: "Plan ahead with Angel’s nursery term dates and the start and end of each term." },
   { title: "Opening Hours & Fees", href: "/opening-hours-fees", image: "/images/angel/montessori-nursery-angel-snack-tables.webp", description: "Explore nursery opening hours, flexible sessions, fees and funded childcare options." },
 ];
 
-const abbeyRoadTimetableItems = [
+const defaultAbbeyRoadTimetableItems = [
   { title: "Daily timetable", href: "/timetable?location=abbey-road", image: "/images/abbey-road/main-room.webp", description: "Explore Abbey Road’s morning, afternoon and full-day session times." },
   { title: "Term dates", href: "/timetable?location=abbey-road#abbey-road-term-dates", image: "/images/abbey-road/reading-corner.webp", description: "Plan ahead with Abbey Road’s nursery term dates and the start and end of each term." },
-  timetableItems[2],
+  defaultTimetableItems[2],
 ];
 
-function TimetableNavigation({ mobile = false, onNavigate, items = timetableItems, label = "Key information", href = "/timetable", menuId = "timetable" }: { mobile?: boolean; onNavigate?: () => void; items?: typeof timetableItems; label?: string; href?: string; menuId?: string }) {
+function TimetableNavigation({ mobile = false, onNavigate, items = defaultTimetableItems, label = "Key information", href = "/timetable", menuId = "timetable" }: { mobile?: boolean; onNavigate?: () => void; items?: typeof defaultTimetableItems; label?: string; href?: string; menuId?: string }) {
   const [expanded, setExpanded] = useState(false);
   const [active, setActive] = useState(0);
   const groupRef = useRef<HTMLDivElement>(null);
@@ -91,6 +93,7 @@ function TimetableNavigation({ mobile = false, onNavigate, items = timetableItem
 }
 
 export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abbey-road" } = {}) {
+  const {navItems,aboutItems,nurseryLifeItems,timetableItems,abbeyRoadTimetableItems}=useCmsContent("site",{menus:{navItems:defaultNavItems,aboutItems:defaultAboutItems,nurseryLifeItems:defaultNurseryLifeItems,timetableItems:defaultTimetableItems,abbeyRoadTimetableItems:defaultAbbeyRoadTimetableItems}}).menus;
   const pathname = usePathname();
   const [preferredNursery, setPreferredNursery] = useState<string | null>(null);
   const routeNursery = previewNursery ?? pathname?.match(/^\/(angel|abbey-road)(?:\/|$)/)?.[1];
@@ -164,12 +167,12 @@ export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abb
     <>
       <div className="notice-bar">
         <span className="notice-dot" aria-hidden="true" />
-        <span className="notice-text"><span className="notice-long">Taking registrations</span><span className="notice-short">Registering</span> for 2026{activeNursery && ` at ${currentNursery}`}</span>
-        <Link href={visitHref}>Arrange a visit</Link>
+        <span className="notice-text"><span className="notice-long"><CmsText page="site" field="copy.takingRegistrations" fallback={"Taking registrations"} /></span><span className="notice-short"><CmsText page="site" field="copy.registering" fallback={"Registering"} /></span> <CmsText page="site" field="copy.for2026" fallback={" for 2026"} />{activeNursery && ` at ${currentNursery}`}</span>
+        <Link href={visitHref}><CmsText page="site" field="copy.arrangeAVisit" fallback={"Arrange a visit"} /></Link>
       </div>
       <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}${headerStuck ? " is-stuck" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>
         <Link className="wordmark" href={homeHref} aria-label="Beckett House home">
-          <Image
+          <CmsImage page="site" field="photos.photo1"
             src="/images/beckett-house-logo-dark.svg"
             alt=""
             width="1428"
@@ -190,8 +193,7 @@ export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abb
         <div className="header-visit-group">
           <NurseryLabel name={currentNursery} onSwitch={switchToOther} />
           <Link className="header-cta" href={visitHref}>
-            Book a visit
-          </Link>
+            <CmsText page="site" field="copy.bookAVisit" fallback={"Book a visit"} /></Link>
         </div>
         <button
           className="menu-button"
@@ -217,8 +219,7 @@ export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abb
           <div className="mobile-visit-group">
             <NurseryLabel name={currentNursery} onSwitch={switchToOther} />
             <Link className="mobile-visit" href={visitHref} onClick={() => setOpen(false)}>
-              Book a visit
-            </Link>
+              <CmsText page="site" field="copy.bookAVisit" fallback={"Book a visit"} /></Link>
           </div>
         </nav>
       </div>
@@ -232,21 +233,22 @@ function NurseryLabel({ name, onSwitch }: { name: string; onSwitch: () => void }
 }
 
 export function SiteFooter() {
+  const locations=useCmsLocations();
   const activeSlug = useActiveNursery();
   const nursery = locations.find((location) => location.slug === activeSlug) ?? locations[0];
 
   return (
     <>
       <div className="footer-accreditations" role="group" aria-label="Nursery accreditation and inspection logos">
-        <Image src="/images/meab-accreditation.avif" alt="Montessori Evaluation and Accreditation Board accreditation" width={137} height={63} loading="lazy" />
-        <Image src="/images/meab.avif" alt="MEAB" width={63} height={63} loading="lazy" />
-        <Image src="/images/ofsted.avif" alt="Ofsted" width={74} height={74} loading="lazy" />
-        <Image src="/images/food-hygiene.avif" alt="Food hygiene rating" width={101} height={52} loading="lazy" />
+        <CmsImage page="site" field="photos.photo2" src="/images/meab-accreditation.avif" alt="Montessori Evaluation and Accreditation Board accreditation" width={137} height={63} loading="lazy" />
+        <CmsImage page="site" field="photos.photo3" src="/images/meab.avif" alt="MEAB" width={63} height={63} loading="lazy" />
+        <CmsImage page="site" field="photos.photo4" src="/images/ofsted.avif" alt="Ofsted" width={74} height={74} loading="lazy" />
+        <CmsImage page="site" field="photos.photo5" src="/images/food-hygiene.avif" alt="Food hygiene rating" width={101} height={52} loading="lazy" />
       </div>
     <footer className="site-footer">
       <div className="footer-top">
         <div>
-          <Image
+          <CmsImage page="site" field="photos.photo6"
             className="footer-logo"
             src="/images/beckett-house-logo-light.svg"
             alt="Beckett House Montessori"
@@ -254,12 +256,11 @@ export function SiteFooter() {
             height="1071"
           />
           <div className="footer-intro">
-            <p>A family-run Montessori nursery in Angel and Abbey Road, London.</p>
+            <p><CmsText page="site" field="copy.aFamilyrunMontessoriNurseryInAngelAnd" fallback={"A family-run Montessori nursery in Angel and Abbey Road, London."} /></p>
             <p className="footer-review-note">
-              Leave us a{" "}
+              <CmsText page="site" field="copy.leaveUsA" fallback={"Leave us a"} />{" "}
               <a href={nursery.reviewUrl} target="_blank" rel="noopener noreferrer">
-                review on Google
-              </a>
+                <CmsText page="site" field="copy.reviewOnGoogle" fallback={"review on Google"} /></a>
             </p>
             <div className="footer-social">
               <a href="https://www.instagram.com/becketthousemontessori/" target="_blank" rel="noopener noreferrer" aria-label="Beckett House Montessori on Instagram">
@@ -273,15 +274,15 @@ export function SiteFooter() {
         </div>
         <div className="footer-links">
           <div>
-            <span>Explore</span>
-            <Link href={"/montessori"}>Our approach</Link>
-            <Link href={"/angel"}>Angel</Link>
-            <Link href={"/abbey-road"}>Abbey Road</Link>
+            <span><CmsText page="site" field="copy.explore" fallback={"Explore"} /></span>
+            <Link href={"/montessori"}><CmsText page="site" field="copy.ourApproach" fallback={"Our approach"} /></Link>
+            <Link href={"/angel"}><CmsText page="site" field="copy.angel" fallback={"Angel"} /></Link>
+            <Link href={"/abbey-road"}><CmsText page="site" field="copy.abbeyRoad" fallback={"Abbey Road"} /></Link>
           </div>
           <div>
-            <span>Visit {nursery.name}</span>
+            <span><CmsText page="site" field="copy.visit" fallback={"Visit "} />{nursery.name}</span>
             <a className="footer-address" href={nursery.mapsUrl} target="_blank" rel="noopener noreferrer">
-              {nursery.address}, {nursery.postcode.replace(" ", "\u00a0")}
+              {nursery.address}<CmsText page="site" field="copy.text" fallback={", "} />{nursery.postcode.replace(" ", "\u00a0")}
             </a>
             <a href={`tel:${nursery.phoneHref}`}>{nursery.phone}</a>
             <a href={`mailto:${nursery.email}`}>{nursery.email}</a>
@@ -289,10 +290,10 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Beckett House Montessori</span>
-        <span>Learning with head, hands & heart.</span>
-        <Link className="footer-cookie-settings" href="/privacy">Privacy &amp; cookies</Link>
-        <button className="footer-cookie-settings" type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}>Cookie settings</button>
+        <span><CmsText page="site" field="copy.text2" fallback={"© "} />{new Date().getFullYear()} <CmsText page="site" field="copy.beckettHouseMontessori" fallback={" Beckett House Montessori"} /></span>
+        <span><CmsText page="site" field="copy.learningWithHeadHandsHeart" fallback={"Learning with head, hands & heart."} /></span>
+        <Link className="footer-cookie-settings" href="/privacy"><CmsText page="site" field="copy.privacyCookies" fallback={"Privacy & cookies"} /></Link>
+        <button className="footer-cookie-settings" type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}><CmsText page="site" field="copy.cookieSettings" fallback={"Cookie settings"} /></button>
       </div>
     </footer>
     </>
@@ -511,29 +512,26 @@ export function LocationsMap({
   return (
     <div className="locations-map-shell">
       <div className="map-toolbar">
-        <span>Interactive map · drag or pinch to explore</span>
+        <span><CmsText page="site" field="copy.interactiveMapDragOrPinchToExplore" fallback={"Interactive map · drag or pinch to explore"} /></span>
         <a
           href={disableLinks ? "#" : directionsUrl}
           target={disableLinks ? undefined : "_blank"}
           rel={disableLinks ? undefined : "noreferrer"}
         >
-          View in Google Maps
-        </a>
+          <CmsText page="site" field="copy.viewInGoogleMaps" fallback={"View in Google Maps"} /></a>
       </div>
       {useGoogleMaps
         ? <GoogleLocationsMap key="google" locations={locations} disableLinks={disableLinks} onFailure={handleGoogleMapsFailure} />
         : <LeafletLocationsMap key="leaflet" locations={locations} disableLinks={disableLinks} />}
       <noscript>
         <p>
-          Beckett House Angel and Abbey Road:
-        </p>
+          <CmsText page="site" field="copy.beckettHouseAngelAndAbbeyRoad" fallback={"Beckett House Angel and Abbey Road:"} /></p>
         {locations.map((location) => (
           <p key={location.slug}>
-            <strong>{location.name}</strong> · {location.address}, {location.postcode}
+            <strong>{location.name}</strong> <CmsText page="site" field="copy.text3" fallback={" · "} />{location.address}<CmsText page="site" field="copy.text" fallback={", "} />{location.postcode}
             {" · "}
             <a href={disableLinks ? "#" : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.address}, ${location.postcode}`)}`}>
-              Google Maps
-            </a>
+              <CmsText page="site" field="copy.googleMaps" fallback={"Google Maps"} /></a>
           </p>
         ))}
       </noscript>
@@ -735,7 +733,11 @@ function chooseNursery(location: Location) {
   window.location.assign(`/${location.slug}`);
 }
 
-export function NurseryChooser({ locations, homepage = false, content, previewOnly = false }: { locations: Location[]; homepage?: boolean; content?: HomePageContent; previewOnly?: boolean }) {
+export function NurseryChooser({ locations: sourceLocations, homepage = false, content, previewOnly = false }: { locations: Location[]; homepage?: boolean; content?: HomePageContent; previewOnly?: boolean }) {
+  const locations=useCmsLocations(sourceLocations);
+  const chooser=useCmsContent("find-your-nursery",{heading:"Which nursery feels like home?",introduction:"Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."});
+
+  const {aboutItems,timetableItems}=useCmsContent("site",{menus:{navItems:defaultNavItems,aboutItems:defaultAboutItems,nurseryLifeItems:defaultNurseryLifeItems,timetableItems:defaultTimetableItems,abbeyRoadTimetableItems:defaultAbbeyRoadTimetableItems}}).menus;
   const homepageContent = homepage ? content ?? defaultHomepageContent : undefined;
   const mapControllerRef = useRef<NurseryMapController | null>(null);
   const pendingMapFocusRef = useRef<Location | null>(null);
@@ -783,10 +785,10 @@ export function NurseryChooser({ locations, homepage = false, content, previewOn
             onSelect={handleMapSelect}
           />}
       <div className="nursery-chooser-intro">
-        {homepage ? <Image className="map-home-logo" src="/images/beckett-house-logo-dark.svg" alt="Beckett House Montessori" width={1428} height={1071} priority /> : <p className="eyebrow">Switch schools here</p>}
-        <h1 id="nursery-chooser-title" className={homepage ? "visually-hidden" : undefined}>{homepage ? homepageContent!.heading : "Which nursery feels like home?"}</h1>
+        {homepage ? <CmsImage page="site" field="photos.photo7" className="map-home-logo" src="/images/beckett-house-logo-dark.svg" alt="Beckett House Montessori" width={1428} height={1071} priority /> : <p className="eyebrow"><CmsText page="site" field="copy.switchSchoolsHere" fallback={"Switch schools here"} /></p>}
+        <h1 id="nursery-chooser-title" className={homepage ? "visually-hidden" : undefined}>{homepage ? <CmsField page="home" field="heading">{homepageContent!.heading}</CmsField> : <CmsField page="find-your-nursery" field="heading">{chooser.heading}</CmsField>}</h1>
         <p className={homepage ? "map-home-introduction" : undefined}>
-          {homepage ? homepageContent!.introduction : "Select a pin to compare the two settings. Your choice will take you into the right nursery experience and be remembered on this device."}
+          {homepage ? <CmsField page="home" field="introduction">{homepageContent!.introduction}</CmsField> : <CmsField page="find-your-nursery" field="introduction">{chooser.introduction}</CmsField>}
         </p>
         {homepage && <div className="map-home-location-links" aria-label="Enter your nursery">
           {locations.map((location) => <button className="button button-dark" type="button" key={location.slug} onClick={() => selectNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}
@@ -795,14 +797,14 @@ export function NurseryChooser({ locations, homepage = false, content, previewOn
       {homepage && <details className="map-home-menu" onKeyDown={(event) => {
         if (event.key === "Escape") { event.currentTarget.open = false; event.currentTarget.querySelector("summary")?.focus(); }
       }}>
-        <summary aria-label="Site navigation"><span className="map-menu-icon" aria-hidden="true"><span /><span /><span /></span><span className="map-menu-label">Menu</span></summary>
+        <summary aria-label="Site navigation"><span className="map-menu-icon" aria-hidden="true"><span /><span /><span /></span><span className="map-menu-label"><CmsText page="site" field="copy.menu" fallback={"Menu"} /></span></summary>
         <nav aria-label="Site navigation" className="map-home-menu-panel">
-          <div><h2>Our nurseries</h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => selectNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}</div>
-          <div><h2>About us</h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
-          <div><h2>Key information</h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
-          <Link href="/virtual-tour">Virtual Tour</Link>
-          <Link href="/gallery">Gallery</Link>
-          <Link className="button button-dark" href="/visit">Book a visit</Link>
+          <div><h2><CmsText page="site" field="copy.ourNurseries" fallback={"Our nurseries"} /></h2>{locations.map((location) => <button type="button" key={location.slug} onClick={() => selectNursery(location)}>{homepageContent?.nurseryLabels[location.slug] ?? location.name}</button>)}</div>
+          <div><h2><CmsText page="site" field="copy.aboutUs" fallback={"About us"} /></h2>{aboutItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
+          <div><h2><CmsText page="site" field="copy.keyInformation" fallback={"Key information"} /></h2>{timetableItems.map((item) => <Link key={item.href} href={item.href}>{item.title}</Link>)}</div>
+          <Link href="/virtual-tour"><CmsText page="site" field="copy.virtualTour" fallback={"Virtual Tour"} /></Link>
+          <Link href="/gallery"><CmsText page="site" field="copy.gallery" fallback={"Gallery"} /></Link>
+          <Link className="button button-dark" href="/visit"><CmsText page="site" field="copy.bookAVisit" fallback={"Book a visit"} /></Link>
         </nav>
       </details>}
       <div className="nursery-chooser-panel nursery-accordion" aria-label="Nursery locations">
@@ -829,8 +831,7 @@ export function NurseryChooser({ locations, homepage = false, content, previewOn
         })}
       </div>
       {!homepage && <Link className="nursery-chooser-back" href="/">
-        Back to Beckett House
-      </Link>}
+        <CmsText page="site" field="copy.backToBeckettHouse" fallback={"Back to Beckett House"} /></Link>}
     </section>
   );
 }
@@ -921,14 +922,12 @@ export function PanoramaViewer({ location }: { location: Location }) {
             />
             <div className="panorama-shade" />
             <div className="panorama-launch">
-              <span className="panorama-badge">Interactive 360° tour</span>
-              <h3>Step inside {location.name}.</h3>
+              <span className="panorama-badge"><CmsText page="site" field="copy.interactive360Tour" fallback={"Interactive 360° tour"} /></span>
+              <h3><CmsText page="site" field="copy.stepInside" fallback={"Step inside "} />{location.name}<CmsText page="site" field="copy.text4" fallback={"."} /></h3>
               <p>
-                Explore {location.panoramas.length} real spaces at your own pace.
-              </p>
+                <CmsText page="site" field="copy.explore2" fallback={"Explore "} />{location.panoramas.length} <CmsText page="site" field="copy.realSpacesAtYourOwnPace" fallback={" real spaces at your own pace."} /></p>
               <span className="button button-light" aria-hidden="true">
-                Start exploring
-              </span>
+                <CmsText page="site" field="copy.startExploring" fallback={"Start exploring"} /></span>
             </div>
             <button className="panorama-start-overlay" type="button" aria-label={`Start the interactive 360 degree tour of ${location.name}`} onClick={() => { setIsOpen(true); trackEvent("virtual_tour_start", { nursery: location.slug }); }} />
           </>
@@ -942,18 +941,17 @@ export function PanoramaViewer({ location }: { location: Location }) {
         {isOpen && (
           <div className="panorama-top">
             <span className="panorama-badge">{selected.name}</span>
-            <span className="panorama-angle">360°</span>
+            <span className="panorama-angle"><CmsText page="site" field="copy.text360" fallback={"360°"} /></span>
           </div>
         )}
         {isChangingRoom && (
           <span className="panorama-room-loading" role="status">
-            Moving rooms…
-          </span>
+            <CmsText page="site" field="copy.movingRooms" fallback={"Moving rooms…"} /></span>
         )}
         {viewerError && (
           <div className="panorama-error" role="alert">
-            <strong>We couldn&apos;t open this room.</strong>
-            <p>Please try another room or refresh the page.</p>
+            <strong><CmsText page="site" field="copy.weCouldntOpenThisRoom" fallback={"We couldn't open this room."} /></strong>
+            <p><CmsText page="site" field="copy.pleaseTryAnotherRoomOrRefreshThe" fallback={"Please try another room or refresh the page."} /></p>
           </div>
         )}
       </div>
@@ -997,19 +995,18 @@ export function PanoramaViewer({ location }: { location: Location }) {
 }
 
 export function FAQList({
-  items,
+  items, cmsPage, cmsField,
 }: {
-  items: Array<{ id?: string; question: string; answer: string }>;
+  items: Array<{ id?: string; question: string; answer: string }>; cmsPage?:string; cmsField?:string;
 }) {
   return (
-    <div className="faq-list">
+    <div className="faq-list" data-sanity={useEditAttribute(cmsPage || "faq",cmsField || "groups")}>
       {items.map((item, index) => (
         <details key={item.id ?? item.question} open={index === 0}>
           <summary>
             <span>{item.question}</span>
             <span className="faq-plus" aria-hidden="true">
-              +
-            </span>
+              <CmsText page="site" field="copy.text5" fallback={"+"} /></span>
           </summary>
           <p>{item.answer}</p>
         </details>
@@ -1070,41 +1067,35 @@ export function VisitForm() {
     <form className="visit-form" method="post" onSubmit={submit}>
       <div className="field-row">
         <label>
-          Your name
-          <input name="name" autoComplete="name" required />
+          <CmsText page="site" field="copy.yourName" fallback={"Your name"} /><input name="name" autoComplete="name" required />
         </label>
         <label>
-          Email address
-          <input name="email" type="email" autoComplete="email" required />
+          <CmsText page="site" field="copy.emailAddress" fallback={"Email address"} /><input name="email" type="email" autoComplete="email" required />
         </label>
       </div>
       <label>
-        Phone number
-        <input name="phone" type="tel" autoComplete="tel" maxLength={80} required />
+        <CmsText page="site" field="copy.phoneNumber" fallback={"Phone number"} /><input name="phone" type="tel" autoComplete="tel" maxLength={80} required />
       </label>
       <div className="field-row">
         <label>
-          Preferred nursery
-          <select name="location" value={nurseryNames[nursery]} onChange={(event) => setNursery(event.target.value === "Abbey Road" ? "abbey-road" : "angel")}>
+          <CmsText page="site" field="copy.preferredNursery" fallback={"Preferred nursery"} /><select name="location" value={nurseryNames[nursery]} onChange={(event) => setNursery(event.target.value === "Abbey Road" ? "abbey-road" : "angel")}>
             <option>Angel</option>
             <option>Abbey Road</option>
           </select>
         </label>
         <label>
-          Child&apos;s age
-          <input name="childAge" placeholder="e.g. 18 months" required />
+          <CmsText page="site" field="copy.childsAge" fallback={"Child's age"} /><input name="childAge" placeholder="e.g. 18 months" required />
         </label>
       </div>
       <label>
-        Anything we should know?
-        <textarea
+        <CmsText page="site" field="copy.anythingWeShouldKnow" fallback={"Anything we should know?"} /><textarea
           name="message"
           rows={4}
           placeholder="Days you need, ideal start date, or the best times to visit…"
         />
       </label>
       {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
-      <p className="form-privacy-note">We’ll use your details to reply to your request. See our <Link href="/privacy">privacy notice</Link>.</p>
+      <p className="form-privacy-note"><CmsText page="site" field="copy.wellUseYourDetailsToReplyTo" fallback={"We’ll use your details to reply to your request. See our "} /><Link href="/privacy"><CmsText page="site" field="copy.privacyNotice" fallback={"privacy notice"} /></Link><CmsText page="site" field="copy.text4" fallback={"."} /></p>
       <button className="button button-dark form-submit" type="submit" disabled={sending}>
         {sending ? "Sending…" : "Request a visit"}
       </button>

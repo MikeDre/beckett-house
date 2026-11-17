@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultHomepageContent, validateHomepageContent, type HomePageContent, type HomePageRecord } from "./homepage-content";
@@ -20,6 +21,7 @@ async function read(db: D1Database) {
 }
 export async function getHomepageRecord(db: D1Database): Promise<HomePageRecord> { return (await read(db)).record; }
 export async function getPublishedHomepageContent(db?: D1Database): Promise<HomePageContent> {
+  if (!db) { const sanity=await getSanityContent<HomePageContent>("home"); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getHomepageRecord(database)).published;

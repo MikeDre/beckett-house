@@ -1,4 +1,6 @@
 "use client";
+import {CmsText, useCmsContent, useEditAttribute} from "../cms-content";
+
 
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
@@ -35,7 +37,8 @@ export function RegistrationPage() {
   const [sending, setSending] = useState(false);
   const [token, setToken] = useState("");
   const [resetCount, setResetCount] = useState(0);
-  const content = registrationContent[nursery];
+  const editAttribute=useEditAttribute("register",`registration.${nursery}.terms`);
+  const content = useCmsContent("register",{registration:registrationContent}).registration[nursery];
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -109,80 +112,76 @@ export function RegistrationPage() {
               aria-pressed={nursery === "angel"}
               onClick={() => chooseNursery("angel")}
             >
-              Angel
-            </button>
+              <CmsText page="register" field="copy.angel" fallback={"Angel"} /></button>
             <button
               type="button"
               className={nursery === "abbey-road" ? "is-selected" : ""}
               aria-pressed={nursery === "abbey-road"}
               onClick={() => chooseNursery("abbey-road")}
             >
-              Abbey Road
-            </button>
+              <CmsText page="register" field="copy.abbeyRoad" fallback={"Abbey Road"} /></button>
           </div>
 
           <form className="visit-form register-form" method="post" onSubmit={submit}>
             <div className="register-form-heading">
               <p className="eyebrow">{content.name}</p>
-              <h2 id="register-form-heading">Registration form</h2>
+              <h2 id="register-form-heading"><CmsText page="register" field="copy.registrationForm" fallback={"Registration form"} /></h2>
             </div>
 
             <div className="field-row">
               <label>
-                Child&apos;s full name <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.childsFullName" fallback={"Child's full name "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="childName" autoComplete="name" required />
               </label>
               <label>
-                Date of birth <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.dateOfBirth" fallback={"Date of birth "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="dateOfBirth" type="date" required />
               </label>
             </div>
 
             <div className="field-row">
               <label>
-                Mother&apos;s full name <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.mothersFullName" fallback={"Mother's full name "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="motherName" autoComplete="name" required />
               </label>
               <label>
-                Mother&apos;s mobile number <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.mothersMobileNumber" fallback={"Mother's mobile number "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="motherMobile" type="tel" autoComplete="tel" required />
               </label>
             </div>
 
             <div className="field-row">
               <label>
-                Father&apos;s full name <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.fathersFullName" fallback={"Father's full name "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="fatherName" autoComplete="name" required />
               </label>
               <label>
-                Father&apos;s mobile number <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.fathersMobileNumber" fallback={"Father's mobile number "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="fatherMobile" type="tel" autoComplete="tel" required />
               </label>
             </div>
 
             <label>
-              Email <span className="register-required" aria-hidden="true">*</span>
+              <CmsText page="register" field="copy.email" fallback={"Email "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
               <input name="email" type="email" autoComplete="email" required />
             </label>
 
             <label>
-              Home address
-              <textarea name="homeAddress" autoComplete="street-address" rows={3} />
+              <CmsText page="register" field="copy.homeAddress" fallback={"Home address"} /><textarea name="homeAddress" autoComplete="street-address" rows={3} />
             </label>
 
             <div className="field-row">
               <label>
-                Home phone
-                <input name="homePhone" type="tel" autoComplete="tel" />
+                <CmsText page="register" field="copy.homePhone" fallback={"Home phone"} /><input name="homePhone" type="tel" autoComplete="tel" />
               </label>
               <label>
-                Planned starting date <span className="register-required" aria-hidden="true">*</span>
+                <CmsText page="register" field="copy.plannedStartingDate" fallback={"Planned starting date "} /><span className="register-required" aria-hidden="true"><CmsText page="register" field="copy.text" fallback={"*"} /></span>
                 <input name="startDate" type="date" required />
               </label>
             </div>
 
             <div className="register-attendance">
-              <h3>Attendance required</h3>
+              <h3><CmsText page="register" field="copy.attendanceRequired" fallback={"Attendance required"} /></h3>
               {attendanceFields.map((field) => {
                 const times =
                   field.times ??
@@ -193,7 +192,7 @@ export function RegistrationPage() {
                 return (
                   <fieldset className="register-attendance-row" key={field.name}>
                     <legend>
-                      {field.label} <span>({times})</span>
+                      {field.label} <span><CmsText page="register" field="copy.text2" fallback={"("} />{times}<CmsText page="register" field="copy.text3" fallback={")"} /></span>
                     </legend>
                     <div className="register-days">
                       {days.map((day) => (
@@ -210,7 +209,7 @@ export function RegistrationPage() {
             </div>
 
             {TURNSTILE_SITE_KEY ? <Turnstile onToken={setToken} resetCount={resetCount} /> : null}
-            <p className="form-privacy-note">We’ll use these details to process your registration. See our <Link href="/privacy">privacy notice</Link>.</p>
+            <p className="form-privacy-note"><CmsText page="register" field="copy.wellUseTheseDetailsToProcessYour" fallback={"We’ll use these details to process your registration. See our "} /><Link href="/privacy"><CmsText page="register" field="copy.privacyNotice" fallback={"privacy notice"} /></Link><CmsText page="register" field="copy.text4" fallback={"."} /></p>
             <button className="button button-dark form-submit" type="submit" disabled={sending}>
               {sending ? "Sending…" : TURNSTILE_SITE_KEY ? "Submit registration" : "Prepare registration email"}
             </button>
@@ -221,22 +220,19 @@ export function RegistrationPage() {
         </div>
 
         <aside className="register-intro">
-          <p className="eyebrow">Before you register</p>
-          <h2>Registration process</h2>
+          <p className="eyebrow"><CmsText page="register" field="copy.beforeYouRegister" fallback={"Before you register"} /></p>
+          <h2><CmsText page="register" field="copy.registrationProcess" fallback={"Registration process"} /></h2>
           <p>
-            A £75 registration fee is required when applying for a place. It is
-            non-refundable and does not guarantee a place. The registration fee
-            is not applicable to funded places.
-          </p>
-          <p>Places are secured by a deposit of four weeks&apos; fees.</p>
+            <CmsText page="register" field="copy.a75RegistrationFeeIsRequiredWhen" fallback={"A £75 registration fee is required when applying for a place. It is non-refundable and does not guarantee a place. The registration fee is not applicable to funded places."} /></p>
+          <p><CmsText page="register" field="copy.placesAreSecuredByADepositOf" fallback={"Places are secured by a deposit of four weeks' fees."} /></p>
           <CardAnimation name="shapehop" />
         </aside>
       </section>
 
-      <section className="register-terms" aria-labelledby="register-terms-heading">
+      <section className="register-terms" data-sanity={editAttribute} aria-labelledby="register-terms-heading">
         <div className="register-terms-heading">
           <p className="eyebrow">{content.name}</p>
-          <h2 id="register-terms-heading">Registration and terms</h2>
+          <h2 id="register-terms-heading"><CmsText page="register" field="copy.registrationAndTerms" fallback={"Registration and terms"} /></h2>
         </div>
         <div className="register-details nursery-fade" key={nursery}>
           {content.terms.map((term) => (
@@ -244,8 +240,7 @@ export function RegistrationPage() {
               <summary>
                 <span>{term.title}</span>
                 <span className="register-plus" aria-hidden="true">
-                  +
-                </span>
+                  <CmsText page="register" field="copy.text5" fallback={"+"} /></span>
               </summary>
               <div className="register-detail-copy">
                 {term.paragraphs.map((paragraph) => (

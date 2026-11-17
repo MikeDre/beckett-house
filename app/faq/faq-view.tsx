@@ -1,3 +1,5 @@
+
+import {CmsField} from "../cms-content";
 import Link from "next/link";
 import { FAQList } from "../components";
 import CardAnimation from "../card-animation";
@@ -34,9 +36,9 @@ export default function FaqView({ content, previewOnly = false }: { content: Faq
       <main className="faq-page-main">
         <header className="faq-page-hero">
           <p className="faq-page-eyebrow">Good to know</p>
-          <h1>{content.heading}</h1>
+          <h1><CmsField page={"faq"} field="heading">{content.heading}</CmsField></h1>
           <p className="faq-page-intro">
-            {content.introduction}
+            <CmsField page={"faq"} field="introduction">{content.introduction}</CmsField>
           </p>
         </header>
 
@@ -51,8 +53,8 @@ export default function FaqView({ content, previewOnly = false }: { content: Faq
                 aria-labelledby={`${group.id}-heading`}
                 key={group.id}
               >
-                <h2 id={`${group.id}-heading`}>{group.heading}</h2>
-                <FAQList items={group.items} />
+                <h2 id={`${group.id}-heading`}><CmsField page={"faq"} field={(""+".groups"+"["+content.groups.indexOf(group)+"]"+".heading").replace(/^\./, '')}>{group.heading}</CmsField></h2>
+                <FAQList cmsPage="faq" cmsField={`groups[${content.groups.indexOf(group)}].items`} items={group.items} />
               </section>
             ))}
           </div>

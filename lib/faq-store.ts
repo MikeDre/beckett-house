@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultFaqContent, validateFaqContent, type FaqContent, type FaqRecord } from "./faq-content";
@@ -20,6 +21,7 @@ async function read(db: D1Database) {
 }
 export async function getFaqRecord(db: D1Database): Promise<FaqRecord> { return (await read(db)).record; }
 export async function getPublishedFaqContent(db?: D1Database): Promise<FaqContent> {
+  if (!db) { const sanity=await getSanityContent<FaqContent>("faq"); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getFaqRecord(database)).published;

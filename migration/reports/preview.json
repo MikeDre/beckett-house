@@ -1,0 +1,87 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "bindings": 10
+    },
+    {
+      "path": "/angel",
+      "status": 200,
+      "bindings": 91
+    },
+    {
+      "path": "/abbey-road",
+      "status": 200,
+      "bindings": 92
+    },
+    {
+      "path": "/faq",
+      "status": 200,
+      "bindings": 71
+    },
+    {
+      "path": "/beckett-house",
+      "status": 200,
+      "bindings": 40
+    },
+    {
+      "path": "/history",
+      "status": 200,
+      "bindings": 27
+    },
+    {
+      "path": "/timetable",
+      "status": 200,
+      "bindings": 42
+    },
+    {
+      "path": "/opening-hours-fees",
+      "status": 200,
+      "bindings": 56
+    },
+    {
+      "path": "/montessori",
+      "status": 200,
+      "bindings": 59
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "bindings": 33
+    },
+    {
+      "path": "/virtual-tour",
+      "status": 200,
+      "bindings": 40
+    },
+    {
+      "path": "/find-your-nursery",
+      "status": 200,
+      "bindings": 30
+    },
+    {
+      "path": "/visit",
+      "status": 200,
+      "bindings": 45
+    },
+    {
+      "path": "/register",
+      "status": 200,
+      "bindings": 85
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "bindings": 111
+    },
+    {
+      "path": "/thank-you",
+      "status": 200,
+      "bindings": 37
+    }
+  ],
+  "unauthenticatedDrafts": "blocked",
+  "previewForms": "disabled",
+  "invalidSecrets": "rejected"
+}

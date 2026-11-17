@@ -1,3 +1,6 @@
+import {getSanityContent as readSeoContent} from "../../lib/sanity/server";
+
+import {CmsText} from "../cms-content";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "../components";
@@ -7,7 +10,7 @@ import Gallery from "./gallery";
 const title = "Gallery";
 const description = "Browse photos of the classrooms and nursery spaces at Beckett House Montessori in Angel and Abbey Road.";
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/gallery" },
@@ -25,12 +28,19 @@ export default function GalleryPage() {
     <SiteHeader />
     <main className="gallery-page">
       <header className="gallery-heading">
-        <h1>Gallery</h1>
-        <p>A look inside our nurseries in Angel and Abbey Road. For an interactive look around, visit the <Link href="/virtual-tour">360° virtual tour</Link>.</p>
+        <h1><CmsText page="gallery" field="copy.gallery" fallback={"Gallery"} /></h1>
+        <p><CmsText page="gallery" field="copy.aLookInsideOurNurseriesInAngel" fallback={"A look inside our nurseries in Angel and Abbey Road. For an interactive look around, visit the "} /><Link href="/virtual-tour"><CmsText page="gallery" field="copy.text360VirtualTour" fallback={"360° virtual tour"} /></Link><CmsText page="gallery" field="copy.text" fallback={"."} /></p>
       </header>
       <Gallery />
     </main>
     <SiteFooter />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
   </>;
+}
+
+export async function generateMetadata():Promise<Metadata> {
+ const content=await readSeoContent<{seoTitle?:string;seoDescription?:string}>("gallery");
+ const title=content?.seoTitle || defaultMetadata.title;
+ const description=content?.seoDescription || defaultMetadata.description;
+ return {...defaultMetadata,title,description,openGraph:{...defaultMetadata.openGraph,title:title as string,description:description || undefined},twitter:{...defaultMetadata.twitter,title:title as string,description:description || undefined}};
 }

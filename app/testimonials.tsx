@@ -1,5 +1,6 @@
 "use client";
 
+import {useEditAttribute} from "./cms-content";
 import { useEffect, useState } from "react";
 
 type Testimonial = { quote: string; author?: string };
@@ -10,7 +11,7 @@ const defaultTestimonials: Testimonial[] = [
   { quote: "Little discoveries, new friendships and the freedom to try things for themselves. Every day brings something to smile about." },
 ];
 
-export default function Testimonials({ testimonials = defaultTestimonials }: { testimonials?: Testimonial[] }) {
+export default function Testimonials({ testimonials = defaultTestimonials, cmsPage }: { testimonials?: Testimonial[]; cmsPage?:string }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -32,7 +33,7 @@ export default function Testimonials({ testimonials = defaultTestimonials }: { t
     return () => window.clearInterval(timer);
   }, [paused, hovered, focused, active, testimonials.length]);
 
-  return <section className="testimonial section-pad" aria-label="Parent testimonials" aria-roledescription="carousel"
+  return <section className="testimonial section-pad" data-sanity={useEditAttribute(cmsPage || "home","testimonials")} aria-label="Parent testimonials" aria-roledescription="carousel"
     onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setFocused(false); }}>
     <span className="quote-mark" aria-hidden="true">“</span>

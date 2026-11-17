@@ -1,5 +1,6 @@
 "use client";
 
+import {useEditAttribute} from "../cms-content";
 import { useState } from "react";
 import { useNurseryChoice } from "../nursery-choice";
 import { type FeeGroup, extraDescriptions, money } from "../../lib/fees";
@@ -9,7 +10,7 @@ type Plan = "standard" | "funded15" | "funded30";
 
 export default function FeeExplorer({ angelFees, abbeyRoadFees }: { angelFees: FeeGroup[]; abbeyRoadFees: FeeGroup[] }) {
   const [nursery, setNursery] = useNurseryChoice();
-  return <section className="fee-explorer" aria-labelledby="explorer-title">
+  return <section className="fee-explorer" data-sanity={useEditAttribute("fees",nursery==="angel"?"angelFees":"abbeyRoadFees")} aria-labelledby="explorer-title">
     <h2 id="explorer-title">Find your fees</h2>
     <div className="fee-switch" role="group" aria-label="Choose nursery">
       {([['angel', 'Angel'], ['abbey-road', 'Abbey Road']] as const).map(([value, label]) => <button key={value} type="button" aria-pressed={nursery === value} onClick={() => setNursery(value)}>{label}</button>)}
@@ -35,6 +36,7 @@ function Plans({ groups, initialAge, fundedFootnote }: { groups: FeeGroup[]; ini
   const [age, setAge] = useState(Math.min(initialAge, groups.length - 1));
   const [plan, setPlan] = useState<Plan>("standard");
   const group = groups[Math.min(age, groups.length - 1)];
+  if(!group)return null;
   const rows = group[plan];
   const footnote = plan !== "standard" ? fundedFootnote : undefined;
   return <>

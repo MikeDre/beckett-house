@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultHistoryContent, validateHistoryContent, type HistoryContent, type HistoryRecord } from "./history-content";
@@ -20,6 +21,7 @@ async function read(db: D1Database) {
 }
 export async function getHistoryRecord(db: D1Database): Promise<HistoryRecord> { return (await read(db)).record; }
 export async function getPublishedHistoryContent(db?: D1Database): Promise<HistoryContent> {
+  if (!db) { const sanity=await getSanityContent<HistoryContent>("history"); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getHistoryRecord(database)).published;

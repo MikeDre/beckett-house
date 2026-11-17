@@ -1,4 +1,6 @@
 "use client";
+import {CmsText, useCmsContent, useEditAttribute} from "../cms-content";
+
 
 import Image from "next/image";
 import { KeyboardEvent, MouseEvent, useRef, useState } from "react";
@@ -13,7 +15,7 @@ type GalleryImage = {
   height: number;
 };
 
-const galleryImages: Record<NurserySlug, GalleryImage[]> = {
+const defaultGalleryImages: Record<NurserySlug, GalleryImage[]> = {
   angel: [
     { src: "/images/angel/montessori-nursery-angel-classroom-islington.webp", caption: "Angel classroom", alt: "A wide view of the Angel Montessori classroom with low shelves, round tables and a fire-exit door", width: 2000, height: 1333 },
     { src: "/images/angel/montessori-nursery-angel-classroom-planets.webp", caption: "Angel classroom", alt: "The Angel classroom with hanging planets, cardboard rockets and child-sized tables", width: 2000, height: 1333 },
@@ -63,10 +65,12 @@ const nurseryNames: Record<NurserySlug, string> = {
 };
 
 export default function Gallery() {
+  const galleryImages=useCmsContent("gallery",{images:defaultGalleryImages}).images;
   const [selected, setSelected] = useNurseryChoice();
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const editAttribute=useEditAttribute("gallery",`images.${selected}`);
   const images = galleryImages[selected];
   const currentImage = currentIndex === null ? null : images[currentIndex];
 
@@ -102,10 +106,10 @@ export default function Gallery() {
           onClick={() => setSelected(slug)}
         >{nurseryNames[slug]}</button>)}
       </div>
-      <p aria-live="polite">Showing {nurseryNames[selected]} photos</p>
+      <p aria-live="polite"><CmsText page="gallery" field="copy.showing" fallback={"Showing "} />{nurseryNames[selected]} <CmsText page="gallery" field="copy.photos" fallback={" photos"} /></p>
     </div>
 
-    <div className="gallery-grid nursery-fade" key={selected}>
+    <div className="gallery-grid nursery-fade" data-sanity={editAttribute} key={selected}>
       {images.map((image, index) => <figure className="gallery-card" key={image.src}>
         <button type="button" aria-haspopup="dialog" aria-label={`Open larger view: ${image.alt}`} onClick={(event) => openImage(index, event)}>
           <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" />
@@ -128,13 +132,13 @@ export default function Gallery() {
       }}
     >
       {currentImage && <div className="gallery-lightbox-inner">
-        <button className="gallery-lightbox-close" type="button" aria-label="Close gallery" onClick={() => dialogRef.current?.close()}>×</button>
+        <button className="gallery-lightbox-close" type="button" aria-label="Close gallery" onClick={() => dialogRef.current?.close()}><CmsText page="gallery" field="copy.text2" fallback={"×"} /></button>
         <div className="gallery-lightbox-image">
           <Image key={currentImage.src} src={currentImage.src} alt={currentImage.alt} width={currentImage.width} height={currentImage.height} sizes="95vw" />
         </div>
-        <button className="gallery-lightbox-arrow gallery-lightbox-previous" type="button" aria-label="Previous photo" onClick={() => move(-1)}><span aria-hidden="true">‹</span></button>
-        <button className="gallery-lightbox-arrow gallery-lightbox-next" type="button" aria-label="Next photo" onClick={() => move(1)}><span aria-hidden="true">›</span></button>
-        <p id="gallery-lightbox-caption"><span>{currentImage.caption}</span><small>{currentIndex! + 1} of {images.length}</small></p>
+        <button className="gallery-lightbox-arrow gallery-lightbox-previous" type="button" aria-label="Previous photo" onClick={() => move(-1)}><span aria-hidden="true"><CmsText page="gallery" field="copy.text3" fallback={"‹"} /></span></button>
+        <button className="gallery-lightbox-arrow gallery-lightbox-next" type="button" aria-label="Next photo" onClick={() => move(1)}><span aria-hidden="true"><CmsText page="gallery" field="copy.text4" fallback={"›"} /></span></button>
+        <p id="gallery-lightbox-caption"><span>{currentImage.caption}</span><small>{currentIndex! + 1} <CmsText page="gallery" field="copy.of" fallback={" of "} />{images.length}</small></p>
       </div>}
     </dialog>
   </section>;

@@ -1,0 +1,101 @@
+{
+  "mode": "write",
+  "documents": [
+    {
+      "id": "page-home",
+      "state": "published",
+      "photos": 2
+    },
+    {
+      "id": "page-angel",
+      "state": "published",
+      "photos": 9
+    },
+    {
+      "id": "drafts.page-angel",
+      "state": "draft",
+      "photos": 9
+    },
+    {
+      "id": "page-abbey-road",
+      "state": "published",
+      "photos": 17
+    },
+    {
+      "id": "page-faq",
+      "state": "published",
+      "photos": 17
+    },
+    {
+      "id": "page-about",
+      "state": "published",
+      "photos": 20
+    },
+    {
+      "id": "page-history",
+      "state": "published",
+      "photos": 21
+    },
+    {
+      "id": "page-timetable",
+      "state": "published",
+      "photos": 21
+    },
+    {
+      "id": "page-fees",
+      "state": "published",
+      "photos": 21
+    },
+    {
+      "id": "page-announcements",
+      "state": "published",
+      "photos": 23
+    },
+    {
+      "id": "page-montessori",
+      "state": "published",
+      "photos": 25
+    },
+    {
+      "id": "page-gallery",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-virtual-tour",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-find-your-nursery",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-visit",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-register",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-privacy",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-thank-you",
+      "state": "published",
+      "photos": 46
+    },
+    {
+      "id": "page-site",
+      "state": "published",
+      "photos": 53
+    }
+  ],
+  "photos": 53
+}

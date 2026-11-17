@@ -47,3 +47,7 @@ next-env.d.ts
 
 # generated responsive image copies (scripts/responsive-images.mjs)
 /public/_responsive/
+
+# CMS migration source snapshots and generated imports
+/migration/extracted/
+/migration/transformed/

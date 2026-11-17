@@ -1,5 +1,6 @@
 "use client";
 
+import {useEditAttribute} from "./cms-content";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Announcement } from "../lib/content";
@@ -20,8 +21,9 @@ export default function Announcements({ items }: { items: Announcement[] }) {
     const timer = window.setInterval(() => setActive(index => (index + 1) % items.length), 7000);
     return () => window.clearInterval(timer);
   }, [paused, interacting, reducedMotion, items.length]);
+  const editAttribute=useEditAttribute("announcements","items");
   if (!items.length) return null;
-  return <section className="home-announcements" aria-label="Nursery news and announcements" aria-roledescription="carousel" onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setInteracting(false); }}>
+  return <section className="home-announcements" data-sanity={editAttribute} aria-label="Nursery news and announcements" aria-roledescription="carousel" onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setInteracting(false); }}>
     <div className="announcement-viewport"><div className="announcement-track" style={{ transform: `translateX(-${active * 100}%)` }}>
     {items.map((item, index) => <article className={`announcement-card${item.image ? " announcement-card-with-image" : ""}`} key={item.id} aria-labelledby={`announcement-${item.id}`} aria-hidden={active !== index} inert={active !== index}>
       {item.image && <Image className="announcement-image" src={item.image.src} alt={item.image.alt} width={item.image.width} height={item.image.height} sizes="(min-width: 900px) 40vw, 100vw" />}

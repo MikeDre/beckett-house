@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultAboutContent, validateAboutContent, type AboutContent, type AboutRecord } from "./about-content";
@@ -20,6 +21,7 @@ async function read(db: D1Database) {
 }
 export async function getAboutRecord(db: D1Database): Promise<AboutRecord> { return (await read(db)).record; }
 export async function getPublishedAboutContent(db?: D1Database): Promise<AboutContent> {
+  if (!db) { const sanity=await getSanityContent<AboutContent>("about"); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getAboutRecord(database)).published;

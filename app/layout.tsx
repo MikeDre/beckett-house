@@ -1,3 +1,6 @@
+import {getCmsContext} from "../lib/sanity/server";
+import {CmsProvider} from "./cms-content";
+import SanityVisualEditing from "./sanity-visual-editing";
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata, Viewport } from "next";
 import "@photo-sphere-viewer/core/index.css";
@@ -76,9 +79,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const context=await getCmsContext();
   return (
     <html lang="en-GB">
       <head>
@@ -93,7 +97,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}<PageMotion /><LocationSwitcher /><CookieConsent /></body>
+      <body><CmsProvider {...context}>{children}<PageMotion /><LocationSwitcher /><CookieConsent />{context.preview && <SanityVisualEditing />}</CmsProvider></body>
     </html>
   );
 }

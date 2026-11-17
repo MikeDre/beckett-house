@@ -1,3 +1,4 @@
+import {getSanityContent} from "./sanity/server";
 import "server-only";
 import { env } from "cloudflare:workers";
 import { defaultTimetableContent, validateTimetableContent, type TimetableContent, type TimetableRecord } from "./timetable-content";
@@ -20,6 +21,7 @@ async function read(db: D1Database) {
 }
 export async function getTimetableRecord(db: D1Database): Promise<TimetableRecord> { return (await read(db)).record; }
 export async function getPublishedTimetableContent(db?: D1Database): Promise<TimetableContent> {
+  if (!db) { const sanity=await getSanityContent<TimetableContent>("timetable"); if(sanity) return sanity; }
   try {
     const database = db ?? (env as { DB?: D1Database }).DB;
     if (database) return (await getTimetableRecord(database)).published;
