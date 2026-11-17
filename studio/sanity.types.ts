@@ -1026,7 +1026,7 @@ export type AboutPage = {
     alt?: string
     width?: number
     height?: number
-    _type: string
+    _type: 'image'
     _key: string
   }>
 }
@@ -1077,7 +1077,7 @@ export type AbbeyRoadPage = {
       alt?: string
       width?: number
       height?: number
-      _type: string
+      _type: 'image'
       _key: string
     }>
   }
@@ -1179,7 +1179,7 @@ export type AngelPage = {
       alt?: string
       width?: number
       height?: number
-      _type: string
+      _type: 'image'
       _key: string
     }>
   }

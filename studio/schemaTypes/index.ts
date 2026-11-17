@@ -96,7 +96,7 @@ function shape(value: unknown): Record<string, unknown> {
       type: 'array',
       of: [
         defineArrayMember({
-          name: member.type==='object' ? 'item' : undefined,
+          ...(member.type==='object' ? {name:'item'} : {}),
           ...member,
         } as Parameters<typeof defineArrayMember>[0]),
       ],

@@ -4,6 +4,10 @@ import assert from 'node:assert/strict'
 const schema=JSON.parse(await readFile(new URL('../schema.json',import.meta.url),'utf8'))
 const galleries=schema.find((type:{name:string})=>type.name==='galleryPage').attributes.images.value.attributes
 for(const nursery of ['angel','abbeyRoad'])assert.equal(galleries[nursery].value.of.attributes._type.value.value,'image','Studio must accept native image array members')
+for(const name of ['angelPage','abbeyRoadPage']) {
+ const page=schema.find((type:{name:string})=>type.name===name)
+ assert.equal(page.attributes.hero.value.attributes.slides.value.of.attributes._type.value.value,'image','Nursery slides must use native image members')
+}
 const client=getCliClient({apiVersion:'2026-11-17'}).withConfig({projectId:'lk8ts1r7',dataset:'production',useCdn:false,perspective:'raw'})
 for(const document of await client.fetch('*[_id in ["page-gallery","drafts.page-gallery"]]')) {
  for(const nursery of ['angel','abbeyRoad']) {
