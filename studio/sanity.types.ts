@@ -540,7 +540,7 @@ export type GalleryPage = {
       alt?: string
       width?: number
       height?: number
-      _type: string
+      _type: 'image'
       _key: string
     }>
     abbeyRoad?: Array<{
@@ -552,7 +552,7 @@ export type GalleryPage = {
       alt?: string
       width?: number
       height?: number
-      _type: string
+      _type: 'image'
       _key: string
     }>
   }

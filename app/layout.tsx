@@ -97,7 +97,7 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body><CmsProvider {...context}>{children}<PageMotion /><LocationSwitcher /><CookieConsent />{context.preview && <SanityVisualEditing />}</CmsProvider></body>
+      <body><CmsProvider {...context}>{children}<PageMotion /><LocationSwitcher /><CookieConsent />{context.preview && <SanityVisualEditing revision={context.revision} />}</CmsProvider></body>
     </html>
   );
 }

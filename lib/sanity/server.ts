@@ -1,3 +1,4 @@
+import {contentRevision,previewDocumentIds} from "./preview-revision";
 import "server-only";
 import { createClient } from "@sanity/client";
 import { env } from "cloudflare:workers";
@@ -60,7 +61,7 @@ export async function getSanityContent<T>(slug: string): Promise<T | null> {
   return fromSanity(document, model?.content ?? {}) as T;
 }
 
-export async function getCmsContext() {
+export async function getCmsContext():Promise<{documents:Record<string,unknown>;preview:boolean;revision?:string}> {
   const settings = env as SanityEnvironment;
   const preview = await previewEnabled();
   if (settings.SANITY_CONTENT_ENABLED !== "true")
@@ -80,7 +81,7 @@ export async function getCmsContext() {
     preview ? settings.SANITY_PREVIEW_READ_TOKEN : undefined,
     preview ? await previewPerspective() : "published",
   ).fetch("*[_id in $ids]", {
-    ids: selected.map((model) => documentId(model.slug)),
+    ids: previewDocumentIds(pathname) ?? selected.map((model) => documentId(model.slug)),
   });
   for (const model of selected) {
     const document = data.find(
@@ -88,7 +89,7 @@ export async function getCmsContext() {
     );
     if (document) documents[model.slug] = fromSanity(document, model.content);
   }
-  return { documents, preview };
+  return { documents, preview, revision:preview ? contentRevision(data) : undefined };
 }
 
 async function previewPerspective(): Promise<"published" | "drafts"> {

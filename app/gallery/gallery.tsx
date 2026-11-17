@@ -1,5 +1,5 @@
 "use client";
-import {CmsText, useCmsContent, useEditAttribute} from "../cms-content";
+import {CmsText, CmsField, CmsRegion, useCmsContent, useEditAttribute} from "../cms-content";
 
 
 import Image from "next/image";
@@ -71,7 +71,7 @@ export default function Gallery() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
   const editAttribute=useEditAttribute("gallery",`images.${selected}`);
-  const images = galleryImages[selected];
+  const images = galleryImages[selected] ?? [];
   const currentImage = currentIndex === null ? null : images[currentIndex];
 
   const openImage = (index: number, event: MouseEvent<HTMLButtonElement>) => {
@@ -109,13 +109,14 @@ export default function Gallery() {
       <p aria-live="polite"><CmsText page="gallery" field="copy.showing" fallback={"Showing "} />{nurseryNames[selected]} <CmsText page="gallery" field="copy.photos" fallback={" photos"} /></p>
     </div>
 
+    {images.length===0 && <p role="status">Photos will be added to this nursery gallery soon.</p>}
     <div className="gallery-grid nursery-fade" data-sanity={editAttribute} key={selected}>
-      {images.map((image, index) => <figure className="gallery-card" key={image.src}>
-        <button type="button" aria-haspopup="dialog" aria-label={`Open larger view: ${image.alt}`} onClick={(event) => openImage(index, event)}>
-          <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" />
+      {images.map((image, index) => <CmsRegion as="figure" page="gallery" field={`images.${selected}[${index}]`} className="gallery-card" key={`${image.src}-${index}`}>
+        <button type="button" aria-haspopup="dialog" aria-label={`Open larger view: ${image.alt}`} disabled={!image.src} onClick={(event) => openImage(index, event)}>
+          {image.src ? <Image src={image.src} alt={image.alt || ""} width={image.width} height={image.height} sizes="(min-width: 1000px) 33vw, (min-width: 650px) 50vw, 100vw" loading="lazy" /> : <div style={{minHeight:160,padding:24}}>Select a photo</div>}
         </button>
-        <figcaption>{image.caption}</figcaption>
-      </figure>)}
+        <figcaption><CmsField page="gallery" field={`images.${selected}[${index}].caption`}>{image.caption}</CmsField></figcaption>
+      </CmsRegion>)}
     </div>
 
     <dialog

@@ -1,3 +1,4 @@
+import {contentRevision,previewDocumentIds} from "../lib/sanity/preview-revision";
 import { createClient } from "@sanity/client";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
 import {
@@ -31,6 +32,16 @@ export async function previewEndpoint(
     "Cache-Control": "no-store",
     "X-Robots-Tag": "noindex",
   });
+  if(url.pathname==='/api/draft-mode/version') {
+    if(!(await previewAuthorized(request,env)))return new Response('Unauthorized',{status:401,headers});
+    if(!env.SANITY_PREVIEW_READ_TOKEN)return new Response('Preview is not configured',{status:503,headers});
+    const ids=previewDocumentIds(url.searchParams.get('path') || '/');
+    if(!ids)return new Response('Not found',{status:404,headers});
+    const published=/(?:^|;\s*)beckett-preview-perspective=published(?:;|$)/.test(request.headers.get('Cookie') || '');
+    const client=createClient({projectId:SANITY_PROJECT_ID,dataset:SANITY_DATASET,apiVersion:SANITY_API_VERSION,useCdn:false,token:env.SANITY_PREVIEW_READ_TOKEN,perspective:published?'published':'drafts'});
+    const documents=await client.fetch('*[_id in $ids]{_id,_rev}',{ids});
+    return Response.json({revision:contentRevision(documents)},{headers});
+  }
   if (url.pathname === "/api/draft-mode/disable") {
     headers.append(
       "Set-Cookie",

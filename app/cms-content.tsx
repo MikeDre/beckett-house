@@ -145,7 +145,7 @@ export function CmsRegion({
   children,
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
-  as?: "div" | "section" | "article";
+  as?: "div" | "section" | "article" | "figure";
   page: string;
   field: string;
 }) {

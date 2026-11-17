@@ -1,3 +1,4 @@
+import {galleryImagesField} from './gallery'
 import {defineType, defineField, defineArrayMember, type FieldDefinition} from 'sanity'
 import models from '../../lib/sanity/content-model.json'
 import {fieldName} from '../../lib/sanity/shape'
@@ -131,7 +132,8 @@ export const schemaTypes = models.map((model) =>
     name: fieldName(model.slug) + 'Page',
     title: model.title,
     type: 'document',
-    fields: fields(model.content),
+    fields: model.slug==='gallery' ? fields(model.content).map(field=>field.name==='images' ? galleryImagesField : {...field,group:field.name.startsWith('seo')?'seo':'text'}) : fields(model.content),
+    ...(model.slug==='gallery' ? {groups:[{name:'photos',title:'Photos',default:true},{name:'text',title:'Page text'},{name:'seo',title:'Search appearance'}]} : {}),
     preview: {prepare: () => ({title: model.title, subtitle: model.path})},
   }),
 )

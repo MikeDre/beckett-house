@@ -44,3 +44,16 @@ test('incomplete drafts keep sections renderable without inventing optional fund
  assert.equal(result.fees[0].funded15,undefined);
  assert.deepEqual(result.fees[0].standard,[4,5,6]);
 });
+test('preview revision checks are private and scoped to the page and shared content',async()=>{
+ const {previewDocumentIds,contentRevision}=await import('../lib/sanity/preview-revision.ts');
+ assert.equal(previewDocumentIds('/admin'),null);
+ assert.equal(previewDocumentIds('/api/admin/submissions'),null);
+ assert.deepEqual(previewDocumentIds('/gallery').sort(),['page-gallery','page-site','page-announcements'].sort());
+ assert(previewDocumentIds('/timetable').includes('page-fees'));
+ const docs=[{_id:'page-gallery',_rev:'a'},{_id:'page-site',_rev:'b'}];
+ assert.equal(contentRevision(docs),contentRevision([...docs].reverse()));
+ assert.notEqual(contentRevision(docs),contentRevision([{_id:'page-gallery',_rev:'changed'},docs[1]]));
+ const response=await previewEndpoint(new Request('https://example.invalid/api/draft-mode/version?path=/gallery'),{SANITY_VISUAL_PREVIEW:'true',PREVIEW_SESSION_SECRET:'test'});
+ assert.equal(response.status,401);
+ assert.match(response.headers.get('cache-control'),/no-store/);
+});
