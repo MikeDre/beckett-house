@@ -11,7 +11,9 @@
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "studio:dev": "npm --prefix studio run dev",
+    "studio:build": "npm --prefix studio run build"
   },
   "dependencies": {
     "@photo-sphere-viewer/core": "^5.14.3",
