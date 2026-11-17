@@ -151,4 +151,4 @@ The full content/UX review and remaining client content questions are in [cms-re
 
 ### Submission sorting
 
-The inbox offers Newest first (default), Oldest first, Name A–Z and Name Z–A. Sorting applies to the complete filtered result before pagination; changing sort order returns to page 1. The name is the parent/carer for visit requests and the child for registrations. Search remains scoped to the currently displayed page.
+The inbox offers Newest first (default), Oldest first, Name A–Z and Name Z–A. Sorting applies to the complete filtered result before pagination; changing sort order returns to page 1. The name is the parent/carer for visit requests and the child for registrations. Name and email search covers the complete filtered inbox, before pagination.

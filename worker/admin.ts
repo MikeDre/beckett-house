@@ -1,3 +1,4 @@
+import { homeAnnouncements } from "../lib/content";
 import { getHistoryRecord, saveHistoryDraft, publishHistoryDraft, HistoryConflictError, HistoryInputError } from "../lib/history-store";
 import { getTimetableRecord, saveTimetableDraft, publishTimetableDraft, TimetableConflictError, TimetableInputError } from "../lib/timetable-store";
 import { historyPages, getHistoryPage, getRevision, restoreRevision, type HistoryPage } from "../lib/page-history";
@@ -6,7 +7,7 @@ import { getFaqRecord, saveFaqDraft, publishFaqDraft, FaqConflictError, FaqInput
 import { getNurseryPageRecord, saveNurseryPageDraft, publishNurseryPageDraft, NurseryPageConflictError, NurseryPageInputError } from "../lib/nursery-page-store";
 import { getHomepageRecord, saveHomepageDraft, publishHomepageDraft, HomepageConflictError, HomepageInputError } from "../lib/homepage-store";
 import type { Env } from "./index";
-import { getAllAnnouncements, getFeesContent, getNotificationSettings, emptyNotifications, validateAnnouncements, validateFees, validateNotifications } from "../lib/site-data";
+import { defaultFees, emptyNotifications, validateAnnouncements, validateFees, validateNotifications } from "../lib/site-data";
 
 export function adminJson(data: unknown, status = 200) { return Response.json(data, { status, headers: { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } }); }
 class InputError extends Error { constructor(message: string, public status = 400) { super(message); } }
@@ -68,7 +69,13 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     }
     const setting = path.match(/^\/api\/admin\/(announcements|fees|notifications)$/)?.[1];
     if (setting) {
-      if (method === "GET") return adminJson(setting === "announcements" ? await getAllAnnouncements(env.DB) : setting === "fees" ? await getFeesContent(env.DB) : await getNotificationSettings(env.DB) ?? { copies: { ...emptyNotifications.copies, all: (env.FORM_BCC ?? "").split(",").map(value => value.trim()).filter(Boolean) } });
+      if (method === "GET") {
+        // Public pages can fall back during outages; editors must not mistake defaults for saved data.
+        const row = await env.DB.prepare("SELECT value FROM settings WHERE key = ?").bind(setting).first<{value:string}>();
+        const validate = setting === "announcements" ? validateAnnouncements : setting === "fees" ? validateFees : validateNotifications;
+        if (row) return adminJson(validate(JSON.parse(row.value)));
+        return adminJson(setting === "announcements" ? homeAnnouncements : setting === "fees" ? defaultFees : { copies: { ...emptyNotifications.copies, all: (env.FORM_BCC ?? "").split(",").map(value => value.trim()).filter(Boolean) } });
+      }
       if (method === "PUT") {
         let validated;
         try { validated = setting === "announcements" ? validateAnnouncements(data) : setting === "fees" ? validateFees(data) : validateNotifications(data); } catch (error) { throw new InputError((error as Error).message); }
@@ -80,6 +87,9 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     if (path === "/api/admin/submissions" && method === "GET") {
       const clauses: string[] = [], values: (string | number)[] = [];
       for (const [key, allowed] of Object.entries({ kind: ["visit", "register"], nursery: ["angel", "abbey-road"], status: ["new", "contacted", "archived"] })) { const value = url.searchParams.get(key); if (value) { if (!allowed.includes(value)) throw new InputError(`Invalid ${key}.`); clauses.push(`${key} = ?`); values.push(value); } }
+      const query = (url.searchParams.get("q") ?? "").trim();
+      if (query.length > 200) throw new InputError("Keep searches to 200 characters or fewer.");
+      if (query) { clauses.push("(instr(lower(name), lower(?)) > 0 OR instr(lower(email), lower(?)) > 0)"); values.push(query, query); }
       function integer(key: string, fallback: number, max: number) { const raw = url.searchParams.get(key); if (raw === null) return fallback; if (!/^\d+$/.test(raw) || Number(raw) > max) throw new InputError(`Invalid ${key}.`); return Number(raw); }
       const limit = integer("limit", 50, 100), offset = integer("offset", 0, 1000000);
       const orders: Record<string,string> = { newest: "created_at DESC, id DESC", oldest: "created_at ASC, id ASC", "name-asc": "name COLLATE NOCASE ASC, created_at DESC, id DESC", "name-desc": "name COLLATE NOCASE DESC, created_at DESC, id DESC" };

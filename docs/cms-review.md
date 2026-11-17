@@ -56,3 +56,18 @@ The production database had one saved page record, Angel. Its published and draf
 ## Validation
 
 TypeScript, production build, targeted lint and the full automated suite are checked before release. Coverage includes History publication/private drafts, safe image selection, all seven pages’ version history/restore, shared timetable/fees values and private preview access. Existing hook lint warnings are unchanged.
+
+## Follow-up review — 17 November 2026
+
+Reviewed page editing/preview/publication/restore, images, announcements, fees, notification recipients, inbox, activity, navigation and shared controls. This pass used source inspection and the full automated suite, not an interactive browser walkthrough. No live content, enquiries or access policies were modified during the review.
+
+Implemented:
+
+- Inbox name/email search now covers the complete filtered dataset before pagination, rather than only the displayed 50 rows. Queries are bounded, parameterised and treat wildcard characters literally.
+- Added Refresh and Clear filters controls, and displayed receipt times as well as dates.
+- Returning to the previous results page after removing or filtering out its last entry avoids an empty page with more results behind it.
+- Admin settings reads for announcements, fees and recipients now return a retryable error on storage failure or invalid saved data. Defaults are used only when a settings record is absent. Public-page fallback behaviour is unchanged. This prevents staff mistaking fallback content for their saved settings and overwriting existing content during an outage.
+
+Validation: TypeScript, production build, targeted lint and all 51 automated tests pass. Tests cover full-dataset search, search/filter/sort combinations and absent vs unreadable settings, alongside existing publishing, media protection, restore and authentication coverage.
+
+Remaining improvements are optional: browser-based staff usability testing, a client-facing quick-start guide, and conflict protection for simultaneous edits to shared settings (page editors already protect against stale saves). Existing content questions about nursery age ranges still require client confirmation.
