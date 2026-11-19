@@ -60,10 +60,10 @@ export default function SubmissionsPanel() {
         <main className="cms-main" id="cms-main">
           <div className="cms-page-heading">
             <div>
-              <p className="cms-eyebrow">NURSERY ENQUIRIES</p>
+              <p className="cms-eyebrow">SUBMISSIONS</p>
               <h1>Submissions</h1>
               <p>
-                Review visit requests and registrations. Website content is
+                Review visit requests, registrations and job applications. Website content is
                 managed in Sanity.
               </p>
             </div>

@@ -92,7 +92,7 @@ export function Turnstile({ onToken, resetCount }: { onToken: (token: string) =>
   );
 }
 
-export async function postForm(kind: "visit" | "register", data: FormData, token: string, nursery?: string) {
+export async function postForm(kind: "visit" | "register" | "careers", data: FormData, token: string, nursery?: string) {
   if (!token) throw new Error("Please complete the spam protection check before sending your form.");
   const body: Record<string, unknown> = { ...Object.fromEntries(data), turnstileToken: token };
   if (nursery) body.nursery = nursery;

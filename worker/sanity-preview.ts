@@ -39,7 +39,7 @@ export async function previewEndpoint(
     if(!ids)return new Response('Not found',{status:404,headers});
     const published=/(?:^|;\s*)beckett-preview-perspective=published(?:;|$)/.test(request.headers.get('Cookie') || '');
     const client=createClient({projectId:SANITY_PROJECT_ID,dataset:SANITY_DATASET,apiVersion:SANITY_API_VERSION,useCdn:false,token:env.SANITY_PREVIEW_READ_TOKEN,perspective:published?'published':'drafts'});
-    const documents=await client.fetch('*[_id in $ids]{_id,_rev}',{ids});
+    const documents=await client.fetch('*[_id in $ids || ($careers && _type == "job")]{_id,_rev}',{ids,careers:(url.searchParams.get('path') || '').startsWith('/careers')});
     return Response.json({revision:contentRevision(documents)},{headers});
   }
   if (url.pathname === "/api/draft-mode/disable") {

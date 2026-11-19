@@ -8,7 +8,7 @@ function encode(value: object) {
   return base64url(new TextEncoder().encode(JSON.stringify(value)));
 }
 
-export async function appendSheetRow(env: Env, tab: string, row: string[], textColumns: number[] = []) {
+export async function appendSheetRow(env: Env, tab: string, row: string[], textColumns: number[] = [], headers?: string[]) {
   const spreadsheetId = env.FORM_SHEET_ID;
   if (!spreadsheetId) {
     console.warn("Form spreadsheet is not configured; skipping append.");
@@ -30,6 +30,24 @@ export async function appendSheetRow(env: Env, tab: string, row: string[], textC
   if (!tokenResponse.ok) throw new Error(`Google authentication failed (${tokenResponse.status}).`);
   const token = await tokenResponse.json() as { access_token?: string };
   if (!token.access_token) throw new Error("Google authentication returned no access token.");
+  if(headers){
+    const base=`https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}`;
+    const auth={Authorization:`Bearer ${token.access_token}`,"Content-Type":"application/json"};
+    const metadata=await fetch(`${base}?fields=sheets.properties.title`,{headers:auth,signal:AbortSignal.timeout(15000)});
+    if(!metadata.ok)throw new Error(`Google Sheets metadata failed (${metadata.status})`);
+    const info=await metadata.json() as {sheets?:{properties:{title:string}}[]};
+    if(!info.sheets?.some(sheet=>sheet.properties.title===tab)){
+      const created=await fetch(`${base}:batchUpdate`,{method:'POST',headers:auth,body:JSON.stringify({requests:[{addSheet:{properties:{title:tab}}}]}),signal:AbortSignal.timeout(15000)});
+      if(!created.ok){
+        // Another simultaneous application may have created the same tab.
+        const check=await fetch(`${base}?fields=sheets.properties.title`,{headers:auth});
+        const current=await check.json() as {sheets?:{properties:{title:string}}[]};
+        if(!check.ok || !current.sheets?.some(sheet=>sheet.properties.title===tab))throw new Error('Could not create careers sheet');
+      }
+    }
+    const heading=await fetch(`${base}/values/${encodeURIComponent(`'${tab}'!A1`)}?valueInputOption=RAW`,{method:'PUT',headers:auth,body:JSON.stringify({values:[headers]}),signal:AbortSignal.timeout(15000)});
+    if(!heading.ok)throw new Error('Could not write careers sheet headings');
+  }
   // USER_ENTERED preserves dates, but user text must never become a formula.
   const values = row.map((value, index) => textColumns.includes(index) || /^[=+\-@]/.test(value.trimStart()) ? `'${value}` : value);
   const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent(`'${tab}'!A1`)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {

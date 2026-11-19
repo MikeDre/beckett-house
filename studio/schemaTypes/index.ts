@@ -1,3 +1,4 @@
+import {jobSchema} from './careers'
 import {galleryImagesField} from './gallery'
 import {defineType, defineField, defineArrayMember, type FieldDefinition} from 'sanity'
 import models from '../../lib/sanity/content-model.json'
@@ -127,7 +128,7 @@ function shape(value: unknown): Record<string, unknown> {
   }
 }
 export const pageModels = models
-export const schemaTypes = models.map((model) =>
+export const schemaTypes = [jobSchema,...models.map((model) =>
   defineType({
     name: fieldName(model.slug) + 'Page',
     title: model.title,
@@ -136,4 +137,4 @@ export const schemaTypes = models.map((model) =>
     ...(model.slug==='gallery' ? {groups:[{name:'photos',title:'Photos',default:true},{name:'text',title:'Page text'},{name:'seo',title:'Search appearance'}]} : {}),
     preview: {prepare: () => ({title: model.title, subtitle: model.path})},
   }),
-)
+)]

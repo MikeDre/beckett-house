@@ -86,7 +86,7 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     if (path === "/api/admin/activity" && method === "GET") return adminJson((await env.DB.prepare("SELECT * FROM activity ORDER BY id DESC LIMIT 100").all()).results);
     if (path === "/api/admin/submissions" && method === "GET") {
       const clauses: string[] = [], values: (string | number)[] = [];
-      for (const [key, allowed] of Object.entries({ kind: ["visit", "register"], nursery: ["angel", "abbey-road"], status: ["new", "contacted", "archived"] })) { const value = url.searchParams.get(key); if (value) { if (!allowed.includes(value)) throw new InputError(`Invalid ${key}.`); clauses.push(`${key} = ?`); values.push(value); } }
+      for (const [key, allowed] of Object.entries({ kind: ["visit", "register", "careers"], nursery: ["angel", "abbey-road"], status: ["new", "contacted", "archived"] })) { const value = url.searchParams.get(key); if (value) { if (!allowed.includes(value)) throw new InputError(`Invalid ${key}.`); clauses.push(`${key} = ?`); values.push(value); } }
       const query = (url.searchParams.get("q") ?? "").trim();
       if (query.length > 200) throw new InputError("Keep searches to 200 characters or fewer.");
       if (query) { clauses.push("(instr(lower(name), lower(?)) > 0 OR instr(lower(email), lower(?)) > 0)"); values.push(query, query); }

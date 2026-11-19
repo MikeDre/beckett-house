@@ -15,6 +15,24 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
+export type CareersPage = {
+  _id: string
+  _type: 'careersPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  eyebrow?: string
+  introduction?: string
+  benefits?: Array<{
+    title?: string
+    description?: string
+    _type: 'item'
+    _key: string
+  }>
+  safeguarding?: string
+}
+
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -302,6 +320,8 @@ export type PrivacyPage = {
   _updatedAt: string
   _rev: string
   copy?: {
+    recruitmentTitle?: string
+    recruitmentPrivacy?: string
     privacyCookies?: string
     thisNoticeExplainsHowBeckettHouseLimited?: string
     lastUpdated?: string
@@ -1298,6 +1318,38 @@ export type HomePage = {
   }
 }
 
+export type Job = {
+  _id: string
+  _type: 'job'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  status?: 'open' | 'closed'
+  isSample?: boolean
+  location?: 'angel' | 'abbey-road'
+  department?: string
+  employmentType?: string
+  salary?: string
+  hours?: string
+  postedAt?: string
+  closingDate?: string
+  summary?: string
+  sections?: Array<{
+    heading?: string
+    body?: string
+    _type: 'jobSection'
+    _key: string
+  }>
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
 export type SanityImagePaletteSwatch = {
   _type: 'sanity.imagePaletteSwatch'
   background?: string
@@ -1395,13 +1447,8 @@ export type Geopoint = {
   alt?: number
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
 export type AllSanitySchemaTypes =
+  | CareersPage
   | SanityImageAssetReference
   | SitePage
   | SanityImageCrop
@@ -1423,6 +1470,8 @@ export type AllSanitySchemaTypes =
   | AbbeyRoadPage
   | AngelPage
   | HomePage
+  | Job
+  | Slug
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -1431,4 +1480,3 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint
-  | Slug

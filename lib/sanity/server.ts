@@ -72,7 +72,7 @@ export async function getCmsContext():Promise<{documents:Record<string,unknown>;
     return { documents: {}, preview: false };
   const selected = models.filter(
     (model) =>
-      model.path === pathname ||
+      model.path === pathname || (pathname.startsWith("/careers/") && model.slug === "careers") ||
       model.slug === "site" ||
       model.slug === "announcements",
   );
@@ -80,7 +80,8 @@ export async function getCmsContext():Promise<{documents:Record<string,unknown>;
   const data = await sanityClient(
     preview ? settings.SANITY_PREVIEW_READ_TOKEN : undefined,
     preview ? await previewPerspective() : "published",
-  ).fetch("*[_id in $ids]", {
+  ).fetch("*[_id in $ids || ($careers && _type == 'job')]", {
+    careers: pathname === "/careers" || pathname.startsWith("/careers/"),
     ids: previewDocumentIds(pathname) ?? selected.map((model) => documentId(model.slug)),
   });
   for (const model of selected) {
@@ -89,6 +90,7 @@ export async function getCmsContext():Promise<{documents:Record<string,unknown>;
     );
     if (document) documents[model.slug] = fromSanity(document, model.content);
   }
+  if(pathname === "/careers" || pathname.startsWith("/careers/"))documents.jobs=data.filter((item:{_type:string})=>item._type==="job");
   return { documents, preview, revision:preview ? contentRevision(data) : undefined };
 }
 
@@ -99,3 +101,5 @@ async function previewPerspective(): Promise<"published" | "drafts"> {
     ? "published"
     : "drafts";
 }
+
+export async function getCareerJobs(){const preview=await previewEnabled();const settings=env as SanityEnvironment;return sanityClient(preview?settings.SANITY_PREVIEW_READ_TOKEN:undefined,preview?await previewPerspective():"published").fetch<import("../careers").Job[]>("*[_type == 'job'] | order(postedAt desc)");}

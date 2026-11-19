@@ -17,14 +17,14 @@ function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]!);
 }
 
-function emailBody(heading: string, intro: string, fields: Fields) {
+export function emailBody(heading: string, intro: string, fields: Fields) {
   return {
     text: `${heading}\n\n${intro}\n\n${fields.map(([label, value]) => `${label}: ${value}`).join("\n")}`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#263247;line-height:1.6"><h1 style="color:#233a72;font-size:24px">${escapeHtml(heading)}</h1><p style="white-space:pre-line">${escapeHtml(intro)}</p><h2 style="color:#233a72;font-size:18px">Your submission</h2>${fields.map(([label, value]) => `<p><strong>${escapeHtml(label)}</strong><br><span style="white-space:pre-wrap">${escapeHtml(value)}</span></p>`).join("")}<p style="color:#233a72">Beckett House Montessori</p></div>`,
   };
 }
 
-async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>, bcc?: string) {
+export async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>, bcc?: string) {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },

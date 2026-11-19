@@ -18,8 +18,9 @@ export default defineConfig({
       structure: (S) =>
         S.list()
           .title('Website content')
-          .items(
-            pageModels.map((page) =>
+          .items([
+            S.documentTypeListItem('job').title('Job opportunities'),
+            ...pageModels.map((page) =>
               S.listItem()
                 .id(page.slug)
                 .title(page.title)
@@ -29,7 +30,7 @@ export default defineConfig({
                     .documentId('page-' + page.slug),
                 ),
             ),
-          ),
+          ]),
     }),
     presentationTool({
       previewUrl: {
@@ -37,12 +38,22 @@ export default defineConfig({
         previewMode: {enable: '/api/draft-mode/enable', disable: '/api/draft-mode/disable'},
       },
       resolve: {
-        locations: Object.fromEntries(
-          pageModels.map((page) => [
-            fieldName(page.slug) + 'Page',
-            defineLocations({locations: [{title: page.title, href: page.path}]}),
-          ]),
-        ),
+        locations: {
+          job: defineLocations({
+            select: {title: 'title', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: doc?.slug
+                ? [{title: doc.title || 'Job opportunity', href: `/careers/${doc.slug}`}]
+                : [],
+            }),
+          }),
+          ...Object.fromEntries(
+            pageModels.map((page) => [
+              fieldName(page.slug) + 'Page',
+              defineLocations({locations: [{title: page.title, href: page.path}]}),
+            ]),
+          ),
+        },
       },
     }),
     visionTool(),

@@ -1,3 +1,4 @@
+import {handleCareerApplication} from './careers';
 import {previewEndpoint,previewAuthorized} from './sanity-preview';
 import type {SanityEnvironment} from '../lib/sanity/server';
 /** Cloudflare Worker entry point for the vinext-starter template. */
@@ -148,6 +149,8 @@ const worker = {
       response.headers.set("X-Robots-Tag", "noindex");
       return response;
     }
+
+    if (url.pathname === "/api/forms/careers") return request.method === "POST" ? handleCareerApplication(request,env,ctx) : new Response("Method not allowed",{status:405});
 
     if (request.method === "POST" && (url.pathname === "/api/forms/visit" || url.pathname === "/api/forms/register")) {
       return handleForm(request, env, ctx, url.pathname === "/api/forms/visit" ? "visit" : "register");

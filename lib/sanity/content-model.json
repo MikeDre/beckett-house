@@ -1876,6 +1876,8 @@
     "path": "/privacy",
     "content": {
       "copy": {
+        "recruitmentTitle": "Job applications",
+        "recruitmentPrivacy": "When you apply for a role, we collect your contact details, qualifying answers, qualifications, employment history and supporting information. We use these details to assess your application and contact you about recruitment. Applications are stored in our restricted staff inbox, sent to the relevant nursery by email and recorded in our recruitment spreadsheet. Please avoid including sensitive personal information that is not needed for your application. Contact the nursery if you would like to discuss your information or request its removal.",
         "privacyCookies": "Privacy & cookies",
         "thisNoticeExplainsHowBeckettHouseLimited": "This notice explains how Beckett House Limited (“Beckett House”, “we”, “us”) collects and uses personal information when you use this website, ask to visit, or register your child at our Angel or Abbey Road nursery.",
         "lastUpdated": "Last updated ",
@@ -2293,5 +2295,30 @@
         ]
       }
     }
+  },
+{
+  "slug": "careers",
+  "title": "Careers",
+  "path": "/careers",
+  "content": {
+    "title": "Work with us",
+    "eyebrow": "Careers at Beckett House",
+    "introduction": "A rewarding career starts with a place where you belong. Join our nursery teams and help children grow in confidence, curiosity and independence.",
+    "benefits": [
+      {
+        "title": "A close-knit team",
+        "description": "Work alongside colleagues who care about children and support one another."
+      },
+      {
+        "title": "Room to grow",
+        "description": "Bring your ideas, share your experience and develop your early years practice."
+      },
+      {
+        "title": "Meaningful work",
+        "description": "Make a difference to children and families, every day."
+      }
+    ],
+    "safeguarding": "Beckett House is committed to safeguarding and promoting the welfare of children. Successful applicants will be subject to appropriate pre-employment checks, including references and an enhanced DBS check."
   }
+}
 ]

@@ -41,6 +41,11 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
+      <section aria-labelledby="recruitment-title">
+        <h2 id="recruitment-title"><CmsText page="privacy" field="copy.recruitmentTitle" fallback="Job applications" /></h2>
+        <p><CmsText page="privacy" field="copy.recruitmentPrivacy" fallback="When you apply for a role, we collect your contact details, qualifying answers, qualifications, employment history and supporting information. We use these details to assess your application and contact you about recruitment. Applications are stored in our restricted staff inbox, sent to the relevant nursery by email and recorded in our recruitment spreadsheet. Please avoid including sensitive personal information that is not needed for your application. Contact the nursery if you would like to discuss your information or request its removal." /></p>
+      </section>
+
       <section aria-labelledby="collect-title">
         <h2 id="collect-title"><CmsText page="privacy" field="copy.whatWeCollect" fallback={"What we collect"} /></h2>
         <h3><CmsText page="privacy" field="copy.whenYouBookAVisit" fallback={"When you book a visit"} /></h3>
