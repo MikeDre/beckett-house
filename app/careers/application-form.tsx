@@ -52,8 +52,10 @@ export default function ApplicationForm({ job }: { job: Job }) {
     setCv(file);
   }
   const heading = useRef<HTMLHeadingElement>(null);
+  const eligible = answers.every((answer) => answer === "Yes");
   function next(e: FormEvent) {
     e.preventDefault();
+    if (!eligible) return;
     setStage(2);
     setTimeout(() => heading.current?.focus(), 0);
   }
@@ -212,8 +214,7 @@ export default function ApplicationForm({ job }: { job: Job }) {
                 <form onSubmit={next} className="career-form">
                   <h2>Before you apply</h2>
                   <p className="career-form-intro">
-                    Two quick questions about your qualification and
-                    availability. There are no wrong answers.
+                    Two quick questions to check this role is right for you.
                   </p>
                   {careerQuestions.map((q, i) => (
                     <fieldset key={q} className="career-question">
@@ -241,17 +242,28 @@ export default function ApplicationForm({ job }: { job: Job }) {
                       </div>
                     </fieldset>
                   ))}
-                  <div aria-live="polite">
-                    {answers.includes("No") && (
+                  <div aria-live="polite" id="eligibility-status">
+                    {answers.includes("No") ? (
                       <p className="career-notice">
-                        This role asks for a Level 3 qualification and the
-                        shifts above, but you are still welcome to apply. Tell
-                        us about your circumstances and our team will consider
-                        them.
+                        Sorry, this role requires a Level 3 (or above) Early
+                        Years qualification and availability for the shifts
+                        above. Please{" "}
+                        <Link href="/careers">see our other opportunities</Link>
+                        .
                       </p>
+                    ) : (
+                      !eligible && (
+                        <p className="career-small">
+                          Answer both questions to continue.
+                        </p>
+                      )
                     )}
                   </div>
-                  <button className="career-button">
+                  <button
+                    className="career-button"
+                    disabled={!eligible}
+                    aria-describedby={eligible ? undefined : "eligibility-status"}
+                  >
                     Continue to your application{" "}
                     <span aria-hidden="true">→</span>
                   </button>

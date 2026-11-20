@@ -67,6 +67,10 @@ export function validateCareerApplication(data: Record<string, unknown>) {
     const value = read(key, 3);
     if (!["Yes", "No"].includes(value))
       throw new Error("Please answer both qualifying questions.");
+    if (value !== "Yes")
+      throw new Error(
+        "This role requires a Level 3 qualification and availability for the listed shifts.",
+      );
     return value;
   });
   const cv = validateCv(data.cv);

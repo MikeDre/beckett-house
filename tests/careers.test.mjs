@@ -4,10 +4,10 @@ import '../migration/scripts/register.mjs';
 const {isOpenJob}=await import('../lib/careers.ts');
 const {validateCareerApplication,handleCareerApplication,CV_MAX_BYTES}=await import('../worker/careers.ts');
 const {previewDocumentIds}=await import('../lib/sanity/preview-revision.ts');
-const valid={jobId:'test-role',name:'Test Applicant',email:'person@example.invalid',phone:'01234567890',qualification:'Yes',shifts:'No',availability:'One month',qualifications:'Level 3',experience:'Nursery practitioner, 2020–2026',motivation:'I enjoy early years practice.',consent:'Yes',turnstileToken:'test-only-token',cv:{name:'My CV.pdf',data:Buffer.from('%PDF-1.4 test cv').toString('base64')}};
+const valid={jobId:'test-role',name:'Test Applicant',email:'person@example.invalid',phone:'01234567890',qualification:'Yes',shifts:'Yes',availability:'One month',qualifications:'Level 3',experience:'Nursery practitioner, 2020–2026',motivation:'I enjoy early years practice.',consent:'Yes',turnstileToken:'test-only-token',cv:{name:'My CV.pdf',data:Buffer.from('%PDF-1.4 test cv').toString('base64')}};
 test('career applications require both exact qualifying answers and complete applicant details',()=>{
- assert.equal(validateCareerApplication(valid).fields[4][1],'No');
- for(const change of [{cv:undefined},{cv:{name:'cv.pdf',data:Buffer.from('not a pdf').toString('base64')}},{cv:{name:'cv.exe',data:valid.cv.data}},{cv:{name:'cv.pdf',data:'%%%'}},{cv:{name:'cv.pdf',data:Buffer.concat([Buffer.from('%PDF'),Buffer.alloc(CV_MAX_BYTES)]).toString('base64')}},{qualification:''},{qualification:'Maybe'},{shifts:true},{consent:'No'},{email:'invalid'},{experience:''},{additional:'x'.repeat(2001)},{jobId:''}])assert.throws(()=>validateCareerApplication({...valid,...change}));
+ assert.equal(validateCareerApplication(valid).fields[4][1],'Yes');
+ for(const change of [{qualification:'No'},{shifts:'No'},{cv:undefined},{cv:{name:'cv.pdf',data:Buffer.from('not a pdf').toString('base64')}},{cv:{name:'cv.exe',data:valid.cv.data}},{cv:{name:'cv.pdf',data:'%%%'}},{cv:{name:'cv.pdf',data:Buffer.concat([Buffer.from('%PDF'),Buffer.alloc(CV_MAX_BYTES)]).toString('base64')}},{qualification:''},{qualification:'Maybe'},{shifts:true},{consent:'No'},{email:'invalid'},{experience:''},{additional:'x'.repeat(2001)},{jobId:''}])assert.throws(()=>validateCareerApplication({...valid,...change}));
 });
 test('word documents are accepted and CV names are made safe',()=>{
  const docx=validateCareerApplication({...valid,cv:{name:'../Jo <CV>.docx',data:Buffer.from([0x50,0x4b,0x03,0x04,1,2]).toString('base64')}});
@@ -58,9 +58,9 @@ test('real applications persist privately and send all answers to email and a de
   assert.match(inserts[1].sql,/submission_files/);assert.equal(inserts[1].values[1],'My CV.pdf');assert.equal(Buffer.from(inserts[1].values[3]).toString(),'%PDF-1.4 test cv');
   assert.deepEqual(emails[0].attachments,[{filename:'My CV.pdf',content:valid.cv.data}]);assert.equal(emails[1].attachments,undefined);
   assert.match(inserts[0].values[5],/Available for listed shifts/);
-  assert.equal(emails.length,2);assert.match(emails[0].text,/Available for listed shifts: No/);
+  assert.equal(emails.length,2);assert.match(emails[0].text,/Available for listed shifts: Yes/);
   assert(sheets.some(x=>x.body?.requests?.[0]?.addSheet?.properties?.title==='Careers applications'));
-  assert(sheets.some(x=>x.url.includes(':append')&&x.body.values[0].includes("'No")));
+  assert(sheets.some(x=>x.url.includes(':append')&&x.body.values[0].includes("'Yes")));
   sample=true;
   assert.equal((await handleCareerApplication(request(),env,{waitUntil(){throw new Error('Unexpected delivery');}})).status,400);
   assert.equal(inserts.length,2);
