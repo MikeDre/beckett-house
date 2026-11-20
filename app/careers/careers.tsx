@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { createDataAttribute } from "@sanity/visual-editing-standalone";
 import { CmsText, CmsRegion, useCmsContent } from "../cms-content";
+import CardAnimation from "../card-animation";
 import {
   careersPage,
   locationName,
@@ -39,6 +40,11 @@ export function JobField({
     </span>
   );
 }
+const applySteps = [
+  ["Find your role", "Read the advert and check the hours, salary and location suit you."],
+  ["Two quick questions", "Tell us about your qualification and the shifts you can work."],
+  ["Tell us about you", "Share your experience and why you would like to join us. No CV needed."],
+];
 export function CareersListing({ jobs }: { jobs: Job[] }) {
   const content = useCmsContent("careers", careersPage);
   const [search, setSearch] = useState(""),
@@ -47,6 +53,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
   const open = jobs.filter(
     (job) => job.slug?.current && job.title && isOpenJob(job),
   );
+  const types = [...new Set(open.map((j) => j.employmentType).filter(Boolean))];
   const filtered = open.filter(
     (job) =>
       (!location || job.location === location) &&
@@ -55,10 +62,12 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
         .toLowerCase()
         .includes(search.trim().toLowerCase()),
   );
+  const count = (value: string) =>
+    open.filter((job) => !value || job.location === value).length;
   return (
     <>
       <header className="careers-hero">
-        <div>
+        <div className="careers-hero-copy">
           <p className="eyebrow">
             <CmsText
               page="careers"
@@ -76,23 +85,28 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
               fallback={content.introduction}
             />
           </p>
-          <a className="career-button" href="#opportunities">
-            Explore opportunities <span aria-hidden="true">↓</span>
-          </a>
+          <div className="careers-hero-actions">
+            <a className="button button-dark" href="#opportunities">
+              {open.length
+                ? `View ${open.length} open ${open.length === 1 ? "role" : "roles"}`
+                : "Explore opportunities"}{" "}
+              <span aria-hidden="true">↓</span>
+            </a>
+            <a className="careers-text-link" href="#how-to-apply">
+              How to apply
+            </a>
+          </div>
         </div>
-        <div className="careers-hero-art" aria-hidden="true">
-          <span>
-            Small beginnings.
-            <br />
-            Bright futures.
-          </span>
-          <i>✳</i>
+        <div className="careers-hero-art">
+          <CardAnimation name="sprout" />
         </div>
       </header>
       <CmsRegion page="careers" field="benefits" className="careers-benefits">
         {content.benefits.map((benefit, i) => (
           <article key={i}>
-            <span className="eyebrow">0{i + 1}</span>
+            <span className="careers-benefit-number" aria-hidden="true">
+              0{i + 1}
+            </span>
             <h2>{benefit.title}</h2>
             <p>{benefit.description}</p>
           </article>
@@ -100,50 +114,67 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
       </CmsRegion>
       <section id="opportunities" className="careers-opportunities">
         <div className="careers-section-heading">
-          <div>
-            <p className="eyebrow">Find your next chapter</p>
-            <h2>Our opportunities</h2>
-          </div>
+          <p className="eyebrow">Find your next chapter</p>
+          <h2>Our opportunities</h2>
           <p>Two nurseries. One shared commitment to childhood.</p>
         </div>
-        <div className="career-filters">
-          <label>
-            Search roles
-            <input
-              type="search"
-              placeholder="Job title or keyword"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </label>
-          <label>
-            Location
-            <select
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+        {open.length > 0 && (
+          <div className="career-filters">
+            <div
+              className="career-chips"
+              role="group"
+              aria-label="Filter by nursery"
             >
-              <option value="">All locations</option>
-              <option value="angel">Angel</option>
-              <option value="abbey-road">Abbey Road</option>
-            </select>
-          </label>
-          <label>
-            Working pattern
-            <select value={type} onChange={(e) => setType(e.target.value)}>
-              <option value="">All working patterns</option>
-              {[...new Set(open.map((j) => j.employmentType))].map((t) => (
-                <option key={t}>{t}</option>
+              {[
+                ["", "All nurseries"],
+                ["angel", "Angel"],
+                ["abbey-road", "Abbey Road"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={location === value}
+                  onClick={() => setLocation(value)}
+                >
+                  {label} <span>{count(value)}</span>
+                </button>
               ))}
-            </select>
-          </label>
-        </div>
+            </div>
+            <div className="career-filter-fields">
+              <label>
+                <span className="visually-hidden">Search roles</span>
+                <input
+                  type="search"
+                  placeholder="Search by job title or keyword"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </label>
+              {types.length > 1 && (
+                <label>
+                  <span className="visually-hidden">Working pattern</span>
+                  <select
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option value="">All working patterns</option>
+                    {types.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+          </div>
+        )}
         <div className="career-results">
           <p role="status">
-            {filtered.length}{" "}
+            Showing {filtered.length}{" "}
             {filtered.length === 1 ? "opportunity" : "opportunities"}
           </p>
           {(search || location || type) && (
             <button
+              type="button"
               onClick={() => {
                 setSearch("");
                 setLocation("");
@@ -154,13 +185,19 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
             </button>
           )}
         </div>
-        <div className="career-jobs">
+        <ul className="career-jobs">
           {filtered.map((job) => (
-            <article className="career-job-card" key={job._id}>
-              <div>
-                <p className="eyebrow">
-                  {locationName(job.location)}{" "}
-                  {job.isSample && " · Sample role"}
+            <li
+              className={`career-job-card career-job-${job.location}`}
+              key={job._id}
+            >
+              <div className="career-job-main">
+                <p className="career-job-location">
+                  <span aria-hidden="true" className="career-dot" />
+                  {locationName(job.location)}
+                  {job.isSample && (
+                    <span className="career-badge">Sample role</span>
+                  )}
                 </p>
                 <h3>
                   <a href={`/careers/${job.slug.current}`}>
@@ -170,22 +207,20 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                   </a>
                 </h3>
                 <p>{job.summary}</p>
-                <div className="career-tags">
-                  <span>{job.employmentType}</span>
-                  <span>{job.salary}</span>
-                  <span>{job.hours}</span>
-                </div>
+                <ul className="career-tags" aria-label="Role details">
+                  {[job.salary, job.employmentType, job.hours]
+                    .filter(Boolean)
+                    .map((tag) => (
+                      <li key={tag}>{tag}</li>
+                    ))}
+                </ul>
               </div>
-              <a
-                className="career-card-link"
-                href={`/careers/${job.slug.current}`}
-                aria-label={`View ${job.title} at ${locationName(job.location)}`}
-              >
-                View role <span aria-hidden="true">↗</span>
-              </a>
-            </article>
+              <span className="career-card-cta" aria-hidden="true">
+                View role <span>→</span>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
         {!filtered.length && (
           <div className="career-empty">
             <h3>
@@ -196,12 +231,28 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
             <p>
               {open.length
                 ? "Try another keyword or clear your filters."
-                : "Please check back for future roles with our nursery teams."}
+                : "Please check back soon for future roles with our nursery teams."}
             </p>
           </div>
         )}
       </section>
-      <div className="career-safeguarding">
+      <section id="how-to-apply" className="careers-process">
+        <div className="careers-section-heading">
+          <p className="eyebrow">How to apply</p>
+          <h2>A simple, friendly application</h2>
+          <p>It takes around 10 minutes, and you can do it all on your phone.</p>
+        </div>
+        <ol>
+          {applySteps.map(([title, text], i) => (
+            <li key={title}>
+              <span aria-hidden="true">{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <aside className="career-safeguarding">
         <h2>A safe and welcoming place</h2>
         <p>
           <CmsText
@@ -210,7 +261,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
             fallback={content.safeguarding}
           />
         </p>
-      </div>
+      </aside>
     </>
   );
 }
