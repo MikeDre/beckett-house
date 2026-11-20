@@ -490,9 +490,6 @@ export function JobDetails({ job }: { job: Job }) {
               <a className="career-button" href={applyHref}>
                 {applyLabel} <span aria-hidden="true">→</span>
               </a>
-              <p className="career-small">
-                Two quick questions, then your details and CV.
-              </p>
             </>
           ) : (
             <p className="career-small">Applications for this role are closed.</p>
