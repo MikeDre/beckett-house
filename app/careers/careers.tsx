@@ -349,7 +349,7 @@ export function JobDetails({ job }: { job: Job }) {
   const content = useCmsContent("careers", careersPage),
     open = isOpenJob(job);
   const applyHref = `/careers/${job.slug.current}/apply`;
-  const applyLabel = job.isSample ? "Preview application" : "Apply for this role";
+  const applyLabel = job.isSample ? "Preview application" : "Apply now";
   return (
     <div className="career-detail">
       <header className="career-job-heading">
@@ -442,7 +442,7 @@ export function JobDetails({ job }: { job: Job }) {
           {open && (
             <section className="career-apply-panel">
               <div>
-                <h2>Sounds like you?</h2>
+                <h2>Apply for this role</h2>
                 <p>
                   Answer two quick questions, then tell us about your
                   experience and upload your CV.
