@@ -228,7 +228,8 @@ export default function ApplicationForm({ job }: { job: Job }) {
                               name={`question${i}`}
                               value={answer}
                               checked={answers[i] === answer}
-                              onChange={() =>
+                              readOnly
+                              onClick={() =>
                                 setAnswers((current) =>
                                   current.map((v, j) =>
                                     j === i ? answer : v,
