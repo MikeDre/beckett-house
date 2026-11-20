@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { createDataAttribute } from "@sanity/visual-editing-standalone";
-import { CmsText, CmsRegion, useCmsContent } from "../cms-content";
+import { CmsText, useCmsContent } from "../cms-content";
 import CardAnimation from "../card-animation";
 import {
   careersPage,
@@ -40,28 +40,58 @@ export function JobField({
     </span>
   );
 }
-const applySteps = [
-  ["Find your role", "Read the advert and check the hours, salary and location suit you."],
-  ["Two quick questions", "Tell us about your qualification and the shifts you can work."],
-  ["Tell us about you", "Share your experience and why you would like to join us. No CV needed."],
-];
+const londonToday = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/London",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+const daysBetween = (from: string, to: string) =>
+  (Date.parse(to) - Date.parse(from)) / 86_400_000;
+// First number in the salary text, e.g. "£27,000–£31,000 per year" → 27000.
+const salaryValue = (salary = "") =>
+  Number(salary.replace(/,/g, "").match(/\d+(\.\d+)?/)?.[0] ?? 0);
+const postedLabel = (postedAt: string, today: string) => {
+  const days = Math.round(daysBetween(postedAt, today));
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 14) return `${days} days ago`;
+  return formatDate(postedAt);
+};
+const sorters = {
+  newest: (a: Job, b: Job) => (b.postedAt ?? "").localeCompare(a.postedAt ?? ""),
+  oldest: (a: Job, b: Job) => (a.postedAt ?? "").localeCompare(b.postedAt ?? ""),
+  closing: (a: Job, b: Job) =>
+    (a.closingDate ?? "9999").localeCompare(b.closingDate ?? "9999"),
+  salary: (a: Job, b: Job) => salaryValue(b.salary) - salaryValue(a.salary),
+  title: (a: Job, b: Job) => a.title.localeCompare(b.title),
+};
 export function CareersListing({ jobs }: { jobs: Job[] }) {
   const content = useCmsContent("careers", careersPage);
   const [search, setSearch] = useState(""),
     [location, setLocation] = useState(""),
-    [type, setType] = useState("");
+    [type, setType] = useState(""),
+    [posted, setPosted] = useState(""),
+    [sort, setSort] = useState("newest");
   const open = jobs.filter(
     (job) => job.slug?.current && job.title && isOpenJob(job),
   );
   const types = [...new Set(open.map((j) => j.employmentType).filter(Boolean))];
-  const filtered = open.filter(
-    (job) =>
-      (!location || job.location === location) &&
-      (!type || job.employmentType === type) &&
-      `${job.title} ${job.summary} ${job.department} ${locationName(job.location)}`
-        .toLowerCase()
-        .includes(search.trim().toLowerCase()),
-  );
+  const today = londonToday();
+  const filtered = open
+    .filter(
+      (job) =>
+        (!location || job.location === location) &&
+        (!type || job.employmentType === type) &&
+        (!posted ||
+          (job.postedAt && daysBetween(job.postedAt, today) <= Number(posted))) &&
+        `${job.title} ${job.summary} ${job.department} ${locationName(job.location)}`
+          .toLowerCase()
+          .includes(search.trim().toLowerCase()),
+    )
+    .sort(sorters[sort as keyof typeof sorters] ?? sorters.newest);
+  const filtersActive = Boolean(search || location || type || posted);
   const count = (value: string) =>
     open.filter((job) => !value || job.location === value).length;
   return (
@@ -92,26 +122,12 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                 : "Explore opportunities"}{" "}
               <span aria-hidden="true">↓</span>
             </a>
-            <a className="careers-text-link" href="#how-to-apply">
-              How to apply
-            </a>
           </div>
         </div>
         <div className="careers-hero-art">
-          <CardAnimation name="sprout" />
+          <CardAnimation name="shapehop" />
         </div>
       </header>
-      <CmsRegion page="careers" field="benefits" className="careers-benefits">
-        {content.benefits.map((benefit, i) => (
-          <article key={i}>
-            <span className="careers-benefit-number" aria-hidden="true">
-              0{i + 1}
-            </span>
-            <h2>{benefit.title}</h2>
-            <p>{benefit.description}</p>
-          </article>
-        ))}
-      </CmsRegion>
       <section id="opportunities" className="careers-opportunities">
         <div className="careers-section-heading">
           <p className="eyebrow">Find your next chapter</p>
@@ -141,29 +157,52 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
               ))}
             </div>
             <div className="career-filter-fields">
-              <label>
-                <span className="visually-hidden">Search roles</span>
+              <label className="career-search">
+                <span className="career-filter-label">Search</span>
                 <input
                   type="search"
-                  placeholder="Search by job title or keyword"
+                  placeholder="Job title or keyword"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </label>
+              <label>
+                <span className="career-filter-label">Date posted</span>
+                <select
+                  value={posted}
+                  onChange={(e) => setPosted(e.target.value)}
+                >
+                  <option value="">Any time</option>
+                  <option value="3">Last 3 days</option>
+                  <option value="7">Last 7 days</option>
+                  <option value="14">Last 14 days</option>
+                  <option value="30">Last 30 days</option>
+                </select>
+              </label>
               {types.length > 1 && (
                 <label>
-                  <span className="visually-hidden">Working pattern</span>
+                  <span className="career-filter-label">Working pattern</span>
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
                   >
-                    <option value="">All working patterns</option>
+                    <option value="">All patterns</option>
                     {types.map((t) => (
                       <option key={t}>{t}</option>
                     ))}
                   </select>
                 </label>
               )}
+              <label>
+                <span className="career-filter-label">Sort by</span>
+                <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                  <option value="closing">Closing soonest</option>
+                  <option value="salary">Highest salary</option>
+                  <option value="title">Job title A–Z</option>
+                </select>
+              </label>
             </div>
           </div>
         )}
@@ -172,13 +211,14 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
             Showing {filtered.length}{" "}
             {filtered.length === 1 ? "opportunity" : "opportunities"}
           </p>
-          {(search || location || type) && (
+          {filtersActive && (
             <button
               type="button"
               onClick={() => {
                 setSearch("");
                 setLocation("");
                 setType("");
+                setPosted("");
               }}
             >
               Clear filters
@@ -214,6 +254,13 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                       <li key={tag}>{tag}</li>
                     ))}
                 </ul>
+                <p className="career-job-dates">
+                  {job.postedAt && <>Posted {postedLabel(job.postedAt, today)}</>}
+                  {job.postedAt && " · "}
+                  {job.closingDate
+                    ? `Closes ${formatDate(job.closingDate)}`
+                    : "Ongoing recruitment"}
+                </p>
               </div>
               <span className="career-card-cta" aria-hidden="true">
                 View role <span>→</span>
@@ -235,22 +282,6 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
             </p>
           </div>
         )}
-      </section>
-      <section id="how-to-apply" className="careers-process">
-        <div className="careers-section-heading">
-          <p className="eyebrow">How to apply</p>
-          <h2>A simple, friendly application</h2>
-          <p>It takes around 10 minutes, and you can do it all on your phone.</p>
-        </div>
-        <ol>
-          {applySteps.map(([title, text], i) => (
-            <li key={title}>
-              <span aria-hidden="true">{i + 1}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </li>
-          ))}
-        </ol>
       </section>
       <aside className="career-safeguarding">
         <h2>A safe and welcoming place</h2>

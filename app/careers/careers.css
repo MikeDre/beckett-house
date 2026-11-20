@@ -33,15 +33,6 @@
   margin: 0;
   max-width: 38rem;
 }
-.careers-text-link {
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
-.careers-text-link:hover {
-  text-decoration-thickness: 2px;
-}
-
 /* Listing hero with the sprout Lottie */
 .careers-hero {
   background: var(--careers-sky);
@@ -74,42 +65,8 @@
   width: 100%;
 }
 
-/* Benefits */
-.careers-benefits {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: clamp(2.5rem, 5vw, 4rem) var(--page-inline) 0;
-}
-.careers-benefits article {
-  background: var(--green-soft);
-  border-radius: var(--radius-md);
-  padding: clamp(1.5rem, 3vw, 2rem);
-}
-.careers-benefits article:nth-child(2) {
-  background: var(--coral-soft);
-}
-.careers-benefits article:nth-child(3) {
-  background: #fbf1d3;
-}
-.careers-benefit-number {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  margin-bottom: 2.5rem;
-}
-.careers-benefits h2 {
-  font-size: clamp(1.35rem, 2vw, 1.6rem);
-  margin-bottom: 0.5rem;
-}
-.careers-benefits p {
-  margin: 0;
-}
-
 /* Opportunities */
-.careers-opportunities,
-.careers-process {
+.careers-opportunities {
   margin: clamp(3.5rem, 7vw, 6rem) var(--page-inline) 0;
   scroll-margin-top: 7rem;
 }
@@ -124,11 +81,11 @@
   margin: 0;
 }
 .career-filters {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
+  background: var(--careers-sky);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
 }
 .career-chips {
   display: flex;
@@ -170,13 +127,23 @@
   background: rgba(255, 255, 255, 0.2);
 }
 .career-filter-fields {
-  display: flex;
-  flex: 1 1 320px;
+  display: grid;
   gap: 0.75rem;
-  justify-content: flex-end;
+  grid-template-columns: minmax(0, 2fr) repeat(auto-fit, minmax(10rem, 1fr));
 }
 .career-filter-fields label {
-  flex: 0 1 340px;
+  display: grid;
+  gap: 0.35rem;
+}
+.career-filter-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.career-filters input,
+.career-filters select {
+  background: var(--paper);
 }
 .career-filters input,
 .career-filters select,
@@ -338,6 +305,11 @@
 .career-job-card:hover .career-card-cta span {
   transform: translateX(4px);
 }
+.career-job-dates {
+  font-size: 0.85rem;
+  margin: 0.85rem 0 0 !important;
+  opacity: 0.75;
+}
 .career-empty {
   border: 1px dashed var(--line);
   border-radius: var(--radius-md);
@@ -349,38 +321,6 @@
   margin: 0 0 0.5rem;
 }
 .career-empty p {
-  margin: 0;
-}
-
-/* How to apply */
-.careers-process ol {
-  counter-reset: none;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.careers-process li {
-  border-top: 2px solid var(--ink);
-  padding-top: 1.25rem;
-}
-.careers-process li > span {
-  align-items: center;
-  background: var(--sun);
-  border-radius: 50%;
-  display: inline-flex;
-  font-weight: 800;
-  height: 2.5rem;
-  justify-content: center;
-  width: 2.5rem;
-}
-.careers-process h3 {
-  font-size: 1.25rem;
-  margin: 1rem 0 0.35rem;
-}
-.careers-process p {
   margin: 0;
 }
 
@@ -845,18 +785,11 @@
     max-width: 240px;
     order: -1;
   }
-  .careers-benefits,
-  .careers-process ol {
-    grid-template-columns: 1fr;
-  }
-  .careers-benefit-number {
-    margin-bottom: 1rem;
-  }
   .career-filter-fields {
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .career-filter-fields label {
-    flex: 1 1 auto;
+  .career-search {
+    grid-column: 1 / -1;
   }
   .career-job-card {
     align-items: stretch;
