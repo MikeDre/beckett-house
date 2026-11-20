@@ -265,36 +265,95 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
     </>
   );
 }
+// Adverts are plain text in Sanity; lines starting with a bullet become a list.
+function AdvertText({ text }: { text: string }) {
+  const blocks: { list: boolean; lines: string[] }[] = [];
+  for (const raw of (text || "").split("\n")) {
+    const line = raw.trim();
+    if (!line) {
+      blocks.push({ list: false, lines: [] });
+      continue;
+    }
+    const item = line.match(/^[•\-*–]\s*(.+)$/);
+    const last = blocks.at(-1);
+    if (item) {
+      if (last?.list) last.lines.push(item[1]);
+      else blocks.push({ list: true, lines: [item[1]] });
+    } else if (last && !last.list && last.lines.length) last.lines.push(line);
+    else blocks.push({ list: false, lines: [line] });
+  }
+  return (
+    <>
+      {blocks
+        .filter((block) => block.lines.length)
+        .map((block, i) =>
+          block.list ? (
+            <ul key={i}>
+              {block.lines.map((line, j) => (
+                <li key={j}>{line}</li>
+              ))}
+            </ul>
+          ) : (
+            <p key={i}>
+              {block.lines.map((line, j) => (
+                <span key={j}>
+                  {j > 0 && <br />}
+                  {line}
+                </span>
+              ))}
+            </p>
+          ),
+        )}
+    </>
+  );
+}
+const formatDate = (value: string) =>
+  new Date(value + "T12:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/London",
+  });
 export function JobDetails({ job }: { job: Job }) {
   const content = useCmsContent("careers", careersPage),
     open = isOpenJob(job);
-  const date = (value: string) =>
-    new Date(value + "T12:00:00Z").toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      timeZone: "Europe/London",
-    });
+  const applyHref = `/careers/${job.slug.current}/apply`;
+  const applyLabel = job.isSample ? "Preview application" : "Apply for this role";
   return (
     <div className="career-detail">
-      <Link className="career-back" href="/careers">
-        ← All opportunities
-      </Link>
       <header className="career-job-heading">
-        <p className="eyebrow">
-          {locationName(job.location)}
-          {job.isSample ? " · Sample role for review" : ""}
-        </p>
-        <h1>
-          <JobField job={job} field="title">
-            {job.title}
-          </JobField>
-        </h1>
-        <p className="careers-lead">
-          <JobField job={job} field="summary">
-            {job.summary}
-          </JobField>
-        </p>
+        <div className="career-job-heading-inner">
+          <Link className="career-back" href="/careers">
+            <span aria-hidden="true">←</span> All opportunities
+          </Link>
+          <p className="career-job-location">
+            <span aria-hidden="true" className="career-dot" />
+            {locationName(job.location)}
+            {job.isSample && <span className="career-badge">Sample role</span>}
+          </p>
+          <h1>
+            <JobField job={job} field="title">
+              {job.title}
+            </JobField>
+          </h1>
+          <p className="careers-lead">
+            <JobField job={job} field="summary">
+              {job.summary}
+            </JobField>
+          </p>
+          <ul className="career-tags" aria-label="Role details">
+            {[job.salary, job.employmentType, job.hours]
+              .filter(Boolean)
+              .map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+          </ul>
+          {open && (
+            <a className="career-button career-heading-apply" href={applyHref}>
+              {applyLabel} <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </div>
       </header>
       <div className="career-detail-grid">
         <article className="career-advert">
@@ -306,7 +365,8 @@ export function JobDetails({ job }: { job: Job }) {
           )}
           {!open && (
             <p className="career-notice">
-              Applications for this role are closed.
+              Applications for this role are closed.{" "}
+              <Link href="/careers">See our current opportunities</Link>.
             </p>
           )}
           {job.sections?.map((section) => (
@@ -319,17 +379,22 @@ export function JobDetails({ job }: { job: Job }) {
                   {section.heading}
                 </JobField>
               </h2>
-              <div className="career-prose">
-                <JobField
-                  job={job}
-                  field={`sections[_key=="${section._key}"].body`}
-                >
-                  {section.body}
-                </JobField>
+              <div
+                className="career-prose"
+                data-sanity={createDataAttribute({
+                  id: job._id,
+                  type: "job",
+                  path: `sections[_key=="${section._key}"].body`,
+                  projectId: SANITY_PROJECT_ID,
+                  dataset: SANITY_DATASET,
+                  baseUrl: STUDIO_URL,
+                }).toString()}
+              >
+                <AdvertText text={section.body} />
               </div>
             </section>
           ))}
-          <section>
+          <section className="career-advert-safeguarding">
             <h2>Safeguarding and equal opportunities</h2>
             <p>
               <CmsText
@@ -343,9 +408,23 @@ export function JobDetails({ job }: { job: Job }) {
               tell us if you need an adjustment during the recruitment process.
             </p>
           </section>
+          {open && (
+            <section className="career-apply-panel">
+              <div>
+                <h2>Sounds like you?</h2>
+                <p>
+                  Answer two quick questions, then tell us about your
+                  experience. It takes around 10 minutes and no CV is needed.
+                </p>
+              </div>
+              <a className="career-button" href={applyHref}>
+                {applyLabel} <span aria-hidden="true">→</span>
+              </a>
+            </section>
+          )}
         </article>
-        <aside className="career-summary">
-          <p className="eyebrow">At a glance</p>
+        <aside className="career-summary" aria-label="Role summary">
+          <h2 className="eyebrow">At a glance</h2>
           <dl>
             {[
               ["Location", locationName(job.location), "location"],
@@ -354,12 +433,14 @@ export function JobDetails({ job }: { job: Job }) {
               ["Hours", job.hours, "hours"],
               [
                 "Posted",
-                job.postedAt ? date(job.postedAt) : "Not specified",
+                job.postedAt ? formatDate(job.postedAt) : "Not specified",
                 "postedAt",
               ],
               [
                 "Closing date",
-                job.closingDate ? date(job.closingDate) : "Ongoing recruitment",
+                job.closingDate
+                  ? formatDate(job.closingDate)
+                  : "Ongoing recruitment",
                 "closingDate",
               ],
             ].map(([label, value, field]) => (
@@ -373,18 +454,18 @@ export function JobDetails({ job }: { job: Job }) {
               </div>
             ))}
           </dl>
-          {open && (
-            <a
-              className="career-button"
-              href={`/careers/${job.slug.current}/apply`}
-            >
-              {job.isSample ? "Preview application" : "Apply for this role"}{" "}
-              <span aria-hidden="true">→</span>
-            </a>
+          {open ? (
+            <>
+              <a className="career-button" href={applyHref}>
+                {applyLabel} <span aria-hidden="true">→</span>
+              </a>
+              <p className="career-small">
+                Two quick questions, then tell us about your experience.
+              </p>
+            </>
+          ) : (
+            <p className="career-small">Applications for this role are closed.</p>
           )}
-          <p className="career-small">
-            Start with two quick questions, then tell us about your experience.
-          </p>
         </aside>
       </div>
     </div>

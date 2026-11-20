@@ -426,48 +426,136 @@
   opacity: 0.55;
 }
 
-.career-detail {
-  max-width: 1280px;
-  padding: 3rem max(5vw, 1.5rem);
-  margin: auto;
-}
+/* Job advert */
 .career-back {
-  display: inline-block;
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  gap: 0.5rem;
   margin-bottom: 2rem;
 }
+.career-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
 .career-job-heading {
-  max-width: 900px;
-  margin-bottom: 3rem;
+  background: var(--careers-sky);
+  padding: clamp(2rem, 5vw, 3.5rem) var(--page-inline) clamp(2.5rem, 5vw, 4rem);
+}
+.career-job-heading-inner {
+  max-width: 54rem;
+}
+.career-job-heading h1 {
+  margin-top: 1rem;
+}
+.career-job-heading .career-tags li {
+  background: var(--paper);
+}
+.career-heading-apply {
+  margin-top: 2rem;
 }
 .career-detail-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 5rem;
   align-items: start;
+  display: grid;
+  gap: clamp(2rem, 6vw, 5rem);
+  grid-template-columns: minmax(0, 1fr) 340px;
+  margin: clamp(2.5rem, 5vw, 4rem) var(--page-inline) 0;
+}
+.career-advert {
+  max-width: 46rem;
 }
 .career-advert section {
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2.25rem, 4vw, 3rem);
 }
-.career-prose {
-  white-space: pre-line;
-  line-height: 1.8;
+.career-advert h2 {
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+}
+.career-prose p {
+  margin: 0 0 1rem;
+}
+.career-prose ul {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.career-prose li {
+  line-height: 1.6;
+  padding-left: 1.75rem;
+  position: relative;
+}
+.career-prose li::before {
+  background: var(--coral);
+  border-radius: 50%;
+  content: "";
+  height: 0.55rem;
+  left: 0.35rem;
+  position: absolute;
+  top: 0.55em;
+  width: 0.55rem;
+}
+.career-advert-safeguarding {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+}
+.career-advert-safeguarding p {
+  margin: 0 0 1rem;
+}
+.career-apply-panel {
+  align-items: center;
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  justify-content: space-between;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+}
+.career-apply-panel > div {
+  flex: 1 1 18rem;
+}
+.career-apply-panel h2 {
+  margin-bottom: 0.4rem;
+}
+.career-apply-panel p {
+  margin: 0;
+  opacity: 0.9;
+}
+.career-apply-panel .career-button {
+  background: var(--sun);
+  color: var(--ink);
+}
+.career-apply-panel .career-button:hover:not(:disabled) {
+  background: white;
 }
 .career-summary {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: 1.75rem;
   position: sticky;
   top: 7rem;
-  border: 1px solid var(--line);
-  background: #eeeede;
-  padding: 2rem;
-  border-radius: 1.25rem;
+}
+.career-summary h2.eyebrow {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.5rem;
+}
+.career-summary dl {
+  margin: 0 0 1.5rem;
 }
 .career-summary dl div {
-  padding: 1rem 0;
-  border-bottom: 1px solid #d4d8cb;
+  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
 }
 .career-summary dt {
   font-size: 0.8rem;
+  margin-bottom: 0.2rem;
   opacity: 0.75;
-  margin-bottom: 0.3rem;
 }
 .career-summary dd {
   font-weight: 600;
@@ -475,18 +563,23 @@
 }
 .career-summary .career-button {
   width: 100%;
-  gap: 0.5rem;
 }
 .career-small {
   font-size: 0.85rem;
   line-height: 1.6;
+  margin: 0.75rem 0 0;
+  opacity: 0.85;
 }
 .career-notice {
-  border-left: 3px solid #b57535;
-  background: #fff0d9;
+  background: #fbf1d3;
+  border-left: 4px solid #e2b84c;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 0 0 2rem;
   padding: 1rem 1.25rem;
-  border-radius: 0 0.5rem 0.5rem 0;
-  margin: 1.5rem 0;
+}
+.career-notice a {
+  font-weight: 700;
+  text-decoration: underline;
 }
 .career-application {
   max-width: 850px;
@@ -604,7 +697,13 @@
   }
   .career-summary {
     position: static;
-    grid-row: 1;
+  }
+  .career-summary .career-button,
+  .career-summary .career-small {
+    display: none;
+  }
+  .career-summary dl {
+    margin: 0;
   }
   .career-form-grid {
     grid-template-columns: 1fr;
