@@ -1,3 +1,4 @@
+import {defaultCareerEmailTemplate,validateCareerEmailTemplate,renderCareerEmailTemplate} from '../lib/career-email-template';
 import {
   SANITY_PROJECT_ID,
   SANITY_DATASET,
@@ -178,6 +179,9 @@ export async function handleCareerApplication(
       ...application.fields,
     ];
     const notifications = await getNotificationSettings(env.DB);
+    let template=defaultCareerEmailTemplate;
+    try{const row=await env.DB.prepare('SELECT value FROM settings WHERE key = ?').bind('career-email-template').first<{value:string}>();if(row)template=validateCareerEmailTemplate(JSON.parse(row.value));}catch(error){console.error('Using default career email template',error);}
+    const acknowledgement=renderCareerEmailTemplate(template,{jobTitle:job.title,applicantName:application.name,nursery:nursery.name});
     const createdAt = new Date().toISOString();
     // Persist before delivery so a failed notification never loses the application.
     // One batch is one transaction, so the CV is saved with its submission or not at all.
@@ -239,10 +243,10 @@ export async function handleCareerApplication(
         env,
         application.email,
         nursery.email,
-        "Your application — Beckett House Montessori",
+        acknowledgement.subject,
         emailBody(
-          "Application received",
-          `Thank you for applying for ${job.title}. Our team will review your application and contact you about next steps.`,
+          acknowledgement.heading,
+          acknowledgement.body,
           fields,
         ),
       ).catch((error) => console.error("Career confirmation failed", error)),

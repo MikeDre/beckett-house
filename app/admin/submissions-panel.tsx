@@ -1,4 +1,5 @@
 "use client";
+import CareerEmailTemplateSection from "./career-email-template";
 import { useCallback, useState } from "react";
 import { SubmissionsSection } from "./sections";
 import { useResource, Icon, Loading, ErrorState } from "./ui";
@@ -28,6 +29,7 @@ export default function SubmissionsPanel() {
               <Icon name="inbox" />
               <span>Submissions</span>
             </a>
+            <a href="#email-template"><Icon name="mail"/><span>Email template</span></a>
             <a href={STUDIO_URL} target="_blank" rel="noopener noreferrer">
               <Icon name="pages" />
               <span>Edit website in Sanity</span>
@@ -88,7 +90,7 @@ export default function SubmissionsPanel() {
           ) : me.error ? (
             <ErrorState message={me.error} retry={me.reload} />
           ) : (
-            <SubmissionsSection notify={notify} active />
+            <><SubmissionsSection notify={notify} active /><CareerEmailTemplateSection/></>
           )}
         </main>
       </div>

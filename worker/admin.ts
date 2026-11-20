@@ -1,3 +1,4 @@
+import {defaultCareerEmailTemplate,validateCareerEmailTemplate} from '../lib/career-email-template';
 import { homeAnnouncements } from "../lib/content";
 import { getHistoryRecord, saveHistoryDraft, publishHistoryDraft, HistoryConflictError, HistoryInputError } from "../lib/history-store";
 import { getTimetableRecord, saveTimetableDraft, publishTimetableDraft, TimetableConflictError, TimetableInputError } from "../lib/timetable-store";
@@ -27,6 +28,11 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
     const data = ["PUT", "PATCH", "DELETE", "POST"].includes(method) ? await body(request) : undefined;
     const activity = (action: string, summary: string) => env.DB.prepare("INSERT INTO activity (at, user, action, summary) VALUES (?, ?, ?, ?)").bind(new Date().toISOString(), email, action, summary);
     if (path === "/api/admin/me" && method === "GET") return adminJson({ email });
+    if(path==='/api/admin/career-email-template'){
+      if(method==='GET'){const row=await env.DB.prepare('SELECT value FROM settings WHERE key = ?').bind('career-email-template').first<{value:string}>();return adminJson(row?validateCareerEmailTemplate(JSON.parse(row.value)):defaultCareerEmailTemplate);}
+      if(method==='PUT'){let template;try{template=validateCareerEmailTemplate(data);}catch(error){throw new InputError((error as Error).message);}await env.DB.batch([env.DB.prepare('INSERT INTO settings (key,value,updated_at,updated_by) VALUES (?,?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at,updated_by=excluded.updated_by').bind('career-email-template',JSON.stringify(template),new Date().toISOString(),email),activity('update','Career acknowledgement email template')]);return adminJson(template);}
+      return adminJson({error:'Method not allowed'},405);
+    }
     const historyRoute = path.match(/^\/api\/admin\/pages\/([a-z-]+)\/history(?:\/(\d+)(\/restore)?)?$/);
     if (historyRoute && historyPages.includes(historyRoute[1] as HistoryPage)) {
       const slug = historyRoute[1] as HistoryPage;

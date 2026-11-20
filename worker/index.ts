@@ -139,7 +139,7 @@ const worker = {
         if (protectedPath.startsWith("/api/")) return adminJson({ error: identity.error }, identity.status);
         return new Response(identity.error, { status: identity.status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
       }
-      if(env.SANITY_CONTENT_ENABLED==='true' && protectedPath.startsWith('/api/admin/') && protectedPath!=='/api/admin/me' && !/^\/api\/admin\/submissions(?:\/|$)/.test(protectedPath)) return adminJson({error:'Website content is managed in Sanity.'},410);
+      if(env.SANITY_CONTENT_ENABLED==='true' && protectedPath.startsWith('/api/admin/') && protectedPath!=='/api/admin/me' && protectedPath!=='/api/admin/career-email-template' && !/^\/api\/admin\/submissions(?:\/|$)/.test(protectedPath)) return adminJson({error:'Website content is managed in Sanity.'},410);
       if(env.SANITY_CONTENT_ENABLED==='true' && protectedPath.startsWith('/admin/')) return Response.redirect(new URL('/admin#submissions',url),302);
       if (url.pathname === "/api/admin/media" || url.pathname.startsWith("/api/admin/media/")) return handleMedia(request, env, identity.email);
       if (protectedPath.startsWith("/api/")) return handleAdmin(request, env, identity.email);
