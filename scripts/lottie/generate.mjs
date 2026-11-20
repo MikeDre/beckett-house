@@ -446,9 +446,63 @@ function hours() {
   return composition([...burst, ball, ...bars, baseline]);
 }
 
+// Careers, small beginnings and bright futures: a seed drops into the soil,
+// a stem shoots up, leaves unfurl and a flower blooms with twinkles, the
+// plant sways happily, then it all folds back into the ground.
+function sprout() {
+  const hub = nullLayer("Plant", {
+    position: [200, 288],
+    rotation: k([[0, 0], [132, 0], [150, 4], [168, -4], [186, 3], [204, -2], [222, 0], [LAST_FRAME, 0]]),
+  });
+  const seed = child(shapeLayer("Seed", [group(ellipse([24, 32]), palette.coral)], {
+    position: k([[0, [0, -350]], [6, [0, -350]], [26, [0, -16]], [31, [0, -26]], [36, [0, -16]], [46, [0, 12]], [LAST_FRAME, [0, -350]]]),
+    scale: k([[0, [100, 100]], [26, [100, 100]], [29, [124, 76]], [34, [94, 108]], [38, [100, 100]], [LAST_FRAME, [100, 100]]]),
+    opacity: k([[0, 0], [6, 0], [10, 100], [46, 100], [48, 0], [LAST_FRAME, 0]]),
+  }), hub);
+  const stem = child(shapeLayer("Stem", [group(rectangle([12, 150], 6), palette.deep, [0, -75])], {
+    scale: k([[0, [100, 0]], [44, [100, 0]], [78, [100, 108]], [86, [100, 100]], [244, [100, 100]], [270, [100, 0]], [LAST_FRAME, [100, 0]]]),
+  }), hub);
+  const leaves = [
+    { y: -58, size: [66, 28], colour: palette.ink, grow: 64 },
+    { y: -100, size: [50, 22], colour: palette.deep, grow: 78 },
+  ].flatMap(({ y, size, colour, grow }, pair) => [-1, 1].map((side) => {
+    const angle = -side * 25;
+    const start = grow + (side > 0 ? 6 : 0);
+    const fold = 230 - pair * 6;
+    return child(shapeLayer(`Leaf ${pair + 1} ${side < 0 ? "left" : "right"}`, [group(ellipse(size), colour, [side * size[0] / 2, 0])], {
+      position: [0, y],
+      rotation: k([[0, angle], [134, angle], [152, angle - side * 10], [170, angle + side * 5], [188, angle], [LAST_FRAME, angle]]),
+      scale: k([[0, [0, 0]], [start, [0, 0]], [start + 12, [116, 116]], [start + 18, [94, 94]], [start + 24, [100, 100]], [fold, [100, 100]], [fold + 14, [0, 0]], [LAST_FRAME, [0, 0]]]),
+    }), hub);
+  }));
+  const bloom = child(shapeLayer("Bloom", [
+    group(ellipse([30, 30]), palette.sun),
+    ...Array.from({ length: 8 }, (_, index) => group(ellipse([26, 26]), palette.coral, round(rotate([0, -24], index * 45)))),
+  ], {
+    position: [0, -164],
+    rotation: k([[0, -90], [98, -90], [126, 0], [214, 0], [238, 90], [LAST_FRAME, -90]]),
+    scale: k([[0, [0, 0]], [98, [0, 0]], [112, [124, 124]], [120, [92, 92]], [128, [100, 100]], [214, [100, 100]], [222, [114, 114]], [238, [0, 0]], [LAST_FRAME, [0, 0]]]),
+  }), hub);
+  const sparkles = [-130, -60, -20, 40].map((angle, index) => {
+    const twinkle = 132 + index * 14;
+    return shapeLayer(`Sparkle ${index + 1}`, [group(star(4, 14, 4), index % 2 ? palette.deep : palette.sun)], {
+      position: round(plus([200, 124], rotate([62 + (index % 2) * 14, 0], angle))),
+      scale: k([[0, [0, 0]], [twinkle, [0, 0]], [twinkle + 8, [110, 110]], [twinkle + 18, [0, 0]], [twinkle + 36, [0, 0]], [twinkle + 44, [80, 80]], [twinkle + 54, [0, 0]], [LAST_FRAME, [0, 0]]]),
+      rotation: k([[0, 0], [twinkle, 0], [twinkle + 54, 90], [LAST_FRAME, 0]]),
+    });
+  });
+  const soil = shapeLayer("Soil", [group(ellipse([150, 44]), palette.ink)], {
+    position: [200, 298],
+    scale: k([[0, [100, 100]], [26, [100, 100]], [30, [108, 90]], [36, [100, 100]], [44, [100, 100]], [48, [104, 94]], [54, [100, 100]], [LAST_FRAME, [100, 100]]]),
+  });
+  const ground = shapeLayer("Ground", [group(rectangle([300, 8], 4), palette.ink)], { position: [200, 302] });
+  return composition([hub, ...sparkles, bloom, ...leaves, soil, stem, seed, ground]);
+}
+
 const animations = {
   rings: rings(), tower: tower(), puzzle: puzzle(), beads: beads(),
   family: family(), badge: badge(), coins: coins(), medal: medal(), sun: sun(), hours: hours(),
+  sprout: sprout(),
 };
 
 function assertSeamless(value, trail = "root") {
