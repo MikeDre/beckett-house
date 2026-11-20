@@ -22,8 +22,7 @@ export type CardAnimationName =
   | "hours"
   | "morphball"
   | "morphball-light"
-  | "shapehop"
-  | "sprout";
+  | "shapehop";
 
 // Decorative Lottie animation for the homepage cards. The player and the
 // animation are only fetched once the card is near the viewport, playback

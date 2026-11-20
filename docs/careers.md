@@ -20,6 +20,6 @@ Email/Sheets delivery runs after the durable inbox insert. Delivery failures are
 
 Validation: production build, root/Studio TypeScript, lint, full repository test suite. Careers tests cover input validation, qualifying answers, London closing dates, preview dependencies, origin/spam/configuration rejection, private storage, email field forwarding, tab creation/append and server-side sample-role rejection. Delivery tests use mocked providers and do not email real applicants.
 
-The listing hero uses the `sprout` Lottie animation, generated with the other card animations by `node scripts/lottie/generate.mjs`.
+The listing hero reuses the `shapehop` Lottie animation from the register page.
 
 Idempotent sample setup: `cd studio && npx sanity exec scripts/seed-careers.ts --with-user-token`. It preserves existing roles and page content.
