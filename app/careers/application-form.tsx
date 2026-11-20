@@ -8,6 +8,8 @@ import {
   type Job,
 } from "../../lib/careers";
 import { Turnstile, postForm } from "../turnstile";
+import CardAnimation from "../card-animation";
+import { getLocation } from "../../lib/content";
 export default function ApplicationForm({ job }: { job: Job }) {
   const [stage, setStage] = useState(1),
     [answers, setAnswers] = useState(["", ""]),
@@ -49,189 +51,308 @@ export default function ApplicationForm({ job }: { job: Job }) {
       setBusy(false);
     }
   }
+  const steps = ["Before you apply", "Your application"];
+  const contact = getLocation(job.location);
+  const field = (
+    name: string,
+    label: string,
+    options: {
+      type?: string;
+      autoComplete?: string;
+      hint?: string;
+      rows?: number;
+      maxLength: number;
+      optional?: boolean;
+      placeholder?: string;
+    },
+  ) => {
+    const hintId = options.hint ? `${name}-hint` : undefined;
+    const props = {
+      name,
+      required: !options.optional,
+      maxLength: options.maxLength,
+      placeholder: options.placeholder,
+      "aria-describedby": hintId,
+    };
+    return (
+      <label key={name} className="career-field">
+        <span className="career-label">
+          {label}
+          {options.optional && <span> (optional)</span>}
+        </span>
+        {options.hint && (
+          <span className="career-hint" id={hintId}>
+            {options.hint}
+          </span>
+        )}
+        {options.rows ? (
+          <textarea {...props} rows={options.rows} />
+        ) : (
+          <input
+            {...props}
+            type={options.type ?? "text"}
+            autoComplete={options.autoComplete}
+          />
+        )}
+      </label>
+    );
+  };
   return (
     <div className="career-application">
-      <a className="career-back" href={`/careers/${job.slug.current}`}>
-        ← Back to role
-      </a>
-      <p className="eyebrow">{locationName(job.location)}</p>
-      <h1 ref={heading} tabIndex={-1}>
-        {sent ? "Application received" : `Apply: ${job.title}`}
-      </h1>
-      {sent ? (
-        <div className="career-success">
-          <h2>Thank you for your application</h2>
-          <p>
-            Our team will review your details and contact you about the next
-            steps. A copy has been sent to your email address.
+      <header className="career-job-heading">
+        <div className="career-job-heading-inner">
+          <a className="career-back" href={`/careers/${job.slug.current}`}>
+            <span aria-hidden="true">←</span> Back to role
+          </a>
+          <p className="career-job-location">
+            <span aria-hidden="true" className="career-dot" />
+            {sent ? "Application sent" : "Application"} ·{" "}
+            {locationName(job.location)}
           </p>
-          <Link href="/careers">Back to opportunities</Link>
+          <h1 ref={heading} tabIndex={-1}>
+            {sent ? "Thank you for applying" : job.title}
+          </h1>
         </div>
-      ) : !isOpenJob(job) ? (
-        <p className="career-notice">Applications for this role are closed.</p>
-      ) : (
-        <>
-          {job.isSample && (
+      </header>
+      <div className="career-application-grid">
+        <div className="career-application-main">
+          {sent ? (
+            <div className="career-success">
+              <CardAnimation name="morphball" />
+              <h2>We have received your application</h2>
+              <p>
+                A copy has been sent to your email address. Here is what
+                happens next:
+              </p>
+              <ol>
+                <li>Our team reads every application personally.</li>
+                <li>
+                  If your experience is a good match, we will contact you to
+                  arrange an informal chat and a visit to the nursery.
+                </li>
+                <li>
+                  Successful applicants complete references and an enhanced DBS
+                  check before starting.
+                </li>
+              </ol>
+              <Link className="career-button" href="/careers">
+                Back to opportunities
+              </Link>
+            </div>
+          ) : !isOpenJob(job) ? (
             <p className="career-notice">
-              Sample role · You can review both steps. Sending is disabled.
+              Applications for this role are closed.{" "}
+              <Link href="/careers">See our current opportunities</Link>.
+            </p>
+          ) : (
+            <>
+              {job.isSample && (
+                <p className="career-notice">
+                  Sample role · You can review both steps. Sending is disabled.
+                </p>
+              )}
+              <ol className="career-steps" aria-label="Application progress">
+                {steps.map((label, i) => (
+                  <li
+                    key={label}
+                    aria-current={stage === i + 1 ? "step" : undefined}
+                    className={stage > i + 1 ? "is-done" : undefined}
+                  >
+                    <span aria-hidden="true">{stage > i + 1 ? "✓" : i + 1}</span>
+                    <span className="visually-hidden">
+                      Step {i + 1} of {steps.length}
+                      {stage > i + 1 ? ", completed" : ""}:{" "}
+                    </span>
+                    {label}
+                  </li>
+                ))}
+              </ol>
+              {stage === 1 ? (
+                <form onSubmit={next} className="career-form">
+                  <h2>Before you apply</h2>
+                  <p className="career-form-intro">
+                    Two quick questions about your qualification and
+                    availability. There are no wrong answers.
+                  </p>
+                  {careerQuestions.map((q, i) => (
+                    <fieldset key={q} className="career-question">
+                      <legend>{q}</legend>
+                      <div className="career-radio">
+                        {["Yes", "No"].map((answer) => (
+                          <label key={answer}>
+                            <input
+                              required
+                              type="radio"
+                              name={`question${i}`}
+                              value={answer}
+                              checked={answers[i] === answer}
+                              onChange={() =>
+                                setAnswers((current) =>
+                                  current.map((v, j) =>
+                                    j === i ? answer : v,
+                                  ),
+                                )
+                              }
+                            />
+                            {answer}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ))}
+                  <div aria-live="polite">
+                    {answers.includes("No") && (
+                      <p className="career-notice">
+                        This role asks for a Level 3 qualification and the
+                        shifts above, but you are still welcome to apply. Tell
+                        us about your circumstances and our team will consider
+                        them.
+                      </p>
+                    )}
+                  </div>
+                  <button className="career-button">
+                    Continue to your application{" "}
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </form>
+              ) : (
+                <form onSubmit={submit} className="career-form">
+                  <div className="career-form-heading">
+                    <h2>Your application</h2>
+                    <button
+                      type="button"
+                      className="career-link-button"
+                      onClick={() => setStage(1)}
+                    >
+                      Change my answers
+                    </button>
+                  </div>
+                  <fieldset disabled={busy}>
+                    <fieldset className="career-group">
+                      <legend>About you</legend>
+                      <div className="career-form-grid">
+                        {field("name", "Full name", {
+                          autoComplete: "name",
+                          maxLength: 200,
+                        })}
+                        {field("email", "Email address", {
+                          type: "email",
+                          autoComplete: "email",
+                          maxLength: 254,
+                        })}
+                        {field("phone", "Phone number", {
+                          type: "tel",
+                          autoComplete: "tel",
+                          maxLength: 200,
+                        })}
+                        {field("availability", "Notice period or earliest start", {
+                          maxLength: 200,
+                        })}
+                      </div>
+                    </fieldset>
+                    <fieldset className="career-group">
+                      <legend>Your experience</legend>
+                      {field("qualifications", "Qualifications", {
+                        hint: "Qualification name, level, awarding body and year achieved.",
+                        rows: 3,
+                        maxLength: 4000,
+                      })}
+                      {field(
+                        "experience",
+                        "Employment history and relevant experience",
+                        {
+                          hint: "Include your roles, employers and dates, and explain any gaps. No CV is needed.",
+                          rows: 7,
+                          maxLength: 8000,
+                        },
+                      )}
+                      {field("motivation", "Why would you like to work with us?", {
+                        rows: 4,
+                        maxLength: 4000,
+                      })}
+                      {field("additional", "Anything else we should know?", {
+                        hint: "For example, shift availability or adjustments for the recruitment process.",
+                        rows: 3,
+                        maxLength: 2000,
+                        optional: true,
+                      })}
+                    </fieldset>
+                    <fieldset className="career-group">
+                      <legend>Confirm and send</legend>
+                      <label className="career-consent">
+                        <input
+                          type="checkbox"
+                          name="consent"
+                          value="Yes"
+                          required
+                        />
+                        <span>
+                          I confirm the information I have provided is accurate
+                          and understand it will be used to assess my
+                          application.
+                        </span>
+                      </label>
+                      <p className="form-privacy-note">
+                        We’ll use your details to process your application. See
+                        our <a href="/privacy">privacy notice</a>.
+                      </p>
+                      {!job.isSample && (
+                        <Turnstile onToken={setToken} resetCount={reset} />
+                      )}
+                      <button
+                        className="career-button career-submit"
+                        disabled={busy || job.isSample || !token}
+                      >
+                        {busy
+                          ? "Sending application…"
+                          : job.isSample
+                            ? "Sample role · sending disabled"
+                            : "Send application"}
+                      </button>
+                      {!job.isSample && !token && !busy && (
+                        <p className="career-small">
+                          The button will be ready once the security check
+                          above completes.
+                        </p>
+                      )}
+                    </fieldset>
+                  </fieldset>
+                  {error && (
+                    <p role="alert" className="career-notice career-error">
+                      {error}
+                    </p>
+                  )}
+                </form>
+              )}
+            </>
+          )}
+        </div>
+        <aside className="career-summary" aria-label="Role summary">
+          <h2 className="eyebrow">You are applying for</h2>
+          <p className="career-summary-title">{job.title}</p>
+          <dl>
+            {[
+              ["Location", locationName(job.location)],
+              ["Salary", job.salary],
+              ["Hours", job.hours],
+            ]
+              .filter(([, value]) => value)
+              .map(([label, value]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+          </dl>
+          {contact && (
+            <p className="career-small">
+              Questions about the role? Email{" "}
+              <a href={`mailto:${contact.email}`}>{contact.email}</a> or call{" "}
+              <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a>.
             </p>
           )}
-          <ol className="career-steps" aria-label="Application progress">
-            <li aria-current={stage === 1 ? "step" : undefined}>
-              1. Before you apply
-            </li>
-            <li aria-current={stage === 2 ? "step" : undefined}>
-              2. Your application
-            </li>
-          </ol>
-          {stage === 1 ? (
-            <form onSubmit={next} className="career-form">
-              <h2>Before you apply</h2>
-              <p>
-                Please answer both questions so we can understand your
-                qualifications and availability.
-              </p>
-              {careerQuestions.map((q, i) => (
-                <fieldset key={q}>
-                  <legend>{q}</legend>
-                  <div className="career-radio">
-                    {["Yes", "No"].map((answer) => (
-                      <label key={answer}>
-                        <input
-                          required
-                          type="radio"
-                          name={`question${i}`}
-                          value={answer}
-                          checked={answers[i] === answer}
-                          onChange={() =>
-                            setAnswers((current) =>
-                              current.map((v, j) => (j === i ? answer : v)),
-                            )
-                          }
-                        />
-                        {answer}
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-              ))}
-              {answers.includes("No") && (
-                <p className="career-notice">
-                  This role requires a relevant Level 3 qualification and the
-                  shifts listed above. You can continue and explain your
-                  circumstances for the recruitment team to consider.
-                </p>
-              )}
-              <button className="career-button">
-                Continue to application →
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={submit} className="career-form">
-              <div className="career-results">
-                <h2>Your application</h2>
-                <button type="button" onClick={() => setStage(1)}>
-                  Edit qualifying answers
-                </button>
-              </div>
-              <fieldset disabled={busy}>
-                <legend className="visually-hidden">Your details</legend>
-                <div className="career-form-grid">
-                  {[
-                    ["name", "Full name", "text", "name"],
-                    ["email", "Email address", "email", "email"],
-                    ["phone", "Phone number", "tel", "tel"],
-                  ].map(([name, label, type, autoComplete]) => (
-                    <label key={name}>
-                      {label}
-                      <input
-                        name={name}
-                        type={type}
-                        autoComplete={autoComplete}
-                        required
-                        maxLength={name === "email" ? 254 : 200}
-                      />
-                    </label>
-                  ))}
-                  <label>
-                    Notice period / earliest start
-                    <input name="availability" required maxLength={200} />
-                  </label>
-                </div>
-                <label>
-                  Qualifications
-                  <textarea
-                    name="qualifications"
-                    required
-                    rows={3}
-                    maxLength={4000}
-                    placeholder="Qualification name, level, awarding body and year achieved"
-                  />
-                </label>
-                <label>
-                  Employment history and relevant experience
-                  <textarea
-                    name="experience"
-                    required
-                    rows={6}
-                    maxLength={8000}
-                    placeholder="Include your roles, employers and dates, and explain any gaps."
-                  />
-                </label>
-                <label>
-                  Why would you like to work with us?
-                  <textarea
-                    name="motivation"
-                    required
-                    rows={4}
-                    maxLength={4000}
-                  />
-                </label>
-                <label>
-                  Anything else we should know? <span>(optional)</span>
-                  <textarea
-                    name="additional"
-                    rows={3}
-                    maxLength={2000}
-                    placeholder="For example, shift availability or adjustments for the recruitment process."
-                  />
-                </label>
-                <p className="career-small">
-                  Please provide your experience above. A CV upload is not
-                  required for this first application.
-                </p>
-                <label className="career-consent">
-                  <input type="checkbox" name="consent" value="Yes" required />I
-                  confirm the information I have provided is accurate and
-                  understand it will be used to assess my application.
-                </label>
-                <p className="form-privacy-note">
-                  We’ll use your details to process your application. See our{" "}
-                  <a href="/privacy">privacy notice</a>.
-                </p>
-                {!job.isSample && (
-                  <Turnstile onToken={setToken} resetCount={reset} />
-                )}
-                <button
-                  className="career-button"
-                  disabled={busy || job.isSample || !token}
-                >
-                  {busy
-                    ? "Sending application…"
-                    : job.isSample
-                      ? "Sample role · sending disabled"
-                      : "Send application"}
-                </button>
-              </fieldset>
-              {error && (
-                <p role="alert" className="career-notice">
-                  {error}
-                </p>
-              )}
-            </form>
-          )}
-        </>
-      )}
+        </aside>
+      </div>
     </div>
   );
 }
