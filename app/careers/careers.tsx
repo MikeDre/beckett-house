@@ -445,7 +445,7 @@ export function JobDetails({ job }: { job: Job }) {
                 <h2>Sounds like you?</h2>
                 <p>
                   Answer two quick questions, then tell us about your
-                  experience. It takes around 10 minutes and no CV is needed.
+                  experience and upload your CV.
                 </p>
               </div>
               <a className="career-button" href={applyHref}>
@@ -491,7 +491,7 @@ export function JobDetails({ job }: { job: Job }) {
                 {applyLabel} <span aria-hidden="true">→</span>
               </a>
               <p className="career-small">
-                Two quick questions, then tell us about your experience.
+                Two quick questions, then your details and CV.
               </p>
             </>
           ) : (
