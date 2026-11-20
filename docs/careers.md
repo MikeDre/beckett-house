@@ -6,6 +6,7 @@ In Sanity:
 - **Careers** edits the listing introduction, benefits and safeguarding statement.
 - **Job opportunities** manages individual adverts. Set the role details, salary, shifts, posting/closing dates, sections and a unique slug.
 - New jobs use Sanity-generated document IDs. Closing dates include the whole day in London; closed/expired roles do not appear in listings and cannot accept applications.
+- Advert section bodies are plain text. Start a line with `•` or `-` to show it as a bulleted list; other lines are paragraphs, with a blank line between paragraphs.
 - **Sample role (review only)** labels the vacancy and prevents submission on both client and server. Replace sample copy and confirm salary before switching it off for a real role.
 - Presentation supports page content, individual job fields and automatic draft updates on listing, advert and application routes.
 
@@ -18,5 +19,7 @@ The existing Google service account and spreadsheet are reused. The first real a
 Email/Sheets delivery runs after the durable inbox insert. Delivery failures are logged and leave the application available to staff in `/admin`; v1 has no automatic delivery retry queue. Staff should review the inbox regularly. The privacy notice includes recruitment data handling; confirm recruitment retention and final wording before opening real vacancies.
 
 Validation: production build, root/Studio TypeScript, lint, full repository test suite. Careers tests cover input validation, qualifying answers, London closing dates, preview dependencies, origin/spam/configuration rejection, private storage, email field forwarding, tab creation/append and server-side sample-role rejection. Delivery tests use mocked providers and do not email real applicants.
+
+The listing hero uses the `sprout` Lottie animation, generated with the other card animations by `node scripts/lottie/generate.mjs`.
 
 Idempotent sample setup: `cd studio && npx sanity exec scripts/seed-careers.ts --with-user-token`. It preserves existing roles and page content.
