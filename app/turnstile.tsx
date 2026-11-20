@@ -92,9 +92,9 @@ export function Turnstile({ onToken, resetCount }: { onToken: (token: string) =>
   );
 }
 
-export async function postForm(kind: "visit" | "register" | "careers", data: FormData, token: string, nursery?: string) {
+export async function postForm(kind: "visit" | "register" | "careers", data: FormData, token: string, nursery?: string, extra?: Record<string, unknown>) {
   if (!token) throw new Error("Please complete the spam protection check before sending your form.");
-  const body: Record<string, unknown> = { ...Object.fromEntries(data), turnstileToken: token };
+  const body: Record<string, unknown> = { ...Object.fromEntries(data), ...extra, turnstileToken: token };
   if (nursery) body.nursery = nursery;
   if (kind === "register") {
     for (const name of ["fullDays", "mornings", "afternoons"]) body[name] = data.getAll(name).map(String);
@@ -103,7 +103,8 @@ export async function postForm(kind: "visit" | "register" | "careers", data: For
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
-    signal: AbortSignal.timeout(40000),
+    // Uploads (job application CVs) need longer on slow connections.
+    signal: AbortSignal.timeout(extra ? 120000 : 40000),
   });
   const result = await response.json() as { ok?: boolean; error?: string };
   if (!response.ok || result.ok !== true) throw new Error(result.error || "Sorry, we couldn't send your request. Please try again shortly.");

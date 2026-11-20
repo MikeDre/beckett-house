@@ -97,17 +97,30 @@ export async function handleAdmin(request: Request, env: Env, email: string) {
       if (!Object.hasOwn(orders,sort)) throw new InputError("Choose a valid sort order.");
       return adminJson((await env.DB.prepare(`SELECT id, created_at, kind, nursery, name, email, status FROM submissions${clauses.length ? ` WHERE ${clauses.join(" AND ")}` : ""} ORDER BY ${orders[sort]} LIMIT ? OFFSET ?`).bind(...values, limit, offset).all()).results);
     }
+    const fileId = path.match(/^\/api\/admin\/submissions\/([1-9]\d*)\/cv$/)?.[1];
+    if (fileId && method === "GET") {
+      const parts = (await env.DB.prepare("SELECT name, type, data FROM submission_files WHERE submission_id = ? ORDER BY part").bind(fileId).all<{ name: string; type: string; data: ArrayBuffer | number[] }>()).results;
+      if (!parts.length) return adminJson({ error: "No CV is attached to this submission." }, 404);
+      const chunks = parts.map(part => new Uint8Array(part.data)), bytes = new Uint8Array(chunks.reduce((total, chunk) => total + chunk.length, 0));
+      chunks.reduce((offset, chunk) => { bytes.set(chunk, offset); return offset + chunk.length; }, 0);
+      const ascii = parts[0].name.replace(/[^\w .()-]/g, "_");
+      return new Response(bytes, { headers: { "Content-Type": parts[0].type, "Content-Disposition": `attachment; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(parts[0].name)}`, "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "X-Robots-Tag": "noindex" } });
+    }
     const id = path.match(/^\/api\/admin\/submissions\/([1-9]\d*)$/)?.[1];
     if (id) {
       const row = await env.DB.prepare("SELECT * FROM submissions WHERE id = ?").bind(id).first<{ fields: string }>();
       if (!row) return adminJson({ error: "Submission not found." }, 404);
-      if (method === "GET") return adminJson({ ...row, fields: JSON.parse(row.fields) });
+      if (method === "GET") {
+        // Tolerates a database that has not yet run the submission_files migration.
+        const cv = await env.DB.prepare("SELECT name, sum(length(data)) AS size FROM submission_files WHERE submission_id = ? GROUP BY submission_id").bind(id).first<{ name: string; size: number }>().catch(() => null);
+        return adminJson({ ...row, fields: JSON.parse(row.fields), cv: cv ?? undefined });
+      }
       if (method === "PATCH") {
         if (!data || !["new", "contacted", "archived"].includes(data.status)) throw new InputError("Choose a valid status.");
         await env.DB.batch([env.DB.prepare("UPDATE submissions SET status = ? WHERE id = ?").bind(data.status, id), activity("status", `Submission ${id}: ${data.status}`)]);
         return adminJson({ ok: true });
       }
-      if (method === "DELETE") { await env.DB.batch([env.DB.prepare("DELETE FROM submissions WHERE id = ?").bind(id), activity("delete", `Submission ${id}`)]); return adminJson({ ok: true }); }
+      if (method === "DELETE") { await env.DB.batch([env.DB.prepare("DELETE FROM submission_files WHERE submission_id = ?").bind(id), env.DB.prepare("DELETE FROM submissions WHERE id = ?").bind(id), activity("delete", `Submission ${id}`)]); return adminJson({ ok: true }); }
     }
     return adminJson({ error: "Route or method not found." }, 404);
   } catch (error) {

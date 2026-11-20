@@ -10,6 +10,18 @@ import {
 import { Turnstile, postForm } from "../turnstile";
 import CardAnimation from "../card-animation";
 import { getLocation } from "../../lib/content";
+const CV_MAX_BYTES = 5 * 1024 * 1024;
+const toBase64 = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
+    reader.onerror = () => reject(new Error("We couldn’t read your CV. Please choose it again."));
+    reader.readAsDataURL(file);
+  });
+const fileSize = (bytes: number) =>
+  bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
+    : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 export default function ApplicationForm({ job }: { job: Job }) {
   const [stage, setStage] = useState(1),
     [answers, setAnswers] = useState(["", ""]),
@@ -17,7 +29,28 @@ export default function ApplicationForm({ job }: { job: Job }) {
     [reset, setReset] = useState(0),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [sent, setSent] = useState(false);
+    [sent, setSent] = useState(false),
+    [cv, setCv] = useState<File | null>(null),
+    [cvError, setCvError] = useState("");
+  const cvInput = useRef<HTMLInputElement>(null);
+  function chooseCv(file: File | undefined) {
+    setCvError("");
+    if (!file) return setCv(null);
+    const problem = !/\.(pdf|docx?)$/i.test(file.name)
+      ? "Please choose a PDF or Word document."
+      : file.size > CV_MAX_BYTES
+        ? "Please choose a file up to 5 MB."
+        : file.size === 0
+          ? "This file looks empty. Please choose another."
+          : "";
+    if (problem) {
+      setCvError(problem);
+      setCv(null);
+      if (cvInput.current) cvInput.current.value = "";
+      return;
+    }
+    setCv(file);
+  }
   const heading = useRef<HTMLHeadingElement>(null);
   function next(e: FormEvent) {
     e.preventDefault();
@@ -36,11 +69,19 @@ export default function ApplicationForm({ job }: { job: Job }) {
     }
     setBusy(true);
     try {
+      if (!cv) {
+        setCvError("Please attach your CV.");
+        cvInput.current?.focus();
+        return;
+      }
       const data = new FormData(e.currentTarget);
+      data.delete("cv");
       data.set("jobId", job._id);
       data.set("qualification", answers[0]);
       data.set("shifts", answers[1]);
-      await postForm("careers", data, token);
+      await postForm("careers", data, token, undefined, {
+        cv: { name: cv.name, data: await toBase64(cv) },
+      });
       setSent(true);
       setTimeout(() => heading.current?.focus(), 0);
     } catch (e) {
@@ -252,6 +293,49 @@ export default function ApplicationForm({ job }: { job: Job }) {
                     </fieldset>
                     <fieldset className="career-group">
                       <legend>Your experience</legend>
+                      <div className="career-field">
+                        <span className="career-label" id="cv-label">
+                          CV
+                        </span>
+                        <span className="career-hint" id="cv-hint">
+                          PDF or Word document, up to 5 MB.
+                        </span>
+                        <div
+                          className={`career-upload${cv ? " has-file" : ""}${cvError ? " has-error" : ""}`}
+                        >
+                          <input
+                            ref={cvInput}
+                            type="file"
+                            name="cv"
+                            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            aria-labelledby="cv-label"
+                            aria-describedby={`cv-hint${cvError ? " cv-error" : ""}`}
+                            aria-invalid={cvError ? true : undefined}
+                            onChange={(e) => chooseCv(e.target.files?.[0])}
+                          />
+                          {cv ? (
+                            <span className="career-upload-file">
+                              <span aria-hidden="true">📄</span>
+                              <span>
+                                <strong>{cv.name}</strong>
+                                <small>
+                                  {fileSize(cv.size)} · Choose another file to
+                                  replace it
+                                </small>
+                              </span>
+                            </span>
+                          ) : (
+                            <span className="career-upload-prompt" aria-hidden="true">
+                              <strong>Choose a file</strong> or drag it here
+                            </span>
+                          )}
+                        </div>
+                        {cvError && (
+                          <span className="career-field-error" id="cv-error" role="alert">
+                            {cvError}
+                          </span>
+                        )}
+                      </div>
                       {field("qualifications", "Qualifications", {
                         hint: "Qualification name, level, awarding body and year achieved.",
                         rows: 3,
@@ -261,7 +345,7 @@ export default function ApplicationForm({ job }: { job: Job }) {
                         "experience",
                         "Employment history and relevant experience",
                         {
-                          hint: "Include your roles, employers and dates, and explain any gaps. No CV is needed.",
+                          hint: "A short summary of your roles, employers and dates, including any gaps.",
                           rows: 7,
                           maxLength: 8000,
                         },

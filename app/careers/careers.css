@@ -723,6 +723,72 @@
 .career-field textarea {
   margin-top: 0.25rem;
 }
+/* The real file input covers the box, so clicking and dropping both work. */
+.career-upload {
+  align-items: center;
+  background: rgba(224, 231, 247, 0.32);
+  border: 1.5px dashed var(--coral);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: center;
+  margin-top: 0.25rem;
+  min-height: 96px;
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.career-upload:hover,
+.career-upload:focus-within {
+  background: var(--green-soft);
+  border-color: var(--ink);
+}
+.career-upload:focus-within {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+.career-upload.has-file {
+  border-style: solid;
+  justify-content: flex-start;
+  text-align: left;
+}
+.career-upload.has-error {
+  border-color: #c2453d;
+}
+.career-form .career-upload input {
+  cursor: pointer;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+.career-upload-prompt strong {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.career-upload-file {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.career-upload-file > span:first-child {
+  font-size: 1.5rem;
+}
+.career-upload-file strong,
+.career-upload-file small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.career-upload-file small {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.career-field-error {
+  color: #a3322b;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
 .career-form textarea {
   line-height: 1.6;
   resize: vertical;

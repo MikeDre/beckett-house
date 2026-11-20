@@ -14,6 +14,45 @@ const reply = (status: number, error?: string) =>
     status,
     headers: { "Cache-Control": "no-store" },
   });
+export const CV_MAX_BYTES = 5 * 1024 * 1024;
+// Raw bytes per stored row, comfortably under D1's 2 MB row limit.
+export const CV_PART_BYTES = 1_000_000;
+const cvTypes = {
+  pdf: { type: "application/pdf", magic: [0x25, 0x50, 0x44, 0x46] },
+  docx: {
+    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    magic: [0x50, 0x4b, 0x03, 0x04],
+  },
+  doc: { type: "application/msword", magic: [0xd0, 0xcf, 0x11, 0xe0] },
+} as const;
+export function validateCv(value: unknown) {
+  const invalid = "Please attach your CV as a PDF or Word document up to 5 MB.";
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    throw new Error("Please attach your CV.");
+  const { name, data } = value as Record<string, unknown>;
+  if (typeof name !== "string" || typeof data !== "string" || !data)
+    throw new Error("Please attach your CV.");
+  const extension = name.split(".").pop()?.toLowerCase() as keyof typeof cvTypes;
+  const format = cvTypes[extension];
+  if (!format || name.length > 200 || !/^[A-Za-z0-9+/]+={0,2}$/.test(data))
+    throw new Error(invalid);
+  const bytes = new Uint8Array(Buffer.from(data, "base64"));
+  // The content must match the extension, so renamed files are rejected.
+  if (
+    !bytes.length ||
+    bytes.length > CV_MAX_BYTES ||
+    format.magic.some((byte, i) => bytes[i] !== byte)
+  )
+    throw new Error(invalid);
+  const safeName =
+    name.replace(/[^\w .()-]+/g, "_").replace(/^[.\s]+/, "").slice(-120) ||
+    `cv.${extension}`;
+  return { name: safeName, type: format.type, bytes, base64: data };
+}
+const fileSize = (bytes: number) =>
+  bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
+    : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 export function validateCareerApplication(data: Record<string, unknown>) {
   const read = (name: string, limit: number) => {
     const value = data[name];
@@ -30,6 +69,7 @@ export function validateCareerApplication(data: Record<string, unknown>) {
       throw new Error("Please answer both qualifying questions.");
     return value;
   });
+  const cv = validateCv(data.cv);
   if (data.consent !== "Yes")
     throw new Error("Please confirm your application details.");
   const additional = data.additional ?? "";
@@ -40,6 +80,7 @@ export function validateCareerApplication(data: Record<string, unknown>) {
     token: read("turnstileToken", 2048),
     name: read("name", 200),
     email,
+    cv,
     fields: [
       ["Full name", read("name", 200)],
       ["Email", email],
@@ -51,6 +92,7 @@ export function validateCareerApplication(data: Record<string, unknown>) {
       ["Employment history and experience", read("experience", 8000)],
       ["Why Beckett House", read("motivation", 4000)],
       ["Additional information", additional.trim() || "Not provided"],
+      ["CV", `${cv.name} (${fileSize(cv.bytes.length)})`],
       ["Declaration", "Confirmed"],
     ] as Array<[string, string]>,
   };
@@ -67,7 +109,8 @@ export async function handleCareerApplication(
   let application: ReturnType<typeof validateCareerApplication>;
   try {
     const body = await request.text();
-    if (body.length > 35000)
+    // Text answers plus a base64-encoded CV.
+    if (body.length > 35000 + Math.ceil(CV_MAX_BYTES / 3) * 4)
       return reply(413, "Please shorten your application.");
     const data = JSON.parse(body);
     if (!data || typeof data !== "object" || Array.isArray(data))
@@ -133,18 +176,32 @@ export async function handleCareerApplication(
     const notifications = await getNotificationSettings(env.DB);
     const createdAt = new Date().toISOString();
     // Persist before delivery so a failed notification never loses the application.
-    await env.DB.prepare(
-      "INSERT INTO submissions (created_at,kind,nursery,name,email,fields) VALUES (?,?,?,?,?,?)",
-    )
-      .bind(
+    // One batch is one transaction, so the CV is saved with its submission or not at all.
+    const { cv } = application;
+    await env.DB.batch([
+      env.DB.prepare(
+        "INSERT INTO submissions (created_at,kind,nursery,name,email,fields) VALUES (?,?,?,?,?,?)",
+      ).bind(
         createdAt,
         "careers",
         nursery.slug,
         application.name,
         application.email,
         JSON.stringify(fields),
-      )
-      .run();
+      ),
+      ...Array.from(
+        { length: Math.ceil(cv.bytes.length / CV_PART_BYTES) },
+        (_, part) =>
+          env.DB.prepare(
+            "INSERT INTO submission_files (submission_id,part,name,type,data) VALUES ((SELECT max(id) FROM submissions),?,?,?,?)",
+          ).bind(
+            part,
+            cv.name,
+            cv.type,
+            cv.bytes.subarray(part * CV_PART_BYTES, (part + 1) * CV_PART_BYTES),
+          ),
+      ),
+    ]);
     const bcc = notifications
       ? [
           ...new Set([
@@ -165,6 +222,7 @@ export async function handleCareerApplication(
           fields,
         ),
         bcc,
+        [{ filename: cv.name, content: cv.base64 }],
       ).catch((error) =>
         console.error(
           "Career notification failed; application saved in inbox",

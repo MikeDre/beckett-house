@@ -10,7 +10,9 @@ In Sanity:
 - **Sample role (review only)** labels the vacancy and prevents submission on both client and server. Replace sample copy and confirm salary before switching it off for a real role.
 - Presentation supports page content, individual job fields and automatic draft updates on listing, advert and application routes.
 
-Applicants answer the two qualifying questions before entering contact details, qualifications, employment history, availability and a supporting statement. A “No” does not automatically reject them; their answers accompany the application. v1 collects experience as text, with no CV attachment upload.
+Applicants answer the two qualifying questions before entering contact details, a CV, qualifications, employment history, availability and a supporting statement. A “No” does not automatically reject them; their answers accompany the application.
+
+A CV is required: PDF, DOC or DOCX up to 5 MB. The worker checks the file contents match the extension. CVs are stored in D1 (`submission_files`, split into 1 MB parts and saved in the same transaction as the application), attached to the nursery notification email (not the applicant's copy) and downloadable from the submission in `/admin`. Deleting a submission deletes its CV. **Run migration `0006_submission_files.sql` on the remote database before deploying** (see `docs/admin.md`).
 
 Applications are stored in the existing private D1 submissions inbox as `careers`, routed to the role’s nursery email with existing notification copy settings, and receive an email acknowledgement. The role ID and title are taken from the published Sanity document, never trusted from the submitted form. Turnstile, input length validation, origin checks and the existing honeypot protect the endpoint. Sample, closed and expired roles are rejected server-side.
 

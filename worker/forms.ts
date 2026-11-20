@@ -24,12 +24,12 @@ export function emailBody(heading: string, intro: string, fields: Fields) {
   };
 }
 
-export async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>, bcc?: string) {
+export async function sendEmail(env: Env, to: string, replyTo: string, subject: string, body: ReturnType<typeof emailBody>, bcc?: string, attachments?: { filename: string; content: string }[]) {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: env.FORM_FROM_EMAIL, to: [to], ...(bcc ? { bcc: bcc.split(",").map((address) => address.trim()) } : {}), reply_to: replyTo, subject, ...body }),
-    signal: AbortSignal.timeout(15000),
+    body: JSON.stringify({ from: env.FORM_FROM_EMAIL, to: [to], ...(bcc ? { bcc: bcc.split(",").map((address) => address.trim()) } : {}), reply_to: replyTo, subject, ...body, ...(attachments?.length ? { attachments } : {}) }),
+    signal: AbortSignal.timeout(attachments?.length ? 30000 : 15000),
   });
   if (!response.ok) throw new Error(`Resend email failed (${response.status}).`);
 }
