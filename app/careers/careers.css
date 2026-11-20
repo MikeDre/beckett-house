@@ -142,10 +142,6 @@
   text-transform: uppercase;
 }
 .career-filters input,
-.career-filters select {
-  background: var(--paper);
-}
-.career-filters input,
 .career-filters select,
 .career-form input:not([type="radio"]):not([type="checkbox"]),
 .career-form textarea {
@@ -158,6 +154,10 @@
   min-width: 0;
   padding: 0.8rem 0.9rem;
   width: 100%;
+}
+.career-filters input,
+.career-filters select {
+  background: #fff;
 }
 .career-filters input:focus,
 .career-filters select:focus,
