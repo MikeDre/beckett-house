@@ -167,7 +167,7 @@ export function SiteHeader({ previewNursery }: { previewNursery?: "angel" | "abb
     <>
       <div className="notice-bar">
         <span className="notice-dot" aria-hidden="true" />
-        <span className="notice-text"><span className="notice-long"><CmsText page="site" field="copy.takingRegistrations" fallback={"Taking registrations"} /></span><span className="notice-short"><CmsText page="site" field="copy.registering" fallback={"Registering"} /></span> <CmsText page="site" field="copy.for2026" fallback={" for 2026"} />{activeNursery && ` at ${currentNursery}`}</span>
+        <span className="notice-text"><span className="notice-long"><CmsText page="site" field="copy.takingRegistrations" fallback={"Taking registrations"} /></span><span className="notice-short"><CmsText page="site" field="copy.registering" fallback={"Registering"} /></span> <CmsText page="site" field="copy.for2026" fallback={" for 2026/2027"} />{activeNursery && ` at ${currentNursery}`}</span>
         <Link href={visitHref}><CmsText page="site" field="copy.arrangeAVisit" fallback={"Arrange a visit"} /></Link>
       </div>
       <header ref={headerRef} className={`site-header${headerHidden ? " is-scroll-hidden" : ""}${headerStuck ? " is-stuck" : ""}`} onFocusCapture={() => setHeaderHidden(false)}>
