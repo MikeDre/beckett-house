@@ -49,7 +49,7 @@ test('real applications persist privately and send all answers to email and a de
   if(url.includes('sheets.googleapis.com')){sheets.push({url,body:init?.body?JSON.parse(init.body):null});return Response.json({sheets:[]});}
   throw new Error('Unexpected network request: '+url);
  };
- const env={RESEND_API_KEY:'test',FORM_FROM_EMAIL:'test@example.invalid',TURNSTILE_SECRET_KEY:'test',FORM_SHEET_ID:'test',GOOGLE_SERVICE_ACCOUNT_EMAIL:'test@example.invalid',GOOGLE_PRIVATE_KEY:privateKey,DB:{prepare(sql){return {bind(...values){return {first:async()=>null,run:async()=>{inserts.push({sql,values});return {success:true};}}}}},async batch(statements){for(const statement of statements)await statement.run();return [];}}};
+ const env={RESEND_API_KEY:'test',FORM_FROM_EMAIL:'test@example.invalid',TURNSTILE_SECRET_KEY:'test',FORM_SHEET_ID:'test',GOOGLE_SERVICE_ACCOUNT_EMAIL:'test@example.invalid',GOOGLE_PRIVATE_KEY:privateKey,DB:{prepare(sql){return {bind(...values){return {first:async()=>null,run:async()=>{inserts.push({sql,values});return {success:true};}}}}},async batch(statements){for(const statement of statements)await statement.run();return [{meta:{last_row_id:42}}];}}};
  const request=()=>new Request('https://example.invalid/api/forms/careers',{method:'POST',headers:{Origin:'https://example.invalid','Content-Type':'application/json'},body:JSON.stringify(valid)});
  try{
   const response=await handleCareerApplication(request(),env,{waitUntil(p){background.push(p);}});assert.equal(response.status,200,await response.text());
@@ -58,6 +58,7 @@ test('real applications persist privately and send all answers to email and a de
   assert.match(inserts[1].sql,/submission_files/);assert.equal(inserts[1].values[1],'My CV.pdf');assert.equal(Buffer.from(inserts[1].values[3]).toString(),'%PDF-1.4 test cv');
   assert.deepEqual(emails[0].attachments,[{filename:'My CV.pdf',content:valid.cv.data}]);assert.equal(emails[1].attachments,undefined);
   assert.match(inserts[0].values[5],/Available for listed shifts/);
+  assert(sheets.some(x=>x.url.includes(':append')&&x.body.values[0].includes('https://www.beckett-house.co.uk/api/admin/submissions/42/cv')));
   assert.equal(emails.length,2);assert.match(emails[0].text,/Available for listed shifts: Yes/);
   assert(sheets.some(x=>x.body?.requests?.[0]?.addSheet?.properties?.title==='Careers applications'));
   assert(sheets.some(x=>x.url.includes(':append')&&x.body.values[0].includes("'Yes")));

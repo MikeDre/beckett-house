@@ -186,7 +186,7 @@ export async function handleCareerApplication(
     // Persist before delivery so a failed notification never loses the application.
     // One batch is one transaction, so the CV is saved with its submission or not at all.
     const { cv } = application;
-    await env.DB.batch([
+    const savedSubmission = await env.DB.batch([
       env.DB.prepare(
         "INSERT INTO submissions (created_at,kind,nursery,name,email,fields) VALUES (?,?,?,?,?,?)",
       ).bind(
@@ -251,13 +251,14 @@ export async function handleCareerApplication(
         ),
       ).catch((error) => console.error("Career confirmation failed", error)),
     );
+    const cvUrl = `https://www.beckett-house.co.uk/api/admin/submissions/${savedSubmission[0].meta.last_row_id}/cv`;
     ctx.waitUntil(
       appendSheetRow(
         env,
         "Careers applications",
-        [createdAt, ...fields.map(([, value]) => value)],
+        [createdAt, ...fields.map(([, value]) => value), cvUrl],
         fields.map((_, i) => i + 1),
-        ["Received", ...fields.map(([label]) => label)],
+        ["Received", ...fields.map(([label]) => label), "CV download"],
       ).catch((error) =>
         console.error(
           "Career spreadsheet append failed; application saved in inbox",
