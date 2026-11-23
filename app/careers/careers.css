@@ -838,6 +838,7 @@
   width: 120px;
 }
 .career-success ol {
+  list-style: decimal;
   display: grid;
   gap: 0.6rem;
   line-height: 1.6;

@@ -33,6 +33,7 @@ const MAP_TILE_ATTRIBUTION =
 
 const defaultNavItems = [
   { title: "FAQ", href: "/faq" },
+  { title: "Careers", href: "/careers" },
   { title: "Register", href: "/register" },
 ];
 
@@ -275,6 +276,7 @@ export function SiteFooter() {
         <div className="footer-links">
           <div>
             <span><CmsText page="site" field="copy.explore" fallback={"Explore"} /></span>
+            <Link href="/careers">Careers</Link>
             <Link href={"/montessori"}><CmsText page="site" field="copy.ourApproach" fallback={"Our approach"} /></Link>
             <Link href={"/angel"}><CmsText page="site" field="copy.angel" fallback={"Angel"} /></Link>
             <Link href={"/abbey-road"}><CmsText page="site" field="copy.abbeyRoad" fallback={"Abbey Road"} /></Link>
