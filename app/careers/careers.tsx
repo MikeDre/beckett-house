@@ -1,4 +1,5 @@
 "use client";
+import {trackCareerEvent,useCareerView} from "./tracking";
 import Link from "next/link";
 import { useState } from "react";
 import { createDataAttribute } from "@sanity/visual-editing-standalone";
@@ -68,6 +69,7 @@ const sorters = {
   title: (a: Job, b: Job) => a.title.localeCompare(b.title),
 };
 export function CareersListing({ jobs }: { jobs: Job[] }) {
+  useCareerView("listing_view");
   const content = useCmsContent("careers", careersPage);
   const [search, setSearch] = useState(""),
     [location, setLocation] = useState(""),
@@ -150,7 +152,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                   key={value}
                   type="button"
                   aria-pressed={location === value}
-                  onClick={() => setLocation(value)}
+                  onClick={() => {setLocation(value);trackCareerEvent("filter_change");}}
                 >
                   {label} <span>{count(value)}</span>
                 </button>
@@ -170,7 +172,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                 <span className="career-filter-label">Date posted</span>
                 <select
                   value={posted}
-                  onChange={(e) => setPosted(e.target.value)}
+                  onChange={(e) => {setPosted(e.target.value);trackCareerEvent("filter_change");}}
                 >
                   <option value="">Any time</option>
                   <option value="3">Last 3 days</option>
@@ -184,7 +186,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
                   <span className="career-filter-label">Working pattern</span>
                   <select
                     value={type}
-                    onChange={(e) => setType(e.target.value)}
+                    onChange={(e) => {setType(e.target.value);trackCareerEvent("filter_change");}}
                   >
                     <option value="">All patterns</option>
                     {types.map((t) => (
@@ -195,7 +197,7 @@ export function CareersListing({ jobs }: { jobs: Job[] }) {
               )}
               <label>
                 <span className="career-filter-label">Sort by</span>
-                <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                <select value={sort} onChange={(e) => {setSort(e.target.value);trackCareerEvent("filter_change");}}>
                   <option value="newest">Newest first</option>
                   <option value="oldest">Oldest first</option>
                   <option value="closing">Closing soonest</option>
@@ -346,6 +348,7 @@ const formatDate = (value: string) =>
     timeZone: "Europe/London",
   });
 export function JobDetails({ job }: { job: Job }) {
+  useCareerView("job_view",job._id);
   const content = useCmsContent("careers", careersPage),
     open = isOpenJob(job);
   const applyHref = `/careers/${job.slug.current}/apply`;
@@ -380,7 +383,7 @@ export function JobDetails({ job }: { job: Job }) {
               ))}
           </ul>
           {open && (
-            <a className="career-button career-heading-apply" href={applyHref}>
+            <a className="career-button career-heading-apply" href={applyHref} onClick={()=>trackCareerEvent("apply_click")}>
               {applyLabel} <span aria-hidden="true">→</span>
             </a>
           )}
@@ -448,7 +451,7 @@ export function JobDetails({ job }: { job: Job }) {
                   experience and upload your CV.
                 </p>
               </div>
-              <a className="career-button" href={applyHref}>
+              <a className="career-button" href={applyHref} onClick={()=>trackCareerEvent("apply_click")}>
                 {applyLabel} <span aria-hidden="true">→</span>
               </a>
             </section>
@@ -487,7 +490,7 @@ export function JobDetails({ job }: { job: Job }) {
           </dl>
           {open ? (
             <>
-              <a className="career-button" href={applyHref}>
+              <a className="career-button" href={applyHref} onClick={()=>trackCareerEvent("apply_click")}>
                 {applyLabel} <span aria-hidden="true">→</span>
               </a>
             </>

@@ -1,4 +1,5 @@
 "use client";
+import {trackCareerEvent,useCareerView} from "./tracking";
 import Link from "next/link";
 import { useRef, useState, type FormEvent } from "react";
 import {
@@ -23,6 +24,8 @@ const fileSize = (bytes: number) =>
     ? `${Math.max(1, Math.round(bytes / 1024))} KB`
     : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 export default function ApplicationForm({ job }: { job: Job }) {
+  useCareerView("application_start",job._id);
+  const qualificationTracked=useRef(false);
   const [stage, setStage] = useState(1),
     [answers, setAnswers] = useState(["", ""]),
     [token, setToken] = useState(""),
@@ -50,12 +53,14 @@ export default function ApplicationForm({ job }: { job: Job }) {
       return;
     }
     setCv(file);
+    trackCareerEvent("cv_attached");
   }
   const heading = useRef<HTMLHeadingElement>(null);
   const eligible = answers.every((answer) => answer === "Yes");
   function next(e: FormEvent) {
     e.preventDefault();
     if (!eligible) return;
+    if(!qualificationTracked.current){trackCareerEvent("qualification_complete");qualificationTracked.current=true;}
     setStage(2);
     setTimeout(() => heading.current?.focus(), 0);
   }
@@ -85,8 +90,10 @@ export default function ApplicationForm({ job }: { job: Job }) {
         cv: { name: cv.name, data: await toBase64(cv) },
       });
       setSent(true);
+      trackCareerEvent("application_submit");
       setTimeout(() => heading.current?.focus(), 0);
     } catch (e) {
+      trackCareerEvent("application_error");
       setError(e instanceof Error ? e.message : "Please try again.");
       setToken("");
       setReset((n) => n + 1);
