@@ -1,3 +1,4 @@
+import {publicPageCacheKey,cacheablePublicPage,PUBLIC_PAGE_CACHE_SECONDS} from './public-page-cache';
 import {handleCareerApplication} from './careers';
 import {previewEndpoint,previewAuthorized} from './sanity-preview';
 import type {SanityEnvironment} from '../lib/sanity/server';
@@ -9,6 +10,7 @@ import { adminIdentity } from "./admin-auth";
 import { adminJson, handleAdmin } from "./admin";
 
 export interface Env extends SanityEnvironment {
+  PUBLIC_PAGE_CACHE_ENABLED?: string;
   CLOUDINARY_CLOUD_NAME?: string;
   CLOUDINARY_API_KEY?: string;
   CLOUDINARY_API_SECRET?: string;
@@ -160,6 +162,20 @@ const worker = {
 
     if (url.pathname === "/_next/image" || url.pathname === "/_vinext/image") return serveResponsiveImage(request, url, env);
 
+    // Opt in after measuring staging. The browser always revalidates; edge entries expire in 30s.
+    const key=env.PUBLIC_PAGE_CACHE_ENABLED==='true'?publicPageCacheKey(request):null;
+    if(key){
+      const edge=(caches as CacheStorage & {default:Cache}).default;
+      let hit:Response|undefined;
+      try{hit=await edge.match(key);}catch(error){console.error('Public page cache read failed',error);return handler.fetch(request,env,ctx); }
+      if(hit){const response=new Response(hit.body,hit);response.headers.set('Cache-Control','public, max-age=0, must-revalidate');response.headers.set('X-Beckett-Page-Cache','HIT');return response;}
+      const response=await handler.fetch(request,env,ctx);
+      if(cacheablePublicPage(response)){
+        const stored=new Response(response.clone().body,response);stored.headers.set('Cache-Control',`public, max-age=${PUBLIC_PAGE_CACHE_SECONDS}`);
+        ctx.waitUntil(edge.put(key,stored).catch(error=>console.error('Public page cache write failed',error)));
+      }
+      const result=new Response(response.body,response);result.headers.set('X-Beckett-Page-Cache','MISS');return result;
+    }
     return handler.fetch(request, env, ctx);
   },
 };
