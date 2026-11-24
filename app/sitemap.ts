@@ -1,8 +1,10 @@
+import {getCareerJobs} from '../lib/sanity/server';
+import {indexableJob,jobPath} from '../lib/careers-seo';
 import type { MetadataRoute } from "next";
 import { locations } from "../lib/content";
 import { CONTENT_LAST_REVIEWED, SITE_URL } from "../lib/seo";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date(`${CONTENT_LAST_REVIEWED}T00:00:00Z`);
   const pages = [
     { path: "", changeFrequency: "weekly" as const, priority: 1 },
@@ -19,7 +21,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/register", changeFrequency: "monthly" as const, priority: 0.9 },
     { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
   ];
+  const jobs=await getCareerJobs();
   return [
+    {url:SITE_URL+"/careers",changeFrequency:"weekly",priority:0.7},
+    ...jobs.filter(indexableJob).map(job=>({url:SITE_URL+jobPath(job),changeFrequency:"weekly" as const,priority:0.6})),
     ...pages.map((page) => ({
       url: `${SITE_URL}${page.path}`,
       lastModified,

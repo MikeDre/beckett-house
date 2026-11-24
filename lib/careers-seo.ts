@@ -1,0 +1,12 @@
+import {isOpenJob,locationName,type Job} from './careers';
+import {SITE_URL,ORGANISATION_ID,WEBSITE_ID,getBreadcrumbSchema} from './seo';
+import type {Location} from './content';
+export const indexableJob=(job:Job)=>Boolean(job.slug?.current && job.title && !job.isSample && isOpenJob(job));
+export const jobPath=(job:Job)=>`/careers/${encodeURIComponent(job.slug.current)}`;
+const escape=(value:string)=>value.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]!));
+export function jobSchema(job:Job,location:Location,safeguarding:string){
+ if(!indexableJob(job))return null;
+ const salary=/^£([\d,]+)\s*[–-]\s*£([\d,]+) per year$/.exec(job.salary||'');
+ return {'@type':'JobPosting','@id':`${SITE_URL}${jobPath(job)}#job`,url:`${SITE_URL}${jobPath(job)}`,title:job.title,description:`<p>${escape(job.summary||'')}</p>`+(job.sections||[]).map(section=>`<h2>${escape(section.heading)}</h2>`+section.body.split(/\n+/).filter(Boolean).map(p=>`<p>${escape(p)}</p>`).join('')).join('')+`<h2>Safeguarding</h2><p>${escape(safeguarding)}</p>`,identifier:{'@type':'PropertyValue',name:'Beckett House Montessori',value:job._id},datePosted:job.postedAt,...(job.closingDate?{validThrough:job.closingDate}:{}),hiringOrganization:{'@type':'Organization','@id':ORGANISATION_ID,name:'Beckett House Montessori',sameAs:SITE_URL,logo:`${SITE_URL}/images/bh-mark.png`},jobLocation:{'@type':'Place',name:location.name,address:{'@type':'PostalAddress',streetAddress:location.address,addressLocality:'London',postalCode:location.postcode,addressCountry:'GB'}},...(job.employmentType?.includes('Full-time')?{employmentType:'FULL_TIME'}:{}),workHours:job.hours,...(salary?{baseSalary:{'@type':'MonetaryAmount',currency:'GBP',value:{'@type':'QuantitativeValue',minValue:Number(salary[1].replace(/,/g,'')),maxValue:Number(salary[2].replace(/,/g,'')),unitText:'YEAR'}}}:{})};
+}
+export function careersListingSchema(jobs:Job[]){return {'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','@id':`${SITE_URL}/careers#webpage`,url:`${SITE_URL}/careers`,name:'Work with us',isPartOf:{'@id':WEBSITE_ID},about:{'@id':ORGANISATION_ID},mainEntity:{'@type':'ItemList',itemListElement:jobs.filter(indexableJob).map((job,index)=>({'@type':'ListItem',position:index+1,name:`${job.title} — ${locationName(job.location)}`,url:`${SITE_URL}${jobPath(job)}`}))}},getBreadcrumbSchema([{name:'Home',url:SITE_URL+'/'},{name:'Careers',url:SITE_URL+'/careers'}])]};}
