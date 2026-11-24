@@ -1,5 +1,6 @@
 import {contentRevision,previewDocumentIds} from "./preview-revision";
 import "server-only";
+import {cache} from "react";
 import { createClient } from "@sanity/client";
 import { env } from "cloudflare:workers";
 import {
@@ -52,10 +53,8 @@ export async function getSanityContent<T>(slug: string): Promise<T | null> {
   const token = preview ? settings.SANITY_PREVIEW_READ_TOKEN : undefined;
   if (preview && !token)
     throw new Error("Sanity draft preview is not configured");
-  const document = await sanityClient(
-    token,
-    preview ? await previewPerspective() : "published",
-  ).fetch("*[_id == $id][0]", { id: documentId(slug) });
+  const data=await getRequestDocuments();
+  const document=data?.find((item:{_id:string})=>item._id===documentId(slug)) ?? await sanityClient(token,preview ? await previewPerspective() : "published").fetch("*[_id == $id][0]",{id:documentId(slug)});
   if (!document) throw new Error(`Missing Sanity content: ${slug}`);
   const model = models.find((model) => model.slug === slug);
   return fromSanity(document, model?.content ?? {}) as T;
@@ -77,20 +76,13 @@ export async function getCmsContext():Promise<{documents:Record<string,unknown>;
       model.slug === "announcements",
   );
   const documents: Record<string, unknown> = {};
-  const data = await sanityClient(
-    preview ? settings.SANITY_PREVIEW_READ_TOKEN : undefined,
-    preview ? await previewPerspective() : "published",
-  ).fetch("*[_id in $ids || ($careers && _type == 'job')]", {
-    careers: pathname === "/careers" || pathname.startsWith("/careers/"),
-    ids: previewDocumentIds(pathname) ?? selected.map((model) => documentId(model.slug)),
-  });
+  const data = await getRequestDocuments() ?? [];
   for (const model of selected) {
     const document = data.find(
       (item: { _id: string }) => item._id === documentId(model.slug),
     );
     if (document) documents[model.slug] = fromSanity(document, model.content);
   }
-  if(pathname === "/careers" || pathname.startsWith("/careers/"))documents.jobs=data.filter((item:{_type:string})=>item._type==="job");
   return { documents, preview, revision:preview ? contentRevision(data) : undefined };
 }
 
@@ -102,4 +94,20 @@ async function previewPerspective(): Promise<"published" | "drafts"> {
     : "drafts";
 }
 
-export async function getCareerJobs(){const preview=await previewEnabled();const settings=env as SanityEnvironment;return sanityClient(preview?settings.SANITY_PREVIEW_READ_TOKEN:undefined,preview?await previewPerspective():"published").fetch<import("../careers").Job[]>("*[_type == 'job'] | order(postedAt desc)");}
+export const getCareerJobs=cache(async():Promise<import("../careers").Job[]>=>{
+ const data=await getRequestDocuments();
+ if(data)return data.filter((item:{_type:string})=>item._type==='job').sort((a:import("../careers").Job,b:import("../careers").Job)=>(b.postedAt??'').localeCompare(a.postedAt??''));
+ const preview=await previewEnabled();const settings=env as SanityEnvironment;
+ return sanityClient(preview?settings.SANITY_PREVIEW_READ_TOKEN:undefined,preview?await previewPerspective():"published").fetch("*[_type == 'job'] | order(postedAt desc)");
+});
+
+// React cache is scoped to the current server render; drafts never cross requests.
+const getRequestDocuments=cache(async()=>{
+ const settings=env as SanityEnvironment;
+ if(settings.SANITY_CONTENT_ENABLED!=="true")return null;
+ const {headers}=await import("next/headers");
+ const pathname=(await headers()).get("x-beckett-content-path") || "/";
+ if(pathname==="/admin" || pathname.startsWith("/admin/"))return null;
+ const preview=await previewEnabled();
+ return sanityClient(preview?settings.SANITY_PREVIEW_READ_TOKEN:undefined,preview?await previewPerspective():"published").fetch("*[_id in $ids || ($careers && _type == 'job')]",{careers:pathname==="/careers" || pathname.startsWith("/careers/"),ids:previewDocumentIds(pathname) ?? ['page-site','page-announcements']});
+});
