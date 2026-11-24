@@ -96,7 +96,9 @@ async function previewPerspective(): Promise<"published" | "drafts"> {
 
 export const getCareerJobs=cache(async():Promise<import("../careers").Job[]>=>{
  const data=await getRequestDocuments();
- if(data)return data.filter((item:{_type:string})=>item._type==='job').sort((a:import("../careers").Job,b:import("../careers").Job)=>(b.postedAt??'').localeCompare(a.postedAt??''));
+ const {headers}=await import("next/headers");
+ const path=(await headers()).get("x-beckett-content-path")||"/";
+ if(data && (path==="/careers"||path.startsWith("/careers/")))return data.filter((item:{_type:string})=>item._type==='job').sort((a:import("../careers").Job,b:import("../careers").Job)=>(b.postedAt??'').localeCompare(a.postedAt??''));
  const preview=await previewEnabled();const settings=env as SanityEnvironment;
  return sanityClient(preview?settings.SANITY_PREVIEW_READ_TOKEN:undefined,preview?await previewPerspective():"published").fetch("*[_type == 'job'] | order(postedAt desc)");
 });
