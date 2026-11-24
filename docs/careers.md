@@ -1,6 +1,6 @@
 # Careers v1
 
-Review `/careers`, which is intentionally absent from the site navigation and sitemap. Careers routes are noindex during this review phase.
+`/careers` is linked from navigation and the footer. The listing and live, non-sample vacancies are indexable and included in the sitemap. Application forms, sample roles and closed/expired adverts remain noindex. Individual live adverts include JobPosting JSON-LD; the listing includes CollectionPage/ItemList and breadcrumb markup.
 
 In Sanity:
 - **Careers** edits the listing introduction, benefits and safeguarding statement.
@@ -25,3 +25,5 @@ Validation: production build, root/Studio TypeScript, lint, full repository test
 The listing hero reuses the `shapehop` Lottie animation from the register page.
 
 Idempotent sample setup: `cd studio && npx sanity exec scripts/seed-careers.ts --with-user-token`. It preserves existing roles and page content.
+
+SEO validation: canonical URLs, Open Graph/Twitter metadata and JSON-LD are generated server-side. Salary markup is emitted only for an explicit supported annual range, not inferred from vague text. Closing dates are included only when supplied. No FAQ rich-result eligibility, AI citation or indexing is guaranteed. Google recommends the Indexing API for faster vacancy updates; an Indexing API integration is not configured.
